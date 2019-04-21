@@ -997,29 +997,28 @@ const TURTLE = (function () {
 
 
 	// 関数の別名
-	const aliases = {
-		go: ['forward', 'fd'],
-		back: ['bk', 'backward'],
-		step: ['unit'],
-		turnRight: ['tr', 'right', 'rt'],
-		turnLeft: ['tl', 'left', 'lt'],
-		direction: ['heading'],
-		curveRight: ['cr'],
-		curveLeft: ['cl'],
-		arcRight: ['ar'],
-		arcLeft: ['al'],
+	const aliasMap = {
+		go            : ['forward', 'fd'],
+		back          : ['bk', 'backward'],
+		step          : ['unit'],
+		turnRight     : ['tr', 'right', 'rt'],
+		turnLeft      : ['tl', 'left', 'lt'],
+		direction     : ['heading'],
+		curveRight    : ['cr'],
+		curveLeft     : ['cl'],
+		arcRight      : ['ar'],
+		arcLeft       : ['al'],
 		getDirectionOf: ['towards'],
-
-		penDown: ['pd', 'down'],
-		penUp: ['pu', 'up'],
+		penDown       : ['pd', 'down'],
+		penUp         : ['pu', 'up'],
 	};
 
 	// 関数の別名を登録する
-	Object.keys(aliases).forEach((p) => {
-		aliases[p].forEach((a) => {
-			Turtle.prototype[a] = Turtle.prototype[p];
-		});
-	});
+	for (const [orig, aliases] of Object.entries(aliasMap)) {
+		for (let alias of aliases) {
+			Turtle.prototype[alias] = Turtle.prototype[orig];
+		}
+	}
 
 	// ライブラリとして返す
 	return { Turtle, makeStamp };
