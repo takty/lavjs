@@ -217,11 +217,19 @@ const TURTLE = (function () {
 
 		// （ライブラリ内だけで使用）方向を変える
 		_doTurn(deg, limit, before = false) {
-			const sign = deg < 0 ? -1 : 1;
-			const limDeg = (limit !== null && limit < sign * deg) ? (sign * limit) : deg;
+			const sign = (deg < 0 ? -1 : 1), d = sign * deg;
+			let cons;
+			if (limit !== null) {
+				const f = (90 < d) ? 1 : ((d < 10) ? 5 : (5 - 4 * (d - 10) / 80));  // 10 ~ 90 => 5 ~ 1
+				const need = d * f;
+				if (limit < need) deg = sign * limit / f;
+				cons = Math.min(limit, need);
+			} else {
+				cons = d;
+			}
 			if (before) before(this._x, this._y);
-			this._changePos(this._x, this._y, this._dir + limDeg);
-			return sign * limDeg;
+			this._changePos(this._x, this._y, this._dir + deg);
+			return cons;
 		}
 
 		// x座標（<値>）
