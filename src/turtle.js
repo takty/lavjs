@@ -621,8 +621,22 @@ const TURTLE = (function () {
 			this._curAs      = [];
 			this._curPen     = false;
 
-			this.onPenChange = null;
-			this.onMove      = null;
+			this._onPenChanged = null;
+			this._onMoved      = null;
+		}
+
+		// ペンが変わったイベントに対応する関数をセットする
+		onPenChanged(handler) {
+			if (handler === undefined) return this._onPenChanged;
+			this._onPenChanged = handler;
+			return this;
+		}
+
+		// 移動したイベントに対応する関数をセットする
+		onMoved(handler) {
+			if (handler === undefined) return this._onMoved;
+			this._onMoved = handler;
+			return this;
 		}
 
 
@@ -820,8 +834,8 @@ const TURTLE = (function () {
 				this._curHomeLoc = [this._homeX, this._homeY, this._homeDir];
 				this._curPen     = p;
 
-				if (this.onPenChange !== null && this._lastPenState !== p) this.onPenChange(this, p);
-				if (this.onMove !== null) this.onMove(this, this._x, this._y, p);
+				if (this._onPenChanged !== null && this._lastPenState !== p) this._onPenChanged(this, p);
+				if (this._onMoved !== null) this._onMoved(this, this._x, this._y, p);
 				this._lastPenState = p;
 			}
 		}
