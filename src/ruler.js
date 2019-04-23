@@ -1,6 +1,6 @@
 //
 // 定規ライブラリ（RULER）
-// 日付: 2019-04-21
+// 日付: 2019-04-23
 // 作者: 柳田拓人（Space-Time Inc.）
 //
 
@@ -114,38 +114,63 @@ const RULER = (function () {
 			this._toBeResetArea = true;
 		}
 
+		closePath() {
+		}
+
 		moveTo(x, y) {
+			if (this._toBeResetArea) {
+				this._resetArea(x, y);
+				this._toBeResetArea = false;
+			}
+			this._ctx.moveTo(x, y);
 			this._x = x;
 			this._y = y;
 		}
 
-		lineTo(toX, toY) {
-			const { _x: fromX, _y: fromY } = this;
-			const dr = Math.atan2(toY - fromY, toX - fromX);
-			const dest = Math.sqrt((toX - fromX) * (toX - fromX) + (toY - fromY) * (toY - fromY));
-
-			if (this._toBeResetArea) {
-				this._resetArea(fromX, fromY);
-				this._toBeResetArea = false;
-			}
-			this._ctx.moveTo(fromX, fromY);
-			this._liner.line(fromX, fromY, deg(dr), dest, null, this._area);
-			
-			this._x = toX;
-			this._y = toY;
+		lineTo(x1, y1) {
+			const { _x: x0, _y: y0 } = this;
+			this.moveTo(x0, y0);
+			this._liner.lineAbs(x0, y0, x1, y1, null, this._area);
+			this._x = x1;
+			this._y = y1;
 		}
 
-		// quadraticCurveTo(x1, y2, x2, y2) {
-		// 	this._liner.quadraticCurveTo(x1, y1, x2, y2);
-		// 	this._x = x2;
-		// 	this._y = y2;
-		// }
+		quadraticCurveTo(x1, y2, x2, y2) {
+			const { _x: x0, _y: y0 } = this;
+			this.moveTo(x0, y0);
+			this._liner.quadCurveAbs(x0, y0, x1, y1, x2, y2, null, this._area);
+			this._x = x2;
+			this._y = y2;
+		}
 
-		// bezierCurveTo(x1, y1, x2, y2, x3, y3) {
-		// 	this._liner.bezierCurveTo(x1, y1, x2, y2, x3, y3);
-		// 	this._x = x3;
-		// 	this._y = y3;
-		// }
+		bezierCurveTo(x1, y1, x2, y2, x3, y3) {
+			const { _x: x0, _y: y0 } = this;
+			this.moveTo(x0, y0);
+			this._liner.bezierCurveAbs(x0, y0, x1, y1, x2, y2, null, this._area);
+			this._x = x3;
+			this._y = y3;
+		}
+
+		arc() {
+		}
+
+		arcTo() {
+		}
+
+		ellipse() {
+		}
+
+		// 四角形をかく（x座標、y座標、横幅，たて幅）
+		rect(x, y, width, height) {
+			this._resetArea(x, y);
+			this._ctx.beginPath();
+
+			this._ctx.moveTo(x, y);
+			this._liner.line(x, y, 0, width, null, this._area);
+			this._liner.line(x + width, y, 90, height, null, this._area);
+			this._liner.line(x + width, y + height, 180, width, null, this._area);
+			this._liner.line(x, y + height, -90, height, null, this._area);
+		}
 
 		draw(mode) {
 			let ms = mode;
@@ -196,18 +221,6 @@ const RULER = (function () {
 
 			this._ctx.moveTo(fromX, fromY);
 			this._liner.line(fromX, fromY, deg(dr), dest, null, this._area);
-		};
-
-		// 四角形をかく（x座標、y座標、横幅，たて幅）
-		rect(x, y, width, height) {
-			this._resetArea(x, y);
-			this._ctx.beginPath();
-
-			this._ctx.moveTo(x, y);
-			this._liner.line(x, y, 0, width, null, this._area);
-			this._liner.line(x + width, y, 90, height, null, this._area);
-			this._liner.line(x + width, y + height, 180, width, null, this._area);
-			this._liner.line(x, y + height, -90, height, null, this._area);
 		};
 
 	}
