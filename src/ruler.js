@@ -152,13 +152,21 @@ const RULER = (function () {
 			this._y = y3;
 		}
 
-		arc() {
+		arc(cx, cy, radius, startAngle, endAngle, anticlockwise = false) {
+			if (this._toBeResetArea) this._resetArea(cx, cy);
+			this._liner.arcAbs(cx, cy, 0, radius, radius, startAngle, endAngle, anticlockwise, null, this._area);
+			// this._x = cx;
+			// this._y = cy;
 		}
 
 		arcTo() {
 		}
 
-		ellipse() {
+		ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise = false) {
+			if (this._toBeResetArea) this._resetArea(x, y);
+			this._liner.arcAbs(cx, cy, rotation, radiusX, radiusY, startAngle, endAngle, anticlockwise, null, this._area);
+			// this._x = cx;
+			// this._y = cy;
 		}
 
 		// 四角形をかく（x座標、y座標、横幅，たて幅）
