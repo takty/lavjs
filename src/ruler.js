@@ -1,6 +1,6 @@
 //
 // 定規ライブラリ（RULER）
-// 日付: 2019-04-23
+// 日付: 2019-04-25
 // 作者: 柳田拓人（Space-Time Inc.）
 //
 
@@ -52,6 +52,8 @@ const RULER = (function () {
 			this._x = 0;
 			this._y = 0;
 			this._toBeResetArea = true;
+			this._beginX = 0;
+			this._beginY = 0;
 
 			this._liner  = new PATH.Liner(PATH.makeDefaultHandler(context));
 			this._ctx    = context;  // キャンバス・コンテキスト
@@ -65,20 +67,12 @@ const RULER = (function () {
 			this._area.fromX = this._area.left = this._area.right = x;
 			this._area.fromY = this._area.top = this._area.bottom = y;
 			this._area.sqLen = 0;
+			this._toBeResetArea = false;
+			this._beginX = x;
+			this._beginY = y;
 		}
 
 	
-		// -------------------------------- その他
-
-
-		// エッジ（<エッジを決める関数>）
-		edge(func) {
-			if (func === undefined) return this._liner.edge();
-			this._liner.edge(func);
-			return this;
-		}
-
-
 		// -------------------------------- 描画状態の変化
 
 
@@ -93,6 +87,13 @@ const RULER = (function () {
 		fill(opt_fill) {
 			if (opt_fill === undefined) return this._fill;
 			this._fill = new STYLE.Fill(opt_fill);
+			return this;
+		}
+
+		// エッジ（<エッジを決める関数>）
+		edge(func) {
+			if (func === undefined) return this._liner.edge();
+			this._liner.edge(func);
 			return this;
 		}
 
@@ -115,13 +116,10 @@ const RULER = (function () {
 		}
 
 		closePath() {
+			this.lineTo(this._beginX, this._beginY);
 		}
 
 		moveTo(x, y) {
-			if (this._toBeResetArea) {
-				this._resetArea(x, y);
-				this._toBeResetArea = false;
-			}
 			this._ctx.moveTo(x, y);
 			this._x = x;
 			this._y = y;
@@ -129,7 +127,8 @@ const RULER = (function () {
 
 		lineTo(x1, y1) {
 			const { _x: x0, _y: y0 } = this;
-			this.moveTo(x0, y0);
+			if (this._toBeResetArea) this._resetArea(x0, y0);
+			this._ctx.moveTo(x0, y0);
 			this._liner.lineAbs(x0, y0, x1, y1, null, this._area);
 			this._x = x1;
 			this._y = y1;
@@ -137,7 +136,8 @@ const RULER = (function () {
 
 		quadraticCurveTo(x1, y2, x2, y2) {
 			const { _x: x0, _y: y0 } = this;
-			this.moveTo(x0, y0);
+			if (this._toBeResetArea) this._resetArea(x0, y0);
+			this._ctx.moveTo(x0, y0);
 			this._liner.quadCurveAbs(x0, y0, x1, y1, x2, y2, null, this._area);
 			this._x = x2;
 			this._y = y2;
@@ -145,7 +145,8 @@ const RULER = (function () {
 
 		bezierCurveTo(x1, y1, x2, y2, x3, y3) {
 			const { _x: x0, _y: y0 } = this;
-			this.moveTo(x0, y0);
+			if (this._toBeResetArea) this._resetArea(x0, y0);
+			this._ctx.moveTo(x0, y0);
 			this._liner.bezierCurveAbs(x0, y0, x1, y1, x2, y2, null, this._area);
 			this._x = x3;
 			this._y = y3;
