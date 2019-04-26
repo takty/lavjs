@@ -1,6 +1,6 @@
 //
 // 定規ライブラリ（RULER）
-// 日付: 2019-04-25
+// 日付: 2019-04-26
 // 作者: 柳田拓人（Space-Time Inc.）
 //
 
@@ -46,17 +46,18 @@ const RULER = (function () {
 
 		// カメを作る（紙／キャンバス・コンテキスト）
 		constructor(context) {
+			if (!PATH)  throw new Error('Pathライブラリが必要です。');
 			if (!STYLE) throw new Error('Styleライブラリが必要です。');
-			if (!PATH) throw new Error('Pathライブラリが必要です。');
 
 			this._x = 0;
 			this._y = 0;
 			this._toBeResetArea = true;
 			this._beginX = 0;
 			this._beginY = 0;
+			this._hasPath = false;
 
+			this._ctx    = context;
 			this._liner  = new PATH.Liner(PATH.makeDefaultHandler(context));
-			this._ctx    = context;  // キャンバス・コンテキスト
 			this._area   = { fromX: null, toX: null, left: null, right: null, fromY: null, toY: null, top: null, bottom: null, sqLen: null };
 			this._stroke = new STYLE.Stroke();
 			this._fill   = new STYLE.Fill();
@@ -72,7 +73,7 @@ const RULER = (function () {
 			this._beginY = y;
 		}
 
-	
+
 		// -------------------------------- 描画状態の変化
 
 
