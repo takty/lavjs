@@ -1,6 +1,6 @@
 //
 // 定規ライブラリ（RULER）
-// 日付: 2019-04-26
+// 日付: 2019-04-27
 // 作者: 柳田拓人（Space-Time Inc.）
 //
 
@@ -57,7 +57,28 @@ const RULER = (function () {
 			this._hasPath = false;
 
 			this._ctx    = context;
-			this._liner  = new PATH.Liner(PATH.makeDefaultHandler(context));
+			this._liner = new PATH.Liner({
+				lineOrMoveTo: (x, y, dir) => {
+					context.lineTo(x, y);
+					this._x = x;
+					this._y = y;
+				},
+				quadCurveOrMoveTo: (x1, y1, x2, y2, dir) => {
+					context.quadraticCurveTo(x1, y1, x2, y2);
+					this._x = x2;
+					this._y = y2;
+				},
+				bezierCurveOrMoveTo: (x1, y1, x2, y2, x3, y3, dir) => {
+					context.bezierCurveTo(x1, y1, x2, y2, x3, y3);
+					this._x = x3;
+					this._y = y3;
+				},
+				arcOrMoveTo: (cx, cy, dr, w, h, r0, r1, ac, dir, xx, yy) => {
+					PATH.eclipse(context, cx, cy, w, h, dr, r0, r1, ac);
+					this._x = xx;
+					this._y = yy;
+				}
+			});
 			this._area   = { fromX: null, toX: null, left: null, right: null, fromY: null, toY: null, top: null, bottom: null, sqLen: null };
 			this._stroke = new STYLE.Stroke();
 			this._fill   = new STYLE.Fill();
@@ -114,6 +135,7 @@ const RULER = (function () {
 		beginPath() {
 			this._ctx.beginPath();
 			this._toBeResetArea = true;
+			this._hasPath = false;
 		}
 
 		closePath() {
@@ -124,50 +146,60 @@ const RULER = (function () {
 			this._ctx.moveTo(x, y);
 			this._x = x;
 			this._y = y;
+			this._hasPath = true;
 		}
 
 		lineTo(x1, y1) {
+			if (!this._hasPath) {
+				this.moveTo(x1, y1);
+				return;
+			}
 			const { _x: x0, _y: y0 } = this;
 			if (this._toBeResetArea) this._resetArea(x0, y0);
-			this._ctx.moveTo(x0, y0);
 			this._liner.lineAbs(x0, y0, x1, y1, null, this._area);
-			this._x = x1;
-			this._y = y1;
 		}
 
-		quadraticCurveTo(x1, y2, x2, y2) {
+		quadraticCurveTo(x1, y1, x2, y2) {
+			if (!this._hasPath) this.moveTo(x1, y1);
 			const { _x: x0, _y: y0 } = this;
 			if (this._toBeResetArea) this._resetArea(x0, y0);
-			this._ctx.moveTo(x0, y0);
 			this._liner.quadCurveAbs(x0, y0, x1, y1, x2, y2, null, this._area);
-			this._x = x2;
-			this._y = y2;
 		}
 
 		bezierCurveTo(x1, y1, x2, y2, x3, y3) {
+			if (!this._hasPath) this.moveTo(x1, y1);
 			const { _x: x0, _y: y0 } = this;
 			if (this._toBeResetArea) this._resetArea(x0, y0);
-			this._ctx.moveTo(x0, y0);
-			this._liner.bezierCurveAbs(x0, y0, x1, y1, x2, y2, null, this._area);
-			this._x = x3;
-			this._y = y3;
+			this._liner.bezierCurveAbs(x0, y0, x1, y1, x2, y2, x3, y3, null, this._area);
 		}
 
 		arc(cx, cy, radius, startAngle, endAngle, anticlockwise = false) {
-			if (this._toBeResetArea) this._resetArea(cx, cy);
-			this._liner.arcAbs(cx, cy, 0, radius, radius, startAngle, endAngle, anticlockwise, null, this._area);
-			// this._x = cx;
-			// this._y = cy;
+			const x0 = cx + radius * Math.cos(rad(startAngle));
+			const y0 = cy + radius * Math.sin(rad(startAngle));
+			if (!this._hasPath) {
+				this.moveTo(x0, y0);
+			} else {
+				this.lineTo(x0, y0);
+			}
+			if (this._toBeResetArea) this._resetArea(x0, y0);
+			this._liner.arc(cx, cy, 0, radius, radius, startAngle, endAngle, anticlockwise, null, this._area);
 		}
 
 		arcTo() {
 		}
 
 		ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise = false) {
-			if (this._toBeResetArea) this._resetArea(x, y);
-			this._liner.arcAbs(cx, cy, rotation, radiusX, radiusY, startAngle, endAngle, anticlockwise, null, this._area);
-			// this._x = cx;
-			// this._y = cy;
+			const s0 = radiusX * Math.cos(rad(startAngle)), t0 = radiusY * Math.sin(rad(startAngle));
+			const rsin = Math.sin(rad(rotation)), rcos = Math.cos(rad(rotation));
+			const x0 = x + s0 * rcos - t0 * rsin;
+			const y0 = y + s0 * rsin + t0 * rcos;
+			if (!this._hasPath) {
+				this.moveTo(x0, y0);
+			} else {
+				this.lineTo(x0, y0);
+			}
+			if (this._toBeResetArea) this._resetArea(x0, y0);
+			this._liner.arc(x, y, rotation, radiusX, radiusY, startAngle, endAngle, anticlockwise, null, this._area);
 		}
 
 		// 四角形をかく（x座標、y座標、横幅，たて幅）
