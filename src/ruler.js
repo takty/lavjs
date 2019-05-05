@@ -1,6 +1,6 @@
 //
 // 定規ライブラリ（RULER）
-// 日付: 2019-04-27
+// 日付: 2019-05-05
 // 作者: 柳田拓人（Space-Time Inc.）
 //
 
@@ -51,12 +51,14 @@ const RULER = (function () {
 
 			this._x = 0;
 			this._y = 0;
-			this._toBeResetArea = true;
 			this._beginX = 0;
 			this._beginY = 0;
+			this._toBeResetArea = true;
 			this._hasPath = false;
 
-			this._ctx    = context;
+			this._ctx   = context;
+			this._stack = [];
+
 			this._liner = new PATH.Liner({
 				lineOrMoveTo: (x, y, dir) => {
 					context.lineTo(x, y);
@@ -92,6 +94,44 @@ const RULER = (function () {
 			this._toBeResetArea = false;
 			this._beginX = x;
 			this._beginY = y;
+		}
+
+		// 今の状態を保存する（<コンテキストの状態も保存するか？>）
+		save(opt_saveContext = false) {
+			if (opt_saveContext === true) this._ctx.save();
+			this._stack.push(this._getState());
+			return this;
+		}
+
+		// 前の状態を復元する（<コンテキストの状態も復元するか？>）
+		restore(opt_restoreContext = false) {
+			this._setState(this._stack.pop());
+			if (opt_restoreContext === true) this._ctx.restore();
+			return this;
+		}
+
+		// （ライブラリ内だけで使用）状態を取得する
+		_getState() {
+			return [
+				this._x, this._y,  // 以下、順番に依存関係あり
+				this._beginX, this._beginY = 0,
+				this._toBeResetArea, this._hasPath,
+				Object.assign({}, this._area),
+				new STYLE.Stroke(this._stroke),
+				new STYLE.Fill(this._fill),
+				this._liner.edge(),
+			];
+		}
+
+		// （ライブラリ内だけで使用）状態を設定する（状態、ペンの状態を設定するか？）
+		_setState(t) {
+			this._x = t[0]; this._y = t[1];
+			this._beginX = t[2]; this._beginY = t[3];
+			this._toBeResetArea = t[4]; this._hasPath = t[5];
+			this._area = t[6];
+			this._stroke = t[7];
+			this._fill = t[8];
+			this._liner.edge(t[9]);
 		}
 
 
