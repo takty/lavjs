@@ -118,8 +118,8 @@ const CALC = (function () {
 	 * @param {number=} opt_max　Maximum integer
 	 * @return {number} A random integer
 	 */
-	const rand = function (n_min, max) {
-		return _dice.rand(n_min, max);
+	const rand = function (n_min, opt_max) {
+		return _dice.rand(n_min, opt_max);
 	};
 
 	/**~ja
