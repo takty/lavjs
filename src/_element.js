@@ -1,13 +1,23 @@
-// -------------------------------------------------------------------------
-// スプライト・ステージ共通
-// -------------------------------------------------------------------------
-
-
-
-
+/**~ja
+ * 要素（スプライト・ステージ共通）
+ * @author Takuto Yanagida
+ * @version 2019-05-06
+ */
+/**~en
+ * Element (common to sprites and stages)
+ * @author Takuto Yanagida
+ * @version 2019-05-06
+ */
 class Element {
 
-	// （<モーション>）
+	/**~ja
+	 * 要素を作る
+	 * @param {Motion?} [motion=null] 動き
+	 */
+	/**~en
+	 * Make an element
+	 * @param {Motion?} [motion=null] Motion
+	 */
 	constructor(motion = null) {
 		this._parent = null;
 
@@ -15,13 +25,13 @@ class Element {
 		this._y = 0;
 		this._dir = 0;
 
-		this._scale = 1;  // 拡大率（大きさ）
-		this._alpha = 1;  // 透明度アルファ（RGBAのAと同じ）
-		this._isFixedHeading = false;  // 絵を描く方向を向きと関係なく固定する
+		this._scale = 1;
+		this._alpha = 1;
+		this._isFixedHeading = false;
 
-		this._angle = 0;  // Z軸を中心とする角度（向き）
-		this._angleX = 0;  // X軸を中心とする角度（向き）
-		this._angleZ = 0;  // Z軸を中心とする角度2（向き）
+		this._angle = 0;
+		this._angleX = 0;
+		this._angleZ = 0;
 
 		this._speed = 1;
 
@@ -35,28 +45,68 @@ class Element {
 		this._motion = motion;
 	}
 
-	// x座標（<値>）
+	/**~ja
+	 * x座標
+	 * @param {number=} val x座標の値
+	 * @return {number|Element} x座標の値かこの要素
+	 */
+	/**~en
+	 * X coordinate
+	 * @param {number=} val Value of x coordinate
+	 * @return {number|Element} Value of x coordinate, or this element
+	 */
 	x(val) {
 		if (val === undefined) return this._x;
 		this._x = val;
 		return this;
 	}
 
-	// y座標（<値>）
+	/**~ja
+	 * y座標
+	 * @param {number=} val y座標の値
+	 * @return {number|Element} y座標の値かこの要素
+	 */
+	/**~en
+	 * Y coordinate
+	 * @param {number=} val Value of y coordinate
+	 * @return {number|Element} Value of y coordinate, or this element
+	 */
 	y(val) {
 		if (val === undefined) return this._y;
 		this._y = val;
 		return this;
 	}
 
-	// 方向（<角度>）
+	/**~ja
+	 * 方向
+	 * @param {number=} deg 角度の値
+	 * @return {number|Element} 角度の値かこの要素
+	 */
+	/**~en
+	 * Direction
+	 * @param {number=} deg Value of degree
+	 * @return {number|Element} Value of degree, or this element
+	 */
 	direction(deg) {
 		if (deg === undefined) return this._dir;
 		this._dir = checkDegRange(deg);
 		return this;
 	}
 
-	// 移動する（x座標、y座標、<方向>）
+	/**~ja
+	 * 移動する
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 * @param {number=} opt_dir 方向（オプション）
+	 * @return {Element} この要素
+	 */
+	/**~en
+	 * Move to
+	 * @param {number} x X coordinate
+	 * @param {number} y Y coordinate
+	 * @param {number=} opt_dir Direction (optional)
+	 * @return {Element} This element
+	 */
 	moveTo(x, y, opt_dir) {
 		this._x = x;
 		this._y = y;
@@ -64,35 +114,71 @@ class Element {
 		return this;
 	}
 
-	// スケール（<値>）
+	/**~ja
+	 * スケール
+	 * @param {number=} val スケールの値
+	 * @return {number|Element} スケールの値かこの要素
+	 */
+	/**~en
+	 * Scale
+	 * @param {number=} val Value of scale
+	 * @return {number|Element} Value of scale, or this element
+	 */
 	scale(val) {
 		if (val === undefined) return this._scale;
 		this._scale = val;
 		return this;
 	}
 
-	// アルファ（<値>）
+	/**~ja
+	 * アルファ
+	 * @param {number=} val アルファの値
+	 * @return {number|Element} アルファの値かこの要素
+	 */
+	/**~en
+	 * Alpha
+	 * @param {number=} val Value of alpha
+	 * @return {number|Element} Value of alpha, or this element
+	 */
 	alpha(val) {
 		if (val === undefined) return this._alpha;
 		this._alpha = val;
 		return this;
 	}
 
-	// 方向（<値>）
+	/**~ja
+	 * Z軸を中心とする角度（向き）
+	 * @param {number=} deg 角度の値
+	 * @return {number|Element} 角度の値かこの要素
+	 */
+	/**~en
+	 * Angle around z axis (direction)
+	 * @param {number=} deg Value of degree
+	 * @return {number|Element} Value of degree, or this element
+	 */
 	angle(val) {
 		if (val === undefined) return this._angle;
 		this._angle = val;
 		return this;
 	}
 
-	// 方向x（<値>）
+	/**~ja
+	 * X軸を中心とする角度（向き）
+	 * @param {number=} deg 角度の値
+	 * @return {number|Element} 角度の値かこの要素
+	 */
+	/**~en
+	 * Angle around x axis (direction)
+	 * @param {number=} deg Value of degree
+	 * @return {number|Element} Value of degree, or this element
+	 */
 	angleX(val) {
 		if (val === undefined) return this._angleX;
 		this._angleX = val;
 		return this;
 	}
 
-	// 方向z（<値>）
+	// Z軸を中心とする角度2（向き）（<値>）
 	angleZ(val) {
 		if (val === undefined) return this._angleZ;
 		this._angleZ = val;
