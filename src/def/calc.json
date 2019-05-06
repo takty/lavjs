@@ -1,12 +1,24 @@
 {
 	"!name": "libl",
 	"CALC": {
-		"createGenerator": {
-			"!type": "fn(seed: number) -> fn()"
-		},
-		"Dice": {
+		"DiceBase": {
 			"!type": "fn()",
 			"prototype": {
+				"random": {
+					"!type": "fn(min: number, max: number, opt_fn?: fn(val: number) -> number) -> number"
+				},
+				"rand": {
+					"!type": "fn(n_min: number, opt_max?: number) -> number"
+				},
+				"isLikely": {
+					"!type": "fn(percent: number) -> bool"
+				}
+			}
+		},
+		"Dice": {
+			"!type": "fn(seed?: number)",
+			"prototype": {
+				"!proto": "CALC.DiceBase.prototype",
 				"reset": {
 					"!type": "fn()"
 				},
@@ -15,15 +27,6 @@
 				},
 				"restore": {
 					"!type": "fn()"
-				},
-				"random": {
-					"!type": "fn(min: number, max: number, fn?: fn(val: number)) -> number"
-				},
-				"rand": {
-					"!type": "fn(n_min: number, max?: number) -> number"
-				},
-				"isLikely": {
-					"!type": "fn(percent: number) -> bool"
 				}
 			}
 		},
@@ -40,10 +43,10 @@
 			"!type": "fn()"
 		},
 		"random": {
-			"!type": "fn(min: number, max: number, fn?: fn(val: number)) -> number"
+			"!type": "fn(min: number, max: number, opt_fn?: fn(val: number) -> number) -> number"
 		},
 		"rand": {
-			"!type": "fn(n_min: number, max?: number) -> number"
+			"!type": "fn(n_min: number, opt_max?: number) -> number"
 		},
 		"isLikely": {
 			"!type": "fn(percent: number) -> bool"
@@ -52,13 +55,13 @@
 			"!type": "fn(val: number, min: number, max: number, type: string) -> number"
 		},
 		"map": {
-			"!type": "fn(val: number, from1: number, to1: number, from2: number, to2: number, fn?: fn(val: number)) -> number"
+			"!type": "fn(val: number, from1: number, to1: number, from2: number, to2: number, opt_fn?: fn(val: number) -> number) -> number"
 		},
 		"easingRandom": {
-			"!type": "fn(min: number, max: number, fn: fn(val: number)) -> number"
+			"!type": "fn(min: number, max: number, fn: fn(val: number) -> number) -> number"
 		},
 		"easingMap": {
-			"!type": "fn(val: number, from1: number, to1: number, from2: number, to2: number, fn: fn(val: number)) -> number"
+			"!type": "fn(val: number, from1: number, to1: number, from2: number, to2: number, fn: fn(val: number) -> number) -> number"
 		},
 		"linear": {
 			"!type": "fn(t: number) -> number"
