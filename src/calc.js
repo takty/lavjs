@@ -229,7 +229,6 @@ const CALC = (function () {
 
 		random, rand, isLikely,
 		constrain, map,
-		easingRandom, easingMap,
 
 		linear,
 		easeInSine, easeOutSine, easeInOutSine,
