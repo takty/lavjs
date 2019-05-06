@@ -1,130 +1,166 @@
-//
-// 計算ライブラリ（CALC）
-// 日付: 2019-04-22
-// 作者: 柳田拓人（Space-Time Inc.）
-//
-// 参考: http://easings.net/ja
-//
-// 範囲を決められるランダム関数や、ある範囲の数を別の範囲の数に変えるマッピング、
-// 単純ではない動きを作るのに使うイージング関数が使えるようになるライブラリです。
-//
+/**~ja
+ * 計算ライブラリ（CALC）
+ *
+ * 範囲を決められるランダム関数や、ある範囲の数を別の範囲の数に変えるマッピング、
+ * 単純ではない動きを作るのに使うイージング関数が使えるようになるライブラリです。
+ *
+ * @author Takuto Yanagida
+ * @version 2019-05-06
+ */
+/**~en
+ * Calculation library (CALC)
+ *
+ * A library that allows you to use random functions with bounds,
+ * mappings that translate from one range number to another,
+ * and easing functions that you use to create non-trivial motions.
+ *
+ * @author Takuto Yanagida
+ * @version 2019-05-06
+ */
 
 
-// ライブラリ変数
+/**~ja
+ * ライブラリ変数
+ */
+/**~en
+ * Library variable
+ */
 const CALC = (function () {
 
 	'use strict';
 
 
-
-
-	// -------------------------------------------------------------------------
-	// ライブラリ中だけで使用するユーティリティ
-	// -------------------------------------------------------------------------
-
-
-
-
-	// テキトウな数（乱数）を返す関数を作る（シード値）
-	const createGenerator = function (seed) {
-		let y = seed;
-		const fn = () => {
-			y = y ^ (y << 13);
-			y = y ^ (y >> 17);
-			y = y ^ (y << 15);
-			return (y + 2147483648) / 4294967295;
-		};
-		fn.reset = () => {
-			y = seed;
-		};
-		const stack = [];
-		fn.save = () => {
-			stack.push(y);
-		};
-		fn.restore = () => {
-			y = stack.pop();
-		};
-		return fn;
-	}
-
-
+	/**~ja
+	 * 乱数関数 -----------------------------------------------------------------
+	 */
+	/**~en
+	 * Random number function --------------------------------------------------
+	 */
 
 
 	//=
 	//=include _dice.js
 
 
+	let _dice = new DiceBase();
 
-
-	// -------------------------------------------------------------------------
-	// 乱数関数
-	// -------------------------------------------------------------------------
-
-
-
-
-	// （ライブラリ内だけで使用）ライブラリ内で使う基本ランダム関数
-	let _r = Math.random;
-
-	// （ライブラリ内だけで使用）ランダム関数のシード値
-	let _seed = 0 | (Math.random() * 1000);
-
-	// ランダム関数にシード値を指定する（シード値）
-	// 同じシード値では同じランダムの値の組み合わせが作られます。
+	/**~ja
+	 * ランダム関数にシード値を指定する
+	 * 同じシード値では同じランダムの値の組み合わせが作られます。
+	 * @param {number} seed シード値
+	 */
+	/**~en
+	 * Specify a seed value for the random function
+	 * The same seed value produces the same combination of random values.
+	 * @param {number} seed Seed value
+	 */
 	const setRandomSeed = function (seed) {
-		if (seed < 1) seed *= 1000;
-		_seed = 0 | seed;
-		_r = createGenerator(_seed);
+		_dice = new Dice(seed);
 	};
 
-	// ランダム関数をリセットする
+	/**~ja
+	 * ランダム関数をリセットする
+	 */
+	/**~en
+	 * Reset the random function
+	 */
 	const resetRandomSeed = function () {
-		_r = createGenerator(_seed);
+		if (_dice instanceof Dice) _r.reset();
 	};
 
-	// ランダム関数の今の状態を保存する
+	/**~ja
+	 * ランダム関数の今の状態を保存する
+	 */
+	/**~en
+	 * Save the current state of the random function
+	 */
 	const saveRandomState = function () {
-		if (_r.save) _r.save();
+		if (_dice instanceof Dice) _r.save();
 	};
 
-	// ランダム関数の前の状態を復元する
+	/**~ja
+	 * ランダム関数の前の状態を復元する
+	 */
+	/**~en
+	 * Restore the previous state of the random function
+	 */
 	const restoreRandomState = function () {
-		if (_r.restore) _r.restore();
+		if (_dice instanceof Dice) _r.restore();
 	};
 
-	// minからmaxまでのテキトウな数（乱数）を返す（最小値、最大値、<イージング関数>）
+	/**~ja
+	 * minからmaxまでのテキトウな数（乱数）を返す
+	 * @param {number} min 最小値
+	 * @param {number} max 最大値
+	 * @param {function(number): number=} opt_fn イージング関数（オプション）
+	 * @return {number} テキトウな数（乱数）
+	 */
+	/**~en
+	 * Return a random number from min to max
+	 * @param {number} min Minimum number
+	 * @param {number} max Maximum number
+	 * @param {function(number): number=} opt_fn Easing function (optional)
+	 * @return {number} A random number
+	 */
 	const random = function (min, max, opt_fn) {
-		if (opt_fn === undefined) {
-			return _r() * (max - min) + min;
-		}
-		return opt_fn(_r()) * (max - min) + min;
+		return _dice.random(min, max, opt_fn);
 	};
 
-	// 0からn_minまで、あるいはminからmaxまでのテキトウな整数（乱数）を返す（整数n / 整数min、整数max）
+	/**~ja
+	 * 0からn_minまで、あるいはminからmaxまでのテキトウな整数（乱数）を返す
+	 * @param {number} n_min　整数nか整数min
+	 * @param {number=} opt_max　整数max
+	 * @return テキトウな整数（乱数）
+	 */
+	/**~en
+	 * Returns a random number from 0 to n_min or from min to max
+	 * @param {number} n_min　An integer or a minimum integer
+	 * @param {number=} opt_max　Maximum integer
+	 * @return {number} A random integer
+	 */
 	const rand = function (n_min, max) {
-		if (max === undefined) {
-			return Math.floor(_r() * (n + 1));
-		} else {
-			return Math.floor(_r() * (max + 1 - n_min) + n_min);
-		}
+		return _dice.rand(n_min, max);
 	};
 
-	// パーセントで指定した確率で起こる（パーセント）
+	/**~ja
+	 * パーセントで指定した確率で起こる
+	 * @param {number} percent パーセント
+	 * @return {boolean} 起こるかどうか
+	 */
+	/**~en
+	 * Occur with probability specified in percent
+	 * @param {number} percent Percent
+	 * @return {boolean} Whether it occurs
+	 */
 	const isLikely = function (percent) {
-		return (_r() * 10000 % 100) <= percent;
+		return _dice.isLikely(percent);
 	};
 
 
+	/**~ja
+	 * ユーティリティ関数 ---------------------------------------------------------
+	 */
+	/**~en
+	 * Utility functions -------------------------------------------------------
+	 */
 
 
-	// -------------------------------------------------------------------------
-	// ユーティリティ関数
-	// -------------------------------------------------------------------------
-
-
-
-
-	// 数をある範囲の中に制限する（数、最小値、最大値、<タイプ>）
+	/**~ja
+	 * 数をある範囲の中に制限する
+	 * @param {number} val 数
+	 * @param {number} min 最小値
+	 * @param {number} max 最大値
+	 * @param {string=} type タイプ
+	 * @return {number} 数
+	 */
+	/**~en
+	 * Limit the number to a certain range
+	 * @param {number} val A number
+	 * @param {number} min Minimum number
+	 * @param {number} max Maximum number
+	 * @param {string=} type Type
+	 * @return {number} A limited number
+	 */
 	const constrain = function (val, min, max, type) {
 		if (type === 'loop') {
 			if (val < min) return max;
@@ -137,7 +173,26 @@ const CALC = (function () {
 		return val;
 	};
 
-	// ある範囲の数を別の範囲の数を計算して返す（元の数、元の範囲の初め、終わり、別の範囲の初め、終わり、<イージング関数>）
+	/**~ja
+	 * ある範囲の数を別の範囲の数に直して返す
+	 * @param {number} val 元の数
+	 * @param {number} from1 元の範囲の初め
+	 * @param {number} to1 元の範囲の終わり
+	 * @param {number} from2 別の範囲の初め
+	 * @param {number} to2 別の範囲の終わり
+	 * @param {function(number): number=} opt_fn イージング関数（オプション）
+	 * @return {number} 数
+	 */
+	/**~en
+	 * Convert one range of numbers to another range of numbers
+	 * @param {number} val An original number
+	 * @param {number} from1 Beginning of original range
+	 * @param {number} to1 End of original range
+	 * @param {number} from2 Beginning of another range
+	 * @param {number} to2 End of another range
+	 * @param {function(number): number=} opt_fn Easing function (optional)
+	 * @return {number} A converted number
+	 */
 	const map = function (val, from1, to1, from2, to2, opt_fn) {
 		if (from1 < to1) {
 			if (val < from1) val = from1;
@@ -153,22 +208,18 @@ const CALC = (function () {
 	};
 
 
-
-
-	//
+	//=
 	//=include _easing.js
 
 
+	/**~ja
+	 * ライブラリを作る
+	 */
+	/**~en
+	 * Create a library
+	 */
 
 
-	// -------------------------------------------------------------------------
-	// ライブラリを作る
-	// -------------------------------------------------------------------------
-
-
-
-
-	// ライブラリとして返す
 	return {
 		Dice,
 		setRandomSeed,

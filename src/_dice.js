@@ -1,10 +1,14 @@
 /**~ja
- * サイコロ
+ * 基本サイコロ
+ * @author Takuto Yanagida
+ * @version 2019-05-06
  */
 /**~en
- * Dice
+ * DiceBase
+ * @author Takuto Yanagida
+ * @version 2019-05-06
  */
-class Dice {
+class DiceBase {
 
 	/**~ja
 	 * サイコロを作る
@@ -13,37 +17,7 @@ class Dice {
 	 * Make a dice
 	 */
 	constructor() {
-		this._r = createGenerator(0 | (Math.random() * 1000));
-	}
-
-	/**~ja
-	 * リセットする
-	 */
-	/**~en
-	 * Reset
-	 */
-	reset() {
-		this._r.reset();
-	}
-
-	/**~ja
-	 * 今の状態を保存する
-	 */
-	/**~en
-	 * Save the current state
-	 */
-	save() {
-		this._r.save();
-	}
-
-	/**~ja
-	 * 前の状態を復元する
-	 */
-	/**~en
-	 * Restore the previous state
-	 */
-	restore() {
-		this._r.restore();
+		this._r = Math.random;
 	}
 
 	/**~ja
@@ -71,7 +45,7 @@ class Dice {
 	 * 0からn_minまで、あるいはminからmaxまでのテキトウな整数（乱数）を返す
 	 * @param {number} n_min　整数nか整数min
 	 * @param {number=} opt_max　整数max
-	 * @return テキトウな整数（乱数）
+	 * @return {number} テキトウな整数（乱数）
 	 */
 	/**~en
 	 * Returns a random number from 0 to n_min or from min to max
@@ -82,9 +56,8 @@ class Dice {
 	rand(n_min, opt_max) {
 		if (opt_max === undefined) {
 			return Math.floor(this._r() * (n + 1));
-		} else {
-			return Math.floor(this._r() * (opt_max + 1 - n_min) + n_min);
 		}
+		return Math.floor(this._r() * (opt_max + 1 - n_min) + n_min);
 	}
 
 	/**~ja
@@ -99,6 +72,89 @@ class Dice {
 	 */
 	isLikely(percent) {
 		return (this._r() * 10000 % 100) <= percent;
+	}
+
+}
+
+
+/**~ja
+ * サイコロ
+ * @author Takuto Yanagida
+ * @version 2019-05-06
+ */
+/**~en
+ * Dice
+ * @author Takuto Yanagida
+ * @version 2019-05-06
+ */
+class Dice extends DiceBase {
+
+	/**~ja
+	 * サイコロを作る
+	 */
+	/**~en
+	 * Make a dice
+	 */
+	constructor(seed = Math.random()) {
+		super();
+		this._seed = 0 | (seed * (seed < 1 ? 1000 : 1));
+		this._r = this._createGenerator(this._seed);
+	}
+
+	/**~ja
+	 * テキトウな数（乱数）を返す関数を作る（Xorshift32）
+	 * @private
+	 * @param {number} seed シード値
+	 * @return {function(): number} テキトウな数（乱数）を返す関数
+	 */
+	/**~en
+	 * Create a function that returns a random number (Xorshift32)
+	 * @private
+	 * @param {number} seed Seed number
+	 * @return {function(): number} Function that returns a random number
+	 */
+	_createGenerator(seed) {
+		let y = seed;
+		const fn = () => {
+			y = y ^ (y << 13);
+			y = y ^ (y >> 17);
+			y = y ^ (y << 15);
+			return (y + 2147483648) / 4294967295;
+		};
+		const stack = [];
+		fn.save = () => { stack.push(y); };
+		fn.restore = () => { y = stack.pop(); };
+		return fn;
+	}
+
+	/**~ja
+	 * リセットする
+	 */
+	/**~en
+	 * Reset
+	 */
+	reset() {
+		this._r = this._createGenerator(this._seed);
+	}
+
+	/**~ja
+	 * 今の状態を保存する
+	 */
+	/**~en
+	 * Save the current state
+	 */
+	save() {
+		this._r.save();
+	}
+
+	/**~ja
+	 * 前の状態を復元する
+	 */
+	/**~en
+	 * Restore the previous state
+	 */
+	restore() {
+		this._r.restore();
 	}
 
 }
