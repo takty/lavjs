@@ -1,12 +1,12 @@
 /**~ja
  * エッジ生成関数
  * @author Takuto Yanagida
- * @version 2019-05-06
+ * @version 2019-05-07
  */
 /**~en
  * Edge generation functions
  * @author Takuto Yanagida
- * @version 2019-05-06
+ * @version 2019-05-07
  */
 
 
@@ -134,7 +134,7 @@ const absSineEdge = function (length = 10, amplitude = 10, opt = {}) {
 };
 
 /**~ja
- * エッジを作る
+ * エッジを作る（ライブラリ内だけで使用）
  * @private
  * @param {number} length 長さ
  * @param {number} amplitude 振幅
@@ -145,7 +145,7 @@ const absSineEdge = function (length = 10, amplitude = 10, opt = {}) {
  * @return {function(number, number): number} エッジ
  */
 /**~en
- * Make an edge
+ * Make an edge (used only in the library)
  * @private
  * @param {number} length Length
  * @param {number} amplitude Amplitude

@@ -80,12 +80,12 @@ class DiceBase {
 /**~ja
  * サイコロ
  * @author Takuto Yanagida
- * @version 2019-05-06
+ * @version 2019-05-07
  */
 /**~en
  * Dice
  * @author Takuto Yanagida
- * @version 2019-05-06
+ * @version 2019-05-07
  */
 class Dice extends DiceBase {
 
@@ -102,13 +102,13 @@ class Dice extends DiceBase {
 	}
 
 	/**~ja
-	 * テキトウな数（乱数）を返す関数を作る（Xorshift32）
+	 * テキトウな数（乱数）を返す関数を作る（Xorshift32）（ライブラリ内だけで使用）
 	 * @private
 	 * @param {number} seed シード値
 	 * @return {function(): number} テキトウな数（乱数）を返す関数
 	 */
 	/**~en
-	 * Create a function that returns a random number (Xorshift32)
+	 * Create a function that returns a random number (Xorshift32) (used only in the library)
 	 * @private
 	 * @param {number} seed Seed number
 	 * @return {function(): number} Function that returns a random number

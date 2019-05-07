@@ -1,12 +1,12 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
  * @author Takuto Yanagida
- * @version 2019-05-06
+ * @version 2019-05-07
  */
 /**~en
  * Element (common to sprites and stages)
  * @author Takuto Yanagida
- * @version 2019-05-06
+ * @version 2019-05-07
  */
 class Element {
 
@@ -147,7 +147,7 @@ class Element {
 	}
 
 	/**~ja
-	 * Z軸を中心とする角度（向き）
+	 * z軸を中心とする角度（向き）
 	 * @param {number=} deg 角度の値
 	 * @return {number|Element} 角度の値かこの要素
 	 */
@@ -163,7 +163,7 @@ class Element {
 	}
 
 	/**~ja
-	 * X軸を中心とする角度（向き）
+	 * x軸を中心とする角度（向き）
 	 * @param {number=} deg 角度の値
 	 * @return {number|Element} 角度の値かこの要素
 	 */
@@ -178,100 +178,225 @@ class Element {
 		return this;
 	}
 
-	// Z軸を中心とする角度2（向き）（<値>）
+	/**~ja
+	 * z軸を中心とする角度2（向き）
+	 * @param {number=} deg 角度の値
+	 * @return {number|Element} 角度の値かこの要素
+	 */
+	/**~en
+	 * 2nd angle around z axis (direction)
+	 * @param {number=} deg Value of degree
+	 * @return {number|Element} Value of degree, or this element
+	 */
 	angleZ(val) {
 		if (val === undefined) return this._angleZ;
 		this._angleZ = val;
 		return this;
 	}
 
-	// 絵を描く方向を向きと関係なく固定するか？（<値>）
+	/**~ja
+	 * 絵を描く方向を向きと関係なく固定するか？
+	 * @param {boolean=} val 値
+	 * @return {boolean|Element} 値かこの要素
+	 */
+	/**~en
+	 * Whether is the drawing direction fixed regardless of the direction of the element?
+	 * @param {boolean=} val Value
+	 * @return {boolean|Element} Value or this element
+	 */
 	fixedHeading(val) {
 		if (val === undefined) return this._isFixedHeading;
 		this._isFixedHeading = val;
 		return this;
 	}
 
-	// スピード（<値>）
+	/**~ja
+	 * スピード
+	 * @param {number=} val スピード
+	 * @return {number|Element} スピードかこの要素 
+	 */
+	/**~en
+	 * Speed
+	 * @param {number=} val Speed
+	 * @return {number|Element} Speed or this element
+	 */
 	speed(val) {
 		if (val === undefined) return this._speed;
 		this._speed = val;
 		return this;
 	}
 
-	// 方向スピード（<値>）
+	/**~ja
+	 * 方向スピード
+	 * @param {number=} val 方向スピード
+	 * @return {number|Element} 方向スピードかこの要素
+	 */
+	/**~en
+	 * Angle speed
+	 * @param {number=} val Angle speed
+	 * @return {number|Element} Angle speed or this element
+	 */
 	angleSpeed(val) {
 		if (val === undefined) return this._angleSpeed;
 		this._angleSpeed = val;
 		return this;
 	}
 
-	// 方向スピードx（<値>）
+	/**~ja
+	 * 方向スピードx
+	 * @param {number=} val 方向スピード
+	 * @return {number|Element} 方向スピードかこの要素
+	 */
+	/**~en
+	 * Angle speed x
+	 * @param {number=} val Angle speed
+	 * @return {number|Element} Angle speed or this element
+	 */
 	angleSpeedX(val) {
 		if (val === undefined) return this._angleSpeedX;
 		this._angleSpeedX = val;
 		return this;
 	}
 
-	// 方向スピードz（<値>）
+	/**~ja
+	 * 方向スピードz
+	 * @param {number=} val 方向スピード
+	 * @return {number|Element} 方向スピードかこの要素
+	 */
+	/**~en
+	 * Angle speed z
+	 * @param {number=} val Angle speed
+	 * @return {number|Element} Angle speed or this element
+	 */
 	angleSpeedZ(val) {
 		if (val === undefined) return this._angleSpeedZ;
 		this._angleSpeedZ = val;
 		return this;
 	}
 
-	// 横方向の範囲をセットする（始まり、終わり、ループする？）
+	/**~ja
+	 * 横方向の範囲をセットする
+	 * @param {number} min 始まり
+	 * @param {number} max 終わり
+	 * @param {boolean} isLoop ループする？
+	 */
+	/**~en
+	 * Set the horizontal range
+	 * @param {number} min Minimum value
+	 * @param {number} max Maximum value
+	 * @param {boolean} isLoop Whether to loop
+	 */
 	setRangeX(min, max, isLoop) {
 		this._checkRangeX = makeRangeChecker(min, max, isLoop);
 	}
 
-	// たて方向の範囲をセットする（始まり、終わり、ループする？）
+	/**~ja
+	 * たて方向の範囲をセットする
+	 * @param {number} min 始まり
+	 * @param {number} max 終わり
+	 * @param {boolean} isLoop ループする？
+	 */
+	/**~en
+	 * Set the vertical range
+	 * @param {number} min Minimum value
+	 * @param {number} max Maximum value
+	 * @param {boolean} isLoop Whether to loop
+	 */
 	setRangeY(min, max, isLoop) {
 		this._checkRangeY = makeRangeChecker(min, max, isLoop);
 	}
 
-	// 更新前イベントのハンドラーをセットする（関数、関数に渡す引数の配列）
-	setOnUpdate(func, args_array) {
-		const fn = function () { func.apply(this, args_array); };
-		this._onUpdate = fn;
+	/**~ja
+	 * 更新前イベントのハンドラーをセットする
+	 * @param {function(*)} fn 関数
+	 * @param {Array} args_array 関数に渡す引数の配列
+	 */
+	/**~en
+	 * Set handler for update event
+	 * @param {function(*)} fn Function
+	 * @param {Array} args_array Array of arguments to pass to the function
+	 */
+	setOnUpdate(fn, args_array) {
+		const f = () => { fn.apply(this, args_array); };
+		this._onUpdate = f;
 	}
 
-	// 更新後イベントのハンドラーをセットする（関数、関数に渡す引数の配列）
-	setOnUpdated(func, args_array) {
-		const fn = function () { func.apply(this, args_array); };
-		this._onUpdated = fn;
+	/**~ja
+	 * 更新後イベントのハンドラーをセットする
+	 * @param {function(*)} fn 関数
+	 * @param {Array} args_array 関数に渡す引数の配列
+	 */
+	/**~en
+	 * Set handler for updated event
+	 * @param {function(*)} fn Function
+	 * @param {Array} args_array Array of arguments to pass to the function
+	 */
+	setOnUpdated(fn, args_array) {
+		const f = () => { fn.apply(this, args_array); };
+		this._onUpdated = f;
 	}
 
-	// 動き（<動き>）
+	/**~ja
+	 * 動き
+	 * @param {Motion=} val 動き
+	 * @return {Motion|Element} 動きかこの要素
+	 */
+	/**~en
+	 * Motion
+	 * @param {Motion=} val Motion
+	 * @return {Motion|Element} Motion or this element
+	 */
 	motion(val) {
 		if (val === undefined) return this._motion;
 		this._motion = val;
 		return this;
 	}
 
-	// （ライブラリ内だけで使用）コンテキストの座標変換とアルファ値をセットする
+	/**~ja
+	 * コンテキストの座標変換とアルファ値をセットする（ライブラリ内だけで使用）
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx レンダリング・コンテキスト
+	 */
+	/**~en
+	 * Set context transformation and alpha value (used only in the library)
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx Rendering context
+	 */
 	_setTransformation(ctx) {
-		ctx.translate(this._x, this._y);  // 中心点をずらす
+		ctx.translate(this._x, this._y);
 		if (!this._isFixedHeading) {
 			ctx.rotate(this._dir * Math.PI / 180.0);
 		}
-		// 下ではスプライトを、Z軸中心にangle度回転、X軸を中心にangleX度回転、さらにもう一度Z軸を中心にangleZ度回転させている
-		ctx.rotate(this._angleZ * Math.PI / 180);  // 角度をラジアンに変換して回転（ラジアン = 角度 ✕ π / 180）
+		//~ja 下ではスプライトを、Z軸中心にangle度回転、X軸を中心にangleX度回転、さらにもう一度Z軸を中心にangleZ度回転させている
+		//~en Below, the sprite is rotated by angle degrees around the Z axis, angleX degrees around the X axis, and again by angleZ degrees around the Z axis.
+		//~ja 角度をラジアンに変換して回転（ラジアン = 角度 ✕ π / 180）
+		//~en Convert an angle to radians and rotate (radian = angle * π / 180)
+		ctx.rotate(this._angleZ * Math.PI / 180);
 		ctx.scale(1.0, Math.cos(this._angleX * Math.PI / 180));
-		ctx.rotate(this._angle * Math.PI / 180);  // 角度をラジアンに変換して回転（ラジアン = 角度 ✕ π / 180）
-		// ※Z-X-Zのオイラー角に対応
+		ctx.rotate(this._angle * Math.PI / 180);
+		//~ja ※Z-X-Zのオイラー角に対応
+		//~en * Corresponding to Euler angle of Z-X-Z
 
-		if (this._scale instanceof Array) {  // scaleが配列だったら
-			ctx.scale(this._scale[0], this._scale[1]);  // 縦と横で別々にスケールを設定
+		if (this._scale instanceof Array) {
+			ctx.scale(this._scale[0], this._scale[1]);
 		} else {
-			ctx.scale(this._scale, this._scale);  // 縦と横で共通のスケールを設定
+			ctx.scale(this._scale, this._scale);
 		}
-		ctx.globalAlpha *= this._alpha;  // 透明度アルファを設定
+		ctx.globalAlpha *= this._alpha;
 	}
 
-	// （ライブラリ内だけで使用）スピードに合わせて座標と角度を更新する
+	/**~ja
+	 * スピードに合わせて座標と角度を更新する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Update coordinates and angles according to the speeds (used only in the library)
+	 * @private
+	 */
 	_update() {
-		if (this._onUpdate) this._onUpdate.call(this);  // 更新前イベント
+		//~ja 更新前イベント
+		//~en Update event
+		if (this._onUpdate) this._onUpdate.call(this);
 
 		this._angle = checkDegRange(this._angle + valueFunction(this._angleSpeed));
 		this._angleX = checkDegRange(this._angleX + valueFunction(this._angleSpeedX));
@@ -286,8 +411,12 @@ class Element {
 		if (this._checkRangeX !== null) this._x = this._checkRangeX(this._x);
 		if (this._checkRangeY !== null) this._y = this._checkRangeY(this._y);
 
-		if (this._onUpdated) this._onUpdated.call(this);  // 更新後イベント
-		this._fisrtUpdated = true;  // 最初にこの関数が呼ばれ、座標などが正しいことを示す
+		//~ja 更新後イベント
+		//~en Updated event
+		if (this._onUpdated) this._onUpdated.call(this);
+		//~ja 最初にこの関数が呼ばれ、座標などが正しいことを示す
+		//~en This function is called first to indicate that the coordinates etc. are correct
+		this._fisrtUpdated = true;
 	}
 
 }
