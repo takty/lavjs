@@ -1,5 +1,13 @@
+/**
+ * Gulp Comment Tag
+ * @author Takuto Yanagida
+ * @version 2019-05-07
+ */
+
+
 const through     = require('through2');
 const PluginError = require('plugin-error');
+
 
 module.exports = function (lang) {
 	return through.obj(function (file, enc, done) {
@@ -15,16 +23,28 @@ module.exports = function (lang) {
 		const lines = str.split(/\r\n|\r|\n/);
 		const mods = [];
 		let inComment = false;
+		let inLineComment = false;
 		let ignore = false;
 		for (let line of lines) {
 			const tl = line.trim();
-			if (!inComment && tl.startsWith('/**~')) {
-				inComment = true;
-				ignore = tl !== '/**~' + lang;
-				if (!ignore) line = line.replace('/**~' + lang, '/**');
+			if (!inComment) {
+				if (tl.startsWith('/**~')) {
+					inComment = true;
+					ignore = !tl.startsWith('/**~' + lang);
+					if (!ignore) line = line.replace('/**~' + lang, '/**');
+				} else if (tl.startsWith('/*~')) {
+					inComment = true;
+					ignore = !tl.startsWith('/*~' + lang);
+					if (!ignore) line = line.replace('/*~' + lang, '/*');
+				} else if (tl.startsWith('//~')) {
+					inLineComment = true;
+					ignore = !tl.startsWith('//~' + lang);
+					if (!ignore) line = line.replace('//~' + lang, '//');
+				}
 			}
-			if (inComment && tl.endsWith('*/')) {
+			if ((inComment && tl.endsWith('*/')) || inLineComment) {
 				inComment = false;
+				inLineComment = false;
 				if (ignore) {
 					ignore = false;
 					continue;
