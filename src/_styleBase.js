@@ -1,42 +1,72 @@
-// -------------------------------------------------------------------------
-// ストローク・フィル共通
-// -------------------------------------------------------------------------
-
-
-
-
+/**~ja
+ * スタイル（ストローク・フィル共通）
+ * @version 2019-05-09
+ */
+/**~en
+ * Style (Common to stroke and fill)
+ * @version 2019-05-09
+ */
 class StyleBase {
 
-	// （<元になるぬりスタイル>、標準の色）
+	/**~ja
+	 * スタイルを作る
+	 * @param {Stroke=} base 元になるスタイル
+	 * @param {string=} color 標準の色
+	 */
+	/**~en
+	 * Make a style
+	 * @param {Stroke=} base Original style
+	 * @param {string=} color Default color
+	 */
 	constructor(base, color) {
-		this._style = base ? base._style : color;
-		this._color = base ? base._color : color;
-		this._rgb = base ? base._rgb : null;
-		this._hsl = base ? base._hsl : null;
-		this._gradType = base ? base._gradType : null;
-		this._gradParams = base ? base._gradParams : null;
-		this._gradColors = base ? [...base._gradColors] : [];
-		this._alpha = base ? base._alpha : 1;
-		this._composition = base ? base._composition : 'source-over';
-		this._shadow = base ? new Shadow(base._shadow) : new Shadow();
+		this._style       = base ? base._style              : color;
+		this._color       = base ? base._color              : color;
+		this._rgb         = base ? base._rgb                : null;
+		this._hsl         = base ? base._hsl                : null;
+		this._gradType    = base ? base._gradType           : null;
+		this._gradParams  = base ? base._gradParams         : null;
+		this._gradColors  = base ? [...base._gradColors]    : [];
+		this._alpha       = base ? base._alpha              : 1;
+		this._composition = base ? base._composition        : 'source-over';
+		this._shadow      = base ? new Shadow(base._shadow) : new Shadow();
 	}
 
-	// 設定を全てリセットする
+	/**~ja
+	 * リセットする
+	 * @param {string} color 色
+	 * @return {StyleBase} このスタイル
+	 */
+	/**~en
+	 * Reset
+	 * @param {string} color Color
+	 * @return {StyleBase} This style
+	 */
 	reset(color) {
-		this._style = color;
-		this._color = color;
-		this._rgb = null;
-		this._hsl = null;
-		this._gradType = null;
-		this._gradParams = null;
-		this._gradColors = [];
-		this._alpha = 1;
+		this._style       = color;
+		this._color       = color;
+		this._rgb         = null;
+		this._hsl         = null;
+		this._gradType    = null;
+		this._gradParams  = null;
+		this._gradColors  = [];
+		this._alpha       = 1;
 		this._composition = 'source-over';
-		this._shadow = new Shadow();
+		this._shadow      = new Shadow();
 		return this;
 	}
 
-	// 色の名前を設定する（色の名前、<アルファ0~1>）
+	/**~ja
+	 * 色の名前を設定する
+	 * @param {string=} color 色の名前
+	 * @param {number=} [opt_alpha=1] アルファ 0-1
+	 * @return {string|StyleBase} 色かこのスタイル
+	 */
+	/**~en
+	 * Set the color name
+	 * @param {string=} color Color name
+	 * @param {number=} [opt_alpha=1] Alpha 0-1
+	 * @return {string|StyleBase} Color or this style
+	 */
 	color(color, opt_alpha = 1) {
 		if (arguments.length === 0) return this._color;
 		checkColor(color);
@@ -52,16 +82,48 @@ class StyleBase {
 		return this;
 	}
 
-	// RGB(A)を設定する（赤0~255、緑0~255、青0~255、<アルファ0~1>）
+	/**~ja
+	 * RGB(A)を設定する
+	 * @param {number=} r 赤 0-255
+	 * @param {number=} g 緑 0-255
+	 * @param {number=} b 青 0-255
+	 * @param {number=} [opt_alpha=1] アルファ 0-1
+	 * @return {Array<number>|StyleBase} RGBかこのスタイル
+	 */
+	/**~en
+	 * Set RGB(A)
+	 * @param {number=} r Red 0-255
+	 * @param {number=} g Green 0-255
+	 * @param {number=} b Blue 0-255
+	 * @param {number=} [opt_alpha=1] Alpha 0-1
+	 * @return {Array<number>|StyleBase} RGB or this style
+	 */
 	rgb(r, g, b, opt_alpha = 1) {
 		if (arguments.length === 0) return this._rgb;
 		this._clear();
-		this._rgb = [Math.round(r), Math.round(g), Math.round(b), opt_alpha];  // rとgとbを四捨五入して整数に
+		//~ja rとgとbを四捨五入して整数に
+		//~en Round r and g and b to integers
+		this._rgb = [Math.round(r), Math.round(g), Math.round(b), opt_alpha];
 		this._style = `rgba(${this._rgb.join(', ')})`;
 		return this;
 	}
 
-	// HSL(A)を設定する（色相0~360、彩度0~100、明度0~100、<アルファ0~1>）
+	/**~ja
+	 * HSL(A)を設定する
+	 * @param {number=} h 色相 0-360
+	 * @param {number=} s 彩度 0-100
+	 * @param {number=} l 明度 0-100
+	 * @param {number=} [opt_alpha=1] アルファ 0-1
+	 * @return {Array<number>|StyleBase} HSLかこのスタイル
+	 */
+	/**~en
+	 * Set HSL(A)
+	 * @param {number=} h Hue 0-360
+	 * @param {number=} s Saturation 0-100
+	 * @param {number=} l Lightness 0-100
+	 * @param {number=} [opt_alpha=1] Alpha 0-1
+	 * @return {Array<number>|StyleBase} HSL or this style
+	 */
 	hsl(h, s, l, opt_alpha = 1) {
 		if (arguments.length === 0) return this._hsl;
 		this._clear();
@@ -70,7 +132,16 @@ class StyleBase {
 		return this;
 	}
 
-	// 色を明るくする（<割合%>）
+	/**~ja
+	 * 色を明るくする
+	 * @param {number} [opt_rate=10] 割合 %
+	 * @return {StyleBase} このスタイル
+	 */
+	/**~en
+	 * Lighten the color
+	 * @param {number} [opt_rate=10] Rate %
+	 * @return {StyleBase} This style
+	 */
 	lighten(opt_rate = 10) {
 		if (this._color) {
 			this._rgb = convertColorToRgb(this._color);
@@ -90,7 +161,16 @@ class StyleBase {
 		return this;
 	}
 
-	// 色を暗くする（<割合%>）
+	/**~ja
+	 * 色を暗くする
+	 * @param {number} [opt_rate=10] 割合 %
+	 * @return {StyleBase} このスタイル
+	 */
+	/**~en
+	 * Darken the color
+	 * @param {number} [opt_rate=10] Rate %
+	 * @return {StyleBase} This style
+	 */
 	darken(opt_rate = 10) {
 		if (this._color) {
 			this._rgb = convertColorToRgb(this._color);
@@ -110,10 +190,28 @@ class StyleBase {
 		return this;
 	}
 
-	// グラデーションを設定する
-	// ・線形の場合（'linear'、[開始座標x, y]、[終了座標x, y]）
-	// ・円形の場合（'radial'、[中心座標1 x、y]、[開始半径、終了半径]、<[中心座標2 x、y]>）
-	// ・その他（'種類'）
+	/**~ja
+	 * グラデーションを設定する
+	 * - 線形の場合（'linear'、[開始座標x, y]、[終了座標x, y]）
+	 * - 円形の場合（'radial'、[中心座標1 x、y]、[開始半径、終了半径]、<[中心座標2 x、y]>）
+	 * - その他（'種類'）
+	 * @param {string} type 種類（'linear', 'radial', その他）
+	 * @param {Array<number>} xy1_dir [開始座標x, y]，または[中心座標1 x、y]
+	 * @param {Array<number>} xy2_rs [終了座標x, y]，または[開始半径、終了半径]
+	 * @param {Array<number>=} xy2 [中心座標2 x、y]
+	 * @return {Array|StyleBase} グラデーションの設定かこのスタイル
+	 */
+	/**~en
+	 * Set the gradation
+	 * - 線形の場合（'linear'、[開始座標x, y]、[終了座標x, y]）
+	 * - 円形の場合（'radial'、[中心座標1 x、y]、[開始半径、終了半径]、<[中心座標2 x、y]>）
+	 * - その他（'種類'）
+	 * @param {string} type 種類（'linear', 'radial', その他）
+	 * @param {Array<number>} xy1_dir [開始座標x, y]，または[中心座標1 x、y]
+	 * @param {Array<number>} xy2_rs [終了座標x, y]，または[開始半径、終了半径]
+	 * @param {Array<number>=} xy2 [中心座標2 x、y]
+	 * @return {Array|StyleBase} グラデーションの設定 or this style
+	 */
 	gradation(type, xy1_dir, xy2_rs, xy2) {
 		if (arguments.length === 0) {
 			return this._gradParams ? [this._gradType, ...this._gradParams] : [this._gradType];
@@ -135,7 +233,18 @@ class StyleBase {
 		return this;
 	}
 
-	// グラデーションに色の名前を追加する（色の名前、<アルファ0~1>）
+	/**~ja
+	 * グラデーションに色の名前を追加する
+	 * @param {string} color 色の名前
+	 * @param {number=} [opt_alpha=1] アルファ 0-1
+	 * @return {StyleBase} このスタイル
+	 */
+	/**~en
+	 * Add a color name to the gradation
+	 * @param {string} color Color name
+	 * @param {number=} [opt_alpha=1] Alpha 0-1
+	 * @return {StyleBase} This style
+	 */
 	addColor(color, opt_alpha = 1) {
 		this._style = null;  // キャッシュを無効に
 		checkColor(color);
@@ -149,7 +258,22 @@ class StyleBase {
 		return this;
 	}
 
-	// グラデーションにRGB(A)を追加する（赤0~255、緑0~255、青0~255、<アルファ0~1>）
+	/**~ja
+	 * グラデーションにRGB(A)を追加する
+	 * @param {number} r 赤 0-255
+	 * @param {number} g 緑 0-255
+	 * @param {number} b 青 0-255
+	 * @param {number=} [opt_alpha=1] アルファ 0-1
+	 * @return {StyleBase} このスタイル
+	 */
+	/**~en
+	 * Add RGB(A) to the gradation
+	 * @param {number} r Red 0-255
+	 * @param {number} g Green 0-255
+	 * @param {number} b Blue 0-255
+	 * @param {number=} [opt_alpha=1] Alpha 0-1
+	 * @return {StyleBase} This style
+	 */
 	addRgb(r, g, b, opt_alpha = 1) {
 		this._style = null;  // キャッシュを無効に
 		r = Math.round(r), g = Math.round(g), b = Math.round(b);  // rとgとbを四捨五入して整数に直す
@@ -161,7 +285,22 @@ class StyleBase {
 		return this;
 	}
 
-	// グラデーションにHSL(A)を追加する（色相0~360、彩度0~100、明度0~100、<アルファ0~1>）
+	/**~ja
+	 * グラデーションにHSL(A)を追加する
+	 * @param {number} h 色相 0-360
+	 * @param {number} s 彩度 0-100
+	 * @param {number} l 明度 0-100
+	 * @param {number=} [opt_alpha=1] アルファ 0-1
+	 * @return {StyleBase} このスタイル
+	 */
+	/**~en
+	 * Add HSL(A) to the gradation
+	 * @param {number} h Hue 0-360
+	 * @param {number} s Saturation 0-100
+	 * @param {number} l Lightness 0-100
+	 * @param {number=} [opt_alpha=1] Alpha 0-1
+	 * @return {StyleBase} This style
+	 */
 	addHsl(h, s, l, opt_alpha = 1) {
 		this._style = null;  // キャッシュを無効に
 		if (opt_alpha === 1) {  // アルファが無かったら
@@ -172,7 +311,18 @@ class StyleBase {
 		return this;
 	}
 
-	// アルファをセットする（アルファ、四則演算記号）
+	/**~ja
+	 * アルファをセットする
+	 * @param {number=} alpha アルファ
+	 * @param {string=} op 四則演算記号
+	 * @return {number|StyleBase} アルファかこのスタイル
+	 */
+	/**~en
+	 * Set alpha
+	 * @param {number=} alpha Alpha
+	 * @param {string=} op Arithmetic symbol
+	 * @return {number|StyleBase} Alpha or this style
+	 */
 	alpha(alpha, op) {
 		if (alpha === undefined) return this._alpha;
 		if (op === undefined) {
@@ -188,14 +338,38 @@ class StyleBase {
 		return this;
 	}
 
-	// コンポジション（合成方法）をセットする（コンポジション）
+	/**~ja
+	 * コンポジション（合成方法）をセットする
+	 * @param {string=} composition コンポジション
+	 * @return {string|StyleBase} コンポジションかこのスタイル
+	 */
+	/**~en
+	 * Set composition (composition method)
+	 * @param {string=} composition Composition
+	 * @return {string|StyleBase} Composition or this style
+	 */
 	composition(composition) {
 		if (composition === undefined) return this._composition;
 		this._composition = composition;
 		return this;
 	}
 
-	// 影をセットする（ぼかし量、色、影のずれx、y）
+	/**~ja
+	 * 影をセットする
+	 * @param {number?} blur ぼかし量
+	 * @param {string?} color 色
+	 * @param {number?} x 影のずれx
+	 * @param {number?} y 影のずれy
+	 * @return {Shadow|StyleBase} 影かこのスタイル
+	 */
+	/**~en
+	 * Set shadow
+	 * @param {number?} blur Blur amount
+	 * @param {string?} color Color
+	 * @param {number?} x Shadow offset x
+	 * @param {number?} y Shadow offset y
+	 * @return {Shadow|StyleBase} Shadow or this style
+	 */
 	shadow(blur, color, x, y) {
 		if (blur === undefined) return this._shadow.get();
 		if (blur === false || blur === null) {
@@ -206,19 +380,39 @@ class StyleBase {
 		return this;
 	}
 
-	// （ライブラリ内だけで使用）設定をクリアする
+	/**~ja
+	 * 設定をクリアする（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Clear settings (used only in the library)
+	 * @private
+	 */
 	_clear() {
-		this._style = null;
-		this._color = null;
-		this._rgb = null;
-		this._hsl = null;
-		this._gradType = null;
-		this._gradParams = null;
-		this._gradColors = [];
+		this._style       = null;
+		this._color       = null;
+		this._rgb         = null;
+		this._hsl         = null;
+		this._gradType    = null;
+		this._gradParams  = null;
+		this._gradColors  = [];
 		this._gradBsCache = null;
 	}
 
-	// （ライブラリ内だけで使用）スタイルを作る
+	/**~ja
+	 * スタイルを作る（ライブラリ内だけで使用）
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Array<number>} gradArea グラデーション範囲
+	 * @return {string} スタイル文字列
+	 */
+	/**~en
+	 * Make the style (used only in the library)
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Array<number>} gradArea Gradation area
+	 * @return {string} Style string
+	 */
 	_makeStyle(ctx, gradArea) {
 		this._gradOpt = {};
 		if (this._gradType !== null) {  // グラデーションの時
@@ -229,7 +423,28 @@ class StyleBase {
 		return this._style;
 	}
 
-	// （ライブラリ内だけで使用）グラデーションを作る
+	/**~ja
+	 * グラデーションを作る（ライブラリ内だけで使用）
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {dict} bs 範囲
+	 * @param {string} type 種類
+	 * @param {Array} params パラメター
+	 * @param {Array<string>} cs 色の配列
+	 * @param {dict} opt オプション
+	 * @return {string} スタイル文字列
+	 */
+	/**~en
+	 * Make a gradation (used only in the library)
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {dict} bs 範囲
+	 * @param {string} type 種類
+	 * @param {Array} params パラメター
+	 * @param {Array<string>} cs 色の配列
+	 * @param {dict} opt Options
+	 * @return {string} スタイル文字列
+	 */
 	_makeGrad(ctx, bs, type, params, cs, opt) {
 		if (cs.length === 0) return 'Black';
 		if (cs.length === 1) return cs[0];
@@ -255,7 +470,22 @@ class StyleBase {
 		return style;
 	}
 
-	// （ライブラリ内だけで使用）線形グラデーションのパラメターを作る
+	/**~ja
+	 * 線形グラデーションのパラメターを作る（ライブラリ内だけで使用）
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {string} type 種類
+	 * @param {dict} bs 範囲
+	 * @return {Array<number>} 線形グラデーションのパラメター
+	 */
+	/**~en
+	 * 線形グラデーションのパラメターを作る（ライブラリ内だけで使用）
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {string} type 種類
+	 * @param {dict} bs 範囲
+	 * @return {Array<number>} 線形グラデーションのパラメター
+	 */
 	_makeLinearGradParams(ctx, type, bs) {
 		const ERROR_STR = 'STYLE::_makeLinerGradParams: Gradation bounds are not correct.';
 		if (type === 'vertical') {
@@ -273,7 +503,24 @@ class StyleBase {
 		}
 	}
 
-	// （ライブラリ内だけで使用）円形グラデーションを作る
+	/**~ja
+	 * 円形グラデーションを作る（ライブラリ内だけで使用）
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {string} type 種類
+	 * @param {dict} bs 範囲
+	 * @param {dict} opt オプション
+	 * @return {Array<number>} 円形グラデーションのパラメター
+	 */
+	/**~en
+	 * 円形グラデーションを作る（ライブラリ内だけで使用）
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {string} type 種類
+	 * @param {dict} bs 範囲
+	 * @param {dict} opt Options
+	 * @return {Array<number>} 円形グラデーションのパラメター
+	 */
 	_makeRadialGradParams(ctx, type, bs, opt) {
 		const SQRT2 = 1.41421356237;
 		const cw = ctx.canvas.width, ch = ctx.canvas.height;
@@ -300,7 +547,18 @@ class StyleBase {
 		return [p.cx, p.cy, 0, p.cx, p.cy, r];
 	}
 
-	// （ライブラリ内だけで使用）円形グラデーションのオプションをセットする
+	/**~ja
+	 * 円形グラデーションのオプションをセットする（ライブラリ内だけで使用）
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Array<number>} opt オプション
+	 */
+	/**~en
+	 * 円形グラデーションのオプションをセットする（ライブラリ内だけで使用）
+	 * @private
+	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Array<number>} opt Options
+	 */
 	_setGradOpt(ctx, opt) {
 		ctx.translate(opt.center[0], opt.center[1]);
 		ctx.scale(opt.scale[0], opt.scale[1]);
