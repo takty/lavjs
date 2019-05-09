@@ -1,68 +1,130 @@
-// -------------------------------------------------------------------------
-// ストローク (STYLE.Stroke)
-// -------------------------------------------------------------------------
-
-
-
-
+/**~ja
+ * 線スタイル（ストローク）
+ * @extends {StyleBase}
+ * @version 2019-05-09
+ */
+/**~en
+ * Stroke style (Stroke)
+ * @extends {StyleBase}
+ * @version 2019-05-09
+ */
 class Stroke extends StyleBase {
 
-	// 線スタイルを作る（<元になる線スタイル>）
+	/**~ja
+	 * 線スタイルを作る
+	 * @param {Stroke=} base 元になる線スタイル
+	 */
+	/**~en
+	 * Make a stroke style
+	 * @param {Stroke=} base Original stroke style
+	 */
 	constructor(base) {
 		super(base, 'Black');
 
-		this._width = base ? base._width : 1;
-		this._cap = base ? base._cap : 'butt';
-		this._join = base ? base._join : 'bevel';
+		this._width      = base ? base._width      : 1;
+		this._cap        = base ? base._cap        : 'butt';
+		this._join       = base ? base._join       : 'bevel';
 		this._miterLimit = base ? base._miterLimit : 10;
-
-		this._dash = base ? base._dash : null;
+		this._dash       = base ? base._dash       : null;
 		this._dashOffset = base ? base._dashOffset : 0;
 	}
 
-	// 設定を全てリセットする
+	/**~ja
+	 * リセットする
+	 * @param {string} color 色
+	 * @return {Fill} このぬりスタイル
+	 */
+	/**~en
+	 * Reset
+	 * @param {string} color Color
+	 * @return {Fill} This filling style
+	 */
 	reset(color) {
 		super.reset(color);
 
-		this._width = 1;
-		this._cap = 'butt';
-		this._join = 'bevel';
+		this._width      = 1;
+		this._cap        = 'butt';
+		this._join       = 'bevel';
 		this._miterLimit = 10;
-
-		this._dash = null;
+		this._dash       = null;
 		this._dashOffset = 0;
 		return this;
 	}
 
-	// 線の太さを設定する（線の太さ）
+	/**~ja
+	 * 線の太さを設定する
+	 * @param {number=} width 線の太さ
+	 * @return {number|Stroke} 線の太さかこのストローク
+	 */
+	/**~en
+	 * Set the line width
+	 * @param {number=} width Line width
+	 * @return {number|Stroke} Line width or this stroke
+	 */
 	width(width) {
 		if (width === undefined) return this._width;
 		this._width = width;
 		return this;
 	}
 
-	// 線のはしを設定する（線のはし）
+	/**~ja
+	 * 線のはしを設定する
+	 * @param {string=} cap 線のはし
+	 * @return {string|Stroke} 線のはしかこのストローク
+	 */
+	/**~en
+	 * Set the line cap
+	 * @param {string=} cap Line cap
+	 * @return {string|Stroke} Line cap or this stroke
+	 */
 	cap(cap) {
 		if (cap === undefined) return this._cap;
 		this._cap = cap;
 		return this;
 	}
 
-	// 線のつなぎを設定する（線のつなぎ）
+	/**~ja
+	 * 線のつなぎを設定する
+	 * @param {string=} join 線のつなぎ
+	 * @return {string|Stroke} 線のつなぎかこのストローク
+	 */
+	/**~en
+	 * Set the line join
+	 * @param {string=} join Line join
+	 * @return {string|Stroke} Line join or this stroke
+	 */
 	join(join) {
 		if (join === undefined) return this._join;
 		this._join = join;
 		return this;
 	}
 
-	// 線の角の出っ張りの上限を設定する（線の角の出っ張りの上限）
+	/**~ja
+	 * 線の角の出っ張りの上限を設定する
+	 * @param {number=} miterLimit 線の角の出っ張りの上限
+	 * @return {number|Stroke} 線の角の出っ張りの上限かこのストローク
+	 */
+	/**~en
+	 * Set the upper limit of miter
+	 * @param {number=} miterLimit Upper limit of miter
+	 * @return {number|Stroke} Upper limit of miter or this stroke
+	 */
 	miterLimit(miterLimit) {
 		if (miterLimit === undefined) return this._miterLimit;
 		this._miterLimit = miterLimit;
 		return this;
 	}
 
-	// 点線のパターンを設定する（点線のパターン）
+	/**~ja
+	 * 点線のパターンを設定する
+	 * @param {Array<number>=} dash 点線のパターン
+	 * @return {Array<number>|Stroke} 点線パターンかこのストローク
+	 */
+	/**~en
+	 * Set a dash pattern
+	 * @param {Array<number>=} dash Dash pattern
+	 * @return {Array<number>|Stroke} Dash pattern or this stroke
+	 */
 	dash(...dash) {
 		if (dash === undefined) return this._dash.concat();
 		if (Array.isArray(dash[0])) {
@@ -73,7 +135,16 @@ class Stroke extends StyleBase {
 		return this;
 	}
 
-	// 点線のパターンのずれを設定する（点線のパターンのずれ）
+	/**~ja
+	 * 点線のパターンのずれを設定する
+	 * @param {number=} dashOffset 点線のパターンのずれ
+	 * @return {number|Stroke} 点線のパターンのずれかこのストローク
+	 */
+	/**~en
+	 * Set the offset of dash pattern
+	 * @param {number=} dashOffset The offset of dash pattern
+	 * @return {number|Stroke} The offset of dash pattern or this stroke
+	 */
 	dashOffset(dashOffset) {
 		if (dashOffset === undefined) return this._dashOffset;
 		this._dashOffset = dashOffset;
@@ -82,7 +153,16 @@ class Stroke extends StyleBase {
 
 	// gradArea = {fromX, fromY, toX, toY, left, top, right, bottom}
 
-	// キャンバス・コンテキストに線スタイルを設定する（キャンバス・コンテキスト、グラデーション範囲）
+	/**~ja
+	 * キャンバス・コンテキストに線スタイルを設定する
+	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Array<number>} gradArea グラデーション範囲
+	 */
+	/**~en
+	 * Assign the stroke style in the canvas context
+	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Array<number>} gradArea Gradation area
+	 */
 	assign(ctx, gradArea) {
 		ctx.strokeStyle = this._makeStyle(ctx, gradArea);
 		ctx.globalAlpha *= this._alpha;
@@ -99,7 +179,16 @@ class Stroke extends StyleBase {
 		ctx.lineDashOffset = this._dashOffset;
 	}
 
-	// 線スタイルを使って線をかく（キャンバス・コンテキスト、グラデーション範囲）
+	/**~
+	 * 線スタイルを使って線をかく
+	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Array<number>} gradArea グラデーション範囲
+	 */
+	/**~en
+	 * Draw lines using the stroke style
+	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Array<number>} gradArea Gradation area
+	 */
 	draw(ctx, gradArea) {
 		ctx.save();
 		this.assign(ctx, gradArea);
