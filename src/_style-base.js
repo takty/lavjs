@@ -1,10 +1,10 @@
 /**~ja
  * スタイル（ストローク・フィル共通）
- * @version 2019-05-09
+ * @version 2019-05-10
  */
 /**~en
  * Style (Common to stroke and fill)
- * @version 2019-05-09
+ * @version 2019-05-10
  */
 class StyleBase {
 
@@ -75,7 +75,12 @@ class StyleBase {
 			this._color = color;
 			this._style = this._color;
 		} else {
-			if (Number.isNaN(opt_alpha)) throw 'アルファの数値に間違いがあるようです。';
+			//@ifdef ja
+			if (Number.isNaN(opt_alpha)) throw 'STYLE::color: アルファの数値に間違いがあるようです。';
+			//@endif
+			//@ifdef en
+			if (Number.isNaN(opt_alpha)) throw 'STYLE::color: The alpha value seem to be wrong.';
+			//@endif
 			const vs = convertColorToRgb(color, opt_alpha);
 			this.rgb(...vs);
 		}
@@ -192,7 +197,7 @@ class StyleBase {
 
 	/**~ja
 	 * グラデーションを設定する
-	 * - 線形の場合（'linear'、[開始座標x, y]、[終了座標x, y]）
+	 * - 線形の場合（'linear'、[開始座標x、y]、[終了座標x, y]）
 	 * - 円形の場合（'radial'、[中心座標1 x、y]、[開始半径、終了半径]、<[中心座標2 x、y]>）
 	 * - その他（'種類'）
 	 * @param {string} type 種類（'linear', 'radial', その他）
@@ -203,21 +208,26 @@ class StyleBase {
 	 */
 	/**~en
 	 * Set the gradation
-	 * - 線形の場合（'linear'、[開始座標x, y]、[終了座標x, y]）
-	 * - 円形の場合（'radial'、[中心座標1 x、y]、[開始半径、終了半径]、<[中心座標2 x、y]>）
-	 * - その他（'種類'）
-	 * @param {string} type 種類（'linear', 'radial', その他）
-	 * @param {Array<number>} xy1_dir [開始座標x, y]，または[中心座標1 x、y]
-	 * @param {Array<number>} xy2_rs [終了座標x, y]，または[開始半径、終了半径]
-	 * @param {Array<number>=} xy2 [中心座標2 x、y]
-	 * @return {Array|StyleBase} グラデーションの設定 or this style
+	 * - Linear ('linear', [Start coordinates x, y], [End coordinates x, y])
+	 * - Radial ('radial', [1st center coordinates x、y], [Start radius, End radius], <[2nd center coordinates x, y]>)
+	 * - Others ('type')
+	 * @param {string} type Type ('linear', 'radial', Others)
+	 * @param {Array<number>} xy1_dir [Start coordinates x, y], or [1st center coordinates x、y]
+	 * @param {Array<number>} xy2_rs [End coordinates x, y], or [Start radius, End radius]
+	 * @param {Array<number>=} xy2 [2nd center coordinates x、y]
+	 * @return {Array|StyleBase} Gradation setting or this style
 	 */
 	gradation(type, xy1_dir, xy2_rs, xy2) {
 		if (arguments.length === 0) {
 			return this._gradParams ? [this._gradType, ...this._gradParams] : [this._gradType];
 		}
 		if (!['linear', 'radial', 'vertical', 'horizontal', 'vector', 'inner', 'outer', 'diameter', 'radius'].includes(type)) {
-			throw 'グラデーションの種類が間違っています。';
+			//@ifdef ja
+			throw 'STYLE::gradation: グラデーションの種類が間違っています。';
+			//@endif
+			//@ifdef en
+			throw 'STYLE::gradation: The type of gradation is incorrect.';
+			//@endif
 		}
 		this._clear();
 		this._gradType = type;
@@ -246,12 +256,19 @@ class StyleBase {
 	 * @return {StyleBase} This style
 	 */
 	addColor(color, opt_alpha = 1) {
-		this._style = null;  // キャッシュを無効に
+		//~ja キャッシュを無効に
+		//~en Disable caching
+		this._style = null;
 		checkColor(color);
 		if (opt_alpha === 1) {
 			this._gradColors.push(color);
 		} else {
-			if (Number.isNaN(opt_alpha)) throw 'アルファの数値に間違いがあるようです。';
+			//@ifdef ja
+			if (Number.isNaN(opt_alpha)) throw 'STYLE::addColor: アルファの数値に間違いがあるようです。';
+			//@endif
+			//@ifdef en
+			if (Number.isNaN(opt_alpha)) throw 'STYLE::addColor: The alpha value seem to be wrong.';
+			//@endif
 			const vs = convertColorToRgb(color, opt_alpha);
 			this.addRgb(...vs);
 		}
@@ -275,9 +292,15 @@ class StyleBase {
 	 * @return {StyleBase} This style
 	 */
 	addRgb(r, g, b, opt_alpha = 1) {
-		this._style = null;  // キャッシュを無効に
-		r = Math.round(r), g = Math.round(g), b = Math.round(b);  // rとgとbを四捨五入して整数に直す
-		if (opt_alpha === 1) {  // アルファが無かったら
+		//~ja キャッシュを無効に
+		//~en Disable caching
+		this._style = null;
+		//~ja rとgとbを四捨五入して整数に
+		//~en Round r and g and b to integers
+		r = Math.round(r), g = Math.round(g), b = Math.round(b);
+		//~ja アルファが無かったら
+		//~en If the alpha is not assigned
+		if (opt_alpha === 1) {
 			this._gradColors.push(`rgb(${r}, ${g}, ${b})`);
 		} else {
 			this._gradColors.push(`rgba(${r}, ${g}, ${b}, ${opt_alpha})`);
@@ -302,8 +325,12 @@ class StyleBase {
 	 * @return {StyleBase} This style
 	 */
 	addHsl(h, s, l, opt_alpha = 1) {
-		this._style = null;  // キャッシュを無効に
-		if (opt_alpha === 1) {  // アルファが無かったら
+		//~ja キャッシュを無効に
+		//~en Disable caching
+		this._style = null;
+		//~ja アルファが無かったら
+		//~en If the alpha is not assigned
+		if (opt_alpha === 1) {
 			this._gradColors.push(`hsl(${h}, ${s}%, ${l}%)`);
 		} else {
 			this._gradColors.push(`hsla(${h}, ${s}%, ${l}%, ${opt_alpha})`);
@@ -415,7 +442,9 @@ class StyleBase {
 	 */
 	_makeStyle(ctx, gradArea) {
 		this._gradOpt = {};
-		if (this._gradType !== null) {  // グラデーションの時
+		//~ja グラデーションの時
+		//~en When gradation
+		if (this._gradType !== null) {
 			if (this._style === null || (this._gradType !== 'linear' && this._gradType !== 'radial')) {
 				this._style = this._makeGrad(ctx, gradArea, this._gradType, this._gradParams, this._gradColors, this._gradOpt);
 			}
@@ -438,12 +467,12 @@ class StyleBase {
 	 * Make a gradation (used only in the library)
 	 * @private
 	 * @param {CanvasRenderingContext2D} ctx Canvas context
-	 * @param {dict} bs 範囲
-	 * @param {string} type 種類
-	 * @param {Array} params パラメター
-	 * @param {Array<string>} cs 色の配列
+	 * @param {dict} bs Bounds
+	 * @param {string} type Type
+	 * @param {Array} params Parameters
+	 * @param {Array<string>} cs Colors
 	 * @param {dict} opt Options
-	 * @return {string} スタイル文字列
+	 * @return {string} String of style
 	 */
 	_makeGrad(ctx, bs, type, params, cs, opt) {
 		if (cs.length === 0) return 'Black';
@@ -465,7 +494,7 @@ class StyleBase {
 				break;
 		}
 		for (let i = 0, I = cs.length; i < I; i += 1) {
-			style.addColorStop(i / (I - 1), cs[i]);  // 色を追加する
+			style.addColorStop(i / (I - 1), cs[i]);
 		}
 		return style;
 	}
@@ -479,15 +508,20 @@ class StyleBase {
 	 * @return {Array<number>} 線形グラデーションのパラメター
 	 */
 	/**~en
-	 * 線形グラデーションのパラメターを作る（ライブラリ内だけで使用）
+	 * Make linear gradation parameters (used only in the library)
 	 * @private
 	 * @param {CanvasRenderingContext2D} ctx Canvas context
-	 * @param {string} type 種類
-	 * @param {dict} bs 範囲
-	 * @return {Array<number>} 線形グラデーションのパラメター
+	 * @param {string} type Type
+	 * @param {dict} bs Bounds
+	 * @return {Array<number>} Linear gradation parameters
 	 */
 	_makeLinearGradParams(ctx, type, bs) {
+		//@ifdef ja
+		const ERROR_STR = 'STYLE::_makeLinerGradParams: グラデーションの範囲が正しくありません。';
+		//@endif
+		//@ifdef en
 		const ERROR_STR = 'STYLE::_makeLinerGradParams: Gradation bounds are not correct.';
+		//@endif
 		if (type === 'vertical') {
 			if (bs && (bs.left == null || bs.top == null || bs.right == null || bs.bottom == null)) throw new Error(ERROR_STR);
 			if (bs) return [bs.left, bs.top, bs.left, bs.bottom];
@@ -504,7 +538,7 @@ class StyleBase {
 	}
 
 	/**~ja
-	 * 円形グラデーションを作る（ライブラリ内だけで使用）
+	 * 円形グラデーションのパラメターを作る（ライブラリ内だけで使用）
 	 * @private
 	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
 	 * @param {string} type 種類
@@ -513,13 +547,13 @@ class StyleBase {
 	 * @return {Array<number>} 円形グラデーションのパラメター
 	 */
 	/**~en
-	 * 円形グラデーションを作る（ライブラリ内だけで使用）
+	 * Make radial gradation parameters (used only in the library)
 	 * @private
 	 * @param {CanvasRenderingContext2D} ctx Canvas context
-	 * @param {string} type 種類
-	 * @param {dict} bs 範囲
+	 * @param {string} type Type
+	 * @param {dict} bs Bounds
 	 * @param {dict} opt Options
-	 * @return {Array<number>} 円形グラデーションのパラメター
+	 * @return {Array<number>} Radial gradation parameters
 	 */
 	_makeRadialGradParams(ctx, type, bs, opt) {
 		const SQRT2 = 1.41421356237;
@@ -554,7 +588,7 @@ class StyleBase {
 	 * @param {Array<number>} opt オプション
 	 */
 	/**~en
-	 * 円形グラデーションのオプションをセットする（ライブラリ内だけで使用）
+	 * Set radial gradation options (used only in the library)
 	 * @private
 	 * @param {CanvasRenderingContext2D} ctx Canvas context
 	 * @param {Array<number>} opt Options
