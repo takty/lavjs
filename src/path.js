@@ -7,19 +7,23 @@
 //
 
 
-// ライブラリ変数
+/**~ja
+ * ライブラリ変数
+ */
+/**~en
+ * Library variable
+ */
 const PATH = (function () {
 
 	'use strict';
 
 
-
-
-	// -------------------------------------------------------------------------
-	// ライブラリ中だけで使用するユーティリティ
-	// -------------------------------------------------------------------------
-
-
+	/**~ja
+	 * ライブラリ中だけで使用するユーティリティ ---------------------------------------
+	 */
+	/**~en
+	 * Utilities used only in the library --------------------------------------
+	 */
 
 
 	// 最小値
@@ -165,291 +169,8 @@ const PATH = (function () {
 	};
 
 
-
-
-	// -------------------------------------------------------------------------
-	// ライナー (PATH.Liner)
-	// -------------------------------------------------------------------------
-
-
-
-
-	class Liner {
-
-		// ライナーを作る（描画するキャンバス・コンテキスト、<法線方向>）
-		constructor(handler, opt_normalDir = Math.PI / -2) {
-			this._handler   = handler;
-			this._normalDir = opt_normalDir;  // 法線方向
-			this._edge      = NORMAL_EDGE;
-		}
-
-		// エッジを設定する（エッジを決める関数）
-		edge(func) {
-			if (func === undefined) return this._edge;
-			this._edge = func;
-		}
-
-
-		// -------------------------------- 線分
-
-
-		// 線分をかく（始点x、y座標、方向、長さ、<長さ制限>、<エリアを返す配列>）
-		line(x0, y0, dir, dist, opt_limit = null, opt_retArea = null) {
-			const r = rad(dir);
-			const x1 = x0 + dist * Math.cos(r), y1 = y0 + dist * Math.sin(r);
-			const roughSpan = Math.ceil(Math.abs(dist));
-			return this._linePre(x0, y0, x1, y1, dir, roughSpan, opt_limit, opt_retArea);
-		}
-
-		// 線分をかく（始点x、y座標、終点x，y座標、<長さ制限>、<エリアを返す配列>）
-		lineAbs(x0, y0, x1, y1, opt_limit = null, opt_retArea = null) {
-			const dir = degOf(x0, y0, x1, y1);
-			const roughSpan = Math.ceil(lenOf(x0, y0, x1, y1));
-			return this._linePre(x0, y0, x1, y1, dir, roughSpan, opt_limit, opt_retArea);
-		}
-
-		// （ライブラリ内だけで使用）線分をかく準備をする（始点x、y座標、終点x，y座標，終点方向、長さ、<長さ制限>、<エリアを返す配列>）
-		_linePre(x0, y0, x1, y1, dirEnd, roughSpan, opt_limit, opt_retArea) {
-			const { span, limitedSpan, paramT } = _lineLen(x0, y0, x1, y1, roughSpan, opt_limit, opt_retArea);
-
-			if (opt_limit === null) {
-			} else {
-				[x1, y1] = _linePoints(paramT, x0, y0, x1, y1);
-			}
-			if (this._edge) {
-				this._lineDraw(dirEnd, x0, y0, rad(dirEnd), x1, y1, span, limitedSpan, this._edge);
-			} else {
-				this._handler.lineOrMoveTo(x1, y1, dirEnd);
-			}
-			return limitedSpan;
-		}
-
-		// （ライブラリ内だけで使用）線分を実際にかく（終点方向、始点x、y座標、方向、終点x、y座標、長さ、制限長さ、エッジ）
-		_lineDraw(dirEnd, x0, y0, r, x1, y1, span, limitedSpan, edge) {
-			const nd = this._normalDir;
-			const nR = r + nd, nX = Math.cos(nR), nY = Math.sin(nR);
-
-			for (let i = 0, I = Math.ceil(limitedSpan); i <= I; i += 1) {
-				const t = i / I, tp = 1 - t;
-				const x = tp * x0 + t * x1, y = tp * y0 + t * y1;
-				const l = limitedSpan * t;
-
-				const nD = edge(l, span);
-				const nXd = nD * nX, nYd = nD * nY;
-				this._handler.lineOrMoveTo(x + nXd, y + nYd, dirEnd);
-			}
-		}
-
-
-		// -------------------------------- 二次ベジェ曲線
-
-
-		// 二次ベジェ曲線をかく（始点x、y座標、方向1、長さ1、方向2、長さ2、<長さ制限>、<エリアを返す配列>）
-		quadCurve(x0, y0, dir, dist0, deg0, dist1, opt_limit = null, opt_retArea = null) {
-			const r0 = rad(dir), r1 = rad(dir + deg0);
-			const x1 = x0 + dist0 * Math.cos(r0), y1 = y0 + dist0 * Math.sin(r0);
-			const x2 = x1 + dist1 * Math.cos(r1), y2 = y1 + dist1 * Math.sin(r1);
-			const roughSpan = Math.ceil(Math.abs(dist0) + Math.abs(dist1));
-			return this._quadCurvePre(x0, y0, x1, y1, x2, y2, dir + deg0, roughSpan, opt_limit, opt_retArea);
-		}
-
-		// 二次ベジェ曲線をかく（始点x、y座標、制御点x、y座標、終点x、y座標、<長さ制限>、<エリアを返す配列>）
-		quadCurveAbs(x0, y0, x1, y1, x2, y2, opt_limit = null, opt_retArea = null) {
-			const roughSpan = Math.ceil(lenOf(x0, y0, x1, y1) + lenOf(x1, y1, x2, y2));
-			return this._quadCurvePre(x0, y0, x1, y1, x2, y2, null, roughSpan, opt_limit, opt_retArea);
-		}
-
-		// （ライブラリ内だけで使用）二次ベジェ曲線をかく準備をする（始点x、y座標、制御点x、y、終点x、y座標、終点方向、長さ、<長さ制限>、<エリアを返す配列>）
-		_quadCurvePre(x0, y0, x1, y1, x2, y2, dirEnd, roughSpan, opt_limit, opt_retArea) {
-			const { span, limitedSpan, paramT } = _quadLen(x0, y0, x1, y1, x2, y2, roughSpan, opt_limit, opt_retArea);
-
-			if (opt_limit === null) {
-				if (dirEnd === null) dirEnd = degOf(x1, y1, x2, y2);
-			} else {
-				[x1, y1, x2, y2] = _quadPoints(paramT, x0, y0, x1, y1, x2, y2);
-				dirEnd = degOf(x1, y1, x2, y2);
-			}
-			if (this._edge) {
-				this._quadCurveDraw(dirEnd, x0, y0, x1, y1, x2, y2, span, limitedSpan, this._edge);
-			} else {
-				this._handler.quadCurveOrMoveTo(x1, y1, x2, y2, dirEnd);
-			}
-			return limitedSpan;
-		}
-
-		// （ライブラリ内だけで使用）二次ベジェ曲線を実際にかく（終点方向、始点x、y座標、ハンドルx、y座標、終点x、y座標、長さ、制限長さ、エッジ）
-		_quadCurveDraw(dirEnd, x0, y0, x1, y1, x2, y2, span, limitedSpan, edge) {
-			const nd = this._normalDir;
-			let px = x0, py = y0, l = 0;
-
-			for (let i = 1, I = Math.ceil(limitedSpan); i <= I; i += 1) {
-				const t = i / I, tp = 1 - t;
-				const k0 = tp * tp, k1 = 2 * t * tp, k2 = t * t;
-				const x = k0 * x0 + k1 * x1 + k2 * x2;
-				const y = k0 * y0 + k1 * y1 + k2 * y2;
-				const at = Math.atan2(y - py, x - px);
-				const de = (i === I) ? dirEnd : deg(at);
-				l += Math.sqrt((x - px) * (x - px) + (y - py) * (y - py));
-				px = x;
-				py = y;
-
-				const nD = edge(l, span);
-				if (0 !== nD) {
-					const nXd = nD * Math.cos(at + nd), nYd = nD * Math.sin(at + nd);
-					this._handler.lineOrMoveTo(x + nXd, y + nYd, de);
-				} else {
-					this._handler.lineOrMoveTo(x, y, de);
-				}
-			}
-		}
-
-
-		// -------------------------------- 三次ベジェ曲線
-
-
-		// 三次ベジェ曲線をかく（始点x、y座標、方向1、長さ1、方向2、長さ2、方向3、長さ3、<長さ制限>、<エリアを返す配列>）
-		bezierCurve(x0, y0, dir, dist0, deg0, dist1, deg1, dist2, opt_limit = null, opt_retArea = null) {
-			const r0 = rad(dir), r1 = rad(dir + deg0), r2 = rad(dir + deg0 + deg1);
-			const x1 = x0 + dist0 * Math.cos(r0), y1 = y0 + dist0 * Math.sin(r0);
-			const x2 = x1 + dist1 * Math.cos(r1), y2 = y1 + dist1 * Math.sin(r1);
-			const x3 = x2 + dist2 * Math.cos(r2), y3 = y2 + dist2 * Math.sin(r2);
-			const roughSpan = Math.ceil(Math.abs(dist0) + Math.abs(dist1) + Math.abs(dist2));
-			return this._bezierCurvePre(x0, y0, x1, y1, x2, y2, x3, y3, dir + deg0 + deg1, roughSpan, opt_limit, opt_retArea);
-		}
-
-		// 三次ベジェ曲線をかく（始点x、y座標、制御点1x、y座標、制御点2x、y座標、終点x、y座標、<長さ制限>、<エリアを返す配列>）
-		bezierCurveAbs(x0, y0, x1, y1, x2, y2, x3, y3, opt_limit = null, opt_retArea = null) {
-			const roughSpan = Math.ceil(lenOf(x0, y0, x1, y1) + lenOf(x1, y1, x2, y2) + lenOf(x2, y2, x3, y3));
-			return this._bezierCurvePre(x0, y0, x1, y1, x2, y2, x3, y3, null, roughSpan, opt_limit, opt_retArea);
-		}
-
-		// （ライブラリ内だけで使用）三次ベジェ曲線をかく準備をする（始点x、y座標、制御点1x、y、制御点2x、y、終点x、y座標、終点方向、長さ、<長さ制限>、<エリアを返す配列>）
-		_bezierCurvePre(x0, y0, x1, y1, x2, y2, x3, y3, dirEnd, roughSpan, opt_limit, opt_retArea) {
-			const { span, limitedSpan, paramT } = _bezierLen(x0, y0, x1, y1, x2, y2, x3, y3, roughSpan, opt_limit, opt_retArea);
-
-			if (opt_limit === null) {
-				if (dirEnd === null) dirEnd = degOf(x2, y2, x3, y3);
-			} else {
-				[x1, y1, x2, y2, x3, y3] = _bezierPoints(paramT, x0, y0, x1, y1, x2, y2, x3, y3);
-				dirEnd = degOf(x2, y2, x3, y3);
-			}
-			if (this._edge) {
-				this._bezierCurveDraw(dirEnd, x0, y0, x1, y1, x2, y2, x3, y3, span, limitedSpan, this._edge);
-			} else {
-				this._handler.bezierCurveOrMoveTo(x1, y1, x2, y2, x3, y3, dirEnd);
-			}
-			return limitedSpan;
-		}
-
-		// （ライブラリ内だけで使用）三次ベジェ曲線を実際にかく（終点方向、始点x、y座標、ハンドル1x、y座標、ハンドル2x、y座標、終点x、y座標、長さ、制限長さ、エッジ）
-		_bezierCurveDraw(dirEnd, x0, y0, x1, y1, x2, y2, x3, y3, span, limitedSpan, edge) {
-			const nd = this._normalDir;
-			let px = x0, py = y0, l = 0;
-
-			for (let i = 1, I = Math.ceil(limitedSpan); i <= I; i += 1) {
-				const t = i / I, tp = 1 - t;
-				const k0 = tp * tp * tp, k1 = 3 * t * tp * tp;
-				const k2 = 3 * t * t * tp, k3 = t * t * t;
-				const x = k0 * x0 + k1 * x1 + k2 * x2 + k3 * x3;
-				const y = k0 * y0 + k1 * y1 + k2 * y2 + k3 * y3;
-				const at = Math.atan2(y - py, x - px);
-				const de = (i === I) ? dirEnd : deg(at);
-				l += Math.sqrt((x - px) * (x - px) + (y - py) * (y - py));
-				px = x;
-				py = y;
-
-				const nD = edge(l, span);
-				if (0 !== nD) {
-					const nXd = nD * Math.cos(at + nd), nYd = nD * Math.sin(at + nd);
-					this._handler.lineOrMoveTo(x + nXd, y + nYd, de);
-				} else {
-					this._handler.lineOrMoveTo(x, y, de);
-				}
-			}
-		}
-
-
-		// -------------------------------- 円弧
-
-
-		// 円弧をかく（中心x、y座標、方向、横半径、たて半径、開始角度、終了角度、反時計回り？、長さ制限、<エリアを返す配列>）
-		arc(cx, cy, dir, w, h, deg0, deg1, anticlockwise = false, opt_limit = null, opt_retArea = null) {
-			if (-E < w && w < E) w = (0 < w) ? E : -E;
-			if (-E < h && h < E) h = (0 < h) ? E : -E;
-
-			deg0 %= 360;
-			deg1 %= 360;
-			if (Math.abs(deg0) > 180) deg0 += (deg0 < 0) ? 360 : -360
-			if (Math.abs(deg1) > 180) deg1 += (deg1 < 0) ? 360 : -360
-			if (anticlockwise) {  // 向きの考慮に必要
-				while (deg0 < deg1) deg1 -= 360;
-			} else {
-				while (deg1 < deg0) deg1 += 360;
-			}
-			if (deg0 === deg1) {
-				if (anticlockwise) deg1 -= 360;
-				else deg1 += 360;
-			}
-			if (dir == null) dir = 0;
-			const roughSpan = Math.PI * (w + h);
-			return this._arcPre(cx, cy, rad(dir), w, h, rad(deg0), rad(deg1), anticlockwise, roughSpan, opt_limit, opt_retArea);
-		}
-
-		// （ライブラリ内だけで使用）円弧をかく準備をする（中心x、y座標、方向ラジアン、横半径、たて半径、開始ラジアン、終了ラジアン、反時計回り？、長さ、<長さ制限>、<エリアを返す配列>）
-		_arcPre(cx, cy, dr, w, h, r0, r1, ac, roughSpan, opt_limit, opt_retArea) {
-			const { span, limitedSpan, paramT } = _arcLen(cx, cy, dr, w, h, r0, r1, roughSpan, opt_limit, opt_retArea);
-
-			if (opt_limit === null) {
-			} else {
-				const t = paramT, tp = 1 - t;
-				r1 = tp * r0 + t * r1;
-			}
-			// r1の角度を計算
-			const s1 = w * Math.cos(r1), t1 = h * Math.sin(r1);
-			const a1 = Math.atan2(-h * h * s1, w * w * t1) + (ac ? 0 : Math.PI);  // 時計回り、反時計回りの接線の傾き
-			const dirEnd = deg(dr) + deg(a1);
-
-			if (this._edge) {
-				this._arcDraw(dirEnd, cx, cy, dr, w, h, r0, r1, span, limitedSpan, this._edge);
-			} else {
-				// r1の座標を計算
-				const rsin = Math.sin(dr), rcos = Math.cos(dr);
-				const sp = s1 * rcos - t1 * rsin, tp = s1 * rsin + t1 * rcos;
-				this._handler.arcOrMoveTo(cx, cy, dr, w, h, r0, r1, ac, dirEnd, cx + sp, cy + tp);
-			}
-			return limitedSpan;
-		}
-
-		// （ライブラリ内だけで使用）円弧を実際にかく（終点方向、中心x、y座標、方向、横半径、たて半径、開始角度、終了角度、長さ、制限長さ、エッジ）
-		_arcDraw(dirEnd, cx, cy, dr, w, h, r0, r1, span, limitedSpan, edge) {
-			const nd = this._normalDir;
-			const rsin = Math.sin(dr), rcos = Math.cos(dr);
-			let px = w * Math.cos(r0), py = h * Math.sin(r0), l = 0;
-
-			for (let i = 1, I = Math.ceil(limitedSpan); i <= I; i += 1) {
-				const t = i / I, tp = 1 - t;
-				const r = tp * r0 + t * r1;
-				const x = w * Math.cos(r), y = h * Math.sin(r);
-				const at = Math.atan2(y - py, x - px);
-				const de = (i === I) ? dirEnd : deg(at + dr);
-				l += Math.sqrt((x - px) * (x - px) + (y - py) * (y - py));
-				px = x; py = y;
-
-				const nD = edge(l, span);
-				let nXd = 0, nYd = 0;
-				if (0 !== nD) {
-					nXd = nD * Math.cos(at + nd);
-					nYd = nD * Math.sin(at + nd);
-				}
-				const xr = cx + (x + nXd) * rcos - (y + nYd) * rsin;
-				const yr = cy + (x + nXd) * rsin + (y + nYd) * rcos;
-				this._handler.lineOrMoveTo(xr, yr, de);
-			}
-		}
-
-	}
-
-
+	//=
+	//=include _liner.js
 
 
 	// -------------------------------------------------------------------------
@@ -488,13 +209,12 @@ const PATH = (function () {
 	//=include _edge.js
 
 
-
-
-	// -------------------------------------------------------------------------
-	// ユーティリティ関数
-	// -------------------------------------------------------------------------
-
-
+	/**~ja
+	 * ユーティリティ関数 ---------------------------------------------------------
+	 */
+	/**~en
+	 * Utility functions -------------------------------------------------------
+	 */
 
 
 	// 円や弧をかく関数の引数を整える
@@ -539,16 +259,14 @@ const PATH = (function () {
 	};
 
 
+	/**~ja
+	 * ライブラリを作る
+	 */
+	/**~en
+	 * Create a library
+	 */
 
 
-	// -------------------------------------------------------------------------
-	// ライブラリを作る
-	// -------------------------------------------------------------------------
-
-
-
-
-	// ライブラリとして返す
 	return {
 		Liner,
 		makeDefaultHandler,

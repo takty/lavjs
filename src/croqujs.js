@@ -1,6 +1,6 @@
 ﻿//
 // クロッキー・ライブラリー（CROQUJS）
-// 日付: 2019-04-22
+// 日付: 2019-05-10
 // 作者: 柳田拓人（Space-Time Inc.）
 //
 // 絵をかくための紙を作るライブラリです。
@@ -88,14 +88,14 @@ const CROQUJS = (function () {
 
 
 
-	//
-	//=include _keyEventHandler.js
+	//=
+	//=include _key-handler.js
 
 
 
 
-	//
-	//=include _mouseEventHandler.js
+	//=
+	//=include _mouse-handler.js
 
 
 
