@@ -27,19 +27,19 @@ const STYLE = (function () {
 	'use strict';
 
 
-	//~
+	//=
 	//=include _style-base.js
 
 
-	//~
+	//=
 	//=include _shadow.js
 
 
-	//~
+	//=
 	//=include _fill.js
 
 
-	//~
+	//=
 	//=include _stroke.js
 
 
@@ -97,7 +97,7 @@ const STYLE = (function () {
 	};
 
 
-	//~
+	//=
 	//=include _color-table.js
 
 
