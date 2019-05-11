@@ -1,12 +1,12 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
  * @author Takuto Yanagida
- * @version 2019-05-07
+ * @version 2019-05-11
  */
 /**~en
  * Element (common to sprites and stages)
  * @author Takuto Yanagida
- * @version 2019-05-07
+ * @version 2019-05-11
  */
 class Element {
 
@@ -48,7 +48,7 @@ class Element {
 	/**~ja
 	 * x座標
 	 * @param {number=} val x座標の値
-	 * @return {number|Element} x座標の値かこの要素
+	 * @return {number|Element} x座標の値／この要素
 	 */
 	/**~en
 	 * X coordinate
@@ -64,7 +64,7 @@ class Element {
 	/**~ja
 	 * y座標
 	 * @param {number=} val y座標の値
-	 * @return {number|Element} y座標の値かこの要素
+	 * @return {number|Element} y座標の値／この要素
 	 */
 	/**~en
 	 * Y coordinate
@@ -80,7 +80,7 @@ class Element {
 	/**~ja
 	 * 方向
 	 * @param {number=} deg 角度の値
-	 * @return {number|Element} 角度の値かこの要素
+	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * Direction
@@ -117,7 +117,7 @@ class Element {
 	/**~ja
 	 * スケール
 	 * @param {number=} val スケールの値
-	 * @return {number|Element} スケールの値かこの要素
+	 * @return {number|Element} スケールの値／この要素
 	 */
 	/**~en
 	 * Scale
@@ -133,7 +133,7 @@ class Element {
 	/**~ja
 	 * アルファ
 	 * @param {number=} val アルファの値
-	 * @return {number|Element} アルファの値かこの要素
+	 * @return {number|Element} アルファの値／この要素
 	 */
 	/**~en
 	 * Alpha
@@ -149,7 +149,7 @@ class Element {
 	/**~ja
 	 * z軸を中心とする角度（向き）
 	 * @param {number=} deg 角度の値
-	 * @return {number|Element} 角度の値かこの要素
+	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * Angle around z axis (direction)
@@ -165,7 +165,7 @@ class Element {
 	/**~ja
 	 * x軸を中心とする角度（向き）
 	 * @param {number=} deg 角度の値
-	 * @return {number|Element} 角度の値かこの要素
+	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * Angle around x axis (direction)
@@ -181,7 +181,7 @@ class Element {
 	/**~ja
 	 * z軸を中心とする角度2（向き）
 	 * @param {number=} deg 角度の値
-	 * @return {number|Element} 角度の値かこの要素
+	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * 2nd angle around z axis (direction)
@@ -197,7 +197,7 @@ class Element {
 	/**~ja
 	 * 絵を描く方向を向きと関係なく固定するか？
 	 * @param {boolean=} val 値
-	 * @return {boolean|Element} 値かこの要素
+	 * @return {boolean|Element} 値／この要素
 	 */
 	/**~en
 	 * Whether is the drawing direction fixed regardless of the direction of the element?
@@ -213,7 +213,7 @@ class Element {
 	/**~ja
 	 * スピード
 	 * @param {number=} val スピード
-	 * @return {number|Element} スピードかこの要素 
+	 * @return {number|Element} スピード／この要素
 	 */
 	/**~en
 	 * Speed
@@ -229,7 +229,7 @@ class Element {
 	/**~ja
 	 * 方向スピード
 	 * @param {number=} val 方向スピード
-	 * @return {number|Element} 方向スピードかこの要素
+	 * @return {number|Element} 方向スピード／この要素
 	 */
 	/**~en
 	 * Angle speed
@@ -245,7 +245,7 @@ class Element {
 	/**~ja
 	 * 方向スピードx
 	 * @param {number=} val 方向スピード
-	 * @return {number|Element} 方向スピードかこの要素
+	 * @return {number|Element} 方向スピード／この要素
 	 */
 	/**~en
 	 * Angle speed x
@@ -261,7 +261,7 @@ class Element {
 	/**~ja
 	 * 方向スピードz
 	 * @param {number=} val 方向スピード
-	 * @return {number|Element} 方向スピードかこの要素
+	 * @return {number|Element} 方向スピード／この要素
 	 */
 	/**~en
 	 * Angle speed z
@@ -339,7 +339,7 @@ class Element {
 	/**~ja
 	 * 動き
 	 * @param {Motion=} val 動き
-	 * @return {Motion|Element} 動きかこの要素
+	 * @return {Motion|Element} 動き／この要素
 	 */
 	/**~en
 	 * Motion
@@ -355,12 +355,12 @@ class Element {
 	/**~ja
 	 * コンテキストの座標変換とアルファ値をセットする（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx レンダリング・コンテキスト
+	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Set context transformation and alpha value (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx Rendering context
+	 * @param {CanvasRenderingContext2D} ctx Canvas context
 	 */
 	_setTransformation(ctx) {
 		ctx.translate(this._x, this._y);

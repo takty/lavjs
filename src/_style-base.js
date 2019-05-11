@@ -1,10 +1,10 @@
 /**~ja
- * スタイル（ストローク・フィル共通）
- * @version 2019-05-10
+ * スタイル・ベース（ストローク・フィル共通）
+ * @version 2019-05-11
  */
 /**~en
- * Style (Common to stroke and fill)
- * @version 2019-05-10
+ * Style base (Common to stroke and fill)
+ * @version 2019-05-11
  */
 class StyleBase {
 

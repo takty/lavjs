@@ -4,7 +4,7 @@
  * 絵をかくときの線やぬりのスタイルを簡単に設定することができるようにするためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2019-05-10
+ * @version 2019-05-11
  */
 /**~en
  * Style library (STYLE)
@@ -12,7 +12,7 @@
  * A library to make it easy to set the style of strokes and filling when painting
  *
  * @author Takuto Yanagida
- * @version 2019-05-10
+ * @version 2019-05-11
  */
 
 
@@ -43,12 +43,8 @@ const STYLE = (function () {
 	//=include _stroke.js
 
 
-	/**~ja
-	 * ユーティリティ関数 ---------------------------------------------------------
-	 */
-	/**~en
-	 * Utility functions -------------------------------------------------------
-	 */
+	//~ja ユーティリティ関数 ------------------------------------------------------
+	//~en Utility functions -------------------------------------------------------
 
 
 	/**~ja
@@ -101,12 +97,8 @@ const STYLE = (function () {
 	//=include _color-table.js
 
 
-	/**~ja
-	 * ライブラリを作る
-	 */
-	/**~en
-	 * Create a library
-	 */
+	//~ja ライブラリを作る --------------------------------------------------------
+	//~en Create a library --------------------------------------------------------
 
 
 	return { Shadow, Fill, Stroke, augment };

@@ -14,7 +14,7 @@
  * and display them in the size, orientation, and transparency you like.
  *
  * @author Takuto Yanagida
- * @version 2019-05-10
+ * @version 2019-05-11
  */
 
 
@@ -29,12 +29,8 @@ const SPRITE = (function () {
 	'use strict';
 
 
-	/**~ja
-	 * ライブラリ中だけで使用するユーティリティ ---------------------------------------
-	 */
-	/**~en
-	 * Utilities used only in the library --------------------------------------
-	 */
+	//~ja ライブラリ中だけで使用するユーティリティ --------------------------------
+	//~en Utilities used only in the library --------------------------------------
 
 
 	/**~ja
@@ -114,12 +110,8 @@ const SPRITE = (function () {
 	//=include _stage.js
 
 
-	/**~ja
-	 * ユーティリティ関数 ---------------------------------------------------------
-	 */
-	/**~en
-	 * Utility functions -------------------------------------------------------
-	 */
+	//~ja ユーティリティ関数 ------------------------------------------------------
+	//~en Utility functions -------------------------------------------------------
 
 
 	/**~ja
@@ -152,12 +144,8 @@ const SPRITE = (function () {
 	};
 
 
-	/**~ja
-	 * ライブラリを作る
-	 */
-	/**~en
-	 * Create a library
-	 */
+	//~ja ライブラリを作る --------------------------------------------------------
+	//~en Create a library --------------------------------------------------------
 
 
 	return { Stage, Sprite, makePlotFunction };

@@ -308,27 +308,23 @@ const RULER = (function () {
 	}
 
 
+	//~ja ライブラリを作る --------------------------------------------------------
+	//~en Create a library --------------------------------------------------------
 
 
-	// =========================================================================
-	// ライブラリを作る
-	// =========================================================================
-
-
-
-
-	// 関数の別名
+	//~ja 関数の別名
+	//~en Function alias
 	const aliasMap = {
 	};
 
-	// 関数の別名を登録する
+	//~ja 関数の別名を登録する
+	//~en Register function alias
 	for (const [orig, aliases] of Object.entries(aliasMap)) {
 		for (let alias of aliases) {
 			Ruler.prototype[alias] = Ruler.prototype[orig];
 		}
 	}
 
-	// ライブラリとして返す
 	return { Ruler };
 
 }());

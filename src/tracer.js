@@ -403,13 +403,13 @@ const TRACER = (function () {
 
 
 	class Command {
-		
+
 		// （ライブラリ内だけで使用）コマンドを作る（関数）
 		constructor(func) {
 			this._func = func;
 			this._initState = null;
 		}
-	
+
 		// （ライブラリ内だけで使用）コマンドを実行する（進める時間）
 		run(deltaT) {
 			const pc = this._func(deltaT);
@@ -419,16 +419,12 @@ const TRACER = (function () {
 	}
 
 
+	//~ja ライブラリを作る --------------------------------------------------------
+	//~en Create a library --------------------------------------------------------
 
 
-	// -------------------------------------------------------------------------
-	// ライブラリを作る
-	// -------------------------------------------------------------------------
-
-
-
-
-	// 関数の別名
+	//~ja 関数の別名
+	//~en Function alias
 	const aliases = {
 		go: ['forward', 'fd'],
 		back: ['bk', 'backward'],
@@ -443,14 +439,14 @@ const TRACER = (function () {
 		getDirectionOf: ['towards'],
 	};
 
-	// 関数の別名を登録する
+	//~ja 関数の別名を登録する
+	//~en Register function alias
 	Object.keys(aliases).forEach((p) => {
 		aliases[p].forEach((a) => {
 			Tracer.prototype[a] = Tracer.prototype[p];
 		});
 	});
 
-	// ライブラリとして返す
 	return { Tracer };
 
 }());

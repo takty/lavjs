@@ -1,69 +1,99 @@
-//
-// タートル・ライブラリ（TURTLE）
-// 日付: 2019-04-22
-// 作者: 柳田拓人（Space-Time Inc.）
-//
-// カメを動かして、絵をかくためのライブラリです。
-//
+/**~ja
+ * タートル・ライブラリ（TURTLE）
+ *
+ * カメを動かして、絵をかくためのライブラリです。
+ *
+ * @author Takuto Yanagida
+ * @version 2019-05-11
+ */
+/**~en
+ * Turtle library (TURTLE)
+ *
+ * A library for moving the turtle and drawing pictures.
+ *
+ * @author Takuto Yanagida
+ * @version 2019-05-11
+ */
 
 
-// ライブラリ変数
+/**~ja
+ * ライブラリ変数
+ */
+/**~en
+ * Library variable
+ */
 const TURTLE = (function () {
 
 	'use strict';
 
 
+	//~ja ライブラリ中だけで使用するユーティリティ --------------------------------
+	//~en Utilities used only in the library --------------------------------------
 
 
-	// -------------------------------------------------------------------------
-	// ライブラリ中だけで使用するユーティリティ
-	// -------------------------------------------------------------------------
-
-
-
-
-	// 角度をラジアンにする
+	/**~ja
+	 * 角度をラジアンにする
+	 * @param {number} deg 角度
+	 * @return {number} ラジアン
+	 */
+	/**~en
+	 * Convert degree to radian
+	 * @param {number} deg Degree
+	 * @return {number} Radian
+	 */
 	const rad = function (deg) {
 		return deg * Math.PI / 180.0;
 	};
 
-	// 角度を0～360度の範囲にする
+	/**~ja
+	 * 角度を0～360度の範囲にする
+	 * @param {number} deg 角度
+	 * @return {number} 角度
+	 */
+	/**~en
+	 * Make an angle between 0 to 360 degrees
+	 * @param {number} deg Degree
+	 * @return {number} Degree
+	 */
 	const checkDegRange = function (deg) {
 		deg %= 360;
 		if (deg < 0) deg += 360;
 		return deg;
 	};
 
-	// 影をセットする
-	const setShadow = function (ctx, blur, off, color = 'rgba(0,0,0,0.5)') {
-		ctx.shadowBlur = blur;
-		ctx.shadowOffsetX = ctx.shadowOffsetY = off;
-		ctx.shadowColor = color;
-	};
-
-
-
 
 	//=
 	//=include _turtle-base.js
-
-
 
 
 	//=
 	//=include _turtle.js
 
 
+	//~ja ユーティリティ関数 ------------------------------------------------------
+	//~en Utility functions -------------------------------------------------------
 
 
-	// -------------------------------------------------------------------------
-	// ユーティリティ関数
-	// -------------------------------------------------------------------------
-
-
-
-
-	// タートルを使ってかく関数からスタンプ（高速に絵をかく関数）を作ります（スタンプの横幅、たて幅、スタンプの中心x座標、y座標、拡大率、関数）
+	/**~ja
+	 * タートルを使ってかく関数からスタンプ（高速に絵をかく関数）を作る
+	 * @param {number} width スタンプの横幅
+	 * @param {number} height スタンプのたて幅
+	 * @param {number} cx スタンプの中心x座標
+	 * @param {number} cy スタンプの中心y座標
+	 * @param {number} scale 拡大率
+	 * @param {function} func 関数
+	 * @return {function} スタンプの関数
+	 */
+	/**~en
+	 * Create a stamp (a function that draws a picture at high speed) from a function drawn using a turtle
+	 * @param {number} width Width of stamp
+	 * @param {number} height Height of stamp
+	 * @param {number} cx Center x coordinate of stamp
+	 * @param {number} cy Center y coordinate of stamp
+	 * @param {number} scale Scaling rate
+	 * @param {function} func Function
+	 * @return {function} Stamp function
+	 */
 	const makeStamp = function (width, height, cx, cy, scale, func) {
 		let curArgs = null, cacheCtx = null, cacheT = null;
 
@@ -92,16 +122,12 @@ const TURTLE = (function () {
 	};
 
 
+	//~ja ライブラリを作る --------------------------------------------------------
+	//~en Create a library --------------------------------------------------------
 
 
-	// -------------------------------------------------------------------------
-	// ライブラリを作る
-	// -------------------------------------------------------------------------
-
-
-
-
-	// 関数の別名
+	//~ja 関数の別名
+	//~en Function alias
 	const aliasMap = {
 		go            : ['forward', 'fd'],
 		back          : ['bk', 'backward'],
@@ -118,7 +144,8 @@ const TURTLE = (function () {
 		penUp         : ['pu', 'up'],
 	};
 
-	// 関数の別名を登録する
+	//~ja 関数の別名を登録する
+	//~en Register function alias
 	for (let target of [Turtle, TurtleBase]) {
 		for (const [orig, aliases] of Object.entries(aliasMap)) {
 			for (let alias of aliases) {
@@ -127,7 +154,6 @@ const TURTLE = (function () {
 		}
 	}
 
-	// ライブラリとして返す
 	return { Turtle, TurtleBase, makeStamp };
 
 }());
