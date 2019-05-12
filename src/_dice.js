@@ -1,12 +1,12 @@
 /**~ja
  * 基本サイコロ
  * @author Takuto Yanagida
- * @version 2019-05-06
+ * @version 2019-05-12
  */
 /**~en
- * DiceBase
+ * Dice base
  * @author Takuto Yanagida
- * @version 2019-05-06
+ * @version 2019-05-12
  */
 class DiceBase {
 

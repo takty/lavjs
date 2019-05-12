@@ -1,10 +1,19 @@
-//
-// パス・ライブラリ（PATH）
-// 日付: 2019-05-11
-// 作者: 柳田拓人（Space-Time Inc.）
-//
-// 図形のパスを作るためのライブラリです。
-//
+/**~ja
+ * パス・ライブラリ（PATH）
+ *
+ * 図形のパスを作るためのライブラリです。
+ *
+ * @author Takuto Yanagida
+ * @version 2019-05-12
+ */
+/**~en
+ * Path library (PATH)
+ *
+ * A library to make the path of the shape.
+ *
+ * @author Takuto Yanagida
+ * @version 2019-05-12
+ */
 
 
 /**~ja
@@ -25,7 +34,16 @@ const PATH = (function () {
 	// 最小値
 	const E = 0.0000000000001;
 
-	// 角度をラジアンにする
+	/**~ja
+	 * 角度をラジアンにする
+	 * @param {number} deg 角度
+	 * @return {number} ラジアン
+	 */
+	/**~en
+	 * Convert degree to radian
+	 * @param {number} deg Degree
+	 * @return {number} Radian
+	 */
 	const rad = function (deg) {
 		return deg * Math.PI / 180.0;
 	};
