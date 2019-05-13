@@ -1,14 +1,23 @@
 /**~ja
  * 直交座標モーション
- * @version 2019-05-12
+ * @version 2019-05-14
  */
 /**~en
  * Axis coordinate motion
- * @version 2019-05-12
+ * @version 2019-05-14
  */
 class AxisMotion {
 
-	// 直交座標モーションを作る
+	/**~ja
+	 * 直交座標モーションを作る
+	 * @param {number=} [speedX=0] 横方向のスピード
+	 * @param {number=} [speedY=0] たて方向のスピード
+	 */
+	/**~en
+	 * Make an axis coordinate motion
+	 * @param {number=} [speedX=0] Horizontal speed
+	 * @param {number=} [speedY=0] Vertical speed
+	 */
 	constructor(speedX = 0, speedY = 0) {
 		this._speedX = speedX;
 		this._speedY = speedY;
@@ -16,31 +25,86 @@ class AxisMotion {
 		this._checkRangeY = null;
 	};
 
-	// 横方向のスピード（<値>）
+	/**~ja
+	 * 横方向のスピード
+	 * @param {number=} val 値
+	 * @return {number|AxisMotion} 値／このモーション
+	 */
+	/**~en
+	 * Horizontal speed
+	 * @param {number=} val Value
+	 * @return {number|AxisMotion} Value, or this motion
+	 */
 	speedX(val) {
 		if (val === undefined) return this._speedX;
 		this._speedX = val;
 		return this;
 	}
 
-	// たて方向のスピード（<値>）
+	/**~ja
+	 * たて方向のスピード
+	 * @param {number=} val 値
+	 * @return {number|AxisMotion} 値／このモーション
+	 */
+	/**~en
+	 * Vertical speed
+	 * @param {number=} val Value
+	 * @return {number|AxisMotion} Value, or this motion
+	 */
 	speedY(val) {
 		if (val === undefined) return this._speedY;
 		this._speedY = val;
 		return this;
 	}
 
-	// 横方向の範囲をセットする（始まり、終わり、ループする？）
+	/**~ja
+	 * 横方向の範囲をセットする
+	 * @param {number} min 始まり
+	 * @param {number} max 終わり
+	 * @param {boolean} isLoop ループする？
+	 */
+	/**~en
+	 * Set the horizontal range
+	 * @param {number} min Beginning
+	 * @param {number} max End
+	 * @param {boolean} isLoop Whether to loop
+	 */
 	setRangeX(min, max, isLoop) {
 		this._checkRangeX = makeRangeChecker(min, max, isLoop);
 	}
 
-	// たて方向の範囲をセットする（始まり、終わり、ループする？）
+	/**~ja
+	 * たて方向の範囲をセットする
+	 * @param {number} min 始まり
+	 * @param {number} max 終わり
+	 * @param {boolean} isLoop ループする？
+	 */
+	/**~en
+	 * Set the vertical range
+	 * @param {number} min Beginning
+	 * @param {number} max End
+	 * @param {boolean} isLoop Whether to loop
+	 */
 	setRangeY(min, max, isLoop) {
 		this._checkRangeY = makeRangeChecker(min, max, isLoop);
 	}
 
-	// スピードに合わせて座標を更新する
+	/**~ja
+	 * スピードに合わせて座標を更新する
+	 * @param {number} x 横の場所
+	 * @param {number} y たての場所
+	 * @param {number} dir 方向
+	 * @param {number} unitTime 単位時間
+	 * @return {Array<number>} 座標
+	 */
+	/**~en
+	 * Update coordinates according to the speed
+	 * @param {number} x X coordinate
+	 * @param {number} y Y coordinate
+	 * @param {number} dir Direction
+	 * @param {number} unitTime Unit time
+	 * @return {Array<number>} Coordinate
+	 */
 	update(x, y, dir, unitTime) {
 		x += valueFunction(this._speedX, unitTime);
 		y += valueFunction(this._speedY, unitTime);
