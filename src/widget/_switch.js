@@ -1,13 +1,25 @@
-// -------------------------------------------------------------------------
-// スイッチ（WIDGET.Switch)
-// -------------------------------------------------------------------------
-
-
-
-
-// スイッチ（ボタン数 or ボタンの名前配列、現在のボタン）
+/**~ja
+ * スイッチ
+ * @author Takuto Yanagida
+ * @version 2019-05-14
+ */
+/**~en
+ * Switch
+ * @author Takuto Yanagida
+ * @version 2019-05-14
+ */
 class Switch extends Widget {
 
+	/**~ja
+	 * スイッチを作る
+	 * @param {number} [num_or_names=3] ボタン数／ボタンの名前配列
+	 * @param {number} [cur=0] 現在のボタン
+	 */
+	/**~en
+	 * Make a switch
+	 * @param {number} [num_or_names=3] Number of buttons, or an array of button names
+	 * @param {number} [cur=0] Index of currently selected button
+	 */
 	constructor(num_or_names = 3, cur = 0) {
 		super();
 		if (Array.isArray(num_or_names) && num_or_names.length === 0) num_or_names = ['?'];
@@ -42,13 +54,32 @@ class Switch extends Widget {
 		}, 100);
 	}
 
+	/**~ja
+	 * 現在の値
+	 * @param {boolean} val 現在の値
+	 * @return {boolean|Toggle} 現在の値／このスイッチ
+	 */
+	/**~en
+	 * Current value
+	 * @param {boolean} val Current value
+	 * @return {boolean|Toggle} Current value, or this switch
+	 */
 	value(val) {
 		if (val === undefined) return this._value;
 		this._value = val;
 		return this;
 	}
 
-	// プッシュ・イベントに対応する関数をセットする
+	/**~ja
+	 * プッシュ・イベントに対応する関数
+	 * @param {function(boolean, number)} handler 関数
+	 * @return {function(boolean, number)|Toggle} 関数／このスイッチ
+	 */
+	/**~en
+	 * Function handling to push events
+	 * @param {function(boolean, number)} handler Function
+	 * @return {function(boolean, number)|Toggle} Function, or this switch
+	 */
 	onPushed(handler) {
 		if (handler === undefined) return this._onPushed;
 		this._onPushed = handler;

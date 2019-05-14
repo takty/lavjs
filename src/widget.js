@@ -1,13 +1,27 @@
-//
-// ウィジェット・ライブラリー（WIDGET）
-// 日付: 2019-04-22
-// 作者: 柳田拓人（Space-Time Inc.）
-//
-// 様々なウィジェット（コントロール）を使えるようにします。
-//
+/**~ja
+ * ウィジェット・ライブラリ（WIDGET）
+ *
+ * 様々なウィジェット（コントロール）を使えるようにするライブラリです。
+ *
+ * @author Takuto Yanagida
+ * @version 2019-05-14
+ */
+/**~en
+ * Widget library (WIDGET)
+ *
+ * A library that allows you to use various widgets (controls).
+ *
+ * @author Takuto Yanagida
+ * @version 2019-05-14
+ */
 
 
-// ライブラリ変数
+/**~ja
+ * ライブラリ変数
+ */
+/**~en
+ * Library variable
+ */
 const WIDGET = (function () {
 
 	'use strict';
@@ -28,6 +42,12 @@ const WIDGET = (function () {
 
 	let isBaseStyleAssigned = false;
 
+	/**~ja
+	 * ベース・スタイルを登録する
+	 */
+	/**~en
+	 * Register base style
+	 */
 	const ensureBaseStyle = function () {
 		if (isBaseStyleAssigned) return;
 		_addStyle(`

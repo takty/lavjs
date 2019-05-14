@@ -1,11 +1,16 @@
-// -------------------------------------------------------------------------
-// グラフ（WIDGET.Chart)
-// -------------------------------------------------------------------------
+/**~ja
+ * グラフ
+ * @author Takuto Yanagida
+ * @version 2019-05-14
+ */
+/**~en
+ * Chart
+ * @author Takuto Yanagida
+ * @version 2019-05-14
+ */
 
 
-
-
-const CHART_ITEM_COLORS = [
+ const CHART_ITEM_COLORS = [
 	'rgb(91, 155, 213)',
 	'rgb(237, 125, 49)',
 	'rgb(165, 165, 165)',
@@ -20,9 +25,18 @@ const CHART_ITEM_COLORS = [
 	'rgb(67, 104, 43)',
 ];
 
-// グラフ（横幅、縦幅）
 class Chart extends Widget {
 
+	/**~ja
+	 * グラフを作る
+	 * @param {number} [width=300] 横幅
+	 * @param {number} [height=150] たて幅
+	 */
+	/**~en
+	 * Make a chart
+	 * @param {number} [width=300] Width
+	 * @param {number} [height=150] Height
+	 */
 	constructor(width = 300, height = 150) {
 		super(width, height);
 
@@ -33,7 +47,8 @@ class Chart extends Widget {
 			this._draw(this._legendWidth);
 		};
 		this._base.appendChild(this._can);
-		// 以下はbaseに追加した後に行うこと（offsetWidth/Heightは追加後でないと取得できない）
+		//~ja 以下はbaseに追加した後に行うこと（offsetWidth/Heightは追加後でないと取得できない）
+		//~en Do the following after adding to base (offsetWidth/Height can not be acquired without adding)
 		this._can.setAttribute('width', this._can.offsetWidth);
 		this._can.setAttribute('height', this._can.offsetHeight);
 
@@ -48,14 +63,38 @@ class Chart extends Widget {
 		this._digits = 1;
 	}
 
+	/**~ja
+	 * 凡例の幅をセットする
+	 * @param {number} px 幅
+	 */
+	/**~en
+	 * Set the width of legend
+	 * @param {number} px Width
+	 */
 	setLegendWidth(px) {
 		this._legendWidth = px;
 	}
 
+	/**~ja
+	 * 桁数をセットする
+	 * @param {number} num 桁数
+	 */
+	/**~en
+	 * Set digits
+	 * @param {number} num Digits
+	 */
 	setDigits(num) {
 		this._digits = num;
 	}
 
+	/**~ja
+	 * 項目の設定をセットする
+	 * @param {dict} items 項目の設定
+	 */
+	/**~en
+	 * Set item configurations
+	 * @param {dict} items Item configuration
+	 */
 	setItems(items) {
 		// items = {key1: {name: 'name1', style: 'style1'}, key2: {}, ...}
 		this._items = {};
@@ -76,6 +115,14 @@ class Chart extends Widget {
 		}
 	}
 
+	/**~ja
+	 * データを追加する
+	 * @param {dict} data データ
+	 */
+	/**~en
+	 * Add data
+	 * @param {dict} data Data
+	 */
 	addData(data) {
 		for (let key of this._keys) {
 			const v = data[key];
@@ -86,6 +133,16 @@ class Chart extends Widget {
 		this._draw(this._legendWidth);
 	}
 
+	/**~ja
+	 * 絵をかく
+	 * @private
+	 * @param {number} legendWidth 凡例の幅
+	 */
+	/**~en
+	 * Draw a picture
+	 * @private
+	 * @param {number} legendWidth Width of legend
+	 */
 	_draw(legendWidth) {
 		const c = this._can.getContext('2d');
 		c.clearRect(0, 0, this._can.width, this._can.height);
@@ -100,6 +157,18 @@ class Chart extends Widget {
 		}
 	}
 
+	/**~ja
+	 * 凡例をかく
+	 * @private
+	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {number} legendWidth 凡例の幅
+	 */
+	/**~en
+	 * Draw a legend
+	 * @private
+	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {number} legendWidth Width of legend
+	 */
 	_drawLegend(c, legendWidth) {
 		c.font = '16px sans-serif';
 		let y = 0;
@@ -121,6 +190,20 @@ class Chart extends Widget {
 		}
 	}
 
+	/**~ja
+	 * フォーマットする
+	 * @private
+	 * @param {number} digits 桁数
+	 * @param {number} val 値
+	 * @return {string} フォーマットされた文字列
+	 */
+	/**~en
+	 * Format
+	 * @private
+	 * @param {number} digits Number of digits
+	 * @param {number} val Value
+	 * @return {string} Formatted string
+	 */
 	_format(digits, val) {
 		if (digits === 0) {
 			return (0 | val) + '';
@@ -136,6 +219,26 @@ class Chart extends Widget {
 		}
 	}
 
+	/**~ja
+	 * わくをかく
+	 * @private
+	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {number} left 横の場所
+	 * @param {number} cx 横の幅
+	 * @param {number} cy たての幅
+	 * @param {number} min 最小値
+	 * @param {number} max 最大値
+	 */
+	/**~en
+	 * Draw a frame
+	 * @private
+	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {number} left X coordinate
+	 * @param {number} cx Width
+	 * @param {number} cy Height
+	 * @param {number} min Minimum value
+	 * @param {number} max Maximum value
+	 */
 	_drawFrame(c, left, cx, cy, min, max) {
 		c.strokeStyle = 'Black';
 		c.beginPath();
@@ -152,6 +255,26 @@ class Chart extends Widget {
 		}
 	}
 
+	/**~ja
+	 * 全データ表示モードの絵をかく
+	 * @private
+	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {number} left 横の場所
+	 * @param {number} cx 横の幅
+	 * @param {number} cy たての幅
+	 * @param {number} min 最小値
+	 * @param {number} max 最大値
+	 */
+	/**~en
+	 * Draw a picture on all data mode
+	 * @private
+	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {number} left X coordinate
+	 * @param {number} cx Width
+	 * @param {number} cy Height
+	 * @param {number} min Minimum value
+	 * @param {number} max Maximum value
+	 */
 	_drawAllDataMode(c, left, cx, cy, min, max) {
 		for (let key of this._keys) {
 			const ds = this._data[key];
@@ -179,6 +302,26 @@ class Chart extends Widget {
 		}
 	}
 
+	/**~ja
+	 * スクロール・モードの絵をかく
+	 * @private
+	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {number} left 横の場所
+	 * @param {number} cx 横の幅
+	 * @param {number} cy たての幅
+	 * @param {number} min 最小値
+	 * @param {number} max 最大値
+	 */
+	/**~en
+	 * Draw a picture on scroll mode
+	 * @private
+	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {number} left X coordinate
+	 * @param {number} cx Width
+	 * @param {number} cy Height
+	 * @param {number} min Minimum value
+	 * @param {number} max Maximum value
+	 */
 	_drawScrollMode(c, left, cx, cy, min, max) {
 		for (let key of this._keys) {
 			const ds = this._data[key];
