@@ -1,10 +1,10 @@
 /**~ja
  * 定規
- * @version 2019-05-12
+ * @version 2019-05-14
  */
 /**~en
  * Ruler
- * @version 2019-05-12
+ * @version 2019-05-14
  */
 class Ruler {
 
@@ -17,8 +17,14 @@ class Ruler {
 	 * @param {Paper|CanvasRenderingContext2D} context Paper of canvas context
 	 */
 	constructor(context) {
-		if (!PATH) throw new Error('Pathライブラリが必要です。');
+		//@ifdef ja
 		if (!STYLE) throw new Error('Styleライブラリが必要です。');
+		if (!PATH) throw new Error('Pathライブラリが必要です。');
+		//@endif
+		//@ifdef en
+		if (!STYLE) throw new Error('Style library is needed.');
+		if (!PATH) throw new Error('Path library is needed.');
+		//@endif
 
 		this._x = 0;
 		this._y = 0;
@@ -58,6 +64,18 @@ class Ruler {
 		this._edge = null;
 	}
 
+	/**~ja
+	 * エリアをリセットする
+	 * @private
+	 * @param {number} x x座標（横の場所）
+	 * @param {number} y y座標（たての場所）
+	 */
+	/**~en
+	 * Reset the area
+	 * @private
+	 * @param {number} x X coordinate
+	 * @param {number} y Y coordinate
+	 */
 	_resetArea(x, y) {
 		this._area.fromX = this._area.left = this._area.right = x;
 		this._area.fromY = this._area.top = this._area.bottom = y;
@@ -67,21 +85,48 @@ class Ruler {
 		this._beginY = y;
 	}
 
-	// 今の状態を保存する（<コンテキストの状態も保存するか？>）
+	/**~ja
+	 * 今の状態を保存する
+	 * @param {boolean=} [opt_saveContext=false] コンテキストの状態も保存するか？
+	 * @return {TurtleBase} このタートル・ベース
+	 */
+	/**~en
+	 * Save the current state
+	 * @param {boolean=} [opt_saveContext=false] Whether to save context state too
+	 * @return {TurtleBase} This turtle base
+	 */
 	save(opt_saveContext = false) {
 		if (opt_saveContext === true) this._ctx.save();
 		this._stack.push(this._getState());
 		return this;
 	}
 
-	// 前の状態を復元する（<コンテキストの状態も復元するか？>）
+	/**~ja
+	 * 前の状態を復元する
+	 * @param {boolean=} [opt_restoreContext=false] コンテキストの状態も復元するか？
+	 * @return {TurtleBase} このタートル・ベース
+	 */
+	/**~en
+	 * Restore previous state
+	 * @param {boolean=} [opt_restoreContext=false] Whether to restore context state too
+	 * @return {TurtleBase} This turtle base
+	 */
 	restore(opt_restoreContext = false) {
 		this._setState(this._stack.pop());
 		if (opt_restoreContext === true) this._ctx.restore();
 		return this;
 	}
 
-	// （ライブラリ内だけで使用）状態を取得する
+	/**~ja
+	 * 状態を取得する（ライブラリ内だけで使用）
+	 * @private
+	 * @return {Array} 状態
+	 */
+	/**~en
+	 * Get state (used only in the library)
+	 * @private
+	 * @return {Array} State
+	 */
 	_getState() {
 		return [
 			this._x, this._y,  // 以下、順番に依存関係あり
@@ -94,7 +139,16 @@ class Ruler {
 		];
 	}
 
-	// （ライブラリ内だけで使用）状態を設定する（状態、ペンの状態を設定するか？）
+	/**~ja
+	 * 状態を設定する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {Array} t 状態
+	 */
+	/**~en
+	 * Set state (used only in the library)
+	 * @private
+	 * @param {Array} t State
+	 */
 	_setState(t) {
 		this._x = t[0]; this._y = t[1];
 		this._beginX = t[2]; this._beginY = t[3];
@@ -110,21 +164,48 @@ class Ruler {
 	//~en Change of drawing state -------------------------------------------------
 
 
-	// 線スタイル（<設定する線スタイル>）
+	/**~ja
+	 * 線スタイル
+	 * @param {Stroke=} opt_stroke 設定する線スタイル（オプション）
+	 * @return {Stroke|TurtleBase} 線スタイル／このタートル・ベース
+	 */
+	/**~en
+	 * Stroke style
+	 * @param {Stroke=} opt_stroke Stroke style (optional)
+	 * @return {Stroke|TurtleBase} Stroke style, or this turtle base
+	 */
 	stroke(opt_stroke) {
 		if (opt_stroke === undefined) return this._stroke;
 		this._stroke = new STYLE.Stroke(opt_stroke);
 		return this;
 	}
 
-	// ぬりスタイル（<設定するぬりスタイル>）
+	/**~ja
+	 * ぬりスタイル
+	 * @param {Fill=} opt_fill 設定するぬりスタイル（オプション）
+	 * @return {Fill|TurtleBase} ぬりスタイル／このタートル・ベース
+	 */
+	/**~en
+	 * Filling style
+	 * @param {Fill=} opt_fill Filling style (optional)
+	 * @return {Fill|TurtleBase} Filling style, or this turtle base
+	 */
 	fill(opt_fill) {
 		if (opt_fill === undefined) return this._fill;
 		this._fill = new STYLE.Fill(opt_fill);
 		return this;
 	}
 
-	// エッジ（<エッジを決める関数>）
+	/**~ja
+	 * エッジ
+	 * @param {function=} func エッジを決める関数
+	 * @return {function|TurtleBase} エッジ／このタートル・ベース
+	 */
+	/**~en
+	 * Edge
+	 * @param {function=} func Function to determine the edge
+	 * @return {function|TurtleBase} Edge, or this turtle base
+	 */
 	edge(func) {
 		if (func === undefined) return this._liner.edge();
 		this._liner.edge(func);
@@ -136,7 +217,14 @@ class Ruler {
 	//~en Context operation -------------------------------------------------------
 
 
-	// キャンバス・コンテキストを返す
+	/**~ja
+	 * キャンバス・コンテキストを返す
+	 * @return {CanvasRenderingContext2D} キャンバス・コンテキスト
+	 */
+	/**~en
+	 * Get canvas context
+	 * @return {CanvasRenderingContext2D} Canvas context
+	 */
 	context() {
 		return this._ctx;
 	}
@@ -146,16 +234,38 @@ class Ruler {
 	//~en Draw a shape ------------------------------------------------------------
 
 
+	/**~ja
+	 * パスを始める
+	 */
+	/**~en
+	 * Begin a path
+	 */
 	beginPath() {
 		this._ctx.beginPath();
 		this._toBeResetArea = true;
 		this._hasPath = false;
 	}
 
+	/**~ja
+	 * パスを閉じる
+	 */
+	/**~en
+	 * Close the path
+	 */
 	closePath() {
 		this.lineTo(this._beginX, this._beginY);
 	}
 
+	/**~ja
+	 * 移動する
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 */
+	/**~en
+	 * Move to
+	 * @param {number} x X coordinate
+	 * @param {number} y Y coordinate
+	 */
 	moveTo(x, y) {
 		this._ctx.moveTo(x, y);
 		this._x = x;
@@ -163,6 +273,16 @@ class Ruler {
 		this._hasPath = true;
 	}
 
+	/**~ja
+	 * 線分をかく
+	 * @param {number} x1 終点x座標
+	 * @param {number} y1 終点y座標
+	 */
+	/**~en
+	 * Draw a line
+	 * @param {number} x1 X coordinate of end point
+	 * @param {number} y1 Y coordinate of end point
+	 */
 	lineTo(x1, y1) {
 		if (!this._hasPath) {
 			this.moveTo(x1, y1);
@@ -173,6 +293,20 @@ class Ruler {
 		this._liner.lineAbs(x0, y0, x1, y1, null, this._area);
 	}
 
+	/**~ja
+	 * 二次ベジェ曲線をかく
+	 * @param {number} x1 ハンドルx座標
+	 * @param {number} y1 ハンドルy座標
+	 * @param {number} x2 終点x座標
+	 * @param {number} y2 終点y座標
+	 */
+	/**~en
+	 * Draw a quadratic Bezier curve
+	 * @param {number} x1 X coordinate of handle
+	 * @param {number} y1 Y coordinate of handle
+	 * @param {number} x2 X coordinate of end point
+	 * @param {number} y2 Y coordinate of end point
+	 */
 	quadraticCurveTo(x1, y1, x2, y2) {
 		if (!this._hasPath) this.moveTo(x1, y1);
 		const { _x: x0, _y: y0 } = this;
@@ -180,6 +314,24 @@ class Ruler {
 		this._liner.quadCurveAbs(x0, y0, x1, y1, x2, y2, null, this._area);
 	}
 
+	/**~ja
+	 * 三次ベジェ曲線をかく
+	 * @param {*} x1 ハンドル1x座標
+	 * @param {*} y1 ハンドル1y座標
+	 * @param {*} x2 ハンドル2x座標
+	 * @param {*} y2 ハンドル2y座標
+	 * @param {*} x3 終点x座標
+	 * @param {*} y3 終点y座標
+	 */
+	/**~en
+	 * Draw a cubic Bezier curve
+	 * @param {*} x1 X coordinate of handle 1
+	 * @param {*} y1 Y coordinate of handle 1
+	 * @param {*} x2 X coordinate of handle 2
+	 * @param {*} y2 Y coordinate of handle 2
+	 * @param {*} x3 X coordinate of end point
+	 * @param {*} y3 Y coordinate of end point
+	 */
 	bezierCurveTo(x1, y1, x2, y2, x3, y3) {
 		if (!this._hasPath) this.moveTo(x1, y1);
 		const { _x: x0, _y: y0 } = this;
@@ -187,6 +339,24 @@ class Ruler {
 		this._liner.bezierCurveAbs(x0, y0, x1, y1, x2, y2, x3, y3, null, this._area);
 	}
 
+	/**~ja
+	 * 円弧をかく
+	 * @param {number} cx 中心x座標
+	 * @param {number} cy 中心y座標
+	 * @param {number} radius 半径
+	 * @param {number} startAngle 開始角度
+	 * @param {number} endAngle 終了角度
+	 * @param {boolean=} [anticlockwise=false] 反時計回り？
+	 */
+	/**~en
+	 * Draw an arc
+	 * @param {number} cx X coordinate of center
+	 * @param {number} cy Y coordinate of center
+	 * @param {number} radius Radius
+	 * @param {number} startAngle Start angle
+	 * @param {number} endAngle End angle
+	 * @param {boolean=} [anticlockwise=false] Whether it is counterclockwise
+	 */
 	arc(cx, cy, radius, startAngle, endAngle, anticlockwise = false) {
 		const x0 = cx + radius * Math.cos(rad(startAngle));
 		const y0 = cy + radius * Math.sin(rad(startAngle));
@@ -202,6 +372,28 @@ class Ruler {
 	arcTo() {
 	}
 
+	/**~ja
+	 * 円をかく
+	 * @param {number} x 中心x座標
+	 * @param {number} y 中心y座標
+	 * @param {number} radiusX 横半径
+	 * @param {number} radiusY たて半径
+	 * @param {number} rotation 回転
+	 * @param {number} startAngle 開始角度
+	 * @param {number} endAngle 終了角度
+	 * @param {boolean=} [anticlockwise=false] 反時計回り？
+	 */
+	/**~en
+	 * Draw a circle
+	 * @param {number} x X coordinate of center
+	 * @param {number} y Y coordinate of center
+	 * @param {number} radiusX Width
+	 * @param {number} radiusY Height
+	 * @param {number} rotation Rotation
+	 * @param {number} startAngle Start angle
+	 * @param {number} endAngle End angle
+	 * @param {boolean=} [anticlockwise=false] Whether it is counterclockwise
+	 */
 	ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise = false) {
 		const s0 = radiusX * Math.cos(rad(startAngle)), t0 = radiusY * Math.sin(rad(startAngle));
 		const rsin = Math.sin(rad(rotation)), rcos = Math.cos(rad(rotation));
@@ -216,7 +408,20 @@ class Ruler {
 		this._liner.arc(x, y, rotation, radiusX, radiusY, startAngle, endAngle, anticlockwise, null, this._area);
 	}
 
-	// 四角形をかく（x座標、y座標、横幅，たて幅）
+	/**~ja
+	 * 四角形をかく
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 * @param {number} width 横幅
+	 * @param {number} height たて幅
+	 */
+	/**~en
+	 * Draw a rectangle
+	 * @param {number} x X coordinate
+	 * @param {number} y Y coordinate
+	 * @param {number} width Width
+	 * @param {number} height Height
+	 */
 	rect(x, y, width, height) {
 		this._resetArea(x, y);
 		this._ctx.beginPath();
@@ -228,6 +433,14 @@ class Ruler {
 		this._liner.line(x, y + height, -90, height, null, this._area);
 	}
 
+	/**~ja
+	 * 実際にかく
+	 * @param {string} mode モード
+	 */
+	/**~en
+	 * Actually draw
+	 * @param {string} mode Mode
+	 */
 	draw(mode) {
 		let ms = mode;
 		if (ms.match(/(fill|stroke|clip|none)/)) {
@@ -249,10 +462,28 @@ class Ruler {
 	}
 
 
-	// -------------------------------- 直接描画関数
+	//~ja 直接描画関数 ------------------------------------------------------------
+	//~en Direct drawing functions ------------------------------------------------
 
 
-	// 円をかく（中心x座標、y座標、半径（配列の時は横とたての半径）、<向き>、<終了角度（配列の時は開始と終了の角度）>、<反時計回り？>）
+	/**~ja
+	 * 円をかく
+	 * @param {number} cx 中心x座標
+	 * @param {number} cy 中心y座標
+	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
+	 * @param {number=} [opt_dir=0] 方向
+	 * @param {number=|Array<number>} [opt_deg=360] 角度（配列なら開始角度と終了角度）
+	 * @param {boolean=} [opt_anticlockwise=false] 反時計回り？
+	 */
+	/**~en
+	 * Draw a circle
+	 * @param {number} cx X coordinate of center
+	 * @param {number} cy Y coordinate of center
+	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number=} [opt_dir=0] Direction
+	 * @param {number=|Array<number>} [opt_deg=360] Degree (start and end angles if an array given)
+	 * @param {boolean=} [opt_anticlockwise=false] Whether it is counterclockwise
+	 */
 	circle(cx, cy, r, opt_dir = 0, opt_deg = 360, opt_anticlockwise = false) {
 		const p = PATH.arrangeArcParams(r, opt_deg, 1);
 
@@ -267,7 +498,20 @@ class Ruler {
 		this._liner.arc(cx, cy, opt_dir, p.w, p.h, p.deg0, p.deg1, opt_anticlockwise, null, this._area);
 	};
 
-	// 線をかく（始点x座標、y座標、終点x座標、y座標）
+	/**~ja
+	 * 線をかく
+	 * @param {number} fromX 始点x座標
+	 * @param {number} fromY 始点y座標
+	 * @param {number} toX 終点x座標
+	 * @param {number} toY 終点y座標
+	 */
+	/**~en
+	 * Draw a line
+	 * @param {number} fromX X coordinate of start point
+	 * @param {number} fromY Y coordinate of start point
+	 * @param {number} toX X coordinate of end point
+	 * @param {number} toY Y coordinate of end point
+	 */
 	line(fromX, fromY, toX, toY) {
 		const dr = Math.atan2(toY - fromY, toX - fromX);
 		const dest = Math.sqrt((toX - fromX) * (toX - fromX) + (toY - fromY) * (toY - fromY));

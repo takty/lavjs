@@ -1,27 +1,38 @@
 /**~ja
  * トレーサー
- * @version 2019-05-12
+ * @version 2019-05-14
  */
 /**~en
  * Tracer
- * @version 2019-05-12
+ * @version 2019-05-14
  */
 class Tracer {
 
-	// トレーサーを作る
+	/**~ja
+	 * トレーサーを作る
+	 */
+	/**~en
+	 * Make a tracer
+	 */
 	constructor() {
+		//@ifdef ja
 		if (!PATH) throw new Error('Pathライブラリが必要です。');
+		//@endif
+		//@ifdef en
+		if (!PATH) throw new Error('Path library is needed.');
+		//@endif
 
 		this._cmdQueue = [];
 		this._remainTime = 0;
 
-		this._stack = [];  // 状態を保存するスタック
+		this._stack = [];
 
-		// 以下の変数は値を直接変えないこと
-		this._x       = 0;  // x座標
-		this._y       = 0;  // y座標
-		this._dir     = 0;  // 方向（角度）
-		this._step    = 1;  // 1歩の長さ
+		//~ja 以下の変数は値を直接変えないこと
+		//~en Do not change the following variables directly
+		this._x       = 0;
+		this._y       = 0;
+		this._dir     = 0;
+		this._step    = 1;
 		this._homeX   = 0;
 		this._homeY   = 0;
 		this._homeDir = 0;
@@ -42,21 +53,44 @@ class Tracer {
 		});
 	}
 
-	// 今の状態を保存する
+	/**~ja
+	 * 今の状態を保存する
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Save the current state
+	 * @return {Tracer} This tracer
+	 */
 	save() {
 		const t = this._getState();
 		this._stack.push(t);
 		return this;
 	}
 
-	// 前の状態を復元する
+	/**~ja
+	 * 前の状態を復元する
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Restore previous state
+	 * @return {Tracer} This tracer
+	 */
 	restore() {
 		const t = this._stack.pop();
 		this._setState(t);
 		return this;
 	}
 
-	// （ライブラリ内だけで使用）状態を取得する
+	/**~ja
+	 * 状態を取得する（ライブラリ内だけで使用）
+	 * @private
+	 * @return {Array} 状態
+	 */
+	/**~en
+	 * Get state (used only in the library)
+	 * @private
+	 * @return {Array} State
+	 */
 	_getState() {
 		return [
 			this._x, this._y, this._dir,  // 以下、順番に依存関係あり
@@ -66,7 +100,16 @@ class Tracer {
 		];
 	}
 
-	// （ライブラリ内だけで使用）状態を設定する（状態）
+	/**~ja
+	 * 状態を設定する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {Array} t 状態
+	 */
+	/**~en
+	 * Set state (used only in the library)
+	 * @private
+	 * @param {Array} t State
+	 */
 	_setState(t) {
 		this._changePos(t[0], t[1], t[2]);  // 以下、順番に依存関係あり
 		this.step(t[3]);
@@ -74,7 +117,20 @@ class Tracer {
 		this._homeX = t[5]; this._homeY = t[6]; this._homeDir = t[7];
 	}
 
-	// （ライブラリ内だけで使用）場所や方向を変える時に呼ばれる
+	/**~ja
+	 * 場所や方向を変える時に呼ばれる（ライブラリ内だけで使用）
+	 * @private
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 * @param {number=} opt_deg 方向（オプション）
+	 */
+	/**~en
+	 * Called when changing places and directions (used only in the library)
+	 * @private
+	 * @param {number} x x coordinate
+	 * @param {number} y y coordinate
+	 * @param {number=} opt_deg Degree (optional)
+	 */
 	_changePos(x, y, opt_deg) {
 		this._x = x;
 		this._y = y;
@@ -82,10 +138,20 @@ class Tracer {
 	}
 
 
-	// -------------------------------- 場所か方向の変化
+	//~ja 場所か方向の変化 --------------------------------------------------------
+	//~en Change of place or direction --------------------------------------------
 
 
-	// 前に進む（歩数）
+	/**~ja
+	 * 前に進む
+	 * @param {number} step 歩数
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Go forward
+	 * @param {number} step Number of steps
+	 * @return {Tracer} This tracer
+	 */
 	go(step) {
 		this._addCommand((limit) => {
 			return this._liner.line(this._x, this._y, this._dir - 90, step * this._step, limit);
@@ -93,12 +159,30 @@ class Tracer {
 		return this;
 	}
 
-	// 後ろに戻る（歩数）
+	/**~ja
+	 * 後ろに戻る
+	 * @param {number} step 歩数
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Go back
+	 * @param {number} step Number of steps
+	 * @return {Tracer} This tracer
+	 */
 	back(step) {
 		return this.go(-step);  // 前に進むことの逆
 	}
 
-	// 右に回る（角度）
+	/**~ja
+	 * 右に回る
+	 * @param {number} deg 角度
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Turn right
+	 * @param {number} deg Degree
+	 * @return {Tracer} This tracer
+	 */
 	turnRight(deg) {
 		this._addCommand((limit) => {
 			return this._doTurn(deg, limit);
@@ -106,12 +190,34 @@ class Tracer {
 		return this;
 	}
 
-	// 左に回る（角度）
+	/**~ja
+	 * 左に回る
+	 * @param {number} deg 角度
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~em
+	 * Turn left
+	 * @param {number} deg Degree
+	 * @return {Tracer} This tracer
+	 */
 	turnLeft(deg) {
 		return this.turnRight(-deg);  // 右に回ることの逆
 	}
 
-	// （ライブラリ内だけで使用）方向を変える
+	/**~ja
+	 * 実際に方向を変える（ライブラリ内だけで使用）
+	 * @private
+	 * @param {number} deg 角度
+	 * @param {number} limit 制限
+	 * @return {number} 実際に動いた量
+	 */
+	/**~en
+	 * Actually change direction (used only in the library)
+	 * @private
+	 * @param {number} deg Degree
+	 * @param {number} limit Limitation
+	 * @return {number} Amount actually moved
+	 */
 	_doTurn(deg, limit) {
 		const sign = deg < 0 ? -1 : 1;
 		let limDeg;
@@ -124,28 +230,68 @@ class Tracer {
 		return sign * limDeg;
 	}
 
-	// x座標（<値>）
+	/**~ja
+	 * x座標（横の場所）
+	 * @param {number=} val 値
+	 * @return x座標／このトレーサー
+	 */
+	/**~en
+	 * X coordinate
+	 * @param {number=} val Value
+	 * @return X coordinate, or this tracer
+	 */
 	x(val) {
 		if (val === undefined) return this._x;
 		this._addCommand((limit) => { this._changePos(val, this._y); });
 		return this;
 	}
 
-	// y座標（<値>）
+	/**~ja
+	 * y座標（たての場所）
+	 * @param {number=} val 値
+	 * @return y座標／このトレーサー
+	 */
+	/**~en
+	 * Y coordinate
+	 * @param {number=} val Value
+	 * @return Y coordinate, or this tracer
+	 */
 	y(val) {
 		if (val === undefined) return this._y;
 		this._addCommand((limit) => { this._changePos(this._x, val); });
 		return this;
 	}
 
-	// 方向（<角度>）
+	/**~ja
+	 * 方向
+	 * @param {number=} deg 角度
+	 * @return 角度／このトレーサー
+	 */
+	/**~en
+	 * Direction
+	 * @param {number=} deg Degree
+	 * @return Degree, or this tracer
+	 */
 	direction(deg) {
 		if (deg === undefined) return this._dir;
 		this._addCommand((limit) => { this._changePos(this._x, this._y, deg); });
 		return this;
 	}
 
-	// 移動する（x座標、y座標、<方向>）
+	/**~ja
+	 * 移動する
+	 * @param {number} x x座標（横の場所）
+	 * @param {number} y y座標（たての場所）
+	 * @param {number=} opt_dir 方向（オプション）
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Move to
+	 * @param {number} x X coordinate
+	 * @param {number} y Y coordinate
+	 * @param {number=} opt_dir Direction (optional)
+	 * @return {Tracer} This tracer
+	 */
 	moveTo(x, y, opt_dir) {
 		this._addCommand((limit) => {
 			this._changePos(x, y);
@@ -154,12 +300,26 @@ class Tracer {
 		return this;
 	}
 
-	// ホームに帰る（最初の場所と方向に戻る）
+	/**~ja
+	 * ホームに帰る（最初の場所と方向に戻る）
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Go back to home (Return to the first place and direction)
+	 * @return {Tracer} This tracer
+	 */
 	home() {
 		return this.moveTo(this._homeX, this._homeY, this._homeDir);
 	}
 
-	// 今の場所をホームに
+	/**~ja
+	 * 今の場所をホームに
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Set your current location to 'home'
+	 * @return {Tracer} This tracer
+	 */
 	setHome() {
 		this._addCommand(() => {
 			this._homeX   = this._x;
@@ -170,10 +330,28 @@ class Tracer {
 	}
 
 
-	// -------------------------------- 場所と方向の変化
+	//~ja 場所と方向の変化 --------------------------------------------------------
+	//~en Change of place and direction -------------------------------------------
 
 
-	// 右にカーブする（歩数1、角度1、歩数2<、角度2、歩数3>）
+	/**~ja
+	 * 右にカーブする
+	 * @param {number} step0 歩数1
+	 * @param {number} deg 角度1
+	 * @param {number} step1 歩数2
+	 * @param {number=} opt_deg 角度2（オプション）
+	 * @param {number=} opt_step 歩数3（オプション）
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Curve to the right
+	 * @param {number} step0 Number of steps 1
+	 * @param {number} deg Degree 1
+	 * @param {number} step1 Number of steps 2
+	 * @param {number=} opt_deg Degree 2 (optional)
+	 * @param {number=} opt_step Number of steps 3 (optional)
+	 * @return {Tracer} This tracer
+	 */
 	curveRight(step0, deg, step1, opt_deg, opt_step) {
 		this._addCommand((limit) => {
 			return this._doCurve(step0, deg, step1, opt_deg, opt_step, limit);
@@ -181,7 +359,24 @@ class Tracer {
 		return this;
 	}
 
-	// 左にカーブする（歩数1、角度1、歩数2<、角度2、歩数3>）
+	/**~ja
+	 * 左にカーブする
+	 * @param {number} step0 歩数1
+	 * @param {number} deg 角度1
+	 * @param {number} step1 歩数2
+	 * @param {number=} opt_deg 角度2（オプション）
+	 * @param {number=} opt_step 歩数3（オプション）
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Curve to the left
+	 * @param {number} step0 Number of steps 1
+	 * @param {number} deg Degree 1
+	 * @param {number} step1 Number of steps 2
+	 * @param {number=} opt_deg Degree 2 (optional)
+	 * @param {number=} opt_step Number of steps 3 (optional)
+	 * @return {Tracer} This tracer
+	 */
 	curveLeft(step0, deg, step1, opt_deg, opt_step) {
 		if (opt_deg === undefined) {
 			return this.curveRight(step0, -deg, step1);
@@ -190,7 +385,28 @@ class Tracer {
 		}
 	}
 
-	// （ライブラリ内だけで使用）実際にカーブする
+	/**~ja
+	 * 実際にカーブする（ライブラリ内だけで使用）
+	 * @private
+	 * @param {number} step0 歩数1
+	 * @param {number} deg 角度1
+	 * @param {number} step1 歩数2
+	 * @param {number=} opt_deg 角度2（オプション）
+	 * @param {number=} opt_step 歩数3（オプション）
+	 * @param {number} limit 制限
+	 * @return {number} 実際に動いた量
+	 */
+	/**~en
+	 * Actually curve (used only in the library)
+	 * @private
+	 * @param {number} step0 Number of steps 1
+	 * @param {number} deg Degree 1
+	 * @param {number} step1 Number of steps 2
+	 * @param {number=} opt_deg Degree 2 (optional)
+	 * @param {number=} opt_step Number of steps 3 (optional)
+	 * @param {number} limit Limitation
+	 * @return {number} Amount actually moved
+	 */
 	_doCurve(step0, deg, step1, opt_deg, opt_step, limit) {
 		const s = this._step;
 		if (opt_deg === undefined) {
@@ -200,26 +416,80 @@ class Tracer {
 		}
 	}
 
-	// 右に曲がる弧をかく（半径（配列なら横半径とたて半径）、角度（配列なら開始角度と終了角度））
+	/**~ja
+	 * 右に曲がる弧をかく
+	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
+	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Draw an arc that turns to the right
+	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @return {Tracer} This tracer
+	 */
 	arcRight(r, deg) {
 		this._arcPrep(r, deg, false);
 		return this;
 	}
 
-	// 左に曲がる弧をかく（半径（配列なら横半径とたて半径）、角度（配列なら開始角度と終了角度））
+	/**~ja
+	 * 左に曲がる弧をかく
+	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
+	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Draw an arc that turns to the left
+	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @return {Tracer} This tracer
+	 */
 	arcLeft(r, deg) {
 		this._arcPrep(r, deg, true);
 		return this;
 	}
 
-	// （ライブラリ内だけで使用）弧をかく
+	/**~ja
+	 * 弧をかく（ライブラリ内だけで使用）
+	 * @private
+	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
+	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {boolean} isLeft 左かどうか
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Draw an arc (used only in the library)
+	 * @private
+	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {boolean} isLeft Whether it is left
+	 * @return {Tracer} This tracer
+	 */
 	_arcPrep(r, deg, isLeft) {
 		this._addCommand((limit) => {
 			return this._doArc(r, deg, isLeft, limit);
 		});
 	}
 
-	// （ライブラリ内だけで使用）実際に弧をかく
+	/**~ja
+	 * 実際に弧をかく（ライブラリ内だけで使用）
+	 * @private
+	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
+	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {boolean} isLeft 左かどうか
+	 * @param {number} limit 制限
+	 * @return {number} 実際に動いた量
+	 */
+	/**~en
+	 * Actually draw an arc (used only in the library)
+	 * @private
+	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {boolean} isLeft Whether it is left
+	 * @param {number} limit Limitation
+	 * @return {number} Amount actually moved
+	 */
 	_doArc(r, deg, isLeft, limit) {
 		const p = PATH.arrangeArcParams(r, deg, this._step);
 		let rev = 0;
@@ -230,7 +500,9 @@ class Tracer {
 		} else {
 			p.deg0 = p.deg0 + 180;
 			p.deg1 = p.deg1 + 180;
-			rev = Math.PI;  // 時計回りの接線の傾きなのでPIを足す（逆向きにする）
+			//~ja 時計回りの接線の傾きなのでPIを足す（逆向きにする）
+			//~en Since it is the inclination of the tangent in the clockwise direction, add PI
+			rev = Math.PI;
 		}
 		const r0 = rad(p.deg0);
 		const s0 = p.w * Math.cos(r0), t0 = p.h * Math.sin(r0);
@@ -245,40 +517,93 @@ class Tracer {
 	}
 
 
-	// -------------------------------- その他
+	//~ja その他 ------------------------------------------------------------------
+	//~en Others ------------------------------------------------------------------
 
 
-	// 1歩の長さ（<値>）
+	/**~ja
+	 * 1歩の長さ
+	 * @param {number=} val 値
+	 * @return {number|Tracer} 1歩の長さ／このトレーサー
+	 */
+	/**~en
+	 * Length per step
+	 * @param {number=} val Value
+	 * @return {number|Tracer} Length per step, or this tracer
+	 */
 	step(val) {
 		if (val === undefined) return this._step;
 		this._addCommand(() => { this._step = val; });
 		return this;
 	}
 
-	// エッジ（<エッジを決める関数>）
+	/**~ja
+	 * エッジ
+	 * @param {function=} func エッジを決める関数
+	 * @return {function|Tracer} エッジ／このトレーサー
+	 */
+	/**~en
+	 * Edge
+	 * @param {function=} func Function to determine the edge
+	 * @return {function|Tracer} Edge, or this tracer
+	 */
 	edge(func) {
 		if (func === undefined) return this._liner.edge();
 		this._addCommand(() => { this._liner.edge(func); });
 		return this;
 	}
 
-	// 今の場所から見て、ある場所がどの角度かを返す（ある場所の座標x、y）
+	/**~ja
+	 * 今の場所から見て、ある場所がどの角度かを返す
+	 * @param {number} x ある場所のx座標（横の場所）
+	 * @param {number} y ある場所のy座標（たての場所）
+	 * @return {number} 角度
+	 */
+	/**~en
+	 * Seeing from the current location, what direction is there
+	 * @param {number} x X coordinate of a place
+	 * @param {number} y Y coordinate of a place
+	 * @return {number} Degree
+	 */
 	getDirectionOf(x, y) {
 		return (Math.atan2(y - this._y, x - this._x) * 180.0 / Math.PI - this._dir - 90);
 	}
 
 
-	// -------------------------------- アニメーション
+	//~ja アニメーション ----------------------------------------------------------
+	//~en Animation ---------------------------------------------------------------
 
 
-	// 後で実行する（関数、<関数に渡す引数>）
+	/**~ja
+	 * 後で実行する
+	 * @param {function} func 関数
+	 * @param {Array=} args_array 関数に渡す引数
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Run later
+	 * @param {function} func Function
+	 * @param {Array=} args_array Arguments to pass to the function
+	 * @return {Tracer} This tracer
+	 */
 	doLater(func, args_array) {
 		const fn = function () { func.apply(this, args_array); };
 		this._addCommand(fn);
 		return this;
 	}
 
-	// 直ぐに実行する（関数、<関数に渡す引数>）
+	/**~ja
+	 * 直ぐに実行する
+	 * @param {function} func 関数
+	 * @param {Array=} args_array 関数に渡す引数
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Run immediately
+	 * @param {function} func Function
+	 * @param {Array=} args_array Arguments to pass to the function
+	 * @return {Tracer} This tracer
+	 */
 	doNow(func, args_array) {
 		const fn = function () { func.apply(this, args_array); };
 
@@ -296,17 +621,48 @@ class Tracer {
 		return this;
 	}
 
-	// （ライブラリ内だけで使用）コマンドを追加する（関数）
+	/**~ja
+	 * コマンドを追加する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {function} func 関数
+	 */
+	/**~en
+	 * Add command (used only in the library)
+	 * @private
+	 * @param {function} func Function
+	 */
 	_addCommand(func) {
 		this._cmdQueue.push(new Command(func));
 	}
 
-	// アニメーションを次に進める（フレーム数）
+	/**~ja
+	 * アニメーションを次に進める
+	 * @param {number} num フレーム数
+	 */
+	/**~en
+	 * Step the animation next
+	 * @param {number} num Number of frames
+	 */
 	stepNext(num) {
 		this.update(this._x, this._y, this._dir, num);
 	}
 
-	// スピードに合わせて座標を更新する
+	/**~ja
+	 * スピードに合わせて座標を更新する
+	 * @param {number} x x座標（横の場所）
+	 * @param {number} y y座標（たての場所）
+	 * @param {number} dir 方向
+	 * @param {number} unitTime 単位時間
+	 * @return {Array<number>} 座標
+	 */
+	/**~en
+	 * Update coordinates according to the speed
+	 * @param {number} x X coordinate
+	 * @param {number} y Y coordinate
+	 * @param {number} dir Direction
+	 * @param {number} unitTime Unit time
+	 * @return {Array<number>} Coordinate
+	 */
 	update(x, y, dir, unitTime) {
 		if (this._x !== x || this._y !== y || this._dir !== dir) {
 			this.cancel();
@@ -332,7 +688,14 @@ class Tracer {
 		return [this._x, this._y, this._dir];
 	}
 
-	// 現在の動きをキャンセルする
+	/**~ja
+	 * 現在の動きをキャンセルする
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Cancel the current motion
+	 * @return {Tracer} This tracer
+	 */
 	cancel() {
 		if (0 < this._cmdQueue.length) {
 			const c = this._cmdQueue[0];
@@ -345,7 +708,14 @@ class Tracer {
 		return this;
 	}
 
-	// すべての動きを止める
+	/**~ja
+	 * すべての動きを止める
+	 * @return {Tracer} このトレーサー
+	 */
+	/**~en
+	 * Stop all motion
+	 * @return {Tracer} This tracer
+	 */
 	stop() {
 		this._cmdQueue.length = 0;
 		this._remainTime = 0;

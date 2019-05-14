@@ -88,8 +88,8 @@ const TURTLE = (function () {
 	 * Create a stamp (a function that draws a picture at high speed) from a function drawn using a turtle
 	 * @param {number} width Width of stamp
 	 * @param {number} height Height of stamp
-	 * @param {number} cx Center x coordinate of stamp
-	 * @param {number} cy Center y coordinate of stamp
+	 * @param {number} cx X coordinate of center of stamp
+	 * @param {number} cy Y coordinate of center of stamp
 	 * @param {number} scale Scaling rate
 	 * @param {function} func Function
 	 * @return {function} Stamp function

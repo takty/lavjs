@@ -1,10 +1,10 @@
 /**~ja
  * タートル・ベース
- * @version 2019-05-11
+ * @version 2019-05-14
  */
 /**~en
  * Turtle base
- * @version 2019-05-11
+ * @version 2019-05-14
  */
 class TurtleBase {
 
@@ -33,12 +33,12 @@ class TurtleBase {
 
 		//~ja 以下の変数は値を直接変えないこと
 		//~en Do not change the following variables directly
-		this._x = 0;
-		this._y = 0;
-		this._dir = 0;
-		this._step = 1;
-		this._homeX = 0;
-		this._homeY = 0;
+		this._x       = 0;
+		this._y       = 0;
+		this._dir     = 0;
+		this._step    = 1;
+		this._homeX   = 0;
+		this._homeY   = 0;
 		this._homeDir = 0;
 
 		this._liner = new PATH.Liner({
@@ -89,12 +89,12 @@ class TurtleBase {
 
 	/**~ja
 	 * 今の状態を保存する
-	 * @param {boolean} [opt_saveContext=false] コンテキストの状態も保存するか？
+	 * @param {boolean=} [opt_saveContext=false] コンテキストの状態も保存するか？
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Save the current state
-	 * @param {boolean} [opt_saveContext=false] Whether to save context state too
+	 * @param {boolean=} [opt_saveContext=false] Whether to save context state too
 	 * @return {TurtleBase} This turtle base
 	 */
 	save(opt_saveContext = false) {
@@ -105,12 +105,12 @@ class TurtleBase {
 
 	/**~ja
 	 * 前の状態を復元する
-	 * @param {boolean} [opt_restoreContext=false] コンテキストの状態も復元するか？
+	 * @param {boolean=} [opt_restoreContext=false] コンテキストの状態も復元するか？
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Restore previous state
-	 * @param {boolean} [opt_restoreContext=false] Whether to restore context state too
+	 * @param {boolean=} [opt_restoreContext=false] Whether to restore context state too
 	 * @return {TurtleBase} This turtle base
 	 */
 	restore(opt_restoreContext = false) {
@@ -380,7 +380,7 @@ class TurtleBase {
 	}
 
 	/**~ja
-	 * x座標
+	 * x座標（横の場所）
 	 * @param {number=} val 値
 	 * @return x座標／このタートル・ベース
 	 */
@@ -395,7 +395,7 @@ class TurtleBase {
 	}
 
 	/**~ja
-	 * y座標
+	 * y座標（たての場所）
 	 * @param {number=} val 値
 	 * @return y座標／このタートル・ベース
 	 */
@@ -731,25 +731,9 @@ class TurtleBase {
 	}
 
 	/**~ja
-	 * エッジ
-	 * @param {function=} func エッジを決める関数
-	 * @return {function|TurtleBase} エッジ／このタートル・ベース
-	 */
-	/**~en
-	 * Edge
-	 * @param {function=} func Function to determine the edge
-	 * @return {function|TurtleBase} Edge, or this turtle base
-	 */
-	edge(func) {
-		if (func === undefined) return this._liner.edge();
-		this._liner.edge(func);
-		return this;
-	}
-
-	/**~ja
 	 * 今の場所から見て、ある場所がどの角度かを返す
-	 * @param {number} x ある場所のx座標
-	 * @param {number} y ある場所のy座標
+	 * @param {number} x ある場所のx座標（横の場所）
+	 * @param {number} y ある場所のy座標（たての場所）
 	 * @return {number} 角度
 	 */
 	/**~en
@@ -875,8 +859,8 @@ class TurtleBase {
 	/**~en
 	 * Actually draw a circle (used only in the library)
 	 * @private
-	 * @param {number} cx Center x coordinate
-	 * @param {number} cy Center y coordinate
+	 * @param {number} cx X coordinate of center
+	 * @param {number} cy Y coordinate of center
 	 * @param {dict} p Parameters
 	 * @param {boolean} anticlockwise Whether it is counterclockwise
 	 * @param {number} limit Limitation
@@ -927,8 +911,8 @@ class TurtleBase {
 	/**~en
 	 * Draw an image
 	 * @param {Image|Paper|CanvasRenderingContext2D} image Image, paper, or canvas context
-	 * @param {number} cx Center x coordinate
-	 * @param {number} cy Center y coordinate
+	 * @param {number} cx X coordinate of center
+	 * @param {number} cy Y coordinate of center
 	 * @param {number=} [scale=1] Scale
 	 */
 	image(image, cx, cy, scale = 1) {
@@ -1114,6 +1098,22 @@ class TurtleBase {
 	fill(opt_fill) {
 		if (opt_fill === undefined) return this._fill;
 		this._fill = new STYLE.Fill(opt_fill);
+		return this;
+	}
+
+	/**~ja
+	 * エッジ
+	 * @param {function=} func エッジを決める関数
+	 * @return {function|TurtleBase} エッジ／このタートル・ベース
+	 */
+	/**~en
+	 * Edge
+	 * @param {function=} func Function to determine the edge
+	 * @return {function|TurtleBase} Edge, or this turtle base
+	 */
+	edge(func) {
+		if (func === undefined) return this._liner.edge();
+		this._liner.edge(func);
 		return this;
 	}
 

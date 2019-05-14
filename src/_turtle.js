@@ -384,8 +384,8 @@ class Turtle extends TurtleBase {
 	/**~en
 	 * Actually draw a circle (used only in the library)
 	 * @private
-	 * @param {number} cx Center x coordinate
-	 * @param {number} cy Center y coordinate
+	 * @param {number} cx X coordinate of center
+	 * @param {number} cy Y coordinate of center
 	 * @param {dict} p Parameters
 	 * @param {boolean} anticlockwise Whether it is counterclockwise
 	 * @param {number} limit Limitation

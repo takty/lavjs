@@ -93,8 +93,8 @@ class PolarMotion {
 
 	/**~ja
 	 * スピードに合わせて座標を更新する
-	 * @param {number} x 横の場所
-	 * @param {number} y たての場所
+	 * @param {number} x x座標（横の場所）
+	 * @param {number} y y座標（たての場所）
 	 * @param {number} dir 方向
 	 * @param {number} unitTime 単位時間
 	 * @return {Array<number>} 座標
