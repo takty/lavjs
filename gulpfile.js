@@ -1,7 +1,6 @@
-const gulp       = require('gulp');
-const $          = require('gulp-load-plugins')({ pattern: ['gulp-*'] });
-const commentTag = require('./gulp-comment-tag');
-const copySync   = require('./copy-sync');
+const gulp     = require('gulp');
+const $        = require('gulp-load-plugins')({ pattern: ['gulp-*'] });
+const copySync = require('./copy-sync');
 
 gulp.task('compile-ja', () => {
 	return gulp.src(['src/**/[^_]*.js'])
@@ -10,7 +9,7 @@ gulp.task('compile-ja', () => {
 		.pipe($.preprocess({ context: { ja: true } }))
 		.pipe($.deleteLines({ 'filters': [/\/\/=/] }))
 		.pipe($.replace(/^\t$/gm, ''))
-		.pipe(commentTag('ja'))
+		.pipe($.commentTag('ja'))
 		.pipe(gulp.dest('dist-ja'));
 });
 
@@ -21,7 +20,7 @@ gulp.task('compile-en', () => {
 		.pipe($.preprocess({ context: { en: true } }))
 		.pipe($.deleteLines({ 'filters': [/\/\/=/] }))
 		.pipe($.replace(/^\t$/gm, ''))
-		.pipe(commentTag('en'))
+		.pipe($.commentTag('en'))
 		.pipe(gulp.dest('dist'));
 });
 
