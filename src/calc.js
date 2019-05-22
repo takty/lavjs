@@ -5,7 +5,7 @@
  * 単純ではない動きを作るのに使うイージング関数が使えるようになるライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2019-05-11
+ * @version 2019-05-22
  */
 /**~en
  * Calculation library (CALC)
@@ -15,7 +15,7 @@
  * and easing functions that you use to create non-trivial motions.
  *
  * @author Takuto Yanagida
- * @version 2019-05-11
+ * @version 2019-05-22
  */
 
 
@@ -61,7 +61,8 @@ const CALC = (function () {
 	 * Reset the random function
 	 */
 	const resetRandomSeed = function () {
-		if (_dice instanceof Dice) _r.reset();
+		if (!(_dice instanceof Dice)) _dice = new Dice();
+		_dice.reset();
 	};
 
 	/**~ja
@@ -71,7 +72,8 @@ const CALC = (function () {
 	 * Save the current state of the random function
 	 */
 	const saveRandomState = function () {
-		if (_dice instanceof Dice) _r.save();
+		if (!(_dice instanceof Dice)) _dice = new Dice();
+		_dice.save();
 	};
 
 	/**~ja
@@ -81,7 +83,8 @@ const CALC = (function () {
 	 * Restore the previous state of the random function
 	 */
 	const restoreRandomState = function () {
-		if (_dice instanceof Dice) _r.restore();
+		if (!(_dice instanceof Dice)) _dice = new Dice();
+		_dice.restore();
 	};
 
 	/**~ja
