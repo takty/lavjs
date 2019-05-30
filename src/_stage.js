@@ -1,12 +1,12 @@
 /**~ja
  * ステージ
  * @extends {Element}
- * @version 2019-05-09
+ * @version 2019-05-30
  */
 /**~en
  * Stage
  * @extends {Element}
- * @version 2019-05-09
+ * @version 2019-05-30
  */
 class Stage extends Element {
 
@@ -145,7 +145,7 @@ class Stage extends Element {
 	_localize() {
 		if (this._localizeOption) {
 			const descendant = this._localizeOption[0], opt_suppressRotation = this._localizeOption[1];
-			const off = _getPositionOnParent(descendant, 0, 0, 0, opt_suppressRotation);
+			const off = this._getPositionOnParent(descendant, 0, 0, 0, opt_suppressRotation);
 			this.localizeOffsetX = -off[0];
 			this.localizeOffsetY = -off[1];
 			this.localizeOffsetA = -off[2];
