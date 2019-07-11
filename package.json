@@ -14,13 +14,13 @@
   "license": "MIT",
   "homepage": "https://github.com/takty/cjseaux#readme",
   "dependencies": {
-    "fs-extra": "^7.0.1",
-    "glob": "^7.1.3",
-    "gulp": "^4.0.0",
+    "fs-extra": "^8.1.0",
+    "glob": "^7.1.4",
+    "gulp": "^4.0.2",
     "gulp-comment-tag": "git+https://github.com/takty/gulp-comment-tag.git",
     "gulp-delete-lines": "0.0.7",
     "gulp-include": "^2.4.1",
-    "gulp-load-plugins": "^1.5.0",
+    "gulp-load-plugins": "^2.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-preprocess": "^3.0.2",
     "gulp-replace": "^1.0.0"
