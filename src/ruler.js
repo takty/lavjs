@@ -2,13 +2,13 @@
  * 定規ライブラリ（RULER）
  *
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2019-08-04
  */
 /**~en
  * Ruler library (RULER)
  *
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2019-08-04
  */
 
 
@@ -39,6 +39,20 @@ const RULER = (function () {
 	 */
 	const rad = function (deg) {
 		return deg * Math.PI / 180.0;
+	};
+
+	/**~ja
+	 * ラジアンを角度にする
+	 * @param {number} rad ラジアン
+	 * @return {number} 角度
+	 */
+	/**~en
+	 * Convert radian to degree
+	 * @param {number} rad Radian
+	 * @return {number} Degree
+	 */
+	const deg = function (rad) {
+		return rad * 180.0 / Math.PI;
 	};
 
 	/**~ja
