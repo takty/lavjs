@@ -1,10 +1,10 @@
 /**~ja
  * 定規
- * @version 2019-05-14
+ * @version 2019-08-04
  */
 /**~en
  * Ruler
- * @version 2019-05-14
+ * @version 2019-08-04
  */
 class Ruler {
 
@@ -496,6 +496,7 @@ class Ruler {
 
 		this._ctx.moveTo(cx + sp, cy + tp);
 		this._liner.arc(cx, cy, opt_dir, p.w, p.h, p.deg0, p.deg1, opt_anticlockwise, null, this._area);
+		return this;
 	};
 
 	/**~ja
@@ -521,6 +522,7 @@ class Ruler {
 
 		this._ctx.moveTo(fromX, fromY);
 		this._liner.line(fromX, fromY, deg(dr), dest, null, this._area);
+		return this;
 	};
 
 }
