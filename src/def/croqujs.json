@@ -10,6 +10,18 @@
 				"height": {
 					"!type": "fn(val?: number) -> !this|number"
 				},
+				"setSize": {
+					"!type": "fn(width: number, height: number) -> this"
+				},
+				"clear": {
+					"!type": "fn(style?: string, alpha?: number) -> this"
+				},
+				"animate": {
+					"!type": "fn(callback: fn(?), args_array: [?]) -> this"
+				},
+				"stop": {
+					"!type": "fn() -> this"
+				},
 				"frame": {
 					"!type": "fn() -> number"
 				},
@@ -18,21 +30,6 @@
 				},
 				"frameLength": {
 					"!type": "fn(val?: number) -> !this|number"
-				},
-				"gridVisible": {
-					"!type": "fn(val?: number) -> !this|number"
-				},
-				"setSize": {
-					"!type": "fn(width: number, height: number)"
-				},
-				"clear": {
-					"!type": "fn(style?: string, alpha?: number)"
-				},
-				"animate": {
-					"!type": "fn(callback: fn(?), args_array: [?])"
-				},
-				"stop": {
-					"!type": "fn()"
 				},
 				"makePage": {
 					"!type": "fn(pageName: string) -> +CROQUJS.Paper"
@@ -46,11 +43,17 @@
 				"removeChild": {
 					"!type": "fn(paper: +CROQUJS.Paper)"
 				},
-				"drawGrid": {
-					"!type": "fn()"
+				"getRuler": {
+					"!type": "fn() -> +RULER.Ruler"
 				},
 				"saveImage": {
-					"!type": "fn(fileName?: string)"
+					"!type": "fn(fileName?: string) -> this"
+				},
+				"gridVisible": {
+					"!type": "fn(val?: number) -> !this|number"
+				},
+				"drawGrid": {
+					"!type": "fn()"
 				},
 				"onKeyDown": {
 					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"

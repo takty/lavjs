@@ -44,26 +44,31 @@ Paper.mixin = {
 	 * 紙のサイズを変える
 	 * @param {number} width 横の大きさ
 	 * @param {number} height たての大きさ
+	 * @return {Paper} この紙
 	 */
 	/**~en
 	 * Set the size of the paper
 	 * @param {number} width Width
 	 * @param {number} height Height
+	 * @return {Paper} This paper
 	 */
 	setSize(width, height) {
 		this.canvas.width = width;
 		this.canvas.height = height;
+		return this;
 	},
 
 	/**~ja
 	 * 紙を指定した色でクリアする
 	 * @param {string} style スタイル（指定しなければ透明）
 	 * @param {number} alpha アルファ
+	 * @return {Paper} この紙
 	 */
 	/**~en
 	 * Clear the paper in the specified color
 	 * @param {string} style Style (transparent if not specified)
 	 * @param {number} alpha Alpha
+	 * @return {Paper} This paper
 	 */
 	clear(style, alpha) {
 		this.save();
@@ -78,6 +83,7 @@ Paper.mixin = {
 			this.fillRect(0, 0, this.width(), this.height());
 		}
 		this.restore();
+		return this;
 	},
 
 
@@ -89,11 +95,13 @@ Paper.mixin = {
 	 * アニメーションを始める
 	 * @param {function} callback 一枚一枚の絵を書く関数
 	 * @param {Array} args_array 関数に渡す引数
+	 * @return {Paper} この紙
 	 */
 	/**~en
 	 * Start animation
 	 * @param {function} callback Function to draw picture one by one
 	 * @param {Array} args_array Arguments to pass to the function
+	 * @return {Paper} This paper
 	 */
 	animate(callback, args_array) {
 		const startTime = getTime();
@@ -120,9 +128,11 @@ Paper.mixin = {
 
 	/**~ja
 	 * アニメーションを止める
+	 * @return {Paper} この紙
 	 */
 	/**~en
 	 * Stop animation
+	 * @return {Paper} This paper
 	 */
 	stop() {
 		this._isAnimating = false;
@@ -270,11 +280,13 @@ Paper.mixin = {
 	 * 紙にかいた絵をファイルに保存する
 	 * @param {string=} fileName ファイル名
 	 * @param {string=} type ファイルの種類
+	 * @return {Paper} この紙
 	 */
 	/**~en
 	 * Save the picture drawn on the paper to a file
 	 * @param {string=} fileName File name
 	 * @param {string=} type File type
+	 * @return {Paper} This paper
 	 */
 	saveImage(fileName, type) {
 		const canvasToBlob = function (canvas, type) {
@@ -293,6 +305,7 @@ Paper.mixin = {
 			a.click();
 		};
 		saveBlob(canvasToBlob(this.canvas, type), fileName || 'default.png');
+		return this;
 	},
 
 
