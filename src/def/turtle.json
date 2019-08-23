@@ -8,10 +8,10 @@
 					"!type": "fn() -> +TURTLE.Turtle"
 				},
 				"save": {
-					"!type": "fn(step: number) -> !this"
+					"!type": "fn(opt_saveContext?: bool) -> !this"
 				},
 				"restore": {
-					"!type": "fn(step: number) -> !this"
+					"!type": "fn(opt_restoreContext?: bool) -> !this"
 				},
 				"go": {
 					"!type": "fn(step: number) -> !this"
@@ -65,7 +65,7 @@
 					"!type": "fn(deg: number) -> !this|number"
 				},
 				"heading": {
-					"!type": "fn(deg: number) -> !this"
+					"!type": "fn(deg: number) -> !this|number"
 				},
 				"moveTo": {
 					"!type": "fn(x: number, y: number, dir?: number) -> !this"
@@ -109,9 +109,6 @@
 				"unit": {
 					"!type": "fn(val: number) -> !this|number"
 				},
-				"edge": {
-					"!type": "fn(func: fn(?)) -> !this|fn(?)"
-				},
 				"getDirectionOf": {
 					"!type": "fn(x: number, y: number) -> number"
 				},
@@ -126,15 +123,6 @@
 				},
 				"getDistanceToHome": {
 					"!type": "fn() -> number"
-				},
-				"visible": {
-					"!type": "fn(val: bool) -> !this|bool"
-				},
-				"stepNext": {
-					"!type": "fn(num: number)"
-				},
-				"resetAnimation": {
-					"!type": "fn()"
 				},
 				"dot": {
 					"!type": "fn() -> !this"
@@ -175,6 +163,9 @@
 				"fill": {
 					"!type": "fn(fill?: +STYLE.Fill) -> !this|+STYLE.Fill"
 				},
+				"edge": {
+					"!type": "fn(func: fn(?)) -> !this|fn(?)"
+				},
 				"context": {
 					"!type": "fn() -> ?"
 				},
@@ -183,7 +174,23 @@
 				},
 				"scale": {
 					"!type": "fn(rate: number)"
-				}
+				},
+
+				"onPenChanged": {
+					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+				},
+				"onMoved": {
+					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+				},
+				"visible": {
+					"!type": "fn(val: bool) -> !this|bool"
+				},
+				"stepNext": {
+					"!type": "fn(num: number)"
+				},
+				"resetAnimation": {
+					"!type": "fn()"
+				},
 			}
 		},
 		"makeStamp": {
