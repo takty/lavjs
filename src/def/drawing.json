@@ -1,5 +1,5 @@
 {
-	"!name": "libl",
+	"!name": "cjseaux",
 	"DRAWING": {
 		"drawCircle": {
 			"!type": "fn(ctx: ?, cx: number, cy: number, r: number, dir?: number, deg?: number, anticlockwise?: bool, edge?: fn(?), area?: ?)"

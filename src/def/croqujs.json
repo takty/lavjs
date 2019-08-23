@@ -1,5 +1,5 @@
 {
-	"!name": "libl",
+	"!name": "cjseaux",
 	"CROQUJS": {
 		"Paper": {
 			"!type": "fn(width?: number, height?: number, isVisible?: bool)",

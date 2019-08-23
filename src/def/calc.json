@@ -1,5 +1,5 @@
 {
-	"!name": "libl",
+	"!name": "cjseaux",
 	"CALC": {
 		"DiceBase": {
 			"!type": "fn()",

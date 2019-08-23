@@ -1,5 +1,5 @@
 {
-	"!name": "libl",
+	"!name": "cjseaux",
 	"WIDGET": {
 		"Widget": {
 			"!type": "fn(width?: number, height?: number)",
