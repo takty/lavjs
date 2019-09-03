@@ -51,6 +51,17 @@
 		"isLikely": {
 			"!type": "fn(percent: number) -> bool"
 		},
+		"Noise": {
+			"!type": "fn()",
+			"prototype": {
+				"get": {
+					"!type": "fn(x: number) -> number"
+				},
+			}
+		},
+		"noise": {
+			"!type": "fn(x: number) -> number"
+		},
 		"constrain": {
 			"!type": "fn(val: number, min: number, max: number, type: string) -> number"
 		},

@@ -5,7 +5,7 @@
  * 単純ではない動きを作るのに使うイージング関数が使えるようになるライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2019-05-22
+ * @version 2019-09-03
  */
 /**~en
  * Calculation library (CALC)
@@ -15,7 +15,7 @@
  * and easing functions that you use to create non-trivial motions.
  *
  * @author Takuto Yanagida
- * @version 2019-05-22
+ * @version 2019-09-03
  */
 
 
@@ -136,6 +136,17 @@ const CALC = (function () {
 	};
 
 
+	//=
+	//=include _noise.js
+
+
+	let _noise = new Noise();
+
+	const noise = function (x) {
+		return _noise.get(x);
+	};
+
+
 	//~ja ユーティリティ関数 ------------------------------------------------------
 	//~en Utility functions -------------------------------------------------------
 
@@ -220,6 +231,9 @@ const CALC = (function () {
 
 		random, rand, isLikely,
 		constrain, map,
+
+		Noise,
+		noise,
 
 		linear,
 		easeInSine, easeOutSine, easeInOutSine,
