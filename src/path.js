@@ -4,7 +4,7 @@
  * 図形のパスを作るためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2019-09-03
  */
 /**~en
  * Path library (PATH)
@@ -12,7 +12,7 @@
  * A library to make the path of the shape.
  *
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2019-09-03
  */
 
 
@@ -655,6 +655,8 @@ const PATH = (function () {
 		triangleEdge,
 		sawtoothEdge,
 		absSineEdge,
+		noiseEdge,
+		mixEdge,
 
 		arrangeArcParams,
 		eclipse,

@@ -2,7 +2,7 @@
 	"!name": "cjseaux",
 	"PATH": {
 		"Liner": {
-			"!type": "fn(handler: fn(?), normalDir?: number)",
+			"!type": "fn(handler: ?, normalDir?: number)",
 			"prototype": {
 				"edge": {
 					"!type": "fn(func?: fn(?)) -> !this|fn(?)"
@@ -41,6 +41,12 @@
 		},
 		"absSineEdge": {
 			"!type": "fn(length?: number, amplitude?: number, opt?: obj) -> fn(?)"
+		},
+		"noiseEdge": {
+			"!type": "fn(length?: number, amplitude?: number, opt?: obj) -> fn(?)"
+		},
+		"mixEdge": {
+			"!type": "fn(func: fn(?), fs: ?) -> fn(?)"
 		},
 		"arrangeArcParams": {
 			"!type": "fn(r: number, deg: number, step: number) -> obj"
