@@ -60,7 +60,7 @@
 				},
 				"line": {
 					"!type": "fn(fromX: number, fromY: number, toX: number, toY: number) -> !this"
-				},
+				}
 			}
 		}
 	}
