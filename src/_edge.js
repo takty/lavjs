@@ -164,7 +164,7 @@ const noiseEdge = function (length = 10, amplitude = 10, opt = {}) {
 		let d = (0 | (max * l)) / max;
 		if (d === (0 | d)) d += 0.01;
 		let p = d * x;
-		if (x === max) {
+		if (Math.abs(x - max) < 0.01) {
 			p = 0 | p;
 			off += step;
 		}
