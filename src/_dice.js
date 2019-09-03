@@ -1,12 +1,12 @@
 /**~ja
  * 基本サイコロ
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2019-09-03
  */
 /**~en
  * Dice base
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2019-09-03
  */
 class DiceBase {
 
@@ -55,7 +55,7 @@ class DiceBase {
 	 */
 	rand(n_min, opt_max) {
 		if (opt_max === undefined) {
-			return Math.floor(this._r() * (n + 1));
+			return Math.floor(this._r() * (n_min + 1));
 		}
 		return Math.floor(this._r() * (opt_max + 1 - n_min) + n_min);
 	}
