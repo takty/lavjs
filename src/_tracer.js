@@ -1,10 +1,10 @@
 /**~ja
  * トレーサー
- * @version 2019-05-14
+ * @version 2019-09-03
  */
 /**~en
  * Tracer
- * @version 2019-05-14
+ * @version 2019-09-03
  */
 class Tracer {
 
@@ -547,9 +547,9 @@ class Tracer {
 	 * @param {function=} func Function to determine the edge
 	 * @return {function|Tracer} Edge, or this tracer
 	 */
-	edge(func) {
+	edge(func, ...fs) {
 		if (func === undefined) return this._liner.edge();
-		this._addCommand(() => { this._liner.edge(func); });
+		this._addCommand(() => { this._liner.edge(func, ...fs); });
 		return this;
 	}
 

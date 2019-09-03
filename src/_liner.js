@@ -1,32 +1,42 @@
 /**~ja
  * ライナー
- * @version 2019-05-11
+ * @version 2019-09-03
  */
 /**~en
  * Liner
- * @version 2019-05-11
+ * @version 2019-09-03
  */
 class Liner {
 
 	/**~ja
-	 * ライナーを作る（描画するキャンバス・コンテキスト、<法線方向>）
-	 * @param {*} handler
-	 * @param {*} [opt_normalDir=Math.PI / -2]
+	 * ライナーを作る
+	 * @param {*} handler 描画ハンドラー
+	 * @param {number=} [opt_normalDir=Math.PI / -2] 法線方向
+	 */
+	/**~en
+	 * Make a liner
+	 * @param {*} handler Drawing handler
+	 * @param {number=} [opt_normalDir=Math.PI / -2] Normal direction
 	 */
 	constructor(handler, opt_normalDir = Math.PI / -2) {
 		this._handler   = handler;
-		this._normalDir = opt_normalDir;  // 法線方向
+		this._normalDir = opt_normalDir;
 		this._edge      = NORMAL_EDGE;
 	}
 
 	/**~ja
-	 * エッジを設定する（エッジを決める関数）
-	 * @param {*} func
-	 * @return
+	 * エッジ
+	 * @param {function=} func エッジを決める関数
+	 * @return {function|Liner} エッジ／このライナー
 	 */
-	edge(func) {
+	/**~en
+	 * Edge
+	 * @param {function=} func Function to determine the edge
+	 * @return {function|Liner} Edge, or this liner
+	 */
+	edge(func, ...fs) {
 		if (func === undefined) return this._edge;
-		this._edge = func;
+		this._edge = fs.length ? PATH.mixEdge(func, ...fs) : func;
 	}
 
 

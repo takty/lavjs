@@ -1,10 +1,10 @@
 /**~ja
  * 定規
- * @version 2019-08-08
+ * @version 2019-09-03
  */
 /**~en
  * Ruler
- * @version 2019-08-08
+ * @version 2019-09-03
  */
 class Ruler {
 
@@ -14,7 +14,7 @@ class Ruler {
 	 */
 	/**~en
 	 * Make a ruler
-	 * @param {Paper|CanvasRenderingContext2D} context Paper of canvas context
+	 * @param {Paper|CanvasRenderingContext2D} context Paper or canvas context
 	 */
 	constructor(context) {
 		//@ifdef ja
@@ -206,9 +206,9 @@ class Ruler {
 	 * @param {function=} func Function to determine the edge
 	 * @return {function|Ruler} Edge, or this ruler
 	 */
-	edge(func) {
+	edge(func, ...fs) {
 		if (func === undefined) return this._liner.edge();
-		this._liner.edge(func);
+		this._liner.edge(func, ...fs);
 		return this;
 	}
 
