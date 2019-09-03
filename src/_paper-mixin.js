@@ -1,10 +1,10 @@
 /**~ja
  * 紙ミックスイン
- * @version 2019-08-07
+ * @version 2019-09-03
  */
 /**~en
  * Paper mixin
- * @version 2019-08-07
+ * @version 2019-09-03
  */
 Paper.mixin = {
 
@@ -113,9 +113,11 @@ Paper.mixin = {
 
 			if (frame !== prevFrame) {
 				this._frame = frame;
+				CROQUJS.currentPaper = this;
 				callback.apply(null, args_array);
 				if (this.mouseMiddle() && this._isGridVisible) this.drawGrid();
 				prevFrame = frame;
+				this._totalFrame += 1;
 			}
 			if (this._isAnimating && this.canvas.parentNode !== null) {
 				window.requestAnimationFrame(loop);
@@ -141,11 +143,11 @@ Paper.mixin = {
 
 	/**~ja
 	 * フレーム
-	 * @return {number|Paper} フレーム
+	 * @return {number} フレーム
 	 */
 	/**~en
 	 * Frames
-	 * @return {number|Paper} Frames
+	 * @return {number} Frames
 	 */
 	frame() {
 		return this._frame;
@@ -168,9 +170,9 @@ Paper.mixin = {
 	},
 
 	/**~ja
-	 * フレーム数
-	 * @param {number=} val フレーム数
-	 * @return {number|Paper} フレーム数／この紙
+	 * フレーム長
+	 * @param {number=} val フレーム長
+	 * @return {number|Paper} フレーム長／この紙
 	 */
 	/**~en
 	 * Frame length
@@ -181,6 +183,18 @@ Paper.mixin = {
 		if (val === undefined) return this._frameLength;
 		this._frameLength = val;
 		return this;
+	},
+
+	/**~ja
+	 * 全フレーム
+	 * @return {number} 全フレーム
+	 */
+	/**~en
+	 * Total frames
+	 * @return {number} Total frames
+	 */
+	totalFrame() {
+		return this._totalFrame;
 	},
 
 

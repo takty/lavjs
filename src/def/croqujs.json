@@ -31,6 +31,9 @@
 				"frameLength": {
 					"!type": "fn(val?: number) -> !this|number"
 				},
+				"totalFrame": {
+					"!type": "fn() -> number"
+				},
 				"makePage": {
 					"!type": "fn(pageName: string) -> +CROQUJS.Paper"
 				},
