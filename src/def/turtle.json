@@ -190,7 +190,7 @@
 				},
 				"resetAnimation": {
 					"!type": "fn()"
-				},
+				}
 			}
 		},
 		"makeStamp": {

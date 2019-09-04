@@ -56,7 +56,7 @@
 			"prototype": {
 				"get": {
 					"!type": "fn(x: number) -> number"
-				},
+				}
 			}
 		},
 		"noise": {
