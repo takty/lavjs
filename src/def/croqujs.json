@@ -101,6 +101,9 @@
 		},
 		"removeAll": {
 			"!type": "fn(?)"
+		},
+		"currentPaper": {
+			"!type": "fn(paper?: +CROQUJS.Paper) -> +CROQUJS.Paper"
 		}
 	}
 }

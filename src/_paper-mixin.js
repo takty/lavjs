@@ -1,10 +1,10 @@
 /**~ja
  * 紙ミックスイン
- * @version 2019-09-03
+ * @version 2019-09-04
  */
 /**~en
  * Paper mixin
- * @version 2019-09-03
+ * @version 2019-09-04
  */
 Paper.mixin = {
 
@@ -113,7 +113,7 @@ Paper.mixin = {
 
 			if (frame !== prevFrame) {
 				this._frame = frame;
-				CROQUJS.currentPaper = this;
+				CROQUJS.currentPaper(this);
 				callback.apply(null, args_array);
 				if (this.mouseMiddle() && this._isGridVisible) this.drawGrid();
 				prevFrame = frame;
@@ -213,7 +213,7 @@ Paper.mixin = {
 	 * @return {Paper} Page
 	 */
 	makePage(pageName) {
-		if (!this._pages) this._pages = {},
+		if (!this._pages) this._pages = {};
 		this._pages[pageName] = new CROQUJS.Paper(this.width(), this.height(), false);
 		return this._pages[pageName];
 	},

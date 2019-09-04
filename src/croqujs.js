@@ -7,7 +7,7 @@
  * （ここでの紙は、HTML5のCanvas要素のCanvasRenderingContext2Dを拡張したもののことです）
  *
  * @author Takuto Yanagida
- * @version 2019-09-03
+ * @version 2019-09-04
  */
 /**~en
  * Croqujs library (CROQUJS)
@@ -18,7 +18,7 @@
  * ('Paper' here is an extension of CanvasRenderingContext2D of HTML5 Canvas element)
  *
  * @author Takuto Yanagida
- * @version 2019-09-03
+ * @version 2019-09-04
  */
 
 
@@ -48,8 +48,8 @@ const CROQUJS = (function () {
 	}, true);
 
 
-	//~ja ペーパー（CROQUJS.Paper) ------------------------------------------------
-	//~en Paper (CROQUJS.Paper) ---------------------------------------------------
+	//~ja ペーパー（CROQUJS.Paper) ---------------------------------------------
+	//~en Paper (CROQUJS.Paper) ------------------------------------------------
 
 
 	const CANVAS_TO_PAPER = {};
@@ -80,7 +80,9 @@ const CROQUJS = (function () {
 			can.focus();
 		}
 		CANVAS_TO_PAPER[can] = ctx;
-		return _augment(ctx);
+		const that = _augment(ctx);
+		CROQUJS.currentPaper(that);
+		return that;
 	};
 
 	/**~ja
@@ -124,8 +126,8 @@ const CROQUJS = (function () {
 	//=include _paper-mixin.js
 
 
-	//~ja ユーティリティ関数 ------------------------------------------------------
-	//~en Utility functions -------------------------------------------------------
+	//~ja ユーティリティ関数 ---------------------------------------------------
+	//~en Utility functions ----------------------------------------------------
 
 
 	/**~ja
@@ -169,11 +171,26 @@ const CROQUJS = (function () {
 		});
 	};
 
+	/**~ja
+	 * 現在の紙
+	 * @param {Paper=} paper 紙
+	 * @return {Paper} 現在の紙
+	 */
+	/**~en
+	 * Current paper
+	 * @param {Paper=} paper Paper
+	 * @return {Paper} Current paper
+	 */
+	const currentPaper = function (paper) {
+		if (paper) CROQUJS._currentPaper = paper;
+		return CROQUJS._currentPaper;
+	};
 
-	//~ja ライブラリを作る --------------------------------------------------------
-	//~en Create a library --------------------------------------------------------
+
+	//~ja ライブラリを作る -----------------------------------------------------
+	//~en Create a library -----------------------------------------------------
 
 
-	return { Paper, getTime, removeAll };
+	return { Paper, getTime, removeAll, currentPaper };
 
 }());

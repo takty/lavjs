@@ -1,12 +1,12 @@
 /**~ja
  * エッジ生成関数
  * @author Takuto Yanagida
- * @version 2019-09-03
+ * @version 2019-09-04
  */
 /**~en
  * Edge generation functions
  * @author Takuto Yanagida
- * @version 2019-09-03
+ * @version 2019-09-04
  */
 
 
@@ -150,29 +150,25 @@ const absSineEdge = function (length = 10, amplitude = 10, opt = {}) {
 const noiseEdge = function (length = 10, amplitude = 10, opt = {}) {
 	const amp = 2 * amplitude;
 
-	let paper = null;
+	const p = (CROQUJS.currentPaper()) ? CROQUJS.currentPaper() : null;
 	let lastFrame = 0;
 	let off = 0;
-	let step = 0;
 
-	if (CROQUJS.currentPaper) {
-		paper = CROQUJS.currentPaper;
-		step = 1;
-	}
 	return function (x, max) {
+		max = Math.round(max * 100) / 100;
 		const l = 1 / Math.min(length, max);
 		let d = (0 | (max * l)) / max;
 		if (d === (0 | d)) d += 0.01;
-		let p = d * x;
+		let s = d * x;
 		if (Math.abs(x - max) < 0.01) {
-			p = 0 | p;
-			off += step;
+			s = 0 | s;
+			if (p) off += d * max;
 		}
-		if (paper && paper.totalFrame() !== lastFrame) {
-			lastFrame = paper.totalFrame();
+		if (p && p.totalFrame() !== lastFrame) {
+			lastFrame = p.totalFrame();
 			off = 0;
 		}
-		return (CALC.noise(p + off) - 0.5) * amp;
+		return (CALC.noise(s + off) - 0.5) * amp;
 	};
 };
 
