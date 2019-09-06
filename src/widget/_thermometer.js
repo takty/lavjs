@@ -1,12 +1,12 @@
 /**~ja
  * 温度計
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2019-09-06
  */
 /**~en
  * Thermometer
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2019-09-06
  */
 class Thermometer extends SliderBase {
 
@@ -27,7 +27,6 @@ class Thermometer extends SliderBase {
 	constructor(min = -10, max = 50, value = 25, { width = 72, height = 400 } = {}) {
 		super(width, height);
 
-		this.VMARGIN = 10;
 		this._min = 0 | min;
 		this._max = 0 | max;
 		this._int = true;  // for SliderBase
@@ -44,7 +43,6 @@ class Thermometer extends SliderBase {
 		inner.className = '__widget-full';
 		inner.style.height = 'calc(100% - 30px)';
 		this._base.appendChild(inner);
-
 
 		this._scale = document.createElement('canvas');
 		this._scale.className = '__widget __widget-full';

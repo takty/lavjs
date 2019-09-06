@@ -1,12 +1,12 @@
 /**~ja
  * スライダー
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2019-09-06
  */
 /**~en
  * Slider
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2019-09-06
  */
 class Slider extends SliderBase {
 
@@ -15,19 +15,25 @@ class Slider extends SliderBase {
 	 * @param {number} [min=0] 最小値
 	 * @param {number} [max=10] 最大値
 	 * @param {number} [value=0] 現在の値
-	 * @param {*} [{ int = false, reverse = false, width = 72, height = 400 }={}] オプション（整数にする？、向きを逆にする？）
+	 * @param {*} [{ int = false, reverse = false, horizontal = false, width = 72, height = 400 }={}] オプション（整数にする？、向きを逆にする？、たて向きにする？）
 	 */
 	/**~en
 	 * Make a slider
 	 * @param {number} [min=0] Minimum value
 	 * @param {number} [max=10] Maximum value
 	 * @param {number} [value=0] Current value
-	 * @param {*} [{ int = false, reverse = false, width = 72, height = 400 }={}] Options (Whether to integer, whether to reverse)
+	 * @param {*} [{ int = false, reverse = false, horizontal = false, width = 72, height = 400 }={}] Options (Whether to integer, whether to reverse, whether to be vertical)
 	 */
-	constructor(min = 0, max = 10, value = 0, { int = false, reverse = false, width = 72, height = 400 } = {}) {
-		super(width, height);
+	constructor(min = 0, max = 10, value = 0, { int = false, reverse = false, horizontal = false, width = false, height = false } = {}) {
+		if (horizontal) {
+			if (width === false) width = 400;
+			if (height === false) height = 72;
+		} else {
+			if (width === false) width = 72;
+			if (height === false) height = 400;
+		}
+		super(width, height, !horizontal);
 
-		this.VMARGIN = 10;
 		this._min = min;
 		this._max = max;
 		this._int = int;
@@ -47,11 +53,17 @@ class Slider extends SliderBase {
 
 		this._knob = document.createElement('div');
 		this._knob.className = '__widget __widget-slider-knob';
-		this._knob.style.left = (inner.offsetWidth / 2) + 'px';
-		this._knob.style.top = this.VMARGIN + 'px';
+		
+		if (this._isVertical) {
+			this._knob.style.left = (inner.offsetWidth * this.SCALE_POS_RATE) + 'px';
+			this._knob.style.top = this.VMARGIN + 'px';
+		} else {
+			this._knob.style.top = (inner.offsetHeight * this.SCALE_POS_RATE) + 'px';
+			this._knob.style.left = this.VMARGIN + 'px';
+		}
 		inner.appendChild(this._knob);
 
-		this._railHeight = this._scale.height - this.VMARGIN * 2;
+		this._railHeight = (this._isVertical ? this._scale.height : this._scale.width) - this.VMARGIN * 2;
 		this._dragging = false;
 
 		inner.addEventListener('mousedown', this._mouseDown.bind(this));
@@ -72,7 +84,11 @@ class Slider extends SliderBase {
 	 * @private
 	 */
 	_valueChanged() {
-		this._knob.style.top = this.VMARGIN + this._valueToPos(this._value) + 'px';
+		if (this._isVertical) {
+			this._knob.style.top = this.VMARGIN + this._valueToPos(this._value) + 'px';
+		} else {
+			this._knob.style.left = this.VMARGIN + this._valueToPos(this._value) + 'px';
+		}
 	}
 
 	/**~ja
@@ -91,7 +107,12 @@ class Slider extends SliderBase {
 		const r = this._scale.getBoundingClientRect();
 		//~ja クライアント座標系から計算する必要あり！
 		//~en Need to calculate from client coordinate system!
-		const p = e.clientY - this.VMARGIN - r.top;
+		let p;
+		if (this._isVertical) {
+			p = e.clientY - this.VMARGIN - r.top;
+		} else {
+			p = e.clientX - this.VMARGIN - r.left;
+		}
 		return Math.min(Math.max(0, p), this._railHeight);
 	}
 

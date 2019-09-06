@@ -1,12 +1,12 @@
 /**~ja
  * グラフ
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2019-09-06
  */
 /**~en
  * Chart
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2019-09-06
  */
 
 
@@ -170,7 +170,7 @@ class Chart extends Widget {
 	 * @param {number} legendWidth Width of legend
 	 */
 	_drawLegend(c, legendWidth) {
-		c.font = '16px sans-serif';
+		c.font = '14px sans-serif';
 		let y = 0;
 		for (let key of this._keys) {
 			const { name, style } = this._items[key];
@@ -179,12 +179,12 @@ class Chart extends Widget {
 
 			c.fillStyle = 'Black';
 			c.textAlign = 'left';
-			c.fillText(name, 16 + 8, y + 14);
+			c.fillText(name, 16 + 8, y + 13);
 
 			const ds = this._data[key];
 			const v = ds[ds.length - 1];
 			c.textAlign = 'right';
-			c.fillText(this._format(this._digits, v), legendWidth - 8, y + 14);
+			c.fillText(this._format(this._digits, v), legendWidth - 8, y + 13);
 
 			y += 22;
 		}

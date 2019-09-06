@@ -1,14 +1,35 @@
 /**~ja
  * スライダー・ベース
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2019-09-06
  */
 /**~en
  * Slider base
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2019-09-06
  */
 class SliderBase extends Widget {
+
+	/**~ja
+	 * スライダー・ベースを作る
+	 * @param {number=} [width=null] 横幅
+	 * @param {number=} [height=null] たて幅
+	 * @param {boolean=} [isVertical=true] たて向きにする？
+	 */
+	/**~en
+	 * Make a slider base
+	 * @param {number=} [width=null] Width
+	 * @param {number=} [height=null] Height
+	 * @param {boolean=} [isVertical=true] Whether to be vertical
+	 */
+	constructor(width = null, height = null, isVertical = true) {
+		super(width, height);
+		this._isVertical = isVertical;
+		this._railHeight = null;
+
+		this.VMARGIN = 12;
+		this.SCALE_POS_RATE = this._isVertical ? 0.5 : 0.45;
+	}
 
 	/**~ja
 	 * 最小値
@@ -142,16 +163,26 @@ class SliderBase extends Widget {
 	 * @param {number} verticalMargin Vertical margin
 	 */
 	_drawRail(canvas, width, verticalMargin) {
+		const isv = this._isVertical;
 		const c = canvas.getContext('2d');
-		const x = (canvas.width - width) / 2;
-		const grad = c.createLinearGradient(x, 0, x + width, 0);
+		const x = (isv ? canvas.width : canvas.height) * this.SCALE_POS_RATE - width * 0.5;
+		let grad;
+		if (isv) {
+			grad = c.createLinearGradient(x, 0, x + width, 0);
+		} else {
+			grad = c.createLinearGradient(0, x, 0, x + width);
+		}
 		const cs = '#dadada, #eee, #eee, #fff, #fafafa, #e0e0e0'.split(', ');
 		for (let i = 0; i < 6; i += 1) {
 			grad.addColorStop(i / 5, cs[i]);
 		}
 		c.save();
 		c.fillStyle = grad;
-		c.fillRect(x, verticalMargin + 1, width, canvas.height - verticalMargin * 2 - 2);
+		if (isv) {
+			c.fillRect(x, verticalMargin + 1, width, canvas.height - verticalMargin * 2 - 2);
+		} else {
+			c.fillRect(verticalMargin + 1, x, canvas.width - verticalMargin * 2 - 2, width);
+		}
 		c.restore();
 	}
 
@@ -170,28 +201,52 @@ class SliderBase extends Widget {
 	 * @param {number} [subWidth=12] Width of sub scale
 	 */
 	_drawScale(canvas, verticalMargin, subWidth = 12) {
+		const isv = this._isVertical;
 		const maxInterval = this._calcMaxRange(this._min, this._max, 25);
 		const interval = this._calcInterval(maxInterval, 25);
 		const minInterval = this._calcInterval(interval, 5);
-		const width = canvas.width, subX = (width - subWidth) / 2;
+		const width = (isv ? canvas.width : canvas.height), subX = (width * this.SCALE_POS_RATE - subWidth * 0.5);
 		const c = canvas.getContext('2d');
 		c.clearRect(0, 0, canvas.width, canvas.height);
-		c.lineWidth = 0.8;
-		c.textAlign = 'right';
-		c.font = '10px sans-serif';
+		c.textAlign = isv ? 'right' : 'center';
+		c.font = '10.5px sans-serif';
 
 		for (let m = this._min; m <= this._max; m += 1) {
 			const y = this._valueToPos(m) + verticalMargin;
 			if (m % interval === 0) {
 				c.beginPath();
-				c.moveTo(0, y);
-				c.lineTo(width, y);
+				if (isv) {
+					c.moveTo(0, y);
+					c.lineTo(width, y);
+				} else {
+					c.moveTo(y, 0);
+					c.lineTo(y, width);
+				}
+				c.lineWidth = 0.8;
 				c.stroke();
-				c.fillText(m - (m % interval) + '', width, y - 3);
+				if (isv) {
+					c.lineWidth = 3;
+					c.strokeStyle = '#fff';
+					c.strokeText(m - (m % interval) + '', width, y - 3);
+					c.strokeStyle = '#000';
+					c.fillText(m - (m % interval) + '', width, y - 3);
+				} else {
+					c.lineWidth = 3;
+					c.strokeStyle = '#fff';
+					c.strokeText(m - (m % interval) + '', y, width - 1);
+					c.strokeStyle = '#000';
+					c.fillText(m - (m % interval) + '', y, width - 1);
+				}
 			} else if (m % minInterval === 0) {
 				c.beginPath();
-				c.moveTo(subX, y);
-				c.lineTo(subX + subWidth, y);
+				if (isv) {
+					c.moveTo(subX, y);
+					c.lineTo(subX + subWidth, y);
+				} else {
+					c.moveTo(y, subX);
+					c.lineTo(y, subX + subWidth);
+				}
+				c.lineWidth = 0.8;
 				c.stroke();
 			}
 		}
