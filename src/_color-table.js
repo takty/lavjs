@@ -1,12 +1,12 @@
 /**~ja
  * 色テーブル
  * @author Takuto Yanagida
- * @version 2019-05-10
+ * @version 2019-10-12
  */
 /**~en
  * Color table
  * @author Takuto Yanagida
- * @version 2019-05-10
+ * @version 2019-10-12
  */
 
 
@@ -21,10 +21,10 @@
 const checkColor = (color) => {
 	if (COLOR_TO_RGB[color.toLowerCase()] === undefined) {
 		//@ifdef ja
-		throw '色の名前が間違っています。';
+		throw new Error('色の名前が間違っています。');
 		//@endif
 		//@ifdef en
-		throw 'The color name is incorrect.';
+		throw new Error('The color name is incorrect.');
 		//@endif
 	}
 };

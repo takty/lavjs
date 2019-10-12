@@ -1,10 +1,10 @@
 /**~ja
  * スタイル・ベース（ストローク・フィル共通）
- * @version 2019-05-11
+ * @version 2019-10-12
  */
 /**~en
  * Style base (Common to stroke and fill)
- * @version 2019-05-11
+ * @version 2019-10-12
  */
 class StyleBase {
 
@@ -76,10 +76,10 @@ class StyleBase {
 			this._style = this._color;
 		} else {
 			//@ifdef ja
-			if (Number.isNaN(opt_alpha)) throw 'STYLE::color: アルファの数値に間違いがあるようです。';
+			if (Number.isNaN(opt_alpha)) throw new RangeError('STYLE::color: アルファの数値に間違いがあるようです。');
 			//@endif
 			//@ifdef en
-			if (Number.isNaN(opt_alpha)) throw 'STYLE::color: The alpha value seem to be wrong.';
+			if (Number.isNaN(opt_alpha)) throw new RangeError('STYLE::color: The alpha value seem to be wrong.');
 			//@endif
 			const vs = convertColorToRgb(color, opt_alpha);
 			this.rgb(...vs);
@@ -223,10 +223,10 @@ class StyleBase {
 		}
 		if (!['linear', 'radial', 'vertical', 'horizontal', 'vector', 'inner', 'outer', 'diameter', 'radius'].includes(type)) {
 			//@ifdef ja
-			throw 'STYLE::gradation: グラデーションの種類が間違っています。';
+			throw new Error('STYLE::gradation: グラデーションの種類が間違っています。');
 			//@endif
 			//@ifdef en
-			throw 'STYLE::gradation: The type of gradation is incorrect.';
+			throw new Error('STYLE::gradation: The type of gradation is incorrect.');
 			//@endif
 		}
 		this._clear();
@@ -264,10 +264,10 @@ class StyleBase {
 			this._gradColors.push(color);
 		} else {
 			//@ifdef ja
-			if (Number.isNaN(opt_alpha)) throw 'STYLE::addColor: アルファの数値に間違いがあるようです。';
+			if (Number.isNaN(opt_alpha)) throw new RangeError('STYLE::addColor: アルファの数値に間違いがあるようです。');
 			//@endif
 			//@ifdef en
-			if (Number.isNaN(opt_alpha)) throw 'STYLE::addColor: The alpha value seem to be wrong.';
+			if (Number.isNaN(opt_alpha)) throw new RangeError('STYLE::addColor: The alpha value seem to be wrong.');
 			//@endif
 			const vs = convertColorToRgb(color, opt_alpha);
 			this.addRgb(...vs);
