@@ -1,10 +1,10 @@
 /**~ja
  * タートル
- * @version 2019-05-11
+ * @version 2019-12-12
  */
 /**~en
  * Turtle
- * @version 2019-05-11
+ * @version 2019-12-12
  */
 class Turtle extends TurtleBase {
 
@@ -21,22 +21,23 @@ class Turtle extends TurtleBase {
 	constructor(context, normalDeg) {
 		super(context, normalDeg);
 
-		this._visible = false;
-		this._isAnimating = false;
-		this._aniRemain = 0;
-		this._aniMax = 0;
-		this._aniFinished = true;
+		this._visible      = false;
+		this._isAnimating  = false;
+		this._aniRemain    = 0;
+		this._aniMax       = 0;
+		this._aniFinished  = true;
 		this._lastPenState = false;
 
-		this._curLoc = [0, 0, 0];
+		this._curLoc     = [0, 0, 0];
 		this._curHomeLoc = [0, 0, 0];
-		this._curFnPos = [0, 0];
-		this._curFn = '';
-		this._curAs = [];
-		this._curPen = false;
+		this._curFnPos   = [null, null];
+		this._curFn      = '';
+		this._curAs      = [];
+		this._curPen     = false;
+		this._curTrans   = this._ctx.getTransform();
 
 		this._onPenChanged = null;
-		this._onMoved = null;
+		this._onMoved      = null;
 	}
 
 	/**~ja
@@ -518,18 +519,42 @@ class Turtle extends TurtleBase {
 			//~ja penUpの後の必要あり
 			//~en Need after penUp
 			this._aniFinished = false;
-			this._isClipable = false;
+			this._isClipable  = false;
 
 			//~ja カメをかくための情報を保存しておく
 			//~en Save information for drawing the turtle
-			this._curLoc = [this._x, this._y, this._dir];
+			this._curLoc     = [this._x, this._y, this._dir];
 			this._curHomeLoc = [this._homeX, this._homeY, this._homeDir];
-			this._curPen = p;
+			this._curPen     = p;
+			this._curTrans   = this._ctx.getTransform();
 
 			if (this._onPenChanged !== null && this._lastPenState !== p) this._onPenChanged(this, p);
 			if (this._onMoved !== null) this._onMoved(this, this._x, this._y, p);
 			this._lastPenState = p;
 		}
+	}
+
+	/**~ja
+	 * 座標に行列を適用する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {Array} t 行列
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 * @param {number} r 方向
+	 */
+	/**~en
+	 * Apply matrix to coordinates (used only in the library)
+	 * @private
+	 * @param {Array} t Matrix
+	 * @param {number} x x coordinate
+	 * @param {number} y y coordinate
+	 * @param {number} r Degree
+	 */
+	_transform(t, x, y, r) {
+		if (t === null) return [x, y, r];
+		const nx = t.a * x + t.c * y + t.e;
+		const ny = t.b * x + t.d * y + t.f;
+		return [nx, ny, r];
 	}
 
 	/**~ja
@@ -547,17 +572,21 @@ class Turtle extends TurtleBase {
 		c.setLineDash([]);
 		c.globalAlpha = 1;
 
+		if (this._curTrans) c.setTransform(this._curTrans);
 		this._drawAnchor(c, this._curAs);
 
-		const [hx, hy, hd] = this._curHomeLoc;
+		c.setTransform(1, 0, 0, 1, 0, 0);
+		let [hx, hy, hd] = this._curHomeLoc;
 		//~ja ホームの場所が変えられていたら
 		//~en If home location has been changed
 		if (hx !== 0 || hy !== 0 || hd !== 0) {
-			this._drawTriangle(c, this._curHomeLoc, true, 'Purple', '', 'Magenta');
+			if (this._curTrans) [hx, hy, hd] = this._transform(this._curTrans, hx, hy, hd);
+			this._drawTriangle(c, [hx, hy, hd], true, 'Purple', '', 'Magenta');
 		}
-
-		this._drawTriangle(c, this._curLoc, this._curPen, 'SeaGreen', 'DarkSeaGreen', 'Lime');
-		this._drawFunction(c, this._curLoc, this._curFnPos, this._curFn);
+		let [x, y, d] = this._curLoc;
+		if (this._curTrans) [x, y, d] = this._transform(this._curTrans, x, y, d);
+		this._drawTriangle(c, [x, y, d], this._curPen, 'SeaGreen', 'DarkSeaGreen', 'Lime');
+		this._drawFunction(c, [x, y, d], this._curFnPos, this._curFn);
 
 		c.restore();
 		this._curFn = '';
@@ -626,8 +655,13 @@ class Turtle extends TurtleBase {
 		c.save();
 		const offX = loc[0] <= 0 ? 48 : -48;
 		const offY = loc[1] <= 0 ? 48 : -48;
-		fnPos[0] = fnPos[0] * 0.95 + (loc[0] + offX) * 0.05;
-		fnPos[1] = fnPos[1] * 0.95 + (loc[1] + offY) * 0.05;
+		if (fnPos[0] === null || fnPos[1] === null) {
+			fnPos[0] = loc[0] + offX;
+			fnPos[1] = loc[1] + offY;
+		} else {
+			fnPos[0] = fnPos[0] * 0.95 + (loc[0] + offX) * 0.05;
+			fnPos[1] = fnPos[1] * 0.95 + (loc[1] + offY) * 0.05;
+		}
 
 		c.fillStyle = 'black';
 		c.strokeStyle = 'white';
