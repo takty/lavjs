@@ -1,10 +1,10 @@
 /**~ja
  * タートル・ベース
- * @version 2019-09-03
+ * @version 2019-12-12
  */
 /**~en
  * Turtle base
- * @version 2019-09-03
+ * @version 2019-12-12
  */
 class TurtleBase {
 
@@ -1148,14 +1148,20 @@ class TurtleBase {
 	/**~ja
 	 * キャンバス・コンテキストをカメの場所に合わせて拡大縮小する
 	 * @param {number} rate 拡大縮小率
+	 * @param {number=} opt_rateY たての拡大縮小率（オプション）
 	 */
 	/**~en
 	 * Scale the canvas context to the location of the turtle
 	 * @param {number} rate Scaling rate
+	 * @param {number=} opt_rateY Vertical scaling rate (optional)
 	 */
-	scale(rate) {
+	scale(rate, opt_rateY = null) {
 		this._ctx.translate(this._x, this._y);
-		this._ctx.scale(rate, rate);
+		if (opt_rateY === null) {
+			this._ctx.scale(rate, rate);
+		} else {
+			this._ctx.scale(rate, opt_rateY);
+		}
 		this._ctx.translate(-this._x, -this._y);
 	}
 
