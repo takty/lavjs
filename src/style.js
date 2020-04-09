@@ -4,7 +4,7 @@
  * 絵をかくときの線やぬりのスタイルを簡単に設定することができるようにするためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2019-05-11
+ * @version 2020-04-09
  */
 /**~en
  * Style library (STYLE)
@@ -12,7 +12,7 @@
  * A library to make it easy to set the style of strokes and filling when painting
  *
  * @author Takuto Yanagida
- * @version 2019-05-11
+ * @version 2020-04-09
  */
 
 
@@ -56,6 +56,7 @@ const STYLE = (function () {
 	 * @param {CanvasRenderingContext2D} ctx Canvas context
 	 */
 	const augment = (ctx) => {
+		if (ctx['styleFill'] && ctx['styleStroke'] && ctx['styleClear']) return;
 		let fill = makeFill(ctx), stroke = makeStroke(ctx), clear = makeClear(ctx);
 		ctx.styleFill   = (opt_fill) => {
 			if (opt_fill !== undefined) fill = makeFill(ctx, opt_fill);
