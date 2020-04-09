@@ -1,10 +1,10 @@
 /**~ja
  * 紙ミックスイン
- * @version 2019-09-04
+ * @version 2020-04-09
  */
 /**~en
  * Paper mixin
- * @version 2019-09-04
+ * @version 2020-04-09
  */
 Paper.mixin = {
 
@@ -281,10 +281,10 @@ Paper.mixin = {
 	 */
 	getRuler() {
 		//@ifdef ja
-		if (!RULER) throw new Error('Rulerライブラリが必要です。');
+		if (typeof RULER === 'undefined') throw new Error('Rulerライブラリが必要です。');
 		//@endif
 		//@ifdef en
-		if (!RULER) throw new Error('Ruler library is needed.');
+		if (typeof RULER === 'undefined') throw new Error('Ruler library is needed.');
 		//@endif
 		if (!this._ruler) this._ruler = new RULER.Ruler(this);
 		return this._ruler;

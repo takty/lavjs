@@ -1,10 +1,10 @@
 /**~ja
  * トレーサー
- * @version 2019-09-03
+ * @version 2020-04-09
  */
 /**~en
  * Tracer
- * @version 2019-09-03
+ * @version 2020-04-09
  */
 class Tracer {
 
@@ -16,10 +16,10 @@ class Tracer {
 	 */
 	constructor() {
 		//@ifdef ja
-		if (!PATH) throw new Error('Pathライブラリが必要です。');
+		if (typeof PATH === 'undefined') throw new Error('Pathライブラリが必要です。');
 		//@endif
 		//@ifdef en
-		if (!PATH) throw new Error('Path library is needed.');
+		if (typeof PATH === 'undefined') throw new Error('Path library is needed.');
 		//@endif
 
 		this._cmdQueue = [];

@@ -1,10 +1,10 @@
 /**~ja
  * タートル・ベース
- * @version 2019-12-12
+ * @version 2020-04-09
  */
 /**~en
  * Turtle base
- * @version 2019-12-12
+ * @version 2020-04-09
  */
 class TurtleBase {
 
@@ -20,12 +20,12 @@ class TurtleBase {
 	 */
 	constructor(context, normalDeg) {
 		//@ifdef ja
-		if (!STYLE) throw new Error('Styleライブラリが必要です。');
-		if (!PATH) throw new Error('Pathライブラリが必要です。');
+		if (typeof STYLE === 'undefined') throw new Error('Styleライブラリが必要です。');
+		if (typeof PATH === 'undefined') throw new Error('Pathライブラリが必要です。');
 		//@endif
 		//@ifdef en
-		if (!STYLE) throw new Error('Style library is needed.');
-		if (!PATH) throw new Error('Path library is needed.');
+		if (typeof STYLE === 'undefined') throw new Error('Style library is needed.');
+		if (typeof PATH === 'undefined') throw new Error('Path library is needed.');
 		//@endif
 
 		this._ctx = context;
