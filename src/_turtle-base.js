@@ -79,7 +79,7 @@ class TurtleBase {
 	 * @return {*} Child turtle
 	 */
 	makeChild() {
-		const child = new this.constructor();
+		const child = new this.constructor(this._ctx);
 		child._setState(this._getState(), false);
 		//~ja ペンの上げ下げをできなくする
 		//~en Make it impossible to make up and down the pen
