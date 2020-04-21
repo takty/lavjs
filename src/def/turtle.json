@@ -2,7 +2,7 @@
 	"!name": "cjseaux",
 	"TURTLE": {
 		"Turtle": {
-			"!type": "fn(context: ?, normalDeg: number)",
+			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, normalDeg: number)",
 			"prototype": {
 				"makeChild": {
 					"!type": "fn() -> +TURTLE.Turtle"
@@ -131,7 +131,7 @@
 					"!type": "fn(r: ?, deg?: ?, anticlockwise?: bool) -> !this"
 				},
 				"image": {
-					"!type": "fn(image: ?, cx: number, cy: number, scale?: number)"
+					"!type": "fn(image: +Image|+CROQUJS.Paper|+CanvasRenderingContext2D, cx: number, cy: number, scale?: number)"
 				},
 				"penUp": {
 					"!type": "fn() -> !this"
@@ -167,7 +167,10 @@
 					"!type": "fn(func: fn(?)) -> !this|fn(?)"
 				},
 				"context": {
-					"!type": "fn() -> ?"
+					"!type": "fn() -> +CROQUJS.Paper|+CanvasRenderingContext2D"
+				},
+				"paper": {
+					"!type": "fn() -> +CROQUJS.Paper|+CanvasRenderingContext2D"
 				},
 				"localize": {
 					"!type": "fn()"

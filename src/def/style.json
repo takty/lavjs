@@ -58,7 +58,7 @@
 					"!type": "fn()"
 				},
 				"assign": {
-					"!type": "fn(ctx: ?)"
+					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D)"
 				}
 			}
 		},
@@ -70,10 +70,10 @@
 					"!type": "fn(color: string) -> !this"
 				},
 				"assign": {
-					"!type": "fn(ctx: ?, gradArea: [?])"
+					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, gradArea: [?])"
 				},
 				"draw": {
-					"!type": "fn(ctx: ?, gradArea: [?])"
+					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, gradArea: [?])"
 				}
 			}
 		},
@@ -103,12 +103,15 @@
 					"!type": "fn(dashOffset?: number) -> !this|number"
 				},
 				"assign": {
-					"!type": "fn(ctx: ?, gradArea: [?])"
+					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, gradArea: [?])"
 				},
 				"draw": {
-					"!type": "fn(ctx: ?, gradArea: [?])"
+					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, gradArea: [?])"
 				}
 			}
+		},
+		"augment": {
+			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D)"
 		}
 	}
 }

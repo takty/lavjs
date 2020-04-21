@@ -22,7 +22,7 @@
 			}
 		},
 		"makeDefaultHandler": {
-			"!type": "fn(ctx: ?)"
+			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D)"
 		},
 		"normalEdge": {
 			"!type": "fn()"
@@ -52,7 +52,7 @@
 			"!type": "fn(r: number, deg: number, step: number) -> obj"
 		},
 		"eclipse": {
-			"!type": "fn(ctx: ?, cx: number, cy: number, w: number, h: number, dr: number, r0: number, r1: number, ac: bool)"
+			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, cx: number, cy: number, w: number, h: number, dr: number, r0: number, r1: number, ac: bool)"
 		}
 	}
 }

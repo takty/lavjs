@@ -68,7 +68,7 @@
 			"prototype": {
 				"!proto": "SPRITE.Element.prototype",
 				"draw": {
-					"!type": "fn(ctx: ?, args_array: [?])"
+					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, args_array: [?])"
 				}
 			}
 		},
@@ -101,12 +101,12 @@
 					"!type": "fn(descendant: +SPRITE.Element) -> [number]"
 				},
 				"draw": {
-					"!type": "fn(ctx: ?, args_array: [?])"
+					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, args_array: [?])"
 				}
 			}
 		},
 		"makePlotFunction": {
-			"!type": "fn(descendant: +SPRITE.Element, ancestorStage: +SPRITE.Stage, ctx: ?)"
+			"!type": "fn(descendant: +SPRITE.Element, ancestorStage: +SPRITE.Stage, ctx: +CROQUJS.Paper|+CanvasRenderingContext2D)"
 		}
 	}
 }

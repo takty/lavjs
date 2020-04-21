@@ -2,7 +2,7 @@
 	"!name": "cjseaux",
 	"RULER": {
 		"Ruler": {
-			"!type": "fn(context: ?)",
+			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D)",
 			"prototype": {
 				"makeChild": {
 					"!type": "fn() -> +TURTLE.Turtle"
@@ -23,7 +23,10 @@
 					"!type": "fn(func?: fn(?)) -> !this|fn(?)"
 				},
 				"context": {
-					"!type": "fn() -> ?"
+					"!type": "fn() -> +CROQUJS.Paper|+CanvasRenderingContext2D"
+				},
+				"paper": {
+					"!type": "fn() -> +CROQUJS.Paper|+CanvasRenderingContext2D"
 				},
 				"beginPath": {
 					"!type": "fn() -> !this"
