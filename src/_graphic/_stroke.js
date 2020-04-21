@@ -1,12 +1,12 @@
 /**~ja
  * 線スタイル（ストローク）
  * @extends {StyleBase}
- * @version 2019-05-09
+ * @version 2020-04-21
  */
 /**~en
  * Stroke style (Stroke)
  * @extends {StyleBase}
- * @version 2019-05-09
+ * @version 2020-04-21
  */
 class Stroke extends StyleBase {
 
@@ -154,13 +154,13 @@ class Stroke extends StyleBase {
 	// gradArea = {fromX, fromY, toX, toY, left, top, right, bottom}
 
 	/**~ja
-	 * キャンバス・コンテキストに線スタイルを設定する
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * 紙に線スタイルを設定する
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {Array<number>} gradArea グラデーション範囲
 	 */
 	/**~en
-	 * Assign the stroke style in the canvas context
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * Assign the stroke style in the paper
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {Array<number>} gradArea Gradation area
 	 */
 	assign(ctx, gradArea) {
@@ -181,12 +181,12 @@ class Stroke extends StyleBase {
 
 	/**~
 	 * 線スタイルを使って線をかく
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {Array<number>} gradArea グラデーション範囲
 	 */
 	/**~en
 	 * Draw lines using the stroke style
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {Array<number>} gradArea Gradation area
 	 */
 	draw(ctx, gradArea) {

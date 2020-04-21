@@ -7,7 +7,7 @@
  * （ここでの紙は、HTML5のCanvas要素のCanvasRenderingContext2Dを拡張したもののことです）
  *
  * @author Takuto Yanagida
- * @version 2020-04-09
+ * @version 2020-04-21
  */
 /**~en
  * Croqujs library (CROQUJS)
@@ -18,7 +18,7 @@
  * ('Paper' here is an extension of CanvasRenderingContext2D of HTML5 Canvas element)
  *
  * @author Takuto Yanagida
- * @version 2020-04-09
+ * @version 2020-04-21
  */
 
 
@@ -54,78 +54,17 @@ const CROQUJS = (function () {
 
 	const CANVAS_TO_PAPER = {};
 
-	/**~ja
-	 * 紙を作る（必ずnewを付けて呼び出すこと！）
-	 * @param {number} width 横の大きさ
-	 * @param {number} height たての大きさ
-	 * @param {boolean} [isVisible=true] 画面に表示する？
-	 * @constructor
-	 */
-	const Paper = function (width, height, isVisible = true) {
-		const can = document.createElement('canvas');
-		can.setAttribute('width', width || 400);
-		can.setAttribute('height', height || 400);
-		can.setAttribute('tabindex', 1);
-		const ctx = can.getContext('2d');
 
-		//~ja 画面に表示する場合は
-		//~en When displaying on the screen
-		if (isVisible === true) {
-			const style = document.createElement('style');
-			style.innerHTML = 'body>canvas{border:0px solid lightgray;display:inline-block;touch-action:none;outline:none;}';
-			document.head.appendChild(style);
-
-			can.id = 'canvas';
-			document.body.appendChild(can);
-			can.focus();
-		}
-		CANVAS_TO_PAPER[can] = ctx;
-		const that = _augment(ctx);
-		CROQUJS.currentPaper(that);
-
-		if (typeof STYLE !== 'undefined') STYLE.augment(that);
-		return that;
-	};
-
-	/**~ja
-	 * 紙の機能を追加する（ライブラリ内だけで使用）
-	 * @private
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
-	 * @return {CanvasRenderingContext2D} キャンバス・コンテキスト
-	 */
-	const _augment = function (ctx) {
-		ctx._frame = 0;
-		ctx._fps = 60;
-		ctx._frameLength = 60;
-		ctx._totalFrame = 0;
-		ctx._isAnimating = false;
-		ctx._isGridVisible = true;
-
-		ctx._keyEventHandler = new KeyHandler(ctx.canvas);
-		ctx._mouseEventHandler = new MouseHandler(ctx.canvas);
-		ctx.addEventListener = ctx.canvas.addEventListener.bind(ctx.canvas);
-
-		Object.keys(Paper.mixin).forEach((p) => {
-			const d = Object.getOwnPropertyDescriptor(Paper.mixin, p);
-			Object.defineProperty(ctx, p, d);
-		});
-		ctx.canvas.addEventListener('keydown', (e) => {
-			if (e.ctrlKey && String.fromCharCode(e.keyCode) === 'S') ctx.saveImage();
-		}, true);
-		return ctx;
-	};
+	//=
+	//=include _croqujs/_key-handler.js
 
 
 	//=
-	//=include _key-handler.js
+	//=include _croqujs/_mouse-handler.js
 
 
 	//=
-	//=include _mouse-handler.js
-
-
-	//=
-	//=include _paper-mixin.js
+	//=include _croqujs/_paper.js
 
 
 	//~ja ユーティリティ関数 ---------------------------------------------------

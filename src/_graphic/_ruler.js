@@ -1,22 +1,22 @@
 /**~ja
  * 定規
- * @version 2020-04-09
+ * @version 2020-04-21
  */
 /**~en
  * Ruler
- * @version 2020-04-09
+ * @version 2020-04-21
  */
 class Ruler {
 
 	/**~ja
 	 * 定規を作る
-	 * @param {Paper|CanvasRenderingContext2D} context 紙／キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Make a ruler
-	 * @param {Paper|CanvasRenderingContext2D} context Paper or canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
-	constructor(context) {
+	constructor(ctx) {
 		//@ifdef ja
 		if (typeof STYLE === 'undefined') throw new Error('Styleライブラリが必要です。');
 		if (typeof PATH === 'undefined') throw new Error('Pathライブラリが必要です。');
@@ -33,27 +33,27 @@ class Ruler {
 		this._toBeResetArea = true;
 		this._hasPath = false;
 
-		this._ctx = context;
+		this._ctx = ctx;
 		this._stack = [];
 
 		this._liner = new PATH.Liner({
 			lineOrMoveTo: (x, y, dir) => {
-				context.lineTo(x, y);
+				ctx.lineTo(x, y);
 				this._x = x;
 				this._y = y;
 			},
 			quadCurveOrMoveTo: (x1, y1, x2, y2, dir) => {
-				context.quadraticCurveTo(x1, y1, x2, y2);
+				ctx.quadraticCurveTo(x1, y1, x2, y2);
 				this._x = x2;
 				this._y = y2;
 			},
 			bezierCurveOrMoveTo: (x1, y1, x2, y2, x3, y3, dir) => {
-				context.bezierCurveTo(x1, y1, x2, y2, x3, y3);
+				ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
 				this._x = x3;
 				this._y = y3;
 			},
 			arcOrMoveTo: (cx, cy, dr, w, h, r0, r1, ac, dir, xx, yy) => {
-				PATH.eclipse(context, cx, cy, w, h, dr, r0, r1, ac);
+				PATH.eclipse(ctx, cx, cy, w, h, dr, r0, r1, ac);
 				this._x = xx;
 				this._y = yy;
 			}
@@ -87,33 +87,33 @@ class Ruler {
 
 	/**~ja
 	 * 今の状態を保存する
-	 * @param {boolean=} [opt_saveContext=false] コンテキストの状態も保存するか？
+	 * @param {boolean=} [opt_savePaper=false] 紙の状態も保存するか？
 	 * @return {Ruler} この定規
 	 */
 	/**~en
 	 * Save the current state
-	 * @param {boolean=} [opt_saveContext=false] Whether to save context state too
+	 * @param {boolean=} [opt_savePaper=false] Whether to save the paper state too
 	 * @return {Ruler} This ruler
 	 */
-	save(opt_saveContext = false) {
-		if (opt_saveContext === true) this._ctx.save();
+	save(opt_savePaper = false) {
+		if (opt_savePaper === true) this._ctx.save();
 		this._stack.push(this._getState());
 		return this;
 	}
 
 	/**~ja
 	 * 前の状態を復元する
-	 * @param {boolean=} [opt_restoreContext=false] コンテキストの状態も復元するか？
+	 * @param {boolean=} [opt_restorePaper=false] 紙の状態も復元するか？
 	 * @return {Ruler} この定規
 	 */
 	/**~en
 	 * Restore previous state
-	 * @param {boolean=} [opt_restoreContext=false] Whether to restore context state too
+	 * @param {boolean=} [opt_restorePaper=false] Whether to restore the paper state too
 	 * @return {Ruler} This ruler
 	 */
-	restore(opt_restoreContext = false) {
+	restore(opt_restorePaper = false) {
 		this._setState(this._stack.pop());
-		if (opt_restoreContext === true) this._ctx.restore();
+		if (opt_restorePaper === true) this._ctx.restore();
 		return this;
 	}
 
@@ -213,17 +213,17 @@ class Ruler {
 	}
 
 
-	//~ja コンテキスト操作 --------------------------------------------------------
-	//~en Context operation -------------------------------------------------------
+	//~ja 紙操作 ----------------------------------------------------------------
+	//~en Paper operation ---------------------------------------------------------
 
 
 	/**~ja
-	 * キャンバス・コンテキストを返す
-	 * @return {CanvasRenderingContext2D} キャンバス・コンテキスト
+	 * 紙を返す
+	 * @return {Paper|CanvasRenderingContext2D} 紙／キャンバス・コンテキスト
 	 */
 	/**~en
-	 * Get canvas context
-	 * @return {CanvasRenderingContext2D} Canvas context
+	 * Get the paper
+	 * @return {Paper|CanvasRenderingContext2D} Paper or canvas context
 	 */
 	context() {
 		return this._ctx;

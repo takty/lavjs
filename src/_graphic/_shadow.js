@@ -1,10 +1,10 @@
 /**~ja
  * 影
- * @version 2019-05-09
+ * @version 2020-04-21
  */
 /**~en
  * Shadow
- * @version 2019-05-09
+ * @version 2020-04-21
  */
 class Shadow {
 
@@ -73,11 +73,11 @@ class Shadow {
 
 	/**~ja
 	 * 影の設定を適用する
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Assign the shadow settings
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
 	assign(ctx) {
 		ctx.shadowBlur    = this._blur;

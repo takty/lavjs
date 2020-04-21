@@ -4,7 +4,7 @@
  * カメを動かして、絵をかくためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2019-05-11
+ * @version 2020-04-22
  */
 /**~en
  * Turtle library (TURTLE)
@@ -12,7 +12,7 @@
  * A library for moving the turtle and drawing pictures.
  *
  * @author Takuto Yanagida
- * @version 2019-05-11
+ * @version 2020-04-22
  */
 
 
@@ -142,6 +142,7 @@ const TURTLE = (function () {
 		getDirectionOf: ['towards'],
 		penDown       : ['pd', 'down'],
 		penUp         : ['pu', 'up'],
+		context       : ['paper'],
 	};
 
 	//~ja 関数の別名を登録する

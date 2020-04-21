@@ -1,10 +1,10 @@
 /**~ja
  * スタイル・ベース（ストローク・フィル共通）
- * @version 2019-10-12
+ * @version 2020-04-22
  */
 /**~en
  * Style base (Common to stroke and fill)
- * @version 2019-10-12
+ * @version 2020-04-22
  */
 class StyleBase {
 
@@ -429,14 +429,14 @@ class StyleBase {
 	/**~ja
 	 * スタイルを作る（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {Array<number>} gradArea グラデーション範囲
 	 * @return {string} スタイル文字列
 	 */
 	/**~en
 	 * Make the style (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {Array<number>} gradArea Gradation area
 	 * @return {string} Style string
 	 */
@@ -455,7 +455,7 @@ class StyleBase {
 	/**~ja
 	 * グラデーションを作る（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {dict} bs 範囲
 	 * @param {string} type 種類
 	 * @param {Array} params パラメター
@@ -466,7 +466,7 @@ class StyleBase {
 	/**~en
 	 * Make a gradation (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {dict} bs Bounds
 	 * @param {string} type Type
 	 * @param {Array} params Parameters
@@ -502,7 +502,7 @@ class StyleBase {
 	/**~ja
 	 * 線形グラデーションのパラメターを作る（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {string} type 種類
 	 * @param {dict} bs 範囲
 	 * @return {Array<number>} 線形グラデーションのパラメター
@@ -510,7 +510,7 @@ class StyleBase {
 	/**~en
 	 * Make linear gradation parameters (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {string} type Type
 	 * @param {dict} bs Bounds
 	 * @return {Array<number>} Linear gradation parameters
@@ -540,7 +540,7 @@ class StyleBase {
 	/**~ja
 	 * 円形グラデーションのパラメターを作る（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {string} type 種類
 	 * @param {dict} bs 範囲
 	 * @param {dict} opt オプション
@@ -549,7 +549,7 @@ class StyleBase {
 	/**~en
 	 * Make radial gradation parameters (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {string} type Type
 	 * @param {dict} bs Bounds
 	 * @param {dict} opt Options
@@ -584,13 +584,13 @@ class StyleBase {
 	/**~ja
 	 * 円形グラデーションのオプションをセットする（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {Array<number>} opt オプション
 	 */
 	/**~en
 	 * Set radial gradation options (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {Array<number>} opt Options
 	 */
 	_setGradOpt(ctx, opt) {

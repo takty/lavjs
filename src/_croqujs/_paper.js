@@ -1,12 +1,80 @@
 /**~ja
- * 紙ミックスイン
- * @version 2020-04-09
+ * 紙
+ * @version 2020-04-21
  */
 /**~en
- * Paper mixin
- * @version 2020-04-09
+ * Paper
+ * @version 2020-04-21
  */
-Paper.mixin = {
+class Paper {
+
+	/**~ja
+	 * 紙を作る
+	 * @param {number} width 横の大きさ
+	 * @param {number} height たての大きさ
+	 * @param {boolean} [isVisible=true] 画面に表示する？
+	 * @constructor
+	 */
+	/**~en
+	 * Make a paper
+	 * @param {number} width width
+	 * @param {number} height height
+	 * @param {boolean} [isVisible=true] Whether to be visible
+	 * @constructor
+	 */
+	constructor(width, height, isVisible = true) {
+		const can = document.createElement('canvas');
+		can.setAttribute('width', width || 400);
+		can.setAttribute('height', height || 400);
+		can.setAttribute('tabindex', 1);
+
+		this._ctx = can.getContext('2d');
+		if (!PAPER_IS_AUGMENTED) augmentPaperPrototype(this._ctx);
+
+		//~ja 画面に表示する場合は
+		//~en When displaying on the screen
+		if (isVisible === true) {
+			const style = document.createElement('style');
+			style.innerHTML = 'body>canvas{border:0 solid lightgray;display:inline-block;touch-action:none;outline:none;}';
+			document.head.appendChild(style);
+
+			can.id = 'canvas';
+			document.body.appendChild(can);
+			can.focus();
+		}
+		CANVAS_TO_PAPER[can] = this;
+		this._augment(can);
+		CROQUJS.currentPaper(this);
+
+		if (typeof STYLE !== 'undefined') STYLE.augment(this);
+	}
+
+	/**~ja
+	 * 紙を強化する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {DOMElement} can キャンバス要素
+	 */
+	/**~en
+	 * Augment papers (used only in the library)
+	 * @private
+	 * @param {DOMElement} can Canvas element
+	 */
+	_augment(can) {
+		this._frame = 0;
+		this._fps = 60;
+		this._frameLength = 60;
+		this._totalFrame = 0;
+		this._isAnimating = false;
+		this._isGridVisible = true;
+
+		this._keyEventHandler = new KeyHandler(can);
+		this._mouseEventHandler = new MouseHandler(can);
+		this.addEventListener = can.addEventListener.bind(can);
+
+		can.addEventListener('keydown', (e) => {
+			if (e.ctrlKey && String.fromCharCode(e.keyCode) === 'S') this.saveImage();
+		}, true);
+	}
 
 	/**~ja
 	 * 横の大きさ
@@ -22,7 +90,7 @@ Paper.mixin = {
 		if (val === undefined) return this.canvas.width;
 		this.canvas.width = val;
 		return this;
-	},
+	}
 
 	/**~ja
 	 * たての大きさ
@@ -38,7 +106,7 @@ Paper.mixin = {
 		if (val === undefined) return this.canvas.height;
 		this.canvas.height = val;
 		return this;
-	},
+	}
 
 	/**~ja
 	 * 紙のサイズを変える
@@ -56,7 +124,7 @@ Paper.mixin = {
 		this.canvas.width = width;
 		this.canvas.height = height;
 		return this;
-	},
+	}
 
 	/**~ja
 	 * 紙を指定した色でクリアする
@@ -84,7 +152,7 @@ Paper.mixin = {
 		}
 		this.restore();
 		return this;
-	},
+	}
 
 
 	//~ja アニメーション -------------------------------------------------------
@@ -126,7 +194,7 @@ Paper.mixin = {
 		this._isAnimating = true;
 		window.requestAnimationFrame(loop);
 		return this;
-	},
+	}
 
 	/**~ja
 	 * アニメーションを止める
@@ -139,7 +207,7 @@ Paper.mixin = {
 	stop() {
 		this._isAnimating = false;
 		return this;
-	},
+	}
 
 	/**~ja
 	 * フレーム
@@ -151,7 +219,7 @@ Paper.mixin = {
 	 */
 	frame() {
 		return this._frame;
-	},
+	}
 
 	/**~ja
 	 * FPS（1秒間のコマ数）
@@ -167,7 +235,7 @@ Paper.mixin = {
 		if (val === undefined) return this._fps;
 		this._fps = val;
 		return this;
-	},
+	}
 
 	/**~ja
 	 * フレーム長
@@ -183,7 +251,7 @@ Paper.mixin = {
 		if (val === undefined) return this._frameLength;
 		this._frameLength = val;
 		return this;
-	},
+	}
 
 	/**~ja
 	 * 全フレーム
@@ -195,7 +263,7 @@ Paper.mixin = {
 	 */
 	totalFrame() {
 		return this._totalFrame;
-	},
+	}
 
 
 	//~ja ページ ---------------------------------------------------------------
@@ -216,7 +284,7 @@ Paper.mixin = {
 		if (!this._pages) this._pages = {};
 		this._pages[pageName] = new CROQUJS.Paper(this.width(), this.height(), false);
 		return this._pages[pageName];
-	},
+	}
 
 	/**~ja
 	 * ページをもらう
@@ -231,7 +299,7 @@ Paper.mixin = {
 	getPage(pageName) {
 		if (!this._pages) return false;
 		return this._pages[pageName];
-	},
+	}
 
 
 	//~ja 子の紙 ---------------------------------------------------------------
@@ -250,7 +318,7 @@ Paper.mixin = {
 		if (!this._children) this._children = [];
 		this._children.push(paper);
 		this._mouseEventHandler.addChild(paper._mouseEventHandler);
-	},
+	}
 
 	/**~ja
 	 * 子の紙を削除する
@@ -264,7 +332,7 @@ Paper.mixin = {
 		if (!this._children) return;
 		this._children = this._children.filter(e => (e !== paper));
 		this._mouseEventHandler.removeChild(paper._mouseEventHandler);
-	},
+	}
 
 
 	//~ja ユーティリティ -------------------------------------------------------
@@ -288,7 +356,7 @@ Paper.mixin = {
 		//@endif
 		if (!this._ruler) this._ruler = new RULER.Ruler(this);
 		return this._ruler;
-	},
+	}
 
 	/**~ja
 	 * 紙にかいた絵をファイルに保存する
@@ -320,7 +388,7 @@ Paper.mixin = {
 		};
 		saveBlob(canvasToBlob(this.canvas, type), fileName || 'default.png');
 		return this;
-	},
+	}
 
 
 	/**~ja
@@ -337,7 +405,7 @@ Paper.mixin = {
 		if (val === undefined) return this._isGridVisible;
 		this._isGridVisible = val;
 		return this;
-	},
+	}
 
 	/**~ja
 	 * 紙にマス目をかく
@@ -369,7 +437,7 @@ Paper.mixin = {
 			this.stroke();
 		}
 		this.restore();
-	},
+	}
 
 
 	//~ja キーボード -----------------------------------------------------------
@@ -390,7 +458,7 @@ Paper.mixin = {
 		if (handler === undefined) return this._keyEventHandler.onKeyDown();
 		this._keyEventHandler.onKeyDown(handler);
 		return this;
-	},
+	}
 
 	/**~ja
 	 * キー・アップ・イベントに対応する関数をセットする
@@ -406,7 +474,7 @@ Paper.mixin = {
 		if (handler === undefined) return this._keyEventHandler.onKeyUp();
 		this._keyEventHandler.onKeyUp(handler);
 		return this;
-	},
+	}
 
 
 	//~ja マウス ---------------------------------------------------------------
@@ -427,7 +495,7 @@ Paper.mixin = {
 		if (handler === undefined) return this._mouseEventHandler.onMouseDown();
 		this._mouseEventHandler.onMouseDown(handler);
 		return this;
-	},
+	}
 
 	/**~ja
 	 * マウス・ムーブ・イベントに対応する関数をセットする
@@ -443,7 +511,7 @@ Paper.mixin = {
 		if (handler === undefined) return this._mouseEventHandler.onMouseMove();
 		this._mouseEventHandler.onMouseMove(handler);
 		return this;
-	},
+	}
 
 	/**~ja
 	 * マウス・アップ・イベントに対応する関数をセットする
@@ -459,7 +527,7 @@ Paper.mixin = {
 		if (handler === undefined) return this._mouseEventHandler.onMouseUp();
 		this._mouseEventHandler.onMouseUp(handler);
 		return this;
-	},
+	}
 
 	/**~ja
 	 * マウス・クリック・イベントに対応する関数をセットする
@@ -475,7 +543,7 @@ Paper.mixin = {
 		if (handler === undefined) return this._mouseEventHandler.onMouseClick();
 		this._mouseEventHandler.onMouseClick(handler);
 		return this;
-	},
+	}
 
 	/**~ja
 	 * マウス・ホイール・イベントに対応する関数をセットする
@@ -491,7 +559,7 @@ Paper.mixin = {
 		if (handler === undefined) return this._mouseEventHandler.onMouseWheel();
 		this._mouseEventHandler.onMouseWheel(handler);
 		return this;
-	},
+	}
 
 	/**~ja
 	 * マウスの横の場所を返す
@@ -503,7 +571,7 @@ Paper.mixin = {
 	 */
 	mouseX() {
 		return this._mouseEventHandler.mouseX();
-	},
+	}
 
 	/**~ja
 	 * マウスのたての場所を返す
@@ -515,7 +583,7 @@ Paper.mixin = {
 	 */
 	mouseY() {
 		return this._mouseEventHandler.mouseY();
-	},
+	}
 
 	/**~ja
 	 * マウスの左ボタンが押されているか？
@@ -527,7 +595,7 @@ Paper.mixin = {
 	 */
 	mouseLeft() {
 		return this._mouseEventHandler.mouseLeft();
-	},
+	}
 
 	/**~ja
 	 * マウスの右ボタンが押されているか？
@@ -539,7 +607,7 @@ Paper.mixin = {
 	 */
 	mouseRight() {
 		return this._mouseEventHandler.mouseRight();
-	},
+	}
 
 	/**~ja
 	 * マウスの中ボタンが押されているか？
@@ -554,3 +622,21 @@ Paper.mixin = {
 	}
 
 };
+
+let PAPER_IS_AUGMENTED = false;
+
+function augmentPaperPrototype(ctx) {
+	PAPER_IS_AUGMENTED = true;
+	const org = Object.getPrototypeOf(ctx);
+	for (const name in ctx) {
+		if (typeof ctx[name] === 'function') {
+			Paper.prototype[name] = function (...args) { return this._ctx[name](...args); }
+		} else {
+			const d = Object.getOwnPropertyDescriptor(org, name);
+			const nd = { configurable: d.configurable, enumerable: d.enumerable }
+			if (d.get) nd['get'] = function () { return this._ctx[name]; };
+			if (d.set) nd['set'] = function (v) { this._ctx[name] = v; };
+			Object.defineProperty(Paper.prototype, name, nd);
+		}
+	}
+}

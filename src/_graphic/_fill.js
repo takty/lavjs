@@ -1,12 +1,12 @@
 /**~ja
  * 塗りスタイル（フィル）
  * @extends {StyleBase}
- * @version 2019-05-09
+ * @version 2020-04-21
  */
 /**~en
  * Filling style (Fill)
  * @extends {StyleBase}
- * @version 2019-05-09
+ * @version 2020-04-21
  */
 class Fill extends StyleBase {
 
@@ -40,13 +40,13 @@ class Fill extends StyleBase {
 	// gradArea = {fromX, fromY, toX, toY, left, top, right, bottom}
 
 	/**~ja
-	 * キャンバス・コンテキストにぬりスタイルを設定する
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * 紙にぬりスタイルを設定する
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {Array<number>} gradArea グラデーション範囲
 	 */
 	/**~en
-	 * Set the filling style on the canvas context
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * Set the filling style on the paper
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {Array<number>} gradArea Gradation area
 	 */
 	assign(ctx, gradArea) {
@@ -59,12 +59,12 @@ class Fill extends StyleBase {
 
 	/**~ja
 	 * ぬりスタイルを使って形をかく
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {Array<number>} gradArea グラデーション範囲
 	 */
 	/**~en
 	 * Draw shape using the filling style
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {Array<number>} gradArea Gradation area
 	 */
 	draw(ctx, gradArea) {

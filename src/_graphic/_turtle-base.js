@@ -1,24 +1,24 @@
 /**~ja
  * タートル・ベース
- * @version 2020-04-09
+ * @version 2020-04-21
  */
 /**~en
  * Turtle base
- * @version 2020-04-09
+ * @version 2020-04-21
  */
 class TurtleBase {
 
 	/**~ja
 	 * カメを作る
-	 * @param {Paper|CanvasRenderingContext2D} context 紙／キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number=} normalDeg 標準の方向
 	 */
 	/**~en
 	 * Make a turtle
-	 * @param {Paper|CanvasRenderingContext2D} context Paper of canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number=} normalDeg Normal degree
 	 */
-	constructor(context, normalDeg) {
+	constructor(ctx, normalDeg) {
 		//@ifdef ja
 		if (typeof STYLE === 'undefined') throw new Error('Styleライブラリが必要です。');
 		if (typeof PATH === 'undefined') throw new Error('Pathライブラリが必要です。');
@@ -28,7 +28,7 @@ class TurtleBase {
 		if (typeof PATH === 'undefined') throw new Error('Path library is needed.');
 		//@endif
 
-		this._ctx = context;
+		this._ctx = ctx;
 		this._stack = [];
 
 		//~ja 以下の変数は値を直接変えないこと
@@ -89,33 +89,33 @@ class TurtleBase {
 
 	/**~ja
 	 * 今の状態を保存する
-	 * @param {boolean=} [opt_saveContext=false] コンテキストの状態も保存するか？
+	 * @param {boolean=} [opt_savePaper=false] 紙の状態も保存するか？
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Save the current state
-	 * @param {boolean=} [opt_saveContext=false] Whether to save context state too
+	 * @param {boolean=} [opt_savePaper=false] Whether to save the paper state too
 	 * @return {TurtleBase} This turtle base
 	 */
-	save(opt_saveContext = false) {
-		if (opt_saveContext === true) this._ctx.save();
+	save(opt_savePaper = false) {
+		if (opt_savePaper === true) this._ctx.save();
 		this._stack.push(this._getState());
 		return this;
 	}
 
 	/**~ja
 	 * 前の状態を復元する
-	 * @param {boolean=} [opt_restoreContext=false] コンテキストの状態も復元するか？
+	 * @param {boolean=} [opt_restorePaper=false] 紙の状態も復元するか？
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Restore previous state
-	 * @param {boolean=} [opt_restoreContext=false] Whether to restore context state too
+	 * @param {boolean=} [opt_restorePaper=false] Whether to restore the paper state too
 	 * @return {TurtleBase} This turtle base
 	 */
-	restore(opt_restoreContext = false) {
+	restore(opt_restorePaper = false) {
 		this._setState(this._stack.pop());
-		if (opt_restoreContext === true) this._ctx.restore();
+		if (opt_restorePaper === true) this._ctx.restore();
 		return this;
 	}
 
@@ -916,7 +916,7 @@ class TurtleBase {
 	 * @param {number=} [scale=1] Scale
 	 */
 	image(image, cx, cy, scale = 1) {
-		const img = (image instanceof CanvasRenderingContext2D) ? image.canvas : image;
+		const img = (image instanceof CROQUJS.Paper || image instanceof CanvasRenderingContext2D) ? image.canvas : image;
 		this._ctx.save();
 		this.localize();
 		this._ctx.drawImage(img, -cx * scale, -cy * scale, img.width * scale, img.height * scale);
@@ -1118,27 +1118,27 @@ class TurtleBase {
 	}
 
 
-	//~ja コンテキスト操作 --------------------------------------------------------
-	//~en Context operation -------------------------------------------------------
+	//~ja 紙操作 ----------------------------------------------------------------
+	//~en Paper operation ---------------------------------------------------------
 
 
 	/**~ja
-	 * キャンバス・コンテキストを返す
-	 * @return {CanvasRenderingContext2D} キャンバス・コンテキスト
+	 * 紙を返す
+	 * @return {Paper|CanvasRenderingContext2D} 紙／キャンバス・コンテキスト
 	 */
 	/**~en
-	 * Get canvas context
-	 * @return {CanvasRenderingContext2D} Canvas context
+	 * Get the paper
+	 * @return {Paper|CanvasRenderingContext2D} Paper or canvas context
 	 */
 	context() {
 		return this._ctx;
 	}
 
 	/**~ja
-	 * キャンバス・コンテキストをカメの場所と方向に合わせる
+	 * 紙をカメの場所と方向に合わせる
 	 */
 	/**~en
-	 * Align canvas context with turtle location and orientation
+	 * Align the paper with turtle location and orientation
 	 */
 	localize() {
 		this._ctx.translate(this._x, this._y);
@@ -1146,12 +1146,12 @@ class TurtleBase {
 	}
 
 	/**~ja
-	 * キャンバス・コンテキストをカメの場所に合わせて拡大縮小する
+	 * 紙をカメの場所に合わせて拡大縮小する
 	 * @param {number} rate 拡大縮小率
 	 * @param {number=} opt_rateY たての拡大縮小率（オプション）
 	 */
 	/**~en
-	 * Scale the canvas context to the location of the turtle
+	 * Scale the paper to the location of the turtle
 	 * @param {number} rate Scaling rate
 	 * @param {number=} opt_rateY Vertical scaling rate (optional)
 	 */

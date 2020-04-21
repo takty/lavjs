@@ -2,13 +2,13 @@
  * 定規ライブラリ（RULER）
  *
  * @author Takuto Yanagida
- * @version 2019-08-04
+ * @version 2020-04-22
  */
 /**~en
  * Ruler library (RULER)
  *
  * @author Takuto Yanagida
- * @version 2019-08-04
+ * @version 2020-04-22
  */
 
 
@@ -83,6 +83,7 @@ const RULER = (function () {
 	//~ja 関数の別名
 	//~en Function alias
 	const aliasMap = {
+		context: ['paper'],
 	};
 
 	//~ja 関数の別名を登録する

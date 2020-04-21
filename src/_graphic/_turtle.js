@@ -1,25 +1,25 @@
 /**~ja
  * タートル
- * @version 2019-12-12
+ * @version 2020-04-22
  */
 /**~en
  * Turtle
- * @version 2019-12-12
+ * @version 2020-04-22
  */
 class Turtle extends TurtleBase {
 
 	/**~ja
 	 * カメを作る
-	 * @param {Paper|CanvasRenderingContext2D} context 紙／キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number=} normalDeg 標準の方向
 	 */
 	/**~en
 	 * Make a turtle
-	 * @param {Paper|CanvasRenderingContext2D} context Paper of canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number=} normalDeg Normal degree
 	 */
-	constructor(context, normalDeg) {
-		super(context, normalDeg);
+	constructor(ctx, normalDeg) {
+		super(ctx, normalDeg);
 
 		this._visible      = false;
 		this._isAnimating  = false;
@@ -560,35 +560,35 @@ class Turtle extends TurtleBase {
 	/**~ja
 	 * カメ（ホーム）をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Draw the turtle (home) (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
-	_drawTurtle(c) {
-		c.save();
-		c.setLineDash([]);
-		c.globalAlpha = 1;
+	_drawTurtle(ctx) {
+		ctx.save();
+		ctx.setLineDash([]);
+		ctx.globalAlpha = 1;
 
-		if (this._curTrans) c.setTransform(this._curTrans);
-		this._drawAnchor(c, this._curAs);
+		if (this._curTrans) ctx.setTransform(this._curTrans);
+		this._drawAnchor(ctx, this._curAs);
 
-		c.setTransform(1, 0, 0, 1, 0, 0);
+		ctx.setTransform(1, 0, 0, 1, 0, 0);
 		let [hx, hy, hd] = this._curHomeLoc;
 		//~ja ホームの場所が変えられていたら
 		//~en If home location has been changed
 		if (hx !== 0 || hy !== 0 || hd !== 0) {
 			if (this._curTrans) [hx, hy, hd] = this._transform(this._curTrans, hx, hy, hd);
-			this._drawTriangle(c, [hx, hy, hd], true, 'Purple', '', 'Magenta');
+			this._drawTriangle(ctx, [hx, hy, hd], true, 'Purple', '', 'Magenta');
 		}
 		let [x, y, d] = this._curLoc;
 		if (this._curTrans) [x, y, d] = this._transform(this._curTrans, x, y, d);
-		this._drawTriangle(c, [x, y, d], this._curPen, 'SeaGreen', 'DarkSeaGreen', 'Lime');
-		this._drawFunction(c, [x, y, d], this._curFnPos, this._curFn);
+		this._drawTriangle(ctx, [x, y, d], this._curPen, 'SeaGreen', 'DarkSeaGreen', 'Lime');
+		this._drawFunction(ctx, [x, y, d], this._curFnPos, this._curFn);
 
-		c.restore();
+		ctx.restore();
 		this._curFn = '';
 		this._curAs = [];
 	}
@@ -596,7 +596,7 @@ class Turtle extends TurtleBase {
 	/**~ja
 	 * カメやホームを表す三角をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {*} loc 場所
 	 * @param {*} pen ペンの状態
 	 * @param {*} downColor ペンを下げているときの色
@@ -606,39 +606,39 @@ class Turtle extends TurtleBase {
 	/**~en
 	 * Draw a triangle representing a turtle or home (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {*} loc Location
 	 * @param {*} pen Pen state
 	 * @param {*} downColor Color when putting down the pen
 	 * @param {*} upColor Color when raising up the pen
 	 * @param {*} lineColor Line color
 	 */
-	_drawTriangle(c, loc, pen, downColor, upColor, lineColor) {
-		c.save();
-		c.translate(loc[0], loc[1]);
-		c.rotate(rad(loc[2]));
+	_drawTriangle(ctx, loc, pen, downColor, upColor, lineColor) {
+		ctx.save();
+		ctx.translate(loc[0], loc[1]);
+		ctx.rotate(rad(loc[2]));
 
-		c.beginPath();
-		c.moveTo(0, -10);
-		c.lineTo(8, 8);
-		c.lineTo(-8, 8);
-		c.closePath();
+		ctx.beginPath();
+		ctx.moveTo(0, -10);
+		ctx.lineTo(8, 8);
+		ctx.lineTo(-8, 8);
+		ctx.closePath();
 
-		c.fillStyle = pen ? downColor : upColor;
-		Turtle._setShadow(c, pen ? 4 : 6, 4);
-		c.fill();
+		ctx.fillStyle = pen ? downColor : upColor;
+		Turtle._setShadow(ctx, pen ? 4 : 6, 4);
+		ctx.fill();
 
-		Turtle._setShadow(c, 0, 0);
-		c.lineWidth = 2;
-		c.strokeStyle = lineColor;
-		c.stroke();
-		c.restore();
+		Turtle._setShadow(ctx, 0, 0);
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = lineColor;
+		ctx.stroke();
+		ctx.restore();
 	}
 
 	/**~ja
 	 * カメの実行中の動きをかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {Array<number>} loc 場所
 	 * @param {Array<number>} fnPos 関数をかく場所
 	 * @param {string} curFn 現在の関数
@@ -646,13 +646,13 @@ class Turtle extends TurtleBase {
 	/**~en
 	 * Draw the running function of the turtle (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {Array<number>} loc Location
 	 * @param {Array<number>} fnPos Location of drawing function
 	 * @param {string} curFn Current function
 	 */
-	_drawFunction(c, loc, fnPos, curFn) {
-		c.save();
+	_drawFunction(ctx, loc, fnPos, curFn) {
+		ctx.save();
 		const offX = loc[0] <= 0 ? 48 : -48;
 		const offY = loc[1] <= 0 ? 48 : -48;
 		if (fnPos[0] === null || fnPos[1] === null) {
@@ -663,32 +663,32 @@ class Turtle extends TurtleBase {
 			fnPos[1] = fnPos[1] * 0.95 + (loc[1] + offY) * 0.05;
 		}
 
-		c.fillStyle = 'black';
-		c.strokeStyle = 'white';
-		c.lineWidth = 3;
-		c.font = 'bold 26px Consolas, Menlo, "Courier New", Meiryo, monospace';
-		c.textAlign = 'center';
-		c.translate(fnPos[0], fnPos[1]);
-		Turtle._setShadow(c, 4, 2);
-		c.strokeText(curFn, 0, 12);
-		Turtle._setShadow(c, 0, 0);
-		c.fillText(curFn, 0, 12);
-		c.restore();
+		ctx.fillStyle = 'black';
+		ctx.strokeStyle = 'white';
+		ctx.lineWidth = 3;
+		ctx.font = 'bold 26px Consolas, Menlo, "Courier New", Meiryo, monospace';
+		ctx.textAlign = 'center';
+		ctx.translate(fnPos[0], fnPos[1]);
+		Turtle._setShadow(ctx, 4, 2);
+		ctx.strokeText(curFn, 0, 12);
+		Turtle._setShadow(ctx, 0, 0);
+		ctx.fillText(curFn, 0, 12);
+		ctx.restore();
 	}
 
 	/**~ja
 	 * カメのアンカーをかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {Array} curPos 場所
 	 */
 	/**~en
 	 * Draw a turtle anchors (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {Array} curPos Positions
 	 */
-	_drawAnchor(c, curPos) {
+	_drawAnchor(ctx, curPos) {
 		for (let p of curPos) {
 			if (p.x0 !== undefined) {
 				draw(p.x0, p.y0, null, 'Lime', 'DarkSeaGreen', drawCheck);
@@ -705,47 +705,47 @@ class Turtle extends TurtleBase {
 			}
 		}
 		function draw(x, y, r, outer, inner, fn, ...args) {
-			c.save();
-			c.translate(x, y);
-			if (r !== null) c.rotate(r);
-			c.strokeStyle = outer;
-			c.lineWidth = 4;
-			Turtle._setShadow(c, 4, 2);
+			ctx.save();
+			ctx.translate(x, y);
+			if (r !== null) ctx.rotate(r);
+			ctx.strokeStyle = outer;
+			ctx.lineWidth = 4;
+			Turtle._setShadow(ctx, 4, 2);
 			fn(...args);
 
-			c.strokeStyle = inner;
-			c.lineWidth = 2;
-			Turtle._setShadow(c, 0, 0);
+			ctx.strokeStyle = inner;
+			ctx.lineWidth = 2;
+			Turtle._setShadow(ctx, 0, 0);
 			fn(...args);
-			c.restore();
+			ctx.restore();
 		}
 		function drawCheck() {
-			c.beginPath();
-			c.moveTo(-8, -8);
-			c.lineTo(8, 8);
-			c.moveTo(8, -8);
-			c.lineTo(-8, 8);
-			c.stroke();
+			ctx.beginPath();
+			ctx.moveTo(-8, -8);
+			ctx.lineTo(8, 8);
+			ctx.moveTo(8, -8);
+			ctx.lineTo(-8, 8);
+			ctx.stroke();
 		}
 		function drawRect(hw, hh) {
-			c.setLineDash([6, 4]);
-			c.beginPath();
-			c.rect(-hw, -hh, hw * 2, hh * 2);
-			c.stroke();
+			ctx.setLineDash([6, 4]);
+			ctx.beginPath();
+			ctx.rect(-hw, -hh, hw * 2, hh * 2);
+			ctx.stroke();
 		}
 		function drawLine() {
-			c.setLineDash([6, 4]);
-			c.beginPath();
-			c.moveTo(0, 0);
-			c.lineTo(128, 0);
-			c.stroke();
+			ctx.setLineDash([6, 4]);
+			ctx.beginPath();
+			ctx.moveTo(0, 0);
+			ctx.lineTo(128, 0);
+			ctx.stroke();
 		}
 	}
 
 	/**~ja
 	 * 影をセットする（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number} blur ぼかし量
 	 * @param {number} off 影のずれ
 	 * @param {string} [color='rgba(0,0,0,0.5)'] 色
@@ -753,7 +753,7 @@ class Turtle extends TurtleBase {
 	/**~en
 	 * Set shadow (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number} blur Blur amount
 	 * @param {number} off Shadow offset
 	 * @param {string} [color='rgba(0,0,0,0.5)'] Color

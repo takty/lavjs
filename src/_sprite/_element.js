@@ -1,12 +1,12 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
  * @author Takuto Yanagida
- * @version 2019-05-11
+ * @version 2020-04-22
  */
 /**~en
  * Element (common to sprites and stages)
  * @author Takuto Yanagida
- * @version 2019-05-11
+ * @version 2020-04-22
  */
 class Element {
 
@@ -353,14 +353,14 @@ class Element {
 	}
 
 	/**~ja
-	 * コンテキストの座標変換とアルファ値をセットする（ライブラリ内だけで使用）
+	 * 紙の座標変換とアルファ値をセットする（ライブラリ内だけで使用）
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
-	 * Set context transformation and alpha value (used only in the library)
+	 * Set paper transformation and alpha value (used only in the library)
 	 * @private
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
 	_setTransformation(ctx) {
 		ctx.translate(this._x, this._y);

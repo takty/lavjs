@@ -4,7 +4,7 @@
  * 図形のパスを作るためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2019-09-03
+ * @version 2020-04-21
  */
 /**~en
  * Path library (PATH)
@@ -12,7 +12,7 @@
  * A library to make the path of the shape.
  *
  * @author Takuto Yanagida
- * @version 2019-09-03
+ * @version 2020-04-21
  */
 
 
@@ -439,12 +439,12 @@ const PATH = (function () {
 
 	/**~ja
 	 * デフォルト・ハンドラーを作る
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @return {*} ハンドラー
 	 */
 	/**~en
 	 * Make a default handler
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @return {*} Handler
 	 */
 	const makeDefaultHandler = function (ctx) {
@@ -603,7 +603,7 @@ const PATH = (function () {
 
 	/**~ja
 	 * 円をかく
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number} cx 中心x座標
 	 * @param {number} cy 中心y座標
 	 * @param {number} w 横幅
@@ -615,7 +615,7 @@ const PATH = (function () {
 	 */
 	/**~en
 	 * Draw a circle
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number} cx X coordinate of center
 	 * @param {number} cy Y coordinate of center
 	 * @param {number} w Width

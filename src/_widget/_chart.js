@@ -1,12 +1,12 @@
 /**~ja
  * グラフ
  * @author Takuto Yanagida
- * @version 2019-09-06
+ * @version 2020-04-22
  */
 /**~en
  * Chart
  * @author Takuto Yanagida
- * @version 2019-09-06
+ * @version 2020-04-22
  */
 
 
@@ -160,31 +160,31 @@ class Chart extends Widget {
 	/**~ja
 	 * 凡例をかく
 	 * @private
-	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number} legendWidth 凡例の幅
 	 */
 	/**~en
 	 * Draw a legend
 	 * @private
-	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number} legendWidth Width of legend
 	 */
-	_drawLegend(c, legendWidth) {
-		c.font = '14px sans-serif';
+	_drawLegend(ctx, legendWidth) {
+		ctx.font = '14px sans-serif';
 		let y = 0;
 		for (let key of this._keys) {
 			const { name, style } = this._items[key];
-			c.fillStyle = style;
-			c.fillRect(0, y, 16, 16);
+			ctx.fillStyle = style;
+			ctx.fillRect(0, y, 16, 16);
 
-			c.fillStyle = 'Black';
-			c.textAlign = 'left';
-			c.fillText(name, 16 + 8, y + 13);
+			ctx.fillStyle = 'Black';
+			ctx.textAlign = 'left';
+			ctx.fillText(name, 16 + 8, y + 13);
 
 			const ds = this._data[key];
 			const v = ds[ds.length - 1];
-			c.textAlign = 'right';
-			c.fillText(this._format(this._digits, v), legendWidth - 8, y + 13);
+			ctx.textAlign = 'right';
+			ctx.fillText(this._format(this._digits, v), legendWidth - 8, y + 13);
 
 			y += 22;
 		}
@@ -222,7 +222,7 @@ class Chart extends Widget {
 	/**~ja
 	 * わくをかく
 	 * @private
-	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number} left 横の場所
 	 * @param {number} cx 横の幅
 	 * @param {number} cy たての幅
@@ -232,33 +232,33 @@ class Chart extends Widget {
 	/**~en
 	 * Draw a frame
 	 * @private
-	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number} left X coordinate
 	 * @param {number} cx Width
 	 * @param {number} cy Height
 	 * @param {number} min Minimum value
 	 * @param {number} max Maximum value
 	 */
-	_drawFrame(c, left, cx, cy, min, max) {
-		c.strokeStyle = 'Black';
-		c.beginPath();
-		c.moveTo(left, 0);
-		c.lineTo(left, cy);
-		c.lineTo(left + cx, cy);
-		c.stroke();
+	_drawFrame(ctx, left, cx, cy, min, max) {
+		ctx.strokeStyle = 'Black';
+		ctx.beginPath();
+		ctx.moveTo(left, 0);
+		ctx.lineTo(left, cy);
+		ctx.lineTo(left + cx, cy);
+		ctx.stroke();
 		if (this._min !== 0 || this._max !== 0) {
 			const y = (max - 0) / (max - min) * cy;
-			c.beginPath();
-			c.moveTo(left, y);
-			c.lineTo(left + cx, y);
-			c.stroke();
+			ctx.beginPath();
+			ctx.moveTo(left, y);
+			ctx.lineTo(left + cx, y);
+			ctx.stroke();
 		}
 	}
 
 	/**~ja
 	 * 全データ表示モードの絵をかく
 	 * @private
-	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number} left 横の場所
 	 * @param {number} cx 横の幅
 	 * @param {number} cy たての幅
@@ -268,22 +268,22 @@ class Chart extends Widget {
 	/**~en
 	 * Draw a picture on all data mode
 	 * @private
-	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number} left X coordinate
 	 * @param {number} cx Width
 	 * @param {number} cy Height
 	 * @param {number} min Minimum value
 	 * @param {number} max Maximum value
 	 */
-	_drawAllDataMode(c, left, cx, cy, min, max) {
+	_drawAllDataMode(ctx, left, cx, cy, min, max) {
 		for (let key of this._keys) {
 			const ds = this._data[key];
 			const len = ds.length;
 			if (len === 0) continue;
 
-			c.strokeStyle = this._items[key].style;
-			c.beginPath();
-			c.moveTo(left, cy - ds[0] * cy / max);
+			ctx.strokeStyle = this._items[key].style;
+			ctx.beginPath();
+			ctx.moveTo(left, cy - ds[0] * cy / max);
 
 			let prevX = 0, prevY = 0;
 			for (let i = 1, I = ds.length; i < I; i += 1) {
@@ -292,20 +292,20 @@ class Chart extends Widget {
 				if (0.5 < dx) {
 					const y = (max - ds[i]) / (max - min) * cy;
 					if (1.0 < dx || cy * 0.5 < Math.abs(y - prevY)) {
-						c.lineTo(x, y);
+						ctx.lineTo(x, y);
 						prevX = x;
 						prevY = y;
 					}
 				}
 			}
-			c.stroke();
+			ctx.stroke();
 		}
 	}
 
 	/**~ja
 	 * スクロール・モードの絵をかく
 	 * @private
-	 * @param {CanvasRenderingContext2D} c キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number} left 横の場所
 	 * @param {number} cx 横の幅
 	 * @param {number} cy たての幅
@@ -315,14 +315,14 @@ class Chart extends Widget {
 	/**~en
 	 * Draw a picture on scroll mode
 	 * @private
-	 * @param {CanvasRenderingContext2D} c Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number} left X coordinate
 	 * @param {number} cx Width
 	 * @param {number} cy Height
 	 * @param {number} min Minimum value
 	 * @param {number} max Maximum value
 	 */
-	_drawScrollMode(c, left, cx, cy, min, max) {
+	_drawScrollMode(ctx, left, cx, cy, min, max) {
 		for (let key of this._keys) {
 			const ds = this._data[key];
 			let len = ds.length;
@@ -330,16 +330,16 @@ class Chart extends Widget {
 			const st = Math.max(0, len - cx);
 			len -= st;
 
-			c.strokeStyle = this._items[key].style;
-			c.beginPath();
-			c.moveTo(left, cy - ds[st] * cy / max);
+			ctx.strokeStyle = this._items[key].style;
+			ctx.beginPath();
+			ctx.moveTo(left, cy - ds[st] * cy / max);
 
 			for (let i = st + 1, I = ds.length; i < I; i += 1) {
 				const x = left + (i - st);
 				const y = (max - ds[i]) / (max - min) * cy;
-				c.lineTo(x, y);
+				ctx.lineTo(x, y);
 			}
-			c.stroke();
+			ctx.stroke();
 		}
 	}
 

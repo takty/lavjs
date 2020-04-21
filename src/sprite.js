@@ -5,7 +5,7 @@
  * 好きな場所に好きな大きさ、向き、透明度で表示するためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2019-05-10
+ * @version 2020-04-21
  */
 /**~en
  * Sprite library (SPRITE)
@@ -14,7 +14,7 @@
  * and display them in the size, orientation, and transparency you like.
  *
  * @author Takuto Yanagida
- * @version 2019-05-11
+ * @version 2020-04-21
  */
 
 
@@ -118,14 +118,14 @@ const SPRITE = (function () {
 	 * スプライトの軌跡をプロットする関数を作る
 	 * @param {Element} descendant 子孫要素
 	 * @param {Stage} ancestorStage 先祖ステージ
-	 * @param {CanvasRenderingContext2D} ctx プロットするコンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx プロットする紙／キャンバス・コンテキスト
 	 * @return {function} スプライトの軌跡をプロットする関数
 	 */
 	/**~en
 	 * Make a function to plot sprite trajectory
 	 * @param {Element} descendant Descendant element
 	 * @param {Stage} ancestorStage Ancestor stage
-	 * @param {CanvasRenderingContext2D} ctx Context to plot
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context to plot
 	 * @return {function} Function to plot sprite trajectory
 	 */
 	const makePlotFunction = function (descendant, ancestorStage, ctx) {

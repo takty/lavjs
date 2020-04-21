@@ -1,12 +1,12 @@
 /**~ja
  * ステージ
  * @extends {Element}
- * @version 2019-05-30
+ * @version 2020-04-21
  */
 /**~en
  * Stage
  * @extends {Element}
- * @version 2019-05-30
+ * @version 2020-04-21
  */
 class Stage extends Element {
 
@@ -157,12 +157,12 @@ class Stage extends Element {
 	}
 
 	/**~ja
-	 * このステージの原点のコンテキストでの場所を返す
+	 * このステージの原点の紙での場所を返す
 	 * @param {Element} descendant スプライトかステージ
 	 * @return {Array<number>} 場所
 	 */
 	/**~en
-	 * Returns the position in context of this stage's origin
+	 * Returns the position in the paper of this stage's origin
 	 * @param {Element} descendant Sprite or child stage of this stage
 	 * @return {Array<number>} Position
 	 */
@@ -179,12 +179,12 @@ class Stage extends Element {
 
 	/**~ja
 	 * 持っているスプライトと子ステージを全て描く
-	 * @param {CanvasRenderingContext2D} ctx キャンバス・コンテキスト
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {Array} args_array その他の引数の配列
 	 */
 	/**~en
 	 * Draw all sprites and child stages this stage has
-	 * @param {CanvasRenderingContext2D} ctx Canvas context
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {Array} args_array Array of other arguments
 	 */
 	draw(ctx, args_array) {
@@ -209,7 +209,7 @@ class Stage extends Element {
 	}
 
 	/**~ja
-	 * ある要素の原点のコンテキストでの場所を返す（ライブラリ内だけで使用）
+	 * ある要素の原点の紙での場所を返す（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Element} elm スプライトか子ステージ
 	 * @param {number} cx 横位置
@@ -219,7 +219,7 @@ class Stage extends Element {
 	 * @return {Array<number>} 場所
 	 */
 	/**~en
-	 * Return the position in context of the origin of an element (used only in the library)
+	 * Return the position in the paper of the origin of an element (used only in the library)
 	 * @private
 	 * @param {Element} elm Sprite or child stage
 	 * @param {number} cx Position x
