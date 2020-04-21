@@ -430,7 +430,7 @@ const PATH = (function () {
 
 
 	//=
-	//=include _liner.js
+	//=include _graphic/_liner.js
 
 
 	//~ja デフォルト・ハンドラー生成関数 ------------------------------------------
@@ -542,7 +542,7 @@ const PATH = (function () {
 
 
 	//=
-	//=include _edge.js
+	//=include _graphic/_edge.js
 
 
 	//~ja ユーティリティ関数 ------------------------------------------------------

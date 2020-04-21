@@ -28,19 +28,19 @@ const STYLE = (function () {
 
 
 	//=
-	//=include _style-base.js
+	//=include _graphic/_style-base.js
 
 
 	//=
-	//=include _shadow.js
+	//=include _graphic/_shadow.js
 
 
 	//=
-	//=include _fill.js
+	//=include _graphic/_fill.js
 
 
 	//=
-	//=include _stroke.js
+	//=include _graphic/_stroke.js
 
 
 	//~ja ユーティリティ関数 ------------------------------------------------------
@@ -95,7 +95,7 @@ const STYLE = (function () {
 
 
 	//=
-	//=include _color-table.js
+	//=include _graphic/_color-table.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------

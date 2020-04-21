@@ -63,11 +63,11 @@ const TURTLE = (function () {
 
 
 	//=
-	//=include _turtle-base.js
+	//=include _graphic/_turtle-base.js
 
 
 	//=
-	//=include _turtle.js
+	//=include _graphic/_turtle.js
 
 
 	//~ja ユーティリティ関数 ------------------------------------------------------

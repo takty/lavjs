@@ -126,35 +126,35 @@ const WIDGET = (function () {
 
 
 	//=
-	//=include widget/_widget.js
+	//=include _widget/_widget.js
 
 
 	//=
-	//=include widget/_switch.js
+	//=include _widget/_switch.js
 
 
 	//=
-	//=include widget/_toggle.js
+	//=include _widget/_toggle.js
 
 
 	//=
-	//=include widget/_output.js
+	//=include _widget/_output.js
 
 
 	//=
-	//=include widget/_chart.js
+	//=include _widget/_chart.js
 
 
 	//=
-	//=include widget/_sliderBase.js
+	//=include _widget/_sliderBase.js
 
 
 	//=
-	//=include widget/_slider.js
+	//=include _widget/_slider.js
 
 
 	//=
-	//=include widget/_thermometer.js
+	//=include _widget/_thermometer.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------

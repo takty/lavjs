@@ -63,11 +63,11 @@ const TRACER = (function () {
 
 
 	//=
-	//=include _tracer.js
+	//=include _sprite/_tracer.js
 
 
 	//=
-	//=include _command.js
+	//=include _sprite/_command.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------

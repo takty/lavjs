@@ -95,11 +95,11 @@ const MOTION = (function () {
 
 
 	//=
-	//=include _axis-motion.js
+	//=include _sprite/_axis-motion.js
 
 
 	//=
-	//=include _polar-motion.js
+	//=include _sprite/_polar-motion.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------

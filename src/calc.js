@@ -35,7 +35,7 @@ const CALC = (function () {
 
 
 	//=
-	//=include _dice.js
+	//=include _calc/_dice.js
 
 
 	let _dice = new DiceBase();
@@ -137,7 +137,7 @@ const CALC = (function () {
 
 
 	//=
-	//=include _noise.js
+	//=include _calc/_noise.js
 
 
 	let _noise = new Noise();
@@ -215,7 +215,7 @@ const CALC = (function () {
 
 
 	//=
-	//=include _easing.js
+	//=include _calc/_easing.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------

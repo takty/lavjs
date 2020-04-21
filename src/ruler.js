@@ -73,7 +73,7 @@ const RULER = (function () {
 
 
 	//=
-	//=include _ruler.js
+	//=include _graphic/_ruler.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------
