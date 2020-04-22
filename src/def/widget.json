@@ -1,5 +1,5 @@
 {
-	"!name": "cjseaux",
+	"!name": "lavjs",
 	"WIDGET": {
 		"Widget": {
 			"!type": "fn(width?: number, height?: number)",

@@ -1,18 +1,18 @@
 {
-  "name": "cjseaux",
+  "name": "lavjs",
   "version": "1.0.0",
   "description": "Libraries Used on Croqujs for Education",
-  "productName": "Cjseaux",
+  "productName": "Lavjs",
   "scripts": {
     "start": "gulp"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/takty/cjseaux.git"
+    "url": "git+https://github.com/takty/lavjs.git"
   },
   "author": "Takuto Yanagida",
   "license": "MIT",
-  "homepage": "https://github.com/takty/cjseaux#readme",
+  "homepage": "https://github.com/takty/lavjs#readme",
   "dependencies": {
     "fs-extra": "^9.0.0",
     "glob": "^7.1.6",

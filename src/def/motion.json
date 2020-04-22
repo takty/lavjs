@@ -1,5 +1,5 @@
 {
-	"!name": "cjseaux",
+	"!name": "lavjs",
 	"MOTION": {
 		"AxisMotion": {
 			"!type": "fn(speedX?: number, speedY?: number)",

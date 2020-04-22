@@ -1,5 +1,5 @@
 {
-	"!name": "cjseaux",
+	"!name": "lavjs",
 	"TURTLE": {
 		"Turtle": {
 			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, normalDeg: number)",

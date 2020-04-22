@@ -1,5 +1,5 @@
 {
-	"!name": "cjseaux",
+	"!name": "lavjs",
 	"STYLE": {
 		"StyleBase": {
 			"!type": "fn(base: +STYLE.StyleBase)",

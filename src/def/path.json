@@ -1,5 +1,5 @@
 {
-	"!name": "cjseaux",
+	"!name": "lavjs",
 	"PATH": {
 		"Liner": {
 			"!type": "fn(handler: ?, normalDir?: number)",

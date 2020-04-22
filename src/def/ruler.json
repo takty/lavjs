@@ -1,5 +1,5 @@
 {
-	"!name": "cjseaux",
+	"!name": "lavjs",
 	"RULER": {
 		"Ruler": {
 			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D)",
