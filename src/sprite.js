@@ -99,15 +99,15 @@ const SPRITE = (function () {
 
 
 	//=
-	//=include _sprite/_element.js
+	//=include _scene/_element.js
 
 
 	//=
-	//=include _sprite/_sprite.js
+	//=include _scene/_sprite.js
 
 
 	//=
-	//=include _sprite/_stage.js
+	//=include _scene/_stage.js
 
 
 	//~ja ユーティリティ関数 ------------------------------------------------------
