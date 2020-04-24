@@ -7,7 +7,7 @@
  * （ここでの紙は、HTML5のCanvas要素のCanvasRenderingContext2Dを拡張したもののことです）
  *
  * @author Takuto Yanagida
- * @version 2020-04-21
+ * @version 2020-04-24
  */
 /**~en
  * Croqujs library (CROQUJS)
@@ -18,7 +18,7 @@
  * ('Paper' here is an extension of CanvasRenderingContext2D of HTML5 Canvas element)
  *
  * @author Takuto Yanagida
- * @version 2020-04-21
+ * @version 2020-04-24
  */
 
 
@@ -128,10 +128,14 @@ const CROQUJS = (function () {
 	};
 
 
+	//=
+	//=include _croqujs/_loader.js
+
+
 	//~ja ライブラリを作る -----------------------------------------------------
 	//~en Create a library -----------------------------------------------------
 
 
-	return { Paper, getTime, removeAll, currentPaper };
+	return { Paper, getTime, removeAll, currentPaper, loadScript, loadScriptSync };
 
 }());
