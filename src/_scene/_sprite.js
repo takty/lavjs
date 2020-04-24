@@ -1,12 +1,12 @@
 /**~ja
  * スプライト
  * @extends {Element}
- * @version 2020-04-21
+ * @version 2020-04-24
  */
 /**~en
  * Sprite
  * @extends {Element}
- * @version 2020-04-21
+ * @version 2020-04-24
  */
 class Sprite extends Element {
 
@@ -29,6 +29,9 @@ class Sprite extends Element {
 
 		this._drawFunction = drawFunction;
 		this._drawFunctionArgs = opt_args_array;
+
+		this._radius = 1;
+		this._onCollision = null;
 	}
 
 	/**~ja
@@ -53,6 +56,38 @@ class Sprite extends Element {
 			ctx.restore();
 		}
 		this._update();
+	}
+
+	/**~ja
+	 * 半径
+	 * @param {number=} val 半径
+	 * @return {number|Sprite} 半径／このスプライト
+	 */
+	/**~en
+	 * Radius
+	 * @param {number=} val Radius
+	 * @return {number|Sprite} Radius, or this sprite
+	 */
+	radius(val) {
+		if (val === undefined) return this._radius;
+		this._radius = val;
+		return this;
+	}
+
+	/**~ja
+	 * 衝突イベントに対応する関数をセットする
+	 * @param {function(this, Sprite)=} handler 関数
+	 * @return {function(this, Sprite)=} 半径／このスプライト
+	 */
+	/**~en
+	 * Set the function handling the collision event
+	 * @param {function(this, Sprite)=} handler Function
+	 * @return {function(this, Sprite)=|Sprite} Function, or this sprite
+	 */
+	onCollision(handler) {
+		if (handler === undefined) return this._onCollision;
+		this._onCollision = handler;
+		return this;
 	}
 
 }

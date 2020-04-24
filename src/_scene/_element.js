@@ -1,12 +1,12 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
  * @author Takuto Yanagida
- * @version 2020-04-22
+ * @version 2020-04-24
  */
 /**~en
  * Element (common to sprites and stages)
  * @author Takuto Yanagida
- * @version 2020-04-22
+ * @version 2020-04-24
  */
 class Element {
 
@@ -20,6 +20,7 @@ class Element {
 	 */
 	constructor(motion = null) {
 		this._parent = null;
+		this._data = null;
 
 		this._x = 0;
 		this._y = 0;
@@ -349,6 +350,22 @@ class Element {
 	motion(val) {
 		if (val === undefined) return this._motion;
 		this._motion = val;
+		return this;
+	}
+
+	/**~ja
+	 * データ
+	 * @param {object=} val データ
+	 * @return {object|Element} データ／この要素
+	 */
+	/**~en
+	 * Data
+	 * @param {object=} val Data
+	 * @return {object|Element} Data or this element
+	 */
+	data(val) {
+		if (val === undefined) return this._data;
+		this._data = val;
 		return this;
 	}
 

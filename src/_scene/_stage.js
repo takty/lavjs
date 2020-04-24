@@ -1,12 +1,12 @@
 /**~ja
  * ステージ
  * @extends {Element}
- * @version 2020-04-21
+ * @version 2020-04-24
  */
 /**~en
  * Stage
  * @extends {Element}
- * @version 2020-04-21
+ * @version 2020-04-24
  */
 class Stage extends Element {
 
@@ -206,6 +206,7 @@ class Stage extends Element {
 		//~ja このタイミングでTracer::stepNextが呼ばれ、その結果、Tracer::onStepも呼び出される
 		//~en At this timing Tracer::stepNext is called, and as a result, Tracer::onStep is also called
 		this._update();
+		this._checkCollision();
 	}
 
 	/**~ja
@@ -241,6 +242,34 @@ class Stage extends Element {
 		const y = sy * (cx * sin + cy * cos);
 		if (elm._parent === null) return [x + elm._x, y + elm._y, a + ca];
 		return this._getPositionOnParent(elm._parent, x + elm._x, y + elm._y, a + ca);
+	}
+
+	/**~ja
+	 * 持っているスプライトが衝突しているかどうかをチェックする（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Check if the sprites are colliding (used only in the library)
+	 * @private
+	 */
+	_checkCollision() {
+		for (let i = 0, I = this._children.length; i < I; i += 1) {
+			const c0 = this._children[i];
+			const r0 = c0._radius, x0 = c0._x, y0 = c0._y;
+
+			for (let j = i + 1, J = this._children.length; j < J; j += 1) {
+				const c1 = this._children[j];
+				if (!c0._onCollision && !c1._onCollision) continue;
+
+				const r1 = c1._radius, x1 = c1._x, y1 = c1._y;
+				const d2 = (x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0);
+				const e2 = (r0 + r1) * (r0 + r1);
+				if (d2 <= e2) {
+					if (c0._onCollision) c0._onCollision(c0, c1);
+					if (c1._onCollision) c1._onCollision(c1, c0);
+				}
+			}
+		}
 	}
 
 }
