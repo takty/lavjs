@@ -47,6 +47,10 @@ class Paper {
 		CROQUJS.currentPaper(this);
 
 		if (typeof STYLE !== 'undefined') STYLE.augment(this);
+		this._initZoomingFunction();
+		this.addEventListener('wheel', this._onZoomingMouseWheel.bind(this));
+		this.addEventListener('mousedown', this._onZoomingMouseDown.bind(this));
+		this.addEventListener('mousemove', this._onZoomingMouseMove.bind(this));
 	}
 
 	/**~ja
@@ -182,8 +186,10 @@ class Paper {
 			if (frame !== prevFrame) {
 				this._frame = frame;
 				CROQUJS.currentPaper(this);
+				this._beforeDrawing(this);
 				callback.apply(null, args_array);
 				if (this.mouseMiddle() && this._isGridVisible) this.drawGrid();
+				this._afterDrawing(this);
 				prevFrame = frame;
 				this._totalFrame += 1;
 			}
@@ -437,6 +443,165 @@ class Paper {
 			this.stroke();
 		}
 		this.restore();
+	}
+
+
+
+
+
+
+
+	_initZoomingFunction() {
+		this._zoom  = 0;
+		this._scale = [1, 1.5, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32];
+
+		// const w = this.width(), h = this.height();
+		// this._viewOff = { x: w / 2, y: h / 2 };
+		this._viewOff = { x: 0, y: 0 };
+
+		// this._origCtx = this._ctx;
+
+		// this._offCan = document.createElement('canvas');
+		// this._offCan.setAttribute('width', w);
+		// this._offCan.setAttribute('height', h);
+		// this._offCan.width = w;
+		// this._offCan.height = h;
+
+		// this._ctx = this._offCan.getContext('2d');
+	}
+
+	_onZoomingMouseDown() {
+		if (this.mouseMiddle()) {
+			this._mousePt = { x: this.mouseX(), y: this.mouseY() };
+			this._prevViewPt = { x: this._viewOff.x, y: this._viewOff.y };
+		}
+	}
+
+	_onZoomingMouseMove() {
+		if (this.mouseMiddle()) {
+			// const w = this.width(), h = this.height();
+			// const sr = this._scale[this._zoom];
+
+			this._viewOff.x = this._prevViewPt.x - (this.mouseX() - this._mousePt.x);
+			this._viewOff.y = this._prevViewPt.y - (this.mouseY() - this._mousePt.y);
+
+			this._correctViewPt();
+			// console.log(this._viewOff.x, this._viewOff.y);
+		}
+	}
+
+	_onZoomingMouseWheel(e) {
+		// const w = this.width(), h = this.height();
+
+		let sr = this._scale[this._zoom];
+		// this._viewOff.x = (this.mouseX() - w / 2) / sr + this._viewOff.x;
+		// this._viewOff.y = (this.mouseY() - h / 2) / sr + this._viewOff.y;
+		// this._viewOff.x = (this.mouseX() - w / 2) / sr + this._viewOff.x;
+		// this._viewOff.y = (this.mouseY() - h / 2) / sr + this._viewOff.y;
+		const px = (this._viewOff.x + this.mouseX()) / sr;
+		const py = (this._viewOff.y + this.mouseY()) / sr;
+		// console.log(this._viewOff);
+
+		if (0 < e.deltaY) {
+			this._zoom = Math.max(this._zoom - 1, 0);
+		} else {
+			this._zoom = Math.min(this._zoom + 1, this._scale.length - 1);
+		}
+		sr = this._scale[this._zoom];
+
+		// if (this._zoom === 0) this._viewOff = { x: w / 2, y: h / 2 };
+		if (this._zoom === 0) this._viewOff = { x: 0, y: 0 };
+		else {
+			// const x = (this.mouseX() - w / 2) / sr;
+			// const y = (this.mouseY() - h / 2) / sr;
+			this._viewOff.x = px * sr - this.mouseX();
+			this._viewOff.y = py * sr - this.mouseY();
+		}
+		// console.log(this._viewOff);
+		this._correctViewPt();
+	}
+
+	_correctViewPt() {
+		const w = this.width(), h = this.height();
+		// const hw = w / 2, hh = h / 2;
+		const sr = this._scale[this._zoom];
+
+		this._viewOff.x = Math.max(this._viewOff.x, 0);
+		this._viewOff.x = Math.min(this._viewOff.x, w * sr - w);
+
+		this._viewOff.y = Math.max(this._viewOff.y, 0);
+		this._viewOff.y = Math.min(this._viewOff.y, h * sr - h);
+		// this._viewOff.x = Math.max(this._viewOff.x, hw / sr);
+		// this._viewOff.x = Math.min(this._viewOff.x, w - w / sr + hw / sr);
+
+		// this._viewOff.y = Math.max(this._viewOff.y, hh / sr);
+		// this._viewOff.y = Math.min(this._viewOff.y, h - h / sr + hh / sr);
+
+	}
+
+	_beforeDrawing(c) {
+		// const sr = this._scale[this._zoom];
+		// const ox = this._viewOff.x;
+		// const oy = this._viewOff.y;
+
+		// console.log(sr, ox, oy);
+		// const t = c.getTransform();
+
+		const t = c.getTransform();
+		// this._origT = t;
+		// const w = this.width(), h = this.height();
+
+		const sr = this._scale[this._zoom];
+		// const ox = this._viewOff.x + w / 2;// - t.e;
+		// const oy = this._viewOff.y + h / 2;// - t.f;
+
+		// const hw = w / 2, hh = h / 2;
+		// const shw = hw * sr, shh = hh * sr;
+
+		// c.rect(ox - shw, oy - shh, w / sr, h / sr);
+
+		c.save();
+		c.setTransform(1, 0, 0, 1, 0, 0);
+		c.translate(-this._viewOff.x, -this._viewOff.y);
+		c.scale(sr, sr);
+		c.transform(t.a, t.b, t.c, t.d, t.e, t.f);
+
+		// c.translate((ox - shw) / sr, (oy - shh) / sr);
+
+		// c.translate(this.width() / 2, this.height() / 2);
+		// c.translate(-ox * sr, -oy * sr);
+		// c.scale(sr, sr);
+		// c.translate(-this.width() / 2 / sr, -this.height() / 2 / sr);
+		// c.translate(ox * sr, oy * sr);
+		// c.translate(t.e * sr, t.f * sr);
+	}
+
+	_afterDrawing(c) {
+		// c.restore();
+		// c.save();
+
+		// // const t = this._origT;
+		// c.setTransform(1, 0, 0, 1, 0, 0);
+		// // const t = c.getTransform();
+		// const w = this.width(), h = this.height();
+
+		// const sr = this._scale[this._zoom];
+		// const ox = this._viewOff.x + w / 2;
+		// const oy = this._viewOff.y + h / 2;
+
+		// const hw = w / 2, hh = h / 2;
+		// const shw = hw / sr, shh = hh / sr;
+
+		// this._origCtx.drawImage(this._offCan, ox - shw, oy - shh, w / sr, h / sr, 0, 0, w, h);
+		// this._origCtx.drawImage(this._offCan, 0, 0);
+		// c.rect(ox - shw, oy - shh, w / sr, h / sr);
+		// c.translate((ox - shw), (oy - shh));
+		// c.scale(1 / sr, 1 / sr);
+		// c.rect(0, 0, w, h);
+		// c.stroke();
+
+
+		c.restore();
 	}
 
 
