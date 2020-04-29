@@ -2,13 +2,13 @@
  * ノイズ
  * 参考: Stefan Gustavson, SimplexNoise1234, http://staffwww.itn.liu.se/~stegu/aqsis/aqsis-newnoise/simplexnoise1234.cpp
  * @author Takuto Yanagida
- * @version 2019-09-03
+ * @version 2020-04-29
  */
 /**~en
  * Noise
  * Reference: Stefan Gustavson, SimplexNoise1234, http://staffwww.itn.liu.se/~stegu/aqsis/aqsis-newnoise/simplexnoise1234.cpp
  * @author Takuto Yanagida
- * @version 2019-09-03
+ * @version 2020-04-29
  */
 class Noise {
 
@@ -40,8 +40,8 @@ class Noise {
 	}
 
 	_grad(hash, x) {
-		var h = hash & 15;
-		var grad = 1.0 + (h & 7);
+		const h = hash & 15;
+		let grad = 1.0 + (h & 7);
 		if ((h & 8) !== 0) grad = -grad;
 		return (grad * x);
 	}
