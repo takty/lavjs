@@ -10,6 +10,14 @@
  */
 class ZoomHandler {
 
+	/**~ja
+	 * ズーム操作処理を作る
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
+	 */
+	/**~en
+	 * Make a zoom operation handler
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
+	 */
 	constructor(ctx) {
 		this._ctx = ctx;
 		this._isEnabled = true;
@@ -32,6 +40,14 @@ class ZoomHandler {
 		ctx.canvas.addEventListener('touchmove',  this._onTouchMove.bind(this), { passive: false });
 	}
 
+	/**~ja
+	 * マウス・ダウン・イベントに対応する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Respond to mouse down events (used only in the library)
+	 * @private
+	 */
 	_onMouseDown() {
 		if (!this._isEnabled || !this._ctx.mouseMiddle()) return;
 		this._mousePt = { x: this._ctx.mouseX(), y: this._ctx.mouseY() };
@@ -39,6 +55,14 @@ class ZoomHandler {
 		this._viewOff.py = this._viewOff.y;
 	}
 
+	/**~ja
+	 * マウス・ムーブ・イベントに対応する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Respond to mouse move events (used only in the library)
+	 * @private
+	 */
 	_onMouseMove() {
 		if (!this._isEnabled || !this._ctx.mouseMiddle()) return;
 		this._setViewOffset(
@@ -47,6 +71,16 @@ class ZoomHandler {
 		);
 	}
 
+	/**~ja
+	 * ホイール・イベントに対応する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {WheelEvent} e イベント
+	 */
+	/**~en
+	 * Respond to wheel events (used only in the library)
+	 * @private
+	 * @param {WheelEvent} e Event
+	 */
 	_onWheel(e) {
 		if (!this._isEnabled) return;
 		const mx = this._ctx.mouseX(), my = this._ctx.mouseY();
@@ -66,6 +100,18 @@ class ZoomHandler {
 		);
 	}
 
+	/**~ja
+	 * ビュー・オフセットをセットする（ライブラリ内だけで使用）
+	 * @private
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 */
+	/**~en
+	 * Set the view offsets (used only in the library)
+	 * @private
+	 * @param {number} x X coordinate
+	 * @param {number} y Y coordinate
+	 */
 	_setViewOffset(x, y) {
 		const w = this._ctx.width(), h = this._ctx.height();
 		x = Math.min(Math.max(x, 0), w * this._scale - w);
@@ -78,17 +124,37 @@ class ZoomHandler {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * タッチ・スタート・イベントに対応する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {TouchEvent} e イベント
+	 */
+	/**~en
+	 * Respond to touch start events (used only in the library)
+	 * @private
+	 * @param {TouchEvent} e Event
+	 */
 	_onTouchStart(e) {
 		this._touchDist = 0;
-		this._updateTouchPoint(e.touches);
+		this._updateTouch(e.touches);
 	}
 
+	/**~ja
+	 * タッチ・ムーブ・イベントに対応する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {TouchEvent} e イベント
+	 */
+	/**~en
+	 * Respond to touch move events (used only in the library)
+	 * @private
+	 * @param {TouchEvent} e Event
+	 */
 	_onTouchMove(e) {
 		e.preventDefault();
 		e.stopPropagation();
 
 		const ts = e.touches;
-		if (this._touchCount !== ts.length) this._updateTouchPoint(ts);
+		if (this._touchCount !== ts.length) this._updateTouch(ts);
 
 		const [cx, cy] = this._getTouchPoint(ts);
 		this._viewOff.x += this._touchPt.x - cx;
@@ -116,6 +182,16 @@ class ZoomHandler {
 		}
 	}
 
+	/**~ja
+	 * ズームの段階を計算する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {number} s スケール（拡大率）
+	 */
+	/**~en
+	 * Calculate the zoom step (used only in the library)
+	 * @private
+	 * @param {number} s Scale (magnification rate)
+	 */
 	_calcZoomStep(s) {
 		const ns = Math.min(Math.max(s, 1), this._steps[this._steps.length - 1]);
 
@@ -132,11 +208,31 @@ class ZoomHandler {
 		return [idx, ns];
 	}
 
-	_updateTouchPoint(ts) {
+	/**~ja
+	 * タッチ情報を更新する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {TouchList} ts タッチ
+	 */
+	/**~en
+	 * Update touch information (used only in the library)
+	 * @private
+	 * @param {TouchList} ts Touches
+	 */
+	_updateTouch(ts) {
 		this._touchCount = ts.length;
 		[this._touchPt.x, this._touchPt.y] = this._getTouchPoint(ts);
 	}
 
+	/**~ja
+	 * タッチされた点を求める（ライブラリ内だけで使用）
+	 * @private
+	 * @param {TouchList} ts タッチ
+	 */
+	/**~en
+	 * Get the touched point (used only in the library)
+	 * @private
+	 * @param {TouchList} ts Touches
+	 */
 	_getTouchPoint(ts) {
 		let x = 0, y = 0;
 		if (ts.length === 1) {
@@ -149,6 +245,16 @@ class ZoomHandler {
 		return [x, y];
 	}
 
+	/**~ja
+	 * タッチされた2点の距離を求める（ライブラリ内だけで使用）
+	 * @private
+	 * @param {TouchList} ts タッチ
+	 */
+	/**~en
+	 * Get the distance between two touched points (used only in the library)
+	 * @private
+	 * @param {TouchList} ts Touches
+	 */
 	_getTouchDistance(ts) {
 		const x1 = ts[0].screenX, y1 = ts[0].screenY;
 		const x2 = ts[1].screenX, y2 = ts[1].screenY;
@@ -159,11 +265,29 @@ class ZoomHandler {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * ホイール回転でズームするか
+	 * @param {boolean=} val ホイール回転でズームするか
+	 * @return {boolean} ホイール回転でズームするか
+	 */
+	/**~en
+	 * Whether to magnify on wheel rotation
+	 * @param {boolean=} val Whether to magnify on wheel rotation
+	 * @return {boolean} Whether to magnify on wheel rotation
+	 */
 	enabled(val) {
 		if (val === undefined) return this._isEnabled;
 		this._isEnabled = val;
 	}
 
+	/**~ja
+	 * 絵をかく前の設定をする（紙だけで使用）
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
+	 */
+	/**~en
+	 * Make settings before drawing (used only in the Paper)
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
+	 */
 	beforeDrawing(ctx) {
 		if (!this._isEnabled) return;
 		const t = ctx.getTransform();
@@ -175,6 +299,14 @@ class ZoomHandler {
 		ctx.transform(t.a, t.b, t.c, t.d, t.e, t.f);
 	}
 
+	/**~ja
+	 * 絵をかいた後で設定を戻す（紙だけで使用）
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
+	 */
+	/**~en
+	 * Reset the settings after drawing (used only in the Paper)
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
+	 */
 	afterDrawing(ctx) {
 		if (!this._isEnabled) return;
 		ctx.restore();
