@@ -1,18 +1,20 @@
 /**~ja
  * トレーサー
- * @version 2020-04-09
+ * @version 2020-05-05
  */
 /**~en
  * Tracer
- * @version 2020-04-09
+ * @version 2020-05-05
  */
 class Tracer {
 
 	/**~ja
 	 * トレーサーを作る
+	 * @constructor
 	 */
 	/**~en
 	 * Make a tracer
+	 * @constructor
 	 */
 	constructor() {
 		//@ifdef ja

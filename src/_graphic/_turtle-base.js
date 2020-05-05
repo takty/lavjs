@@ -1,10 +1,10 @@
 /**~ja
  * タートル・ベース
- * @version 2020-04-21
+ * @version 2020-05-05
  */
 /**~en
  * Turtle base
- * @version 2020-04-21
+ * @version 2020-05-05
  */
 class TurtleBase {
 
@@ -1030,9 +1030,9 @@ class TurtleBase {
 	}
 
 	/**~ja
-	 * 描くモード
+	 * かくモード
 	 * @param {string=} val 値
-	 * @return {string|TurtleBase} 描くモード／このタートル・ベース
+	 * @return {string|TurtleBase} かくモード／このタートル・ベース
 	 */
 	/**~en
 	 * Drawing mode

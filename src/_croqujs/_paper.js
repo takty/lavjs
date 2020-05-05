@@ -1,26 +1,26 @@
 /**~ja
  * 紙
- * @version 2020-04-30
+ * @version 2020-05-05
  */
 /**~en
  * Paper
- * @version 2020-04-30
+ * @version 2020-05-05
  */
 class Paper {
 
 	/**~ja
 	 * 紙を作る
+	 * @constructor
 	 * @param {number} width 横の大きさ
 	 * @param {number} height たての大きさ
 	 * @param {boolean} [isVisible=true] 画面に表示する？
-	 * @constructor
 	 */
 	/**~en
 	 * Make a paper
+	 * @constructor
 	 * @param {number} width width
 	 * @param {number} height height
 	 * @param {boolean} [isVisible=true] Whether to be visible
-	 * @constructor
 	 */
 	constructor(width, height, isVisible = true) {
 		const can = document.createElement('canvas');

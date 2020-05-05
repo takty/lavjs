@@ -1,21 +1,23 @@
 /**~ja
  * 極座標モーション
- * @version 2019-05-14
+ * @version 2020-05-05
  */
 /**~en
  * Polar coordinate motion
- * @version 2019-05-14
+ * @version 2020-05-05
  */
 class PolarMotion {
 
 	/**~ja
 	 * 極座標モーションを作る
+	 * @constructor
 	 * @param {number=} [speedA=0] 角度方向のスピード
 	 * @param {number=} [speedR=0] 半径方向のスピード
 	 * @param {boolean=} [proportionalAngularSpeed=false] 角度方向のスピードが半径に比例する？
 	 */
 	/**~en
 	 * Make a polar coordinate motion
+	 * @constructor
 	 * @param {number=} [speedA=0] Angular speed
 	 * @param {number=} [speedR=0] Radius speed
 	 * @param {boolean=} [proportionalAngularSpeed=false] Whether angular speed is proportional to radius
