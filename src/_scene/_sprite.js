@@ -1,19 +1,19 @@
 /**~ja
  * スプライト
  * @extends {Element}
- * @version 2020-04-24
+ * @version 2020-05-05
  */
 /**~en
  * Sprite
  * @extends {Element}
- * @version 2020-04-24
+ * @version 2020-05-05
  */
 class Sprite extends Element {
 
 	/**~ja
 	 * スプライトを作る
 	 * - ただし普通は、SPRITE.StageのmakeSprite関数を使う。
-	 * @param {function(*)} drawFunction 絵を描く関数
+	 * @param {function(*)} drawFunction 絵をかく関数
 	 * @param {Array=} opt_args_array 関数に渡す引数の配列
 	 * @param {Motion=} opt_motion モーション
 	 */
@@ -30,12 +30,12 @@ class Sprite extends Element {
 		this._drawFunction = drawFunction;
 		this._drawFunctionArgs = opt_args_array;
 
-		this._radius = 1;
+		this._collisionRadius = 1;
 		this._onCollision = null;
 	}
 
 	/**~ja
-	 * スプライトを描く
+	 * スプライトをかく
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {Array} args_array その他の引数の配列
 	 */
@@ -59,18 +59,18 @@ class Sprite extends Element {
 	}
 
 	/**~ja
-	 * 半径
+	 * 衝突半径
 	 * @param {number=} val 半径
 	 * @return {number|Sprite} 半径／このスプライト
 	 */
 	/**~en
-	 * Radius
+	 * Collision radius
 	 * @param {number=} val Radius
 	 * @return {number|Sprite} Radius, or this sprite
 	 */
-	radius(val) {
-		if (val === undefined) return this._radius;
-		this._radius = val;
+	collisionRadius(val) {
+		if (val === undefined) return this._collisionRadius;
+		this._collisionRadius = val;
 		return this;
 	}
 
