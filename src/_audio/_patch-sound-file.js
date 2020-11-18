@@ -1,0 +1,89 @@
+// ================================================ 音声ファイル・パッチ
+
+
+class SoundFilePatch extends Patch {
+
+	constructor(quilt, params) {
+		this._quilt = quilt;
+		this._targets = [];
+		this._pluged = null;
+
+		this.begin = par(params, 'begin', 0);
+		this.end = par(params, 'end', 0);
+
+		var that = this;
+		this._buf = par(params, 'buf', null);
+		if (this._buf) {
+			this._buf.getBuffer(function (audioBuf) {
+				that.audioBuf = audioBuf;
+			});
+		}
+	}
+
+	_update() {
+	}
+
+	_getTarget(opt_param) {
+	}
+
+	_construct() {
+		this.src = this._quilt.context.createBufferSource();
+		if (this.audioBuf) this.src.buffer = this.audioBuf;
+		this._pluged = this.src;
+	}
+
+	_reserveStart(t) {
+		if (this.src && this.audioBuf) {
+			this.src.loop = false;
+			this.src.loopStart = 0;
+			this.src.loopEnd = (this.audioBuf) ? this.audioBuf.duration : 0;
+			this.src.playbackRate.value = 1.0;
+			this.src.start(t, this.begin, this.end || this.audioBuf.duration);
+			this.isStarted = true;
+		}
+	}
+
+	_reserveStop(t) {
+		if (this.isStarted && this.src) {
+			this.src.stop(t);
+			this.isStarted = false;
+		}
+	}
+
+	_destruct() {
+	}
+
+}
+
+class SoundFile {
+
+	constructor(url) {
+		this._url = url;
+		this._audioBuf = null;
+		this.getBuffer();
+	}
+
+	getBuffer(fn) {
+		if (this._audioBuf) {
+			if (fn) fn(this._audioBuf);
+			return;
+		}
+		var that = this;
+		var r = new XMLHttpRequest();
+		r.open('GET', this._url, true);
+		r.responseType = 'arraybuffer';
+		r.onload = function () {
+			console.log('SoundFile - loaded');
+			CJSTRE.AUDIO_CONTEXT.decodeAudioData(r.response, function (audioBuf) {
+				that._audioBuf = audioBuf;
+				console.log('SoundFile - decoded');
+				if (fn)
+					fn(that._audioBuf);
+				return;
+			}, function (err) {
+				console.log('SoundFile - error');
+			});
+		};
+		r.send();
+	}
+}
