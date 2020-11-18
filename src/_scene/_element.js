@@ -1,12 +1,10 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
- * @author Takuto Yanagida
- * @version 2020-04-22
+ * @version 2020-05-05
  */
 /**~en
  * Element (common to sprites and stages)
- * @author Takuto Yanagida
- * @version 2020-04-22
+ * @version 2020-05-05
  */
 class Element {
 
@@ -19,23 +17,25 @@ class Element {
 	 * @param {Motion?} [motion=null] Motion
 	 */
 	constructor(motion = null) {
-		this._parent = null;
+		this._parent    = null;
+		this._data      = null;
+		this._observers = null;
 
-		this._x = 0;
-		this._y = 0;
+		this._x   = 0;
+		this._y   = 0;
 		this._dir = 0;
 
 		this._scale = 1;
 		this._alpha = 1;
 		this._isFixedHeading = false;
 
-		this._angle = 0;
+		this._angle  = 0;
 		this._angleX = 0;
 		this._angleZ = 0;
 
 		this._speed = 1;
 
-		this._angleSpeed = 0;
+		this._angleSpeed  = 0;
 		this._angleSpeedX = 0;
 		this._angleSpeedZ = 0;
 
@@ -195,7 +195,7 @@ class Element {
 	}
 
 	/**~ja
-	 * 絵を描く方向を向きと関係なく固定するか？
+	 * 絵をかく方向を向きと関係なく固定するか？
 	 * @param {boolean=} val 値
 	 * @return {boolean|Element} 値／この要素
 	 */
@@ -353,6 +353,22 @@ class Element {
 	}
 
 	/**~ja
+	 * データ
+	 * @param {object=} val データ
+	 * @return {object|Element} データ／この要素
+	 */
+	/**~en
+	 * Data
+	 * @param {object=} val Data
+	 * @return {object|Element} Data or this element
+	 */
+	data(val) {
+		if (val === undefined) return this._data;
+		this._data = val;
+		return this;
+	}
+
+	/**~ja
 	 * 紙の座標変換とアルファ値をセットする（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
@@ -398,18 +414,24 @@ class Element {
 		//~en Update event
 		if (this._onUpdate) this._onUpdate.call(this);
 
-		this._angle = checkDegRange(this._angle + valueFunction(this._angleSpeed));
+		this._angle  = checkDegRange(this._angle  + valueFunction(this._angleSpeed));
 		this._angleX = checkDegRange(this._angleX + valueFunction(this._angleSpeedX));
 		this._angleZ = checkDegRange(this._angleZ + valueFunction(this._angleSpeedZ));
 
 		if (this._motion !== null) {
 			const newPos = this._motion.update(this._x, this._y, this._dir, this._speed);
-			this._x = newPos[0];
-			this._y = newPos[1];
+			this._x   = newPos[0];
+			this._y   = newPos[1];
 			this._dir = newPos[2];
 		}
 		if (this._checkRangeX !== null) this._x = this._checkRangeX(this._x);
 		if (this._checkRangeY !== null) this._y = this._checkRangeY(this._y);
+
+		if (this._observers) {
+			for (let o of this._observers) {
+				o.update(this);
+			}
+		}
 
 		//~ja 更新後イベント
 		//~en Updated event

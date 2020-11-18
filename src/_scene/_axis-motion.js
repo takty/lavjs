@@ -1,20 +1,22 @@
 /**~ja
  * 直交座標モーション
- * @version 2019-05-14
+ * @version 2020-05-05
  */
 /**~en
  * Axis coordinate motion
- * @version 2019-05-14
+ * @version 2020-05-05
  */
 class AxisMotion {
 
 	/**~ja
 	 * 直交座標モーションを作る
+	 * @constructor
 	 * @param {number=} [speedX=0] 横方向のスピード
 	 * @param {number=} [speedY=0] たて方向のスピード
 	 */
 	/**~en
 	 * Make an axis coordinate motion
+	 * @constructor
 	 * @param {number=} [speedX=0] Horizontal speed
 	 * @param {number=} [speedY=0] Vertical speed
 	 */
@@ -23,7 +25,7 @@ class AxisMotion {
 		this._speedY = speedY;
 		this._checkRangeX = null;
 		this._checkRangeY = null;
-	};
+	}
 
 	/**~ja
 	 * 横方向のスピード

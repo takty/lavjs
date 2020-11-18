@@ -1,26 +1,26 @@
 /**~ja
  * 紙
- * @version 2020-04-21
+ * @version 2020-05-05
  */
 /**~en
  * Paper
- * @version 2020-04-21
+ * @version 2020-05-05
  */
 class Paper {
 
 	/**~ja
 	 * 紙を作る
+	 * @constructor
 	 * @param {number} width 横の大きさ
 	 * @param {number} height たての大きさ
 	 * @param {boolean} [isVisible=true] 画面に表示する？
-	 * @constructor
 	 */
 	/**~en
 	 * Make a paper
+	 * @constructor
 	 * @param {number} width width
 	 * @param {number} height height
 	 * @param {boolean} [isVisible=true] Whether to be visible
-	 * @constructor
 	 */
 	constructor(width, height, isVisible = true) {
 		const can = document.createElement('canvas');
@@ -47,6 +47,8 @@ class Paper {
 		CROQUJS.currentPaper(this);
 
 		if (typeof STYLE !== 'undefined') STYLE.augment(this);
+
+		// this._initZoomingFunction();
 	}
 
 	/**~ja
@@ -69,6 +71,7 @@ class Paper {
 
 		this._keyEventHandler = new KeyHandler(can);
 		this._mouseEventHandler = new MouseHandler(can);
+		this._zoomHandler = new ZoomHandler(this);
 		this.addEventListener = can.addEventListener.bind(can);
 
 		can.addEventListener('keydown', (e) => {
@@ -182,8 +185,10 @@ class Paper {
 			if (frame !== prevFrame) {
 				this._frame = frame;
 				CROQUJS.currentPaper(this);
+				this._zoomHandler.beforeDrawing(this);
 				callback.apply(null, args_array);
 				if (this.mouseMiddle() && this._isGridVisible) this.drawGrid();
+				this._zoomHandler.afterDrawing(this);
 				prevFrame = frame;
 				this._totalFrame += 1;
 			}
@@ -437,6 +442,22 @@ class Paper {
 			this.stroke();
 		}
 		this.restore();
+	}
+
+	/**~ja
+	 * ホイール回転でズームするか
+	 * @param {boolean=} val ホイール回転でズームするか
+	 * @return {boolean|Paper} ホイール回転でズームするか／この紙
+	 */
+	/**~en
+	 * Whether to magnify on wheel rotation
+	 * @param {boolean=} val Whether to magnify on wheel rotation
+	 * @return {boolean|Paper} Whether to magnify on wheel rotation, or this paper
+	 */
+	zoomEnabled(val) {
+		if (val === undefined) return this._zoomHandler.enabled();
+		this._zoomHandler.enabled(val);
+		return this;
 	}
 
 

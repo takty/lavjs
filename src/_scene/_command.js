@@ -1,21 +1,23 @@
 /**~ja
  * コマンド
- * @version 2019-05-12
+ * @version 2020-05-05
  */
 /**~en
  * Command
- * @version 2019-05-12
+ * @version 2020-05-05
  */
 class Command {
 
 	/**~ja
 	 * コマンドを作る（ライブラリ内だけで使用）
 	 * @private
+	 * @constructor
 	 * @param {function} func 関数
 	 */
 	/**~en
 	 * Make a command (used only in the library)
 	 * @private
+	 * @constructor
 	 * @param {function} func Function
 	 */
 	constructor(func) {

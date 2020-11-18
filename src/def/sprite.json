@@ -95,13 +95,30 @@
 					"!type": "fn(callback: fn(?), thisArg: ?)"
 				},
 				"localize": {
-					"!type": "fn(descendant: +SPRITE.Element, suppressRotation?: bool)"
+					"!type": "fn(descendant: +SPRITE.Element, stopRotation?: bool)"
 				},
 				"getPositionOnContext": {
 					"!type": "fn(descendant: +SPRITE.Element) -> [number]"
 				},
 				"draw": {
 					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, args_array: [?])"
+				},
+				"addObserver": {
+					"!type": "fn(observer: ?)"
+				}
+			}
+		},
+		"DensityMap": {
+			"!type": "fn(width: number, height: number, gridSize: number)",
+			"prototype": {
+				"update": {
+					"!type": "fn(stage: +SPRITE.Stage)"
+				},
+				"getDensity": {
+					"!type": "fn(x: number, y: number, deg?: number, len?: number) -> number"
+				},
+				"draw": {
+					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, max: number)"
 				}
 			}
 		},

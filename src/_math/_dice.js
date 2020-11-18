@@ -1,12 +1,12 @@
 /**~ja
  * 基本サイコロ
  * @author Takuto Yanagida
- * @version 2019-09-03
+ * @version 2020-05-05
  */
 /**~en
  * Dice base
  * @author Takuto Yanagida
- * @version 2019-09-03
+ * @version 2020-05-05
  */
 class DiceBase {
 
@@ -71,7 +71,7 @@ class DiceBase {
 	 * @return {boolean} Whether it occurs
 	 */
 	isLikely(percent) {
-		return (this._r() * 10000 % 100) <= percent;
+		return Math.floor(this._r() * (100 + 1)) <= percent;
 	}
 
 }

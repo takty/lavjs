@@ -1,28 +1,28 @@
 {
-  "name": "lavjs",
-  "version": "1.0.0",
-  "description": "Libraries Used on Croqujs for Education",
-  "productName": "Lavjs",
-  "scripts": {
-    "start": "gulp"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/takty/lavjs.git"
-  },
-  "author": "Takuto Yanagida",
-  "license": "MIT",
-  "homepage": "https://github.com/takty/lavjs#readme",
-  "dependencies": {
-    "fs-extra": "^9.0.0",
-    "glob": "^7.1.6",
-    "gulp": "^4.0.2",
-    "gulp-comment-tag": "git+https://github.com/takty/gulp-comment-tag.git",
-    "gulp-delete-lines": "0.0.7",
-    "gulp-include": "^2.4.1",
-    "gulp-load-plugins": "^2.0.3",
-    "gulp-plumber": "^1.2.1",
-    "gulp-preprocess": "^3.0.3",
-    "gulp-replace": "^1.0.0"
-  }
+	"name": "lavjs",
+	"version": "1.0.0",
+	"description": "Libraries Used on Croqujs for Education",
+	"productName": "Lavjs",
+	"scripts": {
+		"start": "gulp"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/takty/lavjs.git"
+	},
+	"author": "Takuto Yanagida",
+	"license": "MIT",
+	"homepage": "https://github.com/takty/lavjs#readme",
+	"dependencies": {
+		"fs-extra": "^9.0.1",
+		"glob": "^7.1.6",
+		"gulp": "^4.0.2",
+		"gulp-comment-tag": "git+https://github.com/takty/gulp-comment-tag.git",
+		"gulp-delete-lines": "0.0.7",
+		"gulp-include": "^2.4.1",
+		"gulp-load-plugins": "^2.0.4",
+		"gulp-plumber": "^1.2.1",
+		"gulp-preprocess": "^3.0.3",
+		"gulp-replace": "^1.0.0"
+	}
 }
