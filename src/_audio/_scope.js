@@ -67,9 +67,8 @@ var ANALYSER = (function () {
 			div.appendChild(can);
 			this.canvas = can;
 			this.cc = can.getContext('2d');
-			var that = this;
-			can.onclick = function () {
-				that.freeze = !that.freeze;
+			can.onclick = () => {
+				this.freeze = !this.freeze;
 			};
 
 			_addCSS('.' + NS + 'analyser', '\
@@ -88,13 +87,13 @@ var ANALYSER = (function () {
 		}
 
 		_animate(callback) {
-			var that = this, w = window, r = 'equestAnimationFrame',
+			var w = window, r = 'equestAnimationFrame',
 				func = w['r' + r] || w['webkitR' + r] || w['mozR' + r] || w['msR' + r] || w['oR' + r] || function (c) { w.setTimeout(c, 1000 / 60); },
 				reqAnimationFrame = func.bind(w);
 
-			var loop = function () {
+			const loop = () => {
 				callback.apply(null);
-				if (that.canvas.parentNode !== null) {
+				if (this.canvas.parentNode !== null) {
 					reqAnimationFrame(loop);
 				}
 			};

@@ -3,8 +3,8 @@
 
 class MicrophonePatch extends Patch {
 
-	constructor(quilt, params) {
-		this._quilt = quilt;
+	constructor(synth, params) {
+		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;
 
@@ -32,28 +32,26 @@ class MicrophonePatch extends Patch {
 	}
 
 	_construct() {
-		this.a = this._quilt.context.createGain();
+		this.a = this._synth.context.createGain();
 		this.a.gain.value = this.amp;
 
 		this.f = null;
 		if (typeof this.afFreq !== 0) {
-			this.f = this._quilt.context.createBiquadFilter();
+			this.f = this._synth.context.createBiquadFilter();
 			this.f.type = 'notch';
 			this.f.Q.value = this.afQ;
 			this.f.frequency.value = this.afFreq;
 		}
-		var that = this;
-		navigator.webkitGetUserMedia({ audio: true, video: false }, function (stream) {
-			that.m = that._quilt.context.createMediaStreamSource(stream);
-			if (that.f) {
-				that.m.connect(that.f);
-				that.f.connect(that.a);
+		navigator.webkitGetUserMedia({ audio: true, video: false }, (stream) => {
+			this.m = this._synth.context.createMediaStreamSource(stream);
+			if (this.f) {
+				this.m.connect(this.f);
+				this.f.connect(this.a);
 			}
 			else {
-				that.m.connect(that.a);
+				this.m.connect(this.a);
 			}
-		}, function () {
-		});
+		}, () => {});
 		this._pluged = this.a;
 	}
 

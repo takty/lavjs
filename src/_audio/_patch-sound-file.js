@@ -3,19 +3,18 @@
 
 class SoundFilePatch extends Patch {
 
-	constructor(quilt, params) {
-		this._quilt = quilt;
+	constructor(synth, params) {
+		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;
 
 		this.begin = par(params, 'begin', 0);
 		this.end = par(params, 'end', 0);
 
-		var that = this;
 		this._buf = par(params, 'buf', null);
 		if (this._buf) {
-			this._buf.getBuffer(function (audioBuf) {
-				that.audioBuf = audioBuf;
+			this._buf.getBuffer((audioBuf) => {
+				this.audioBuf = audioBuf;
 			});
 		}
 	}
@@ -27,7 +26,7 @@ class SoundFilePatch extends Patch {
 	}
 
 	_construct() {
-		this.src = this._quilt.context.createBufferSource();
+		this.src = this._synth.context.createBufferSource();
 		if (this.audioBuf) this.src.buffer = this.audioBuf;
 		this._pluged = this.src;
 	}
@@ -57,7 +56,8 @@ class SoundFilePatch extends Patch {
 
 class SoundFile {
 
-	constructor(url) {
+	constructor(synth, url) {
+		this._synth = synth;
 		this._url = url;
 		this._audioBuf = null;
 		this.getBuffer();
@@ -68,17 +68,16 @@ class SoundFile {
 			if (fn) fn(this._audioBuf);
 			return;
 		}
-		var that = this;
 		var r = new XMLHttpRequest();
 		r.open('GET', this._url, true);
 		r.responseType = 'arraybuffer';
-		r.onload = function () {
+		r.onload = () => {
 			console.log('SoundFile - loaded');
-			CJSTRE.AUDIO_CONTEXT.decodeAudioData(r.response, function (audioBuf) {
-				that._audioBuf = audioBuf;
+			this._synth.context.decodeAudioData(r.response, function (audioBuf) {
+				this._audioBuf = audioBuf;
 				console.log('SoundFile - decoded');
 				if (fn)
-					fn(that._audioBuf);
+					fn(this._audioBuf);
 				return;
 			}, function (err) {
 				console.log('SoundFile - error');

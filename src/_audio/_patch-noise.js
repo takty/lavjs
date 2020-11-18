@@ -3,8 +3,8 @@
 
 class NoisePatch extends Patch {
 
-	constructor(quilt, params) {
-		this._quilt = quilt;
+	constructor(synth, params) {
+		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;
 
@@ -22,14 +22,14 @@ class NoisePatch extends Patch {
 	}
 
 	_construct() {
-		this.sp = this._quilt.context.createScriptProcessor(2048, 0, 1);
+		this.sp = this._synth.context.createScriptProcessor(2048, 0, 1);
 		this.sp.onaudioprocess = function (e) {
 			var output = e.outputBuffer.getChannelData(0);
 			for (var i = 0; i < this.bufferSize; i += 1) {
 				output[i] = 2 * (Math.random() - 0.5);
 			}
 		};
-		this.a = this._quilt.context.createGain();
+		this.a = this._synth.context.createGain();
 		this.a.gain.value = this.amp;
 
 		this.sp.connect(this.a);

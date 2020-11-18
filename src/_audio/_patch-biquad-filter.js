@@ -3,8 +3,8 @@
 
 class BiquadFilterPatch extends Patch {
 
-	constructor(quilt, type, params) {
-		this._quilt = quilt;
+	constructor(synth, type, params) {
+		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;
 
@@ -26,7 +26,7 @@ class BiquadFilterPatch extends Patch {
 	}
 
 	_construct() {
-		this.f = this._quilt.context.createBiquadFilter();
+		this.f = this._synth.context.createBiquadFilter();
 		this.f.type = this.type;
 		this.f.frequency.value = this.freq;
 		this.f.Q.value = this.q;

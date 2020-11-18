@@ -3,8 +3,8 @@
 
 class EnvelopePatch extends Patch {
 
-	constructor(quilt, params) {
-		this._quilt = quilt;
+	constructor(synth, params) {
+		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;
 
@@ -23,7 +23,7 @@ class EnvelopePatch extends Patch {
 	}
 
 	_construct() {
-		this.a = this._quilt.context.createGain();
+		this.a = this._synth.context.createGain();
 		this.a.gain.setValueAtTime(0, 0);
 		this._pluged = this.a;
 	}
@@ -50,14 +50,14 @@ class EnvelopePatch extends Patch {
 		// Release -> 0
 		this.a.gain.setTargetAtTime(0, t, this.release);
 
-		var a = this.a, that = this;
-		var id = window.setInterval(function () {
-			if (that._running && a.gain.value < 1e-3) {
+		var a = this.a;
+		var id = window.setInterval(() => {
+			if (this._running && a.gain.value < 1e-3) {
 				window.clearInterval(id);
-				that._running = false;
+				this._running = false;
 				notifyShutdown();
 			}
-		}, (t - this._quilt.context.currentTime) * 1000);
+		}, (t - this._synth.context.currentTime) * 1000);
 	}
 
 	_destruct() {

@@ -3,8 +3,8 @@
 
 class GainPatch extends Patch {
 
-	constructor(quilt, type, params) {
-		this._quilt = quilt;
+	constructor(synth, type, params) {
+		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;
 
@@ -38,7 +38,7 @@ class GainPatch extends Patch {
 	}
 
 	_construct() {
-		this.g = this._quilt.context.createGain();
+		this.g = this._synth.context.createGain();
 		this.g.gain.value = (this.amp === undefined) ? 0 : this.amp;
 		this._pluged = this.g;
 	}
@@ -64,7 +64,7 @@ class GainPatch extends Patch {
 					window.clearInterval(id);
 					notifyShutdown();
 				}
-			}, (t - this._quilt.context.currentTime) * 1000);
+			}, (t - this._synth.context.currentTime) * 1000);
 		}
 	}
 

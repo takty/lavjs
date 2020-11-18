@@ -3,8 +3,8 @@
 
 class OscillatorPatch extends Patch {
 
-	constructor(quilt, type, params) {
-		this._quilt = quilt;
+	constructor(synth, type, params) {
+		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;
 
@@ -44,12 +44,12 @@ class OscillatorPatch extends Patch {
 	}
 
 	_construct() {
-		this.o = this._quilt.context.createOscillator();
+		this.o = this._synth.context.createOscillator();
 		this.o.type = this.type;
 		this.o.frequency.value = this.freq;
 		this.o.detune.value = this.detune;
 
-		this.a = this._quilt.context.createGain();
+		this.a = this._synth.context.createGain();
 		this.a.gain.value = this.amp;
 
 		this.o.connect(this.a);

@@ -3,8 +3,8 @@
 
 class FormantPatch extends Patch {
 
-	constructor(quilt, params) {
-		this._quilt = quilt;
+	constructor(synth, params) {
+		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;
 
@@ -36,14 +36,14 @@ class FormantPatch extends Patch {
 	}
 
 	_construct() {
-		this.i = this._quilt.context.createBiquadFilter();
+		this.i = this._synth.context.createBiquadFilter();
 		this.i.type = 'lowpass';
 		this.i.Q.value = 1;
 		this.i.frequency.value = 800;
 
-		this.f1 = this._quilt.context.createBiquadFilter();
-		this.f2 = this._quilt.context.createBiquadFilter();
-		this.f3 = this._quilt.context.createBiquadFilter();
+		this.f1 = this._synth.context.createBiquadFilter();
+		this.f2 = this._synth.context.createBiquadFilter();
+		this.f3 = this._synth.context.createBiquadFilter();
 
 		this.f1.type = 'bandpass';
 		this.f2.type = 'bandpass';
@@ -57,7 +57,7 @@ class FormantPatch extends Patch {
 		this.f2.Q.value = this.q2;
 		this.f3.Q.value = this.q3;
 
-		this.a = this._quilt.context.createGain();
+		this.a = this._synth.context.createGain();
 
 		this.i.connect(this.f1);
 		this.i.connect(this.f2);

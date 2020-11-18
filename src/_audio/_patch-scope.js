@@ -3,8 +3,8 @@
 
 class ScopePatch extends Patch {
 
-	constructor(quilt, type, params) {
-		this._quilt = quilt;
+	constructor(synth, type, params) {
+		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;
 
@@ -30,15 +30,15 @@ class ScopePatch extends Patch {
 	}
 
 	_construct() {
-		this.ana = this._quilt.context.createAnalyser();
+		this.ana = this._synth.context.createAnalyser();
 		if (this.obj) this.obj.setAnalyserNode(this.ana);
 		this._pluged = this.ana;
 
 		// for generating dummy signal
-		var gain = this._quilt.context.createGain();
+		var gain = this._synth.context.createGain();
 		gain.gain.value = 0;
 		gain.connect(this.ana);
-		var osc = this._quilt.context.createOscillator();
+		var osc = this._synth.context.createOscillator();
 		osc.connect(gain);
 		osc.start();
 	}
