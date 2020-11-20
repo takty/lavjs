@@ -1,10 +1,10 @@
 /**~ja
  * 定規
- * @version 2020-04-21
+ * @version 2020-11-20
  */
 /**~en
  * Ruler
- * @version 2020-04-21
+ * @version 2020-11-20
  */
 class Ruler {
 
@@ -557,5 +557,23 @@ class Ruler {
 		this._liner.line(fromX, fromY, deg(dr), dest, null, this._area);
 		return this;
 	};
+
+	/**~ja
+	 * 点をかく
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 * @return {Ruler} この定規
+	 */
+	/**~en
+	 * Draw a dot
+	 * @param {number} x X coordinate
+	 * @param {number} y Y coordinate
+	 * @return {Ruler} This ruler
+	 */
+	dot(x, y) {
+		this._ctx.beginPath();
+		this._ctx.rect(x, y, 1, 1);
+		return this;
+	}
 
 }
