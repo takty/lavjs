@@ -7,7 +7,7 @@
  * （ここでの紙は、HTML5のCanvas要素のCanvasRenderingContext2Dを拡張したもののことです）
  *
  * @author Takuto Yanagida
- * @version 2020-04-30
+ * @version 2020-11-20
  */
 /**~en
  * Croqujs library (CROQUJS)
