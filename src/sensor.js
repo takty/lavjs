@@ -4,7 +4,7 @@
  * 様々なセンサーを使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-11-21
+ * @version 2020-11-27
  */
 /**~en
  * Sensor library (SENSOR)
@@ -12,7 +12,7 @@
  * A library that allows you to use various sensors.
  *
  * @author Takuto Yanagida
- * @version 2020-11-21
+ * @version 2020-11-27
  */
 
 
@@ -26,9 +26,9 @@ const SENSOR = (function () {
 
 	'use strict';
 
+
 	class Sensor {
-		constructor() {
-		}
+		constructor() {}
 	}
 
 
