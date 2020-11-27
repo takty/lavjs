@@ -73,30 +73,20 @@ const COLOR = (function () {
 		isYxySaturated,
 		isMunsellSaturated,
 
-		RGB,
-		LRGB,
-		YIQ,
-		XYZ,
-		Yxy,
-		Lab,
-		LMS,
-		Munsell,
-		PCCS,
-
-		Evaluation,
 		conspicuityOfLab    : Evaluation.conspicuityOfLab,
 		differenceBetweenLab: Evaluation.differenceBetweenLab,
 		categoryOfYxy       : Evaluation.categoryOfYxy,
 
-		ColorVisionSimulation,
 		lmsToProtanopia   : ColorVisionSimulation.lmsToProtanopia,
 		lmsToDeuteranopia : ColorVisionSimulation.lmsToDeuteranopia,
 		lrgbToProtanopia  : ColorVisionSimulation.lrgbToProtanopia,
 		lrgbToDeuteranopia: ColorVisionSimulation.lrgbToDeuteranopia,
 
-		AgeSimulation,
 		labToElderlyAB: AgeSimulation.labToElderlyAB,
 		labToYoungAB  : AgeSimulation.labToYoungAB,
+
+		RGB, LRGB, YIQ, XYZ, Yxy, Lab, LMS, Munsell, PCCS,
+		Evaluation, ColorVisionSimulation, AgeSimulation,
 	};
 
 })();
