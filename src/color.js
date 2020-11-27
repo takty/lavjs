@@ -53,15 +53,6 @@ const COLOR = (function () {
 	//=
 	//=include _colorjst/_cs-function.js
 
-	//=
-	//=include _colorjst/_eval.js
-
-	//=
-	//=include _colorjst/_sim-age.js
-
-	//=
-	//=include _colorjst/_sim-color-vision.js
-
 
 	//~ja ライブラリを作る --------------------------------------------------------
 	//~en Create a library --------------------------------------------------------
@@ -73,20 +64,7 @@ const COLOR = (function () {
 		isYxySaturated,
 		isMunsellSaturated,
 
-		conspicuityOfLab    : Evaluation.conspicuityOfLab,
-		differenceBetweenLab: Evaluation.differenceBetweenLab,
-		categoryOfYxy       : Evaluation.categoryOfYxy,
-
-		lmsToProtanopia   : ColorVisionSimulation.lmsToProtanopia,
-		lmsToDeuteranopia : ColorVisionSimulation.lmsToDeuteranopia,
-		lrgbToProtanopia  : ColorVisionSimulation.lrgbToProtanopia,
-		lrgbToDeuteranopia: ColorVisionSimulation.lrgbToDeuteranopia,
-
-		labToElderlyAB: AgeSimulation.labToElderlyAB,
-		labToYoungAB  : AgeSimulation.labToYoungAB,
-
-		RGB, LRGB, YIQ, XYZ, Yxy, Lab, LMS, Munsell, PCCS,
-		Evaluation, ColorVisionSimulation, AgeSimulation,
+		RGB, LRGB, YIQ, XYZ, Yxy, Lab, LMS, Munsell, PCCS
 	};
 
 })();

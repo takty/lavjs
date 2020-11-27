@@ -1,0 +1,32 @@
+{
+	"!name": "lavjs",
+	"VISION": {
+		"conspicuityOfLab": {
+			"!type": "fn(L: number, a: number, b: number) -> number"
+		},
+		"differenceBetweenLab": {
+			"!type": "fn(L1: number, a1: number, b1: number, L2: number, a2: number, b2: number) -> number"
+		},
+		"categoryOfYxy": {
+			"!type": "fn(Y: number, x: number, y: number) -> string"
+		},
+		"lmsToProtanopia": {
+			"!type": "fn(l: number, m: number, s: number, doCorrection?: bool) -> [number, number, number]"
+		},
+		"lmsToDeuteranopia": {
+			"!type": "fn(l: number, m: number, s: number, doCorrection?: bool) -> [number, number, number]"
+		},
+		"lrgbToProtanopia": {
+			"!type": "fn(lr: number, lg: number, lb: number, doCorrection?: bool) -> [number, number, number]"
+		},
+		"lrgbToDeuteranopia": {
+			"!type": "fn(lr: number, lg: number, lb: number, doCorrection?: bool) -> [number, number, number]"
+		},
+		"labToElderlyAB": {
+			"!type": "fn(L: number, a: number, b: number) -> [number, number, number]"
+		},
+		"labToYoungAB": {
+			"!type": "fn(L: number, a: number, b: number) -> [number, number, number]"
+		}
+	}
+}
