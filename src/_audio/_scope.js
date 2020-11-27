@@ -6,7 +6,7 @@
 
 
 // ライブラリ用の変数
-var ANALYSER = (function () {
+// var ANALYSER = (function () {
 
 	'use strict';
 
@@ -360,8 +360,8 @@ var ANALYSER = (function () {
 	// ================================================ ライブラリとしてリターン
 
 
-	return {
-		Scope: Scope,
-	};
+	// return {
+	// 	Scope: Scope,
+	// };
 
-}());
+// }());

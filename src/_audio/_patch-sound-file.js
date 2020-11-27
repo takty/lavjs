@@ -4,6 +4,7 @@
 class SoundFilePatch extends Patch {
 
 	constructor(synth, params) {
+		super();
 		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;

@@ -4,6 +4,7 @@
 class OscillatorPatch extends Patch {
 
 	constructor(synth, type, params) {
+		super();
 		this._synth = synth;
 		this._targets = [];
 		this._pluged = null;

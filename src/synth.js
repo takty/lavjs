@@ -40,10 +40,14 @@ var SYNTH = (function () {
 	//=include _audio/_sequencer.js
 
 
+	//=
+	//=include _audio/_scope.js
+
+
 	//~ja ライブラリを作る --------------------------------------------------------
 	//~en Create a library --------------------------------------------------------
 
 
-	return { Synth, Scheduler, Sequencer };
+	return { Synth, Scheduler, Sequencer, Scope, noteNumToFreq, AUDIO_CONTEXT };
 
 })();

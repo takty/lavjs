@@ -4,6 +4,7 @@
 class Speaker extends Patch {
 
 	constructor(ctx) {
+		super();
 		this._targets = [];
 		this.g = ctx.createGain();
 		this.g.connect(ctx.destination);
