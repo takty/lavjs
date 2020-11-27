@@ -4,7 +4,7 @@
  * 音を鳴らすための部品を作るライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-11-18
+ * @version 2020-11-27
  */
 
 
@@ -104,6 +104,10 @@ const PATCH = (function () {
 
 	//=
 	//=include _audio/_patch-biquad-filter.js
+
+
+	//=
+	//=include _audio/_patch-formant.js
 
 
 	//=

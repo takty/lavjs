@@ -1,6 +1,6 @@
-// ================================================ シンセ・クラス（CJSTRE.Synth）
+// ================================================ シンセ・クラス（SYNTH.Synth）
 
-var AUDIO_CONTEXT = (CJSTRE && CJSTRE.AUDIO_CONTEXT) ? CJSTRE.AUDIO_CONTEXT : new AudioContext();
+var AUDIO_CONTEXT = (PATCH && PATCH.AUDIO_CONTEXT) ? PATCH.AUDIO_CONTEXT : new AudioContext();
 
 // キー文字列正規化リスト（ハッシュ作成用）
 var NORM_LIST = [
