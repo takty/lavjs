@@ -4,7 +4,7 @@
  * 音を鳴らすための部品を作るライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-11-27
+ * @version 2020-11-29
  */
 
 
@@ -27,12 +27,12 @@ const PATCH = (function () {
 	const par = function (p, name, def) {
 		if (!p) return def;
 		if (Array.isArray(name)) {
-			for (let n of name) {
+			for (const n of name) {
 				if (p[n]) return p[n];
 			}
 			return def;
 		} else {
-			return p[name] ? p[name] : def;
+			return p[name] ?? def;
 		}
 	};
 
@@ -49,37 +49,8 @@ const PATCH = (function () {
 	//~ja パッチ -----------------------------------------------------------------
 
 
-	class Patch {
-
-		set(ps_key, undef_val) {
-			var setVal = function (key, val) {
-				if (typeof val === 'number' || typeof val === 'string' || typeof val === 'boolean') {
-					if (this[key] === undefined) throw 'Parameter name "' + key + '" is wrong.';
-					this[key] = val;
-				} else if (val.output !== undefined) {
-					val.plug(this._getTarget(key));
-				}
-			}.bind(this);
-
-			if (undef_val === undefined) {
-				for (var key in ps_key) setVal(key, ps_key[key]);
-			} else {
-				setVal(ps_key, undef_val);
-			}
-			this._update();
-			return this;
-		}
-
-		plug(target, opt_param) {
-			this._targets.push(target._getTarget(opt_param));
-			return target;
-		}
-
-		unplug() {
-			this._targets.length = 0;
-		}
-
-	}
+	//=
+	//=include _audio/_patch-base.js
 
 
 	//=
@@ -127,6 +98,9 @@ const PATCH = (function () {
 
 
 	return {
+		Patch,
+		SourcePatch,
+
 		OscillatorPatch,
 		MicrophonePatch,
 		SoundFilePatch,

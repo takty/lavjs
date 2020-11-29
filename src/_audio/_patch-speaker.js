@@ -1,39 +1,31 @@
-// ================================================ スピーカー・クラス（PATCH.Speaker）
+//  スピーカー・クラス（PATCH.Speaker）
 
 
 class Speaker extends Patch {
 
-	constructor(ctx) {
+	constructor(synth) {
 		super();
-		this._targets = [];
-		this.g = ctx.createGain();
-		this.g.connect(ctx.destination);
-		this._pluged = this.g;
+		this._synth = synth;
+
+		this._g = this._synth.context().createGain();
+		this._g.connect(this._synth.context().destination);
 	}
 
-	set(ps_key, undef_val) {
-		return this;
+	getInput(id = null) {
+		switch (id) {
+			case 'gain': return this._g.gain;
+		}
+		return this._g;
 	}
 
-	plug(target, opt_param) {
-		var t = target._getTarget(opt_param);
-		this._targets.push(t);
-		return target;
+	getOutput() {
+		return null;
 	}
 
-	unplug() {
-		this._targets.length = 0;
-	}
-
-	_getTarget(opt_param) {
-		if (opt_param === undefined) {
-			var gain = this.g;
-			return function () { return gain; };
+	set(key, val) {
+		switch (key) {
+			case 'gain': this._g.gain.value = val; break;
 		}
 	}
-
-	_construct() { }
-
-	_destruct() { }
 
 }

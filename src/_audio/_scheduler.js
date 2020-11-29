@@ -1,67 +1,71 @@
-// ================================================ スケジューラー・クラス（Scheduler）
-
-
+/**~ja
+ * スケジューラー
+ * @version 2020-11-29
+ */
+/**~en
+ * Scheduler
+ * @version 2020-11-29
+ */
 class Scheduler {
 
 	constructor(context) {
-		this.TIME_INTERVAL = 0.025;
-		this.RESERVATION_SPAN = 0.1;
-		this.OFFSET_TIME = 0.005;
-
-		this.context = context;
-		this.time = 0;
-
-		this._timerId = 0;
+		this._context = context;
+		this._intId = 0;
 		this._events = [];
 	}
 
-	insert(time, callback, args) {
-		var es = this._events;
-		var e = { time: time, callback: callback, args: args };
+	_process() {
+		const bgn = this._context.currentTime;
+		const end = bgn + Scheduler.SCHEDULE_SPAN / 1000;
 
+		const es = this._events;
+		while (es.length && es[0].time < end) {
+			const e = es.shift();
+			e.callback({ sender: this, time: e.time }, ...e.args);
+		}
+	}
+
+	nextTick(time, callback, ...args) {
+		const t = time ?? this._context.currentTime;
+		this.insert(t + Scheduler.SCHEDULE_SPAN / 1000, callback, ...args);
+		return this;
+	}
+
+	insert(time, callback, ...args) {
+		const e = { time, callback, args };
+		
+		const es = this._events;
 		if (es.length === 0 || es[es.length - 1].time <= time) {
 			es.push(e);
-		} else {
-			for (var i = 0, I = es.length; i < I; i += 1) {
-				if (time < es[i].time) {
-					es.splice(i, 0, e);
-					break;
-				}
+			return this;
+		}
+		for (let i = 0; i < es.length; i += 1) {
+			if (time < es[i].time) {
+				es.splice(i, 0, e);
+				break;
 			}
 		}
 		return this;
 	}
 
-	insertLazy(time, callback, args) {
-		return this.insert(time + this.RESERVATION_SPAN, callback, args);
-	}
-
-	start(callback) {
-		var _process = function () {
-			var es = this._events;
-			var end = this.context.currentTime + this.RESERVATION_SPAN;
-
-			while (es.length && es[0].time < end) {
-				var e = es.shift();
-				var t = Math.max(this.context.currentTime, e.time) + this.OFFSET_TIME;
-				e.callback.apply(this, [{ sender: this, time: t }].concat(e.args));
+	start(callback, ...arg) {
+		const fn = this._process.bind(this);
+		if (this._intId === 0) {
+			this._intId = setInterval(fn, Scheduler.TICK_INTERVAL);
+			if (callback) {
+				this.insert(this._context.currentTime, callback, arg);
+				fn();
 			}
-			this.time = this.context.currentTime;
-		};
-
-		if (this._timerId === 0) {
-			this._timerId = setInterval(_process.bind(this), this.TIME_INTERVAL * 1000);
-		}
-		if (callback) {
-			this.insert(0, callback);
+		} else if (callback) {
+			this.insert(this._context.currentTime, callback, arg);
 		}
 		return this;
 	}
 
 	stop(reset) {
-		if (this._timerId !== 0) {
-			clearInterval(this._timerId);
-			this._timerId = 0;
+		if (this._intId !== 0) {
+			clearInterval(this._intId);
+			this._intId = 0;
 		}
 		if (reset) {
 			this._events.splice(0);
@@ -70,3 +74,6 @@ class Scheduler {
 	}
 
 }
+
+Scheduler.TICK_INTERVAL = 25;
+Scheduler.SCHEDULE_SPAN = 100;

@@ -29,7 +29,7 @@ class Sequencer {
 		this.param = par(params, ['param'], ['freq', 'amp', 'dur', 'opt']);
 
 		this._scheduler = new Scheduler(this.context);
-		this._lastTime = 0.5;
+		this._lastTime = context.currentTime + 0.5;
 	}
 
 	set(params) {
@@ -57,13 +57,15 @@ class Sequencer {
 				f = noteNumToFreq(noteNameToNoteNum(name[i]));
 				h.freq = f;
 				var a = hashToArray(h, this.param);
-				sch.insert(sch.time + this._lastTime, wrapper, a);
+				// sch.insert(sch.getCurrentTime() + this._lastTime, wrapper, ...a);
+				sch.insert(this._lastTime, wrapper, ...a);
 			}
 		} else {
 			f = noteNumToFreq(noteNameToNoteNum(name));
 			h.freq = f;
 			var a = hashToArray(h, this.param);
-			sch.insert(sch.time + this._lastTime, wrapper, a);
+			// sch.insert(sch._time + this._lastTime, wrapper, ...a);
+			sch.insert(this._lastTime, wrapper, ...a);
 		}
 		this._lastTime += dur;
 		sch.start();
