@@ -1,6 +1,11 @@
-// 音声ファイル・パッチ
-
-
+/**~ja
+ * 音声ファイル・パッチ
+ * @version 2020-11-30
+ */
+/**~en
+ * Sound file patch
+ * @version 2020-11-30
+ */
 class SoundFilePatch extends SourcePatch {
 
 	constructor(synth, params) {
@@ -8,22 +13,28 @@ class SoundFilePatch extends SourcePatch {
 		this._synth = synth;
 		this._startedNodes = [];
 
-		this._begin        = params.begin        ?? 0;
-		this._end          = params.end          ?? 0;
-		this._soundFile    = params.soundFile    ?? null;
 		this._loop         = params.loop         ?? false;
-		this._loopStart    = params.loopStart    ?? 0;
-		this._loopEnd      = params.loopEnd      ?? 0;
+		this._start        = params.start        ?? 0;
+		this._end          = params.end          ?? 0;
 		this._detune       = params.detune       ?? 0;
 		this._playbackRate = params.playbackRate ?? 1;
 
-		if (this._soundFile) {
-			this._soundFile.getBuffer((audioBuf) => {
-				this._buffer = audioBuf;
-			});
-		}
+		this._buffer = null;
+		if (params.url) this._fetch(params.url);
+
 		this._g = this._synth.context().createGain();
 		this._g.gain.value = params.gain ?? 1;
+	}
+
+	async _fetch(url) {
+		try {
+			const res = await fetch(url);
+			const buf = await res.arrayBuffer();
+			const ad = await this._synth.context().decodeAudioData(buf);
+			this._buffer = ad;
+		} catch (e) {
+			console.log('SoundFile - error');
+		}
 	}
 
 	_createNode() {
@@ -31,8 +42,8 @@ class SoundFilePatch extends SourcePatch {
 		if (this._buffer) s.buffer = this._buffer;
 
 		s.loop      = this._loop;
-		s.loopStart = this._loopStart;
-		s.loopEnd   = (this._buffer) ? this._buffer.duration : this._loopEnd;
+		s.loopStart = this._start;
+		s.loopEnd   = (!this._end && this._buffer) ? this._buffer.duration : this._end;
 
 		s.detune.value       = this._detune;
 		s.playbackRate.value = this._playbackRate;
@@ -57,6 +68,10 @@ class SoundFilePatch extends SourcePatch {
 
 	set(key, val) {
 		switch (key) {
+			case 'url'         : return this._fetch(url);
+			case 'loop'        : this._loop = val; break;
+			case 'start'       : this._start = val; break;
+			case 'end'         : this._end = val; break;
 			case 'detune'      : for (const s of this._startedNodes) s.detune.value       = val; break;
 			case 'playbackRate': for (const s of this._startedNodes) s.playbackRate.value = val; break;
 			case 'gain'        : this._g.gain.value = val; break;
@@ -65,37 +80,15 @@ class SoundFilePatch extends SourcePatch {
 
 	start(time) {
 		const s = this._createNode();
-		s.start(time, this._begin, this._end || this._buffer.duration);
+		if (this._loop) {
+			s.start(time);
+		} else {
+			s.start(time, s.loopStart, s.loopEnd);
+		}
 	}
 
 	stop(time) {
 		for (const s of this._startedNodes) s.stop(time);
 	}
 
-}
-
-class SoundFile {
-
-	constructor(synth, url) {
-		this._synth = synth;
-		this._url = url;
-		_fetch(this._url);
-	}
-
-	getBuffer() {
-		return this._audioData;
-	}
-
-	async _fetch() {
-		try {
-			const res = await fetch(this._url);
-			console.log('SoundFile - loaded');
-			const buf = await res.arrayBuffer();
-			const ad = await this._synth.context().decodeAudioData(buf);
-			console.log('SoundFile - decoded');
-			this._audioData = ad;
-		} catch (e) {
-			console.log('SoundFile - error');
-		}
-	}
 }

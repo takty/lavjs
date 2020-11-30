@@ -1,6 +1,11 @@
-// オシレーター・パッチ
-
-
+/**~ja
+ * オシレーター・パッチ
+ * @version 2020-11-30
+ */
+/**~en
+ * Oscillator patch
+ * @version 2020-11-30
+ */
 class OscillatorPatch extends SourcePatch {
 
 	constructor(synth, params) {

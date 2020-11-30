@@ -1,6 +1,11 @@
-// ノイズ・パッチ
-
-
+/**~ja
+ * ノイズ・パッチ
+ * @version 2020-11-30
+ */
+/**~en
+ * Noise patch
+ * @version 2020-11-30
+ */
 class NoisePatch extends SourcePatch {
 
 	constructor(synth, params) {

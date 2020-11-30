@@ -1,6 +1,11 @@
-// マイク・パッチ
-
-
+/**~ja
+ * マイク・パッチ
+ * @version 2020-11-30
+ */
+/**~en
+ * Microphone patch
+ * @version 2020-11-30
+ */
 class MicrophonePatch extends SourcePatch {
 
 	constructor(synth, params) {

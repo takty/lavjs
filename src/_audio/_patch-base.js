@@ -12,19 +12,16 @@ class Patch {
 		const t = NORM[type] ?? type;
 
 		switch (t) {
-			case 'oscillator':
-				return new PATCH.OscillatorPatch(synth, { type: 'sine', ...params });
 			case 'sine':
 			case 'triangle':
 			case 'sawtooth':
 			case 'square':
-				return new PATCH.OscillatorPatch(synth, { type: t, ...params });
-			case 'microphone':
-				return new PATCH.MicrophonePatch(synth, params);
-			case 'noise':
-				return new PATCH.NoisePatch(synth, params);
-			case 'file':
-				return new PATCH.SoundFilePatch(synth, params);
+			case 'oscillator': return new PATCH.OscillatorPatch(synth, params);
+			case 'microphone': return new PATCH.MicrophonePatch(synth, params);
+			case 'noise'     : return new PATCH.NoisePatch(synth, params);
+			case 'file'      : return new PATCH.SoundFilePatch(synth, params);
+
+			
 			case 'gain':
 				return new PATCH.GainPatch(synth, par(params, 'type', 'constant'), params);
 			case 'constant':
@@ -53,34 +50,6 @@ class Patch {
 				return new PATCH.ScopePatch(synth, t, params);
 		}
 		throw `Cannot make '${type}' patch!`;
-	}
-
-	_setVal(key, val) {
-		if (typeof val === 'number' || typeof val === 'string' || typeof val === 'boolean') {
-			if (this[key] === undefined) throw `Parameter name '${key}' is wrong!`;
-			this[key] = val;
-		} else if (val.output !== undefined) {
-			val.plug(this._getTarget(key));
-		}
-	}
-
-	set(ps_key, undef_val = null) {
-		if (undef_val === null) {
-			for (const [key, val] of Object.entries(ps_key)) this._setVal(key, val);
-		} else {
-			this._setVal(ps_key, undef_val);
-		}
-		this._update();
-		return this;
-	}
-
-	plug(target, opt_param) {
-		this._targets.push(target._getTarget(opt_param));
-		return target;
-	}
-
-	unplug() {
-		this._targets.length = 0;
 	}
 
 }
@@ -115,11 +84,9 @@ const NORM = (function () {
 class SourcePatch extends Patch {
 
 	start(time) {
-
 	}
 
 	stop(time) {
-
 	}
 
 }
