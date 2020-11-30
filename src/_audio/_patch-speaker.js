@@ -1,4 +1,4 @@
-//  スピーカー・クラス（PATCH.Speaker）
+// スピーカー・パッチ
 
 
 class Speaker extends Patch {
@@ -11,14 +11,14 @@ class Speaker extends Patch {
 		this._g.connect(this._synth.context().destination);
 	}
 
-	getInput(id = null) {
-		switch (id) {
+	getInput(key = null) {
+		switch (key) {
 			case 'gain': return this._g.gain;
 		}
 		return this._g;
 	}
 
-	getOutput() {
+	getOutput(key = null) {
 		return null;
 	}
 

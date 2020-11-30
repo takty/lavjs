@@ -1,4 +1,4 @@
-//  オシレーター・パッチ
+// オシレーター・パッチ
 
 
 class OscillatorPatch extends SourcePatch {
@@ -25,7 +25,7 @@ class OscillatorPatch extends SourcePatch {
 		}
 	}
 
-	getOutput() {
+	getOutput(key = null) {
 		return this._g;
 	}
 

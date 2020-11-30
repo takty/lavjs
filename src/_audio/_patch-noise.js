@@ -1,45 +1,53 @@
-// ================================================ ノイズ・パッチ
+// ノイズ・パッチ
 
 
-class NoisePatch extends Patch {
+class NoisePatch extends SourcePatch {
 
 	constructor(synth, params) {
 		super();
 		this._synth = synth;
-		this._targets = [];
-		this._pluged = null;
 
-		this.amp = par(params, 'amp', 0.5);
+		this._s = this._synth.context().createGain();
+		this._g = this._synth.context().createGain();
+		this._p = this._synth.context().createScriptProcessor(NoisePatch.BUFFER_SIZE, 0, 1);
+		this._p.onaudioprocess = (e) => { this._process(e); };
+		this._p.connect(this._s).connect(this._g);
+
+		this._s.gain.value = 0;
+		this._g.gain.value = params.gain ?? 0.5;
 	}
 
-	_update() {
-		if (this.a && this.a.gain.value !== this.amp) this.a.gain.value = this.amp;
-	}
-
-	_getTarget(opt_param) {
-		if (opt_param === 'amp') {
-			return function () { return this.a.gain; }.bind(this);
+	_process(e) {
+		const output = e.outputBuffer.getChannelData(0);
+		for (let i = 0; i < NoisePatch.BUFFER_SIZE; i += 1) {
+			output[i] = 2 * (Math.random() - 0.5);
 		}
 	}
 
-	_construct() {
-		this.sp = this._synth.context.createScriptProcessor(2048, 0, 1);
-		this.sp.onaudioprocess = function (e) {
-			var output = e.outputBuffer.getChannelData(0);
-			for (var i = 0; i < this.bufferSize; i += 1) {
-				output[i] = 2 * (Math.random() - 0.5);
-			}
-		};
-		this.a = this._synth.context.createGain();
-		this.a.gain.value = this.amp;
-
-		this.sp.connect(this.a);
-		this._pluged = this.a;
+	getInput(key = null) {
+		switch (key) {
+			case 'gain': return this._g.gain;
+		}
 	}
 
-	_destruct() {
-		disconnect(this.sp, this.a);
-		this.sp = this.a = null;
+	getOutput() {
+		return this._g;
+	}
+
+	set(key, val) {
+		switch (key) {
+			case 'gain': this._g.gain.value = val; break;
+		}
+	}
+
+	start(time) {
+		this._s.setValueAtTime(1, time);
+	}
+
+	stop(time) {
+		this._s.setValueAtTime(0, time);
 	}
 
 }
+
+NoisePatch.BUFFER_SIZE = 2048;

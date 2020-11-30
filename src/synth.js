@@ -52,6 +52,6 @@ var SYNTH = (function () {
 	//~en Create a library --------------------------------------------------------
 
 
-	return { Synth, Scheduler, Sequencer, Scope, noteNumToFreq, AUDIO_CONTEXT };
+	return { Synth, Scheduler, Sequencer, Scope, noteNumToFreq };
 
 })();

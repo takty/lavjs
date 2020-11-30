@@ -1,18 +1,13 @@
 // ================================================ シンセ・クラス（SYNTH.Synth）
 
-var AUDIO_CONTEXT = (PATCH && PATCH.AUDIO_CONTEXT) ? PATCH.AUDIO_CONTEXT : new AudioContext();
 
 class Synth {
 
 	constructor() {
-		this.context = new AudioContext();
-		this.patches = [];
-
-		// this._scheduler = new Scheduler(this.context);
-		// this.isPlaying = false;
-		// this._isFinished = false;
-		this._id_ps = {};
+		this._context = new AudioContext();
+		this._patches = [];
 		this._sources = [];
+		this._id_ps = {};
 	}
 
 	/**~ja
@@ -24,13 +19,13 @@ class Synth {
 	 * @return {CanvasRenderingContext2D} Audio context
 	 */
 	context() {
-		return this.context;
+		return this._context;
 	}
 
 	speaker() {
 		if (!this._speaker) {
-			this._speaker = new PATCH.Speaker(this.context);
-			this.patches.push(this._speaker);
+			this._speaker = new PATCH.Speaker(this);
+			this._patches.push(this._speaker);
 		}
 		return this._speaker;
 	}
@@ -52,7 +47,7 @@ class Synth {
 
 	add(type, params) {
 		const p = PATCH.Patch.create(this, type, params);
-		this.patches.push(p);
+		this._patches.push(p);
 		if (p instanceof PATCH.SourcePatch) {
 			this._sources.push(p);
 		}

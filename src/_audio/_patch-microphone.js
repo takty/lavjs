@@ -1,64 +1,56 @@
-// ================================================ マイク・パッチ
+// マイク・パッチ
 
 
-class MicrophonePatch extends Patch {
+class MicrophonePatch extends SourcePatch {
 
 	constructor(synth, params) {
 		super();
 		this._synth = synth;
-		this._targets = [];
-		this._pluged = null;
 
-		this.amp = par(params, 'amp', 10);
-		this.afFreq = par(params, 'afFreq', 0);
-		this.afQ = par(params, 'afQ', 12);
-	}
+		this._s = this._synth.context().createGain();
+		this._f = this._synth.context().createBiquadFilter();
+		this._g = this._synth.context().createGain();
+		this._s.connect(this._f).connect(this._g);
 
-	_update() {
-		if (this.a && this.a.gain.value !== this.amp) this.a.gain.value = this.amp;
-		if (this.f && this.f.frequency.value !== this.afFreq) this.f.frequency.value = this.afFreq;
-		if (this.f && this.f.Q.value !== this.afQ) this.f.Q.value = this.afQ;
-	}
-
-	_getTarget(opt_param) {
-		if (opt_param === 'amp') {
-			return function () { return this.a.gain; }.bind(this);
-		}
-		if (opt_param === 'afFreq') {
-			return function () { return this.f.frequency; }.bind(this);
-		}
-		if (opt_param === 'afQ') {
-			return function () { return this.f.Q; }.bind(this);
-		}
-	}
-
-	_construct() {
-		this.a = this._synth.context.createGain();
-		this.a.gain.value = this.amp;
-
-		this.f = null;
-		if (typeof this.afFreq !== 0) {
-			this.f = this._synth.context.createBiquadFilter();
-			this.f.type = 'notch';
-			this.f.Q.value = this.afQ;
-			this.f.frequency.value = this.afFreq;
-		}
-		navigator.webkitGetUserMedia({ audio: true, video: false }, (stream) => {
-			this.m = this._synth.context.createMediaStreamSource(stream);
-			if (this.f) {
-				this.m.connect(this.f);
-				this.f.connect(this.a);
-			}
-			else {
-				this.m.connect(this.a);
-			}
+		navigator.getUserMedia({ audio: true, video: false }, (stream) => {
+			this._m = this._synth.context.createMediaStreamSource(stream);
+			this._m.connect(this._s);
 		}, () => {});
-		this._pluged = this.a;
+
+		this._s.gain.value      = 0;
+		this._f.type            = 'notch';
+		this._f.Q.value         = params.Q         ?? 12;
+		this._f.frequency.value = params.frequency ?? 0;
+		this._g.gain.value      = params.gain      ?? 10;
 	}
 
-	_destruct() {
-		disconnect(this.a, this.f, this.m);
-		this.a = this.f = this.m = null;
+	getInput(key = null) {
+		switch (key) {
+			case 'Q'        : return this._f.Q;
+			case 'frequency': return this._f.frequency;
+			case 'gain'     : return this._g.gain;
+		}
+	}
+
+	getOutput() {
+		return this._g;
+	}
+
+	set(key, val) {
+		switch (key) {
+			case 'type'     : this._f.type            = val; break;
+			case 'Q'        : this._f.Q.value         = val; break;
+			case 'frequency': this._f.frequency.value = val; break;
+			case 'gain'     : this._g.gain.value      = val; break;
+		}
+	}
+
+	start(time) {
+		this._s.setValueAtTime(1, time);
+	}
+
+	stop(time) {
+		this._s.setValueAtTime(0, time);
 	}
 
 }

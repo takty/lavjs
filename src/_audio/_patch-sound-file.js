@@ -1,56 +1,75 @@
-// ================================================ 音声ファイル・パッチ
+// 音声ファイル・パッチ
 
 
-class SoundFilePatch extends Patch {
+class SoundFilePatch extends SourcePatch {
 
 	constructor(synth, params) {
 		super();
 		this._synth = synth;
-		this._targets = [];
-		this._pluged = null;
+		this._startedNodes = [];
 
-		this.begin = par(params, 'begin', 0);
-		this.end = par(params, 'end', 0);
+		this._begin        = params.begin        ?? 0;
+		this._end          = params.end          ?? 0;
+		this._soundFile    = params.soundFile    ?? null;
+		this._loop         = params.loop         ?? false;
+		this._loopStart    = params.loopStart    ?? 0;
+		this._loopEnd      = params.loopEnd      ?? 0;
+		this._detune       = params.detune       ?? 0;
+		this._playbackRate = params.playbackRate ?? 1;
 
-		this._buf = par(params, 'buf', null);
-		if (this._buf) {
-			this._buf.getBuffer((audioBuf) => {
-				this.audioBuf = audioBuf;
+		if (this._soundFile) {
+			this._soundFile.getBuffer((audioBuf) => {
+				this._buffer = audioBuf;
 			});
 		}
+		this._g = this._synth.context().createGain();
+		this._g.gain.value = params.gain ?? 1;
 	}
 
-	_update() {
+	_createNode() {
+		const s = this._synth.context().createBufferSource();
+		if (this._buffer) s.buffer = this._buffer;
+
+		s.loop      = this._loop;
+		s.loopStart = this._loopStart;
+		s.loopEnd   = (this._buffer) ? this._buffer.duration : this._loopEnd;
+
+		s.detune.value       = this._detune;
+		s.playbackRate.value = this._playbackRate;
+		s.connect(this._g);
+		s.onended = () => {
+			const idx = this._startedNodes.indexOf(s);
+			if (idx !== -1) this._startedNodes.splice(idx, 1);
+		};
+		this._startedNodes.push(s);
+		return s;
 	}
 
-	_getTarget(opt_param) {
-	}
-
-	_construct() {
-		this.src = this._synth.context.createBufferSource();
-		if (this.audioBuf) this.src.buffer = this.audioBuf;
-		this._pluged = this.src;
-	}
-
-	_reserveStart(t) {
-		if (this.src && this.audioBuf) {
-			this.src.loop = false;
-			this.src.loopStart = 0;
-			this.src.loopEnd = (this.audioBuf) ? this.audioBuf.duration : 0;
-			this.src.playbackRate.value = 1.0;
-			this.src.start(t, this.begin, this.end || this.audioBuf.duration);
-			this.isStarted = true;
+	getInput(key = null) {
+		switch (key) {
+			case 'gain': return this._g.gain;
 		}
 	}
 
-	_reserveStop(t) {
-		if (this.isStarted && this.src) {
-			this.src.stop(t);
-			this.isStarted = false;
+	getOutput(key = null) {
+		return this._g;
+	}
+
+	set(key, val) {
+		switch (key) {
+			case 'detune'      : for (const s of this._startedNodes) s.detune.value       = val; break;
+			case 'playbackRate': for (const s of this._startedNodes) s.playbackRate.value = val; break;
+			case 'gain'        : this._g.gain.value = val; break;
 		}
 	}
 
-	_destruct() {
+	start(time) {
+		const s = this._createNode();
+		s.start(time, this._begin, this._end || this._buffer.duration);
+	}
+
+	stop(time) {
+		for (const s of this._startedNodes) s.stop(time);
 	}
 
 }
@@ -60,30 +79,23 @@ class SoundFile {
 	constructor(synth, url) {
 		this._synth = synth;
 		this._url = url;
-		this._audioBuf = null;
-		this.getBuffer();
+		_fetch(this._url);
 	}
 
-	getBuffer(fn) {
-		if (this._audioBuf) {
-			if (fn) fn(this._audioBuf);
-			return;
-		}
-		var r = new XMLHttpRequest();
-		r.open('GET', this._url, true);
-		r.responseType = 'arraybuffer';
-		r.onload = () => {
+	getBuffer() {
+		return this._audioData;
+	}
+
+	async _fetch() {
+		try {
+			const res = await fetch(this._url);
 			console.log('SoundFile - loaded');
-			this._synth.context.decodeAudioData(r.response, function (audioBuf) {
-				this._audioBuf = audioBuf;
-				console.log('SoundFile - decoded');
-				if (fn)
-					fn(this._audioBuf);
-				return;
-			}, function (err) {
-				console.log('SoundFile - error');
-			});
-		};
-		r.send();
+			const buf = await res.arrayBuffer();
+			const ad = await this._synth.context().decodeAudioData(buf);
+			console.log('SoundFile - decoded');
+			this._audioData = ad;
+		} catch (e) {
+			console.log('SoundFile - error');
+		}
 	}
 }
