@@ -1,10 +1,10 @@
 /**~ja
  * 音声ファイル・パッチ
- * @version 2020-11-30
+ * @version 2020-12-02
  */
 /**~en
  * Sound file patch
- * @version 2020-11-30
+ * @version 2020-12-02
  */
 class SoundFilePatch extends SourcePatch {
 
@@ -67,6 +67,8 @@ class SoundFilePatch extends SourcePatch {
 	}
 
 	set(key, val) {
+		key = Patch._NORM_LIST[key] ?? key;
+		val = Patch._NORM_LIST[val] ?? val;
 		switch (key) {
 			case 'url'         : return this._fetch(url);
 			case 'loop'        : this._loop = val; break;

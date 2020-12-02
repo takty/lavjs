@@ -6,7 +6,7 @@
  * Scope patch
  * @version 2020-12-02
  */
-class ScopePatch extends FilterPatch {
+class ScopePatch extends Patch {
 
 	constructor(synth, params) {
 		super();
@@ -16,9 +16,9 @@ class ScopePatch extends FilterPatch {
 		this._sync   = params.synchronized ?? true;
 		this._widget = params.widget       ?? null;
 
-		this._a = this._synth.context.createAnalyser();
+		this._a = this._synth.context().createAnalyser();
 
-		_update();
+		this._update();
 	}
 
 	_update() {
@@ -37,9 +37,11 @@ class ScopePatch extends FilterPatch {
 	}
 
 	set(key, val) {
+		key = Patch._NORM_LIST[key] ?? key;
+		val = Patch._NORM_LIST[val] ?? val;
 		switch (key) {
-			case 'type'        : this._type = val;   this._update(); break;
-			case 'synchronized': this._sync = val;   this._update(); break;
+			case 'type'        : this._type   = val; this._update(); break;
+			case 'synchronized': this._sync   = val; this._update(); break;
 			case 'widget'      : this._widget = val; this._update(); break;
 		}
 	}

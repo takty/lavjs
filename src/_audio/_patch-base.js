@@ -9,7 +9,7 @@
 class Patch {
 
 	static make(synth, params) {
-		params = _normalizeParams(params);
+		params = Patch._normalizeParams(params);
 		const t = params.type ?? '';
 
 		switch (t) {
@@ -41,7 +41,7 @@ class Patch {
 
 	getKnob(key, type, params) {
 		type = Patch._NORM_LIST[type] ?? type;
-		params = _normalizeParams(params);
+		params = Patch._normalizeParams(params);
 		const ap = this.getInput(key);
 		switch (type) {
 			case 'gain': return GainKnob(ap, params);

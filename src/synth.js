@@ -4,7 +4,7 @@
  * 音を鳴らすための部品を作るライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-11-18
+ * @version 2020-12-02
  */
 
 
@@ -15,17 +15,6 @@ var SYNTH = (function () {
 
 	//~ja ライブラリ中だけで使用するユーティリティ --------------------------------
 	//~en Utilities used only in the library --------------------------------------
-
-
-	// パラメーター処理
-	const par = function (p, name, def) {
-		if (!p) return def;
-		if (!Array.isArray(name)) return p[name] ? p[name] : def;
-		for (let n of name) {
-			if (p[n]) return p[n];
-		}
-		return def;
-	};
 
 
 	//=

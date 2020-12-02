@@ -1,10 +1,10 @@
 /**~ja
  * オシレーター・パッチ
- * @version 2020-11-30
+ * @version 2020-12-02
  */
 /**~en
  * Oscillator patch
- * @version 2020-11-30
+ * @version 2020-12-02
  */
 class OscillatorPatch extends SourcePatch {
 
@@ -35,6 +35,8 @@ class OscillatorPatch extends SourcePatch {
 	}
 
 	set(key, val) {
+		key = Patch._NORM_LIST[key] ?? key;
+		val = Patch._NORM_LIST[val] ?? val;
 		switch (key) {
 			case 'type'     : this._o.type            = val; break;
 			case 'frequency': this._o.frequency.value = val; break;

@@ -22,6 +22,8 @@ class EnvelopeKnob extends Knob {
 	}
 
 	set(key, val) {
+		key = Patch._NORM_LIST[key] ?? key;
+		val = Patch._NORM_LIST[val] ?? val;
 		switch (key) {
 			case 'attack' : this._attack  = val; break;
 			case 'decay'  : this._decay   = val; break;

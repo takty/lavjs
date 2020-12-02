@@ -6,7 +6,7 @@
  * Filter patch
  * @version 2020-12-02
  */
-class BiquadFilterPatch extends FilterPatch {
+class BiquadFilterPatch extends Patch {
 
 	constructor(synth, params) {
 		super();
@@ -24,6 +24,7 @@ class BiquadFilterPatch extends FilterPatch {
 			case 'Q'        : return this._f.Q;
 			case 'frequency': return this._f.frequency;
 		}
+		return this._f;
 	}
 
 	getOutput(key = null) {
@@ -31,6 +32,8 @@ class BiquadFilterPatch extends FilterPatch {
 	}
 
 	set(key, val) {
+		key = Patch._NORM_LIST[key] ?? key;
+		val = Patch._NORM_LIST[val] ?? val;
 		switch (key) {
 			case 'type'     : this._f.type            = val; break;
 			case 'Q'        : this._f.Q.value         = val; break;

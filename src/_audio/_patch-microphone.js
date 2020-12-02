@@ -1,10 +1,10 @@
 /**~ja
  * マイク・パッチ
- * @version 2020-11-30
+ * @version 2020-12-02
  */
 /**~en
  * Microphone patch
- * @version 2020-11-30
+ * @version 2020-12-02
  */
 class MicrophonePatch extends SourcePatch {
 
@@ -18,7 +18,7 @@ class MicrophonePatch extends SourcePatch {
 		this._s.connect(this._f).connect(this._g);
 
 		navigator.getUserMedia({ audio: true, video: false }, (stream) => {
-			this._m = this._synth.context.createMediaStreamSource(stream);
+			this._m = this._synth.context().createMediaStreamSource(stream);
 			this._m.connect(this._s);
 		}, () => {});
 
@@ -42,6 +42,8 @@ class MicrophonePatch extends SourcePatch {
 	}
 
 	set(key, val) {
+		key = Patch._NORM_LIST[key] ?? key;
+		val = Patch._NORM_LIST[val] ?? val;
 		switch (key) {
 			case 'type'     : this._f.type            = val; break;
 			case 'Q'        : this._f.Q.value         = val; break;
@@ -51,11 +53,11 @@ class MicrophonePatch extends SourcePatch {
 	}
 
 	start(time) {
-		this._s.setValueAtTime(1, time);
+		this._s.gain.setValueAtTime(1, time);
 	}
 
 	stop(time) {
-		this._s.setValueAtTime(0, time);
+		this._s.gain.setValueAtTime(0, time);
 	}
 
 }

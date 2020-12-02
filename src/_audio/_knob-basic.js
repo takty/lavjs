@@ -18,6 +18,8 @@ class BasicKnob extends Knob {
 	}
 
 	set(key, val) {
+		key = Patch._NORM_LIST[key] ?? key;
+		val = Patch._NORM_LIST[val] ?? val;
 		switch (key) {
 			case 'type'    : this._type     = val; break;
 			case 'duration': this._duration = val; break;

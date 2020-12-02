@@ -1,10 +1,10 @@
 /**~ja
  * ノイズ・パッチ
- * @version 2020-11-30
+ * @version 2020-12-02
  */
 /**~en
  * Noise patch
- * @version 2020-11-30
+ * @version 2020-12-02
  */
 class NoisePatch extends SourcePatch {
 
@@ -40,17 +40,19 @@ class NoisePatch extends SourcePatch {
 	}
 
 	set(key, val) {
+		key = Patch._NORM_LIST[key] ?? key;
+		val = Patch._NORM_LIST[val] ?? val;
 		switch (key) {
 			case 'gain': this._g.gain.value = val; break;
 		}
 	}
 
 	start(time) {
-		this._s.setValueAtTime(1, time);
+		this._s.gain.setValueAtTime(1, time);
 	}
 
 	stop(time) {
-		this._s.setValueAtTime(0, time);
+		this._s.gain.setValueAtTime(0, time);
 	}
 
 }

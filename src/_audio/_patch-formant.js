@@ -6,7 +6,7 @@
  * Formant patch
  * @version 2020-12-02
  */
-class FormantPatch extends FilterPatch {
+class FormantPatch extends Patch {
 
 	constructor(synth, params) {
 		super();
@@ -53,6 +53,8 @@ class FormantPatch extends FilterPatch {
 	}
 
 	set(key, val) {
+		key = Patch._NORM_LIST[key] ?? key;
+		val = Patch._NORM_LIST[val] ?? val;
 		switch (key) {
 			case 'Q1'        : this._f1.Q.value         = val; break;
 			case 'Q2'        : this._f2.Q.value         = val; break;

@@ -27,9 +27,9 @@ class Synth {
 		return this._context;
 	}
 
-	speaker() {
+	speaker(params = {}) {
 		if (!this._speaker) {
-			this._speaker = new PATCH.SpeakerPatch(this);
+			this._speaker = new PATCH.SpeakerPatch(this, params);
 			this._patches.push(this._speaker);
 		}
 		return this._speaker;
@@ -65,21 +65,24 @@ class Synth {
 		return this._id_ps[id];
 	}
 
-	start(time) {
+	start(time = null) {
+		time = time ?? this._context.currentTime;
 		for (const p of this._sources) {
 			p.start(time);
 		}
 	}
 
-	stop(time) {
+	stop(time = null) {
+		time = time ?? this._context.currentTime;
 		for (const p of this._sources) {
 			p.stop(time);
 		}
 	}
 
 	play(time = null, dur = null) {
+		time = time ?? this._context.currentTime;
 		this.start(time);
-		if (time != null || dur != null) this.stop(time + dur);
+		if (dur != null) this.stop(time + dur);
 		return this;
 	}
 

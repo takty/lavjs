@@ -30,6 +30,8 @@ class SpeakerPatch extends Patch {
 	}
 
 	set(key, val) {
+		key = Patch._NORM_LIST[key] ?? key;
+		val = Patch._NORM_LIST[val] ?? val;
 		switch (key) {
 			case 'gain': this._g.gain.value = val; break;
 		}
