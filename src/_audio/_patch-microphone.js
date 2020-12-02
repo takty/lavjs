@@ -37,7 +37,7 @@ class MicrophonePatch extends SourcePatch {
 		}
 	}
 
-	getOutput() {
+	getOutput(key = null) {
 		return this._g;
 	}
 

@@ -1,42 +1,41 @@
-// ================================================ フィルター・パッチ
+/**~ja
+ * フィルター・パッチ
+ * @version 2020-12-02
+ */
+/**~en
+ * Filter patch
+ * @version 2020-12-02
+ */
+class BiquadFilterPatch extends FilterPatch {
 
-
-class BiquadFilterPatch extends Patch {
-
-	constructor(synth, type, params) {
+	constructor(synth, params) {
 		super();
 		this._synth = synth;
-		this._targets = [];
-		this._pluged = null;
 
-		this.type = par(params, 'type', type);
-		this.freq = par(params, 'freq', 1000);
-		this.q = par(params, 'q', 1);
+		this._f = this._synth.context().createBiquadFilter();
+
+		this._f.type            = params.type      ?? 'lowpass';
+		this._f.Q.value         = params.Q         ?? 1;
+		this._f.frequency.value = params.frequency ?? 1000;
 	}
 
-	_update() {
-		if (this.f && this.f.type !== this.type) this.f.type = this.type;
-		if (this.f && this.f.frequency.value !== this.freq) this.f.frequency.value = this.freq;
-		if (this.f && this.f.Q.value !== this.q) this.f.Q.value = this.q;
-	}
-
-	_getTarget(opt_param) {
-		if (opt_param === undefined) {
-			return function () { return this.f; }.bind(this);
+	getInput(key = null) {
+		switch (key) {
+			case 'Q'        : return this._f.Q;
+			case 'frequency': return this._f.frequency;
 		}
 	}
 
-	_construct() {
-		this.f = this._synth.context.createBiquadFilter();
-		this.f.type = this.type;
-		this.f.frequency.value = this.freq;
-		this.f.Q.value = this.q;
-		this._pluged = this.f;
+	getOutput(key = null) {
+		return this._f;
 	}
 
-	_destruct() {
-		disconnect(this.f);
-		this.f = null;
+	set(key, val) {
+		switch (key) {
+			case 'type'     : this._f.type            = val; break;
+			case 'Q'        : this._f.Q.value         = val; break;
+			case 'frequency': this._f.frequency.value = val; break;
+		}
 	}
 
 }

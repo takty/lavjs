@@ -1,80 +1,66 @@
-// ================================================ フォルマント・パッチ
-
-
-class FormantPatch extends Patch {
+/**~ja
+ * フォルマント・パッチ
+ * @version 2020-12-02
+ */
+/**~en
+ * Formant patch
+ * @version 2020-12-02
+ */
+class FormantPatch extends FilterPatch {
 
 	constructor(synth, params) {
 		super();
 		this._synth = synth;
-		this._targets = [];
-		this._pluged = null;
 
-		this.freq1 = par(params, 'freq1', 700);
-		this.freq2 = par(params, 'freq2', 1200);
-		this.freq3 = par(params, 'freq3', 2900);
-		this.q1 = par(params, 'q1', 32);
-		this.q2 = par(params, 'q2', 32);
-		this.q3 = par(params, 'q3', 32);
+		this._i  = this._synth.context().createBiquadFilter();
+		this._f1 = this._synth.context().createBiquadFilter();
+		this._f2 = this._synth.context().createBiquadFilter();
+		this._f3 = this._synth.context().createBiquadFilter();
+		this._g  = this._synth.context().createGain();
+		this._i.connect(this._f1).connect(this._g);
+		this._i.connect(this._f2).connect(this._g);
+		this._i.connect(this._f3).connect(this._g);
+
+		this._i.type            = 'lowpass';
+		this._i.Q.value         = 1;
+		this._i.frequency.value = 800;
+
+		this._f1.type = 'bandpass';
+		this._f2.type = 'bandpass';
+		this._f3.type = 'bandpass';
+		this._f1.frequency.value = params.frequency1 ?? 700;
+		this._f2.frequency.value = params.frequency2 ?? 1200;
+		this._f3.frequency.value = params.frequency3 ?? 2900;
+		this._f1.Q.value = params.Q1 ?? 32;
+		this._f2.Q.value = params.Q2 ?? 32;
+		this._f3.Q.value = params.Q3 ?? 32;
 	}
 
-	_update() {
-		if (this.f1 && this.f1.frequency.value !== this.freq1) this.f1.frequency.value = this.freq1;
-		if (this.f2 && this.f2.frequency.value !== this.freq2) this.f2.frequency.value = this.freq2;
-		if (this.f3 && this.f3.frequency.value !== this.freq3) this.f3.frequency.value = this.freq3;
-		if (this.f1 && this.f1.Q.value !== this.q1) this.f1.Q.value = this.q1;
-		if (this.f2 && this.f2.Q.value !== this.q2) this.f2.Q.value = this.q2;
-		if (this.f3 && this.f3.Q.value !== this.q3) this.f3.Q.value = this.q3;
-	}
-
-	_getTarget(opt_param) {
-		if (opt_param === undefined) {
-			return function () { return this.i; }.bind(this);
-		} else {
-			if (opt_param === 'amp') {
-				return function () { return this.a.gain; }.bind(this);
-			}
+	getInput(key = null) {
+		switch (key) {
+			case 'Q1'        : return this._f1.Q;
+			case 'Q2'        : return this._f2.Q;
+			case 'Q3'        : return this._f3.Q;
+			case 'frequency1': return this._f1.frequency;
+			case 'frequency2': return this._f2.frequency;
+			case 'frequency3': return this._f3.frequency;
 		}
+		return this._i;
 	}
 
-	_construct() {
-		this.i = this._synth.context.createBiquadFilter();
-		this.i.type = 'lowpass';
-		this.i.Q.value = 1;
-		this.i.frequency.value = 800;
-
-		this.f1 = this._synth.context.createBiquadFilter();
-		this.f2 = this._synth.context.createBiquadFilter();
-		this.f3 = this._synth.context.createBiquadFilter();
-
-		this.f1.type = 'bandpass';
-		this.f2.type = 'bandpass';
-		this.f3.type = 'bandpass';
-
-		this.f1.frequency.value = this.freq1;
-		this.f2.frequency.value = this.freq2;
-		this.f3.frequency.value = this.freq3;
-
-		this.f1.Q.value = this.q1;
-		this.f2.Q.value = this.q2;
-		this.f3.Q.value = this.q3;
-
-		this.a = this._synth.context.createGain();
-
-		this.i.connect(this.f1);
-		this.i.connect(this.f2);
-		this.i.connect(this.f3);
-
-		this.f1.connect(this.a);
-		this.f2.connect(this.a);
-		this.f3.connect(this.a);
-		this._pluged = this.a;
+	getOutput(key = null) {
+		return this._g;
 	}
 
-	_destruct(t) {
-		disconnect(this.i, this.f1, this.f2, this.f3, this.a);
-		this.i = null;
-		this.f1 = this.f2 = this.f3 = null;
-		this.a = null;
+	set(key, val) {
+		switch (key) {
+			case 'Q1'        : this._f1.Q.value         = val; break;
+			case 'Q2'        : this._f2.Q.value         = val; break;
+			case 'Q3'        : this._f3.Q.value         = val; break;
+			case 'frequency1': this._f1.frequency.value = val; break;
+			case 'frequency2': this._f2.frequency.value = val; break;
+			case 'frequency3': this._f3.frequency.value = val; break;
+		}
 	}
 
 }

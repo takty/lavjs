@@ -1,6 +1,20 @@
 // ================================================ シーケンサー・クラス（Sequencer）
 
 
+// パラメーター処理
+const par = function (p, name, def) {
+	if (!p) return def;
+	if (Array.isArray(name)) {
+		for (const n of name) {
+			if (p[n]) return p[n];
+		}
+		return def;
+	} else {
+		return p[name] ?? def;
+	}
+};
+
+
 // ノート名をノート番号に変換する
 var noteNameToNoteNum = function (name) {
 	if (!name || name.length === 0) return 69;

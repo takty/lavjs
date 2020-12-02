@@ -23,30 +23,8 @@ const PATCH = (function () {
 	//~en Utilities used only in the library --------------------------------------
 
 
-	// パラメーター処理
-	const par = function (p, name, def) {
-		if (!p) return def;
-		if (Array.isArray(name)) {
-			for (const n of name) {
-				if (p[n]) return p[n];
-			}
-			return def;
-		} else {
-			return p[name] ?? def;
-		}
-	};
-
-	const disconnect = function (...nodes) {
-		for (const n of nodes) {
-			if (n && n.toString() === '[object GainNode]') {
-				n.gain.value = 0;
-			}
-			if (n) setTimeout(() => { n.disconnect() }, 50);
-		}
-	};
-
-
 	//~ja パッチ -----------------------------------------------------------------
+	//~ja Patch --------------------------------------------------------------
 
 
 	//=
@@ -58,10 +36,6 @@ const PATCH = (function () {
 
 
 	//=
-	//=include _audio/_patch-noise.js
-
-
-	//=
 	//=include _audio/_patch-microphone.js
 
 
@@ -70,7 +44,7 @@ const PATCH = (function () {
 
 
 	//=
-	//=include _audio/_patch-gain.js
+	//=include _audio/_patch-noise.js
 
 
 	//=
@@ -86,11 +60,25 @@ const PATCH = (function () {
 
 
 	//=
-	//=include _audio/_patch-envelope.js
+	//=include _audio/_patch-speaker.js
+
+
+	//~ja ノブ -----------------------------------------------------------------
+	//~en Knob ---------------------------------------------------------------
+
+
+	class Knob {
+		on(time) {}
+		off(time) {}
+	}
 
 
 	//=
-	//=include _audio/_patch-speaker.js
+	//=include _audio/_knob-basic.js
+
+
+	//=
+	//=include _audio/_knob-envelope.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------
@@ -105,14 +93,15 @@ const PATCH = (function () {
 		MicrophonePatch,
 		SoundFilePatch,
 		NoisePatch,
-		GainPatch,
-		EnvelopePatch,
-		BiquadFilterPatch,
-		ScopePatch,
-		FormantPatch,
-		Speaker,
 
-		SoundFile
+		BiquadFilterPatch,
+		FormantPatch,
+
+		ScopePatch,
+		SpeakerPatch,
+
+		BasicKnob,
+		EnvelopeKnob,
 	};
 
 })();

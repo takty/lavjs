@@ -1,12 +1,12 @@
 /**~ja
  * スピーカー・パッチ
- * @version 2020-11-30
+ * @version 2020-12-02
  */
 /**~en
  * Speaker patch
- * @version 2020-11-30
+ * @version 2020-12-02
  */
-class Speaker extends Patch {
+class SpeakerPatch extends Patch {
 
 	constructor(synth, params) {
 		super();
