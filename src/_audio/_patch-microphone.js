@@ -1,28 +1,27 @@
 /**~ja
  * マイク・パッチ
- * @version 2020-12-02
+ * @version 2020-12-03
  */
 /**~en
  * Microphone patch
- * @version 2020-12-02
+ * @version 2020-12-03
  */
 class MicrophonePatch extends SourcePatch {
 
 	constructor(synth, params) {
-		super();
-		this._synth = synth;
+		super(synth);
 
-		this._s = this._synth.context().createGain();
+		this._sw = this._synth.context().createGain();
 		this._f = this._synth.context().createBiquadFilter();
 		this._g = this._synth.context().createGain();
-		this._s.connect(this._f).connect(this._g);
+		this._sw.connect(this._f).connect(this._g);
 
 		navigator.getUserMedia({ audio: true, video: false }, (stream) => {
 			this._m = this._synth.context().createMediaStreamSource(stream);
-			this._m.connect(this._s);
+			this._m.connect(this._sw);
 		}, () => {});
 
-		this._s.gain.value      = 0;
+		this._sw.gain.value     = 0;
 		this._f.type            = 'notch';
 		this._f.Q.value         = params.Q         ?? 12;
 		this._f.frequency.value = params.frequency ?? 0;
@@ -41,23 +40,26 @@ class MicrophonePatch extends SourcePatch {
 		return this._g;
 	}
 
-	set(key, val) {
+	set(key, val, time) {
 		key = Patch._NORM_LIST[key] ?? key;
 		val = Patch._NORM_LIST[val] ?? val;
+		time ??= this._synth.now();
 		switch (key) {
 			case 'type'     : this._f.type            = val; break;
-			case 'Q'        : this._f.Q.value         = val; break;
-			case 'frequency': this._f.frequency.value = val; break;
-			case 'gain'     : this._g.gain.value      = val; break;
+			case 'Q'        : this._f.Q.setValueAtTime(val, time); break;
+			case 'frequency': this._f.frequency.setValueAtTime(val, time); break;
+			case 'gain'     : this._g.gain.setValueAtTime(val, time); break;
 		}
 	}
 
 	start(time) {
-		this._s.gain.setValueAtTime(1, time);
+		time ??= this._synth.now();
+		this._sw.gain.setValueAtTime(1, time);
 	}
 
 	stop(time) {
-		this._s.gain.setValueAtTime(0, time);
+		time ??= this._synth.now();
+		this._sw.gain.setValueAtTime(0, time);
 	}
 
 }

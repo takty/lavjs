@@ -1,16 +1,15 @@
 /**~ja
  * 音声ファイル・パッチ
- * @version 2020-12-02
+ * @version 2020-12-03
  */
 /**~en
  * Sound file patch
- * @version 2020-12-02
+ * @version 2020-12-03
  */
 class SoundFilePatch extends SourcePatch {
 
 	constructor(synth, params) {
-		super();
-		this._synth = synth;
+		super(synth);
 		this._startedNodes = [];
 
 		this._loop         = params.loop         ?? false;
@@ -66,21 +65,23 @@ class SoundFilePatch extends SourcePatch {
 		return this._g;
 	}
 
-	set(key, val) {
+	set(key, val, time) {
 		key = Patch._NORM_LIST[key] ?? key;
 		val = Patch._NORM_LIST[val] ?? val;
+		time ??= this._synth.now();
 		switch (key) {
 			case 'url'         : return this._fetch(url);
 			case 'loop'        : this._loop = val; break;
 			case 'start'       : this._start = val; break;
 			case 'end'         : this._end = val; break;
-			case 'detune'      : for (const s of this._startedNodes) s.detune.value       = val; break;
-			case 'playbackRate': for (const s of this._startedNodes) s.playbackRate.value = val; break;
-			case 'gain'        : this._g.gain.value = val; break;
+			case 'detune'      : for (const s of this._startedNodes) s.detune.setValueAtTime(val, time); break;
+			case 'playbackRate': for (const s of this._startedNodes) s.playbackRate.setValueAtTime(val, time); break;
+			case 'gain'        : this._g.gain.setValueAtTime(val, time); break;
 		}
 	}
 
 	start(time) {
+		time ??= this._synth.now();
 		const s = this._createNode();
 		if (this._loop) {
 			s.start(time);
@@ -90,6 +91,7 @@ class SoundFilePatch extends SourcePatch {
 	}
 
 	stop(time) {
+		time ??= this._synth.now();
 		for (const s of this._startedNodes) s.stop(time);
 	}
 

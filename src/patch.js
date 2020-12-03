@@ -48,6 +48,10 @@ const PATCH = (function () {
 
 
 	//=
+	//=include _audio/_patch-gain.js
+
+
+	//=
 	//=include _audio/_patch-biquad-filter.js
 
 
@@ -94,6 +98,7 @@ const PATCH = (function () {
 		SoundFilePatch,
 		NoisePatch,
 
+		GainPatch,
 		BiquadFilterPatch,
 		FormantPatch,
 

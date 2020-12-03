@@ -1,19 +1,17 @@
 /**~ja
- * スピーカー・パッチ
- * @version 2020-12-02
+ * ゲイン・パッチ
+ * @version 2020-12-03
  */
 /**~en
- * Speaker patch
- * @version 2020-12-02
+ * Gain patch
+ * @version 2020-12-03
  */
-class SpeakerPatch extends Patch {
+class GainPatch extends Patch {
 
 	constructor(synth, params) {
 		super(synth);
 
 		this._g = this._synth.context().createGain();
-		this._g.connect(this._synth.context().destination);
-
 		this._g.gain.value = params.gain ?? 1;
 	}
 
@@ -24,8 +22,8 @@ class SpeakerPatch extends Patch {
 		return this._g;
 	}
 
-	getOutput(key = null) {
-		return null;
+	getOutput() {
+		return this._g;
 	}
 
 	set(key, val, time) {

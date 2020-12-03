@@ -39,6 +39,8 @@ class Sequencer {
 		this.bpm = par(params, ['bpm', 'tempo'], 100);
 		this.amp = par(params, ['amp'], 1);
 		this.inst = par(params, ['instrument', 'inst'], null);
+		this.play = par(params, ['play'], null);
+		this.stop = par(params, ['stop'], null);
 		this.swingRatio = par(params, ['swingRatio', 'sr'], 0.5);
 		this.param = par(params, ['param'], ['freq', 'amp', 'dur', 'opt']);
 
@@ -51,13 +53,17 @@ class Sequencer {
 		this.bpm = par(params, ['bpm', 'tempo'], this.bpm);
 		this.amp = par(params, ['amp'], this.amp);
 		this.inst = par(params, ['instrument', 'inst'], this.inst);
+		this.play = par(params, ['play'], this.play);
+		this.stop = par(params, ['stop'], this.stop);
 		this.swingRatio = par(params, ['swingRatio', 'sr'], this.swingRatio);
 		this.param = par(params, ['param'], this.param);
 	}
 
 	note(name, val, vel, opt) {
 		var wrapper = function (e, f, v, dur, opt) {
-			this.inst(f, v, e.time, dur, opt);
+			// this.inst(f, v, e.time, dur, opt);
+			this.play(this.inst, e.time, f, v, opt);
+			this.stop(this.inst, e.time + dur);
 		}.bind(this);
 
 		var sch = this._scheduler;

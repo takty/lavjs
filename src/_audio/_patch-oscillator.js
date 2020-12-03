@@ -1,25 +1,28 @@
 /**~ja
  * オシレーター・パッチ
- * @version 2020-12-02
+ * @version 2020-12-03
  */
 /**~en
  * Oscillator patch
- * @version 2020-12-02
+ * @version 2020-12-03
  */
 class OscillatorPatch extends SourcePatch {
 
 	constructor(synth, params) {
-		super();
-		this._synth = synth;
+		super(synth);
 
 		this._o = this._synth.context().createOscillator();
+		this._sw = this._synth.context().createGain();
 		this._g = this._synth.context().createGain();
-		this._o.connect(this._g);
+		this._o.connect(this._sw).connect(this._g);
 
 		this._o.type            = params.type      ?? 'sine';
 		this._o.frequency.value = params.frequency ?? 440;
 		this._o.detune.value    = params.detune    ?? 0;
+		this._sw.gain.value     = 0;
 		this._g.gain.value      = params.gain      ?? 1;
+
+		this._o.start();
 	}
 
 	getInput(key = null) {
@@ -34,23 +37,26 @@ class OscillatorPatch extends SourcePatch {
 		return this._g;
 	}
 
-	set(key, val) {
+	set(key, val, time) {
 		key = Patch._NORM_LIST[key] ?? key;
 		val = Patch._NORM_LIST[val] ?? val;
+		time ??= this._synth.now();
 		switch (key) {
-			case 'type'     : this._o.type            = val; break;
-			case 'frequency': this._o.frequency.value = val; break;
-			case 'detune'   : this._o.detune.value    = val; break;
-			case 'gain'     : this._g.gain.value      = val; break;
+			case 'type'     : this._o.type = val; break;
+			case 'frequency': this._o.frequency.setValueAtTime(val, time); break;
+			case 'detune'   : this._o.detune.setValueAtTime(val, time); break;
+			case 'gain'     : this._g.gain.setValueAtTime(val, time); break;
 		}
 	}
 
 	start(time) {
-		this._o.start(time);
+		time ??= this._synth.now();
+		this._sw.gain.setValueAtTime(1, time);
 	}
 
 	stop(time) {
-		this._o.stop(time);
+		time ??= this._synth.now();
+		this._sw.gain.setValueAtTime(0, time);
 	}
 
 }

@@ -1,10 +1,10 @@
 /**~ja
  * パッチ・ベース
- * @version 2020-12-02
+ * @version 2020-12-03
  */
 /**~en
  * Patch base
- * @version 2020-12-02
+ * @version 2020-12-03
  */
 class Patch {
 
@@ -19,6 +19,7 @@ class Patch {
 			case 'noise'     : return new PATCH.NoisePatch(synth, params);
 			case 'file'      : return new PATCH.SoundFilePatch(synth, params);
 
+			case 'gain'      : return new PATCH.GainPatch(synth, params);
 			case 'lowpass': case 'highpass': case 'bandpass': case 'lowshelf': case 'highshelf': case 'peaking': case 'notch': case 'allpass':
 			case 'biquad'   : return new PATCH.BiquadFilterPatch(synth, params);
 			case 'formant'  : return new PATCH.FormantPatch(synth, params);
@@ -39,13 +40,19 @@ class Patch {
 		return ret;
 	}
 
-	getKnob(key, type, params) {
-		type = Patch._NORM_LIST[type] ?? type;
+	constructor(synth) {
+		this._synth = synth;
+	}
+
+	getKnob(key, params) {
 		params = Patch._normalizeParams(params);
+		const t = params.type ?? '';
+
 		const ap = this.getInput(key);
-		switch (type) {
-			case 'gain': return GainKnob(ap, params);
-			case 'envelope': return EnvelopKnob(ap, params);
+		switch (t) {
+			case 'constant': case 'linear': case 'exponential':
+			case 'basic'   : return new BasicKnob(this._synth, ap, params);
+			case 'envelope': return new EnvelopKnob(this._synth, ap, params);
 		}
 	}
 
@@ -60,6 +67,7 @@ Patch._NORM_LIST = {
 	saw: 'sawtooth',
 	sq: 'square',
 	const: 'constant',
+	line: 'linear',
 	exp: 'exponential',
 	lpf: 'lowpass',
 	hpf: 'highpass',
@@ -68,6 +76,7 @@ Patch._NORM_LIST = {
 	spec: 'spectrum',
 	freq: 'frequency',
 	env: 'envelope',
+	dur: 'duration',
 
 	amp: 'gain',
 };

@@ -9,8 +9,7 @@
 class FormantPatch extends Patch {
 
 	constructor(synth, params) {
-		super();
-		this._synth = synth;
+		super(synth);
 
 		this._i  = this._synth.context().createBiquadFilter();
 		this._f1 = this._synth.context().createBiquadFilter();
@@ -52,16 +51,17 @@ class FormantPatch extends Patch {
 		return this._g;
 	}
 
-	set(key, val) {
+	set(key, val, time) {
 		key = Patch._NORM_LIST[key] ?? key;
 		val = Patch._NORM_LIST[val] ?? val;
+		time ??= this._synth.now();
 		switch (key) {
-			case 'Q1'        : this._f1.Q.value         = val; break;
-			case 'Q2'        : this._f2.Q.value         = val; break;
-			case 'Q3'        : this._f3.Q.value         = val; break;
-			case 'frequency1': this._f1.frequency.value = val; break;
-			case 'frequency2': this._f2.frequency.value = val; break;
-			case 'frequency3': this._f3.frequency.value = val; break;
+			case 'Q1'        : this._f1.Q.setValueAtTime(val, time); break;
+			case 'Q2'        : this._f2.Q.setValueAtTime(val, time); break;
+			case 'Q3'        : this._f3.Q.setValueAtTime(val, time); break;
+			case 'frequency1': this._f1.frequency.setValueAtTime(val, time); break;
+			case 'frequency2': this._f2.frequency.setValueAtTime(val, time); break;
+			case 'frequency3': this._f3.frequency.setValueAtTime(val, time); break;
 		}
 	}
 

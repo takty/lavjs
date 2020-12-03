@@ -9,8 +9,7 @@
 class BiquadFilterPatch extends Patch {
 
 	constructor(synth, params) {
-		super();
-		this._synth = synth;
+		super(synth);
 
 		this._f = this._synth.context().createBiquadFilter();
 
@@ -31,13 +30,14 @@ class BiquadFilterPatch extends Patch {
 		return this._f;
 	}
 
-	set(key, val) {
+	set(key, val, time) {
 		key = Patch._NORM_LIST[key] ?? key;
 		val = Patch._NORM_LIST[val] ?? val;
+		time ??= this._synth.now();
 		switch (key) {
-			case 'type'     : this._f.type            = val; break;
-			case 'Q'        : this._f.Q.value         = val; break;
-			case 'frequency': this._f.frequency.value = val; break;
+			case 'type'     : this._f.type = val; break;
+			case 'Q'        : this._f.Q.setValueAtTime(val, time); break;
+			case 'frequency': this._f.frequency.setValueAtTime(val, time); break;
 		}
 	}
 

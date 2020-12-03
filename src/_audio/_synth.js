@@ -1,10 +1,10 @@
 /**~ja
  * シンセ
- * @version 2020-12-02
+ * @version 2020-12-03
  */
 /**~en
  * Synth
- * @version 2020-12-02
+ * @version 2020-12-03
  */
 class Synth {
 
@@ -44,17 +44,28 @@ class Synth {
 		return p;
 	}
 
-	connect(...id_ps) {
+	connect(...ps) {
 		let lp = null;
-		for (let p of id_ps) {
-			let id;
-			if (Array.isArray(p)) {
-				[id, p] = p;
-				this._id_ps[id] = p;
+		for (let p of ps) {
+			p = this._flatten(p);
+			if (lp) {
+				for (const j of lp) {
+					for (const i of p) {
+						j.getOutput().connect(i.getInput());
+					}
+				}
 			}
-			if (lp) lp.getOutput().connect(p.getInput());
 			lp = p;
 		}
+	}
+
+	_flatten(p, ret = []) {
+		const ps = Array.isArray(p) ? p : [p];
+		for (let p of ps) {
+			if (Array.isArray(p)) this._flatten(p, ret);
+			else ret.push(p);
+		}
+		return ret;
 	}
 
 	makeInstrument(...id_ps) {
@@ -65,22 +76,26 @@ class Synth {
 		return this._id_ps[id];
 	}
 
+	now() {
+		return this._context.currentTime;
+	}
+
 	start(time = null) {
-		time = time ?? this._context.currentTime;
+		time ??= this._context.currentTime;
 		for (const p of this._sources) {
 			p.start(time);
 		}
 	}
 
 	stop(time = null) {
-		time = time ?? this._context.currentTime;
+		time ??= this._context.currentTime;
 		for (const p of this._sources) {
 			p.stop(time);
 		}
 	}
 
 	play(time = null, dur = null) {
-		time = time ?? this._context.currentTime;
+		time ??= this._context.currentTime;
 		this.start(time);
 		if (dur != null) this.stop(time + dur);
 		return this;

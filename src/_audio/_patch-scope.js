@@ -9,8 +9,7 @@
 class ScopePatch extends Patch {
 
 	constructor(synth, params) {
-		super();
-		this._synth = synth;
+		super(synth);
 
 		this._type   = params.type         ?? null;
 		this._sync   = params.synchronized ?? true;
@@ -36,9 +35,10 @@ class ScopePatch extends Patch {
 		return this._a;
 	}
 
-	set(key, val) {
+	set(key, val, time) {
 		key = Patch._NORM_LIST[key] ?? key;
 		val = Patch._NORM_LIST[val] ?? val;
+		time ??= this._synth.now();
 		switch (key) {
 			case 'type'        : this._type   = val; this._update(); break;
 			case 'synchronized': this._sync   = val; this._update(); break;
