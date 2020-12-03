@@ -52,7 +52,7 @@ class Patch {
 		switch (t) {
 			case 'constant': case 'linear': case 'exponential':
 			case 'basic'   : return new BasicKnob(this._synth, ap, params);
-			case 'envelope': return new EnvelopKnob(this._synth, ap, params);
+			case 'envelope': return new EnvelopeKnob(this._synth, ap, params);
 		}
 	}
 

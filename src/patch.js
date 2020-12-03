@@ -4,7 +4,7 @@
  * 音を鳴らすための部品を作るライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-11-29
+ * @version 2020-12-03
  */
 
 
@@ -21,6 +21,32 @@ const PATCH = (function () {
 
 	//~ja ライブラリ中だけで使用するユーティリティ --------------------------------
 	//~en Utilities used only in the library --------------------------------------
+
+
+	/**~ja
+	 * 最小値
+	 */
+	/**~en
+	 * Minimum value
+	 */
+	const DELAY = 0.005;
+
+	function setValueAtTime(param, value, time) {
+		cancelAndHoldAtTime(param, time);
+		param.setValueAtTime(param.value, time);
+		param.setTargetAtTime(value, time, DELAY);
+	}
+
+	function cancelAndHoldAtTime(param, time) {
+		if (param.cancelAndHoldAtTime) {
+			param.cancelAndHoldAtTime(time);
+			// param.setValueAtTime(param.value, time);
+		} else {
+			const val = param.value;
+			param.cancelScheduledValues(time);
+			param.setValueAtTime(val, time);
+		}
+	}
 
 
 	//~ja パッチ -----------------------------------------------------------------

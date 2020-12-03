@@ -18,10 +18,6 @@ var SYNTH = (function () {
 
 
 	//=
-	//=include _audio/_instrument.js
-
-
-	//=
 	//=include _audio/_synth.js
 
 

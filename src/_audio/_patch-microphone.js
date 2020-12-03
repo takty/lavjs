@@ -54,12 +54,12 @@ class MicrophonePatch extends SourcePatch {
 
 	start(time) {
 		time ??= this._synth.now();
-		this._sw.gain.setValueAtTime(1, time);
+		setValueAtTime(this._sw.gain, 1, time);
 	}
 
 	stop(time) {
 		time ??= this._synth.now();
-		this._sw.gain.setValueAtTime(0, time);
+		setValueAtTime(this._sw.gain, 0, time);
 	}
 
 }

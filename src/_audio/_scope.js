@@ -1,7 +1,7 @@
 /**~ja
  * アナライザー・ライブラリー（ANALYSER）
  * @author Takuto Yanagida
- * @version 2020-04-23
+ * @version 2020-12-04
  */
 
 
@@ -211,10 +211,10 @@
 		}
 
 		_drawCorr(corr) {
-			this.corr = (corr === -1) ? -1 : (this.corr * 0.75 + corr * 0.25);
+			this.corr = (corr === -1) ? -1 : (this.corr * 0.5 + corr * 0.5);
 			this.cc.textBaseline = 'top';
 			this.cc.textAlign = 'right';
-			var text = (this.corr === -1) ? '?' : ((0 | this.corr) + '');
+			var text = (this.corr === -1) ? '?' : ((0 | this.corr + 0.5) + '');
 			this.cc.fillText(text + ' Hz', this.innerWidth, 0);
 		}
 

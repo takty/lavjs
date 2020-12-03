@@ -12,7 +12,6 @@ class Synth {
 		this._context = new AudioContext();
 		this._patches = [];
 		this._sources = [];
-		this._id_ps = {};
 	}
 
 	/**~ja
@@ -68,37 +67,20 @@ class Synth {
 		return ret;
 	}
 
-	makeInstrument(...id_ps) {
-		return new Instrument(...id_ps);
-	}
-
-	get(id) {
-		return this._id_ps[id];
-	}
-
 	now() {
 		return this._context.currentTime;
 	}
 
-	start(time = null) {
-		time ??= this._context.currentTime;
+	start(time = this._context.currentTime) {
 		for (const p of this._sources) {
 			p.start(time);
 		}
 	}
 
-	stop(time = null) {
-		time ??= this._context.currentTime;
+	stop(time = this._context.currentTime) {
 		for (const p of this._sources) {
 			p.stop(time);
 		}
-	}
-
-	play(time = null, dur = null) {
-		time ??= this._context.currentTime;
-		this.start(time);
-		if (dur != null) this.stop(time + dur);
-		return this;
 	}
 
 }

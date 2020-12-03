@@ -12,7 +12,7 @@ class BasicKnob extends Knob {
 		super();
 		this._synth = synth;
 		this._ap = audioParam;
-		this._ap.setValueAtTime(0, 0);
+		this._ap.value = 0;
 
 		this._type     = params.type     ?? 'constant';
 		this._duration = params.duration ?? 0;
@@ -32,26 +32,52 @@ class BasicKnob extends Knob {
 
 	on(time) {
 		time ??= this._synth.now();
-		this._ap.setValueAtTime(0, time);
-
 		const t = time + this._duration;
+		// this._ap.setTargetAtTime(0, time, DELAY);
+
 		switch (this._type) {
-			case 'constant'   : this._ap.setValueAtTime(this._base, t);               break;
-			case 'linear'     : this._ap.linearRampToValueAtTime(this._base, t);      break;
-			case 'exponential': this._ap.exponentialRampToValueAtTime(this._base, t); break;
+			case 'constant': 
+				// setValueAtTime(this._ap, this._base, time); 
+				cancelAndHoldAtTime(this._ap, time);
+				if (DELAY < time - this._lastOffTime) this._ap.setValueAtTime(0, time);
+				this._ap.setTargetAtTime(this._base, time, DELAY);
+				break;
+			case 'linear': 
+				cancelAndHoldAtTime(this._ap, time);
+				// this._ap.setTargetAtTime(0, time, DELAY);
+				this._ap.setValueAtTime(0, time);
+				this._ap.linearRampToValueAtTime(this._base, t); 
+				break;
+			case 'exponential': 
+				cancelAndHoldAtTime(this._ap, time);
+				this._ap.setValueAtTime(1e-4, time);
+				this._ap.exponentialRampToValueAtTime(this._base, t); 
+				break;
 		}
 		return this;
 	}
 
 	off(time) {
 		time ??= this._synth.now();
-		this._ap.setValueAtTime(this._base, time);
-
 		const t = time + this._duration;
+
 		switch (this._type) {
-			case 'constant'   : this._ap.setValueAtTime(0, t);               break;
-			case 'linear'     : this._ap.linearRampToValueAtTime(0, t);      break;
-			case 'exponential': this._ap.exponentialRampToValueAtTime(0, t); break;
+			case 'constant': 
+				// setValueAtTime(this._ap, 0, time); 
+				cancelAndHoldAtTime(this._ap, time);
+				this._ap.setTargetAtTime(0, time, DELAY);
+				this._lastOffTime = time;
+				break;
+			case 'linear': 
+				cancelAndHoldAtTime(this._ap, time);
+				this._ap.setTargetAtTime(this._base, time, DELAY);
+				this._ap.linearRampToValueAtTime(0, t); 
+				break;
+			case 'exponential': 
+				cancelAndHoldAtTime(this._ap, time);
+				this._ap.setTargetAtTime(this._base, time, DELAY);
+				this._ap.exponentialRampToValueAtTime(0.00001, t);
+				break;
 		}
 		return this;
 	}
