@@ -1,10 +1,10 @@
 /**~ja
  * ノイズ・パッチ
- * @version 2020-12-03
+ * @version 2020-12-04
  */
 /**~en
  * Noise patch
- * @version 2020-12-03
+ * @version 2020-12-04
  */
 class NoisePatch extends SourcePatch {
 
@@ -13,12 +13,10 @@ class NoisePatch extends SourcePatch {
 
 		this._p = this._synth.context().createScriptProcessor(NoisePatch.BUFFER_SIZE, 0, 1);
 		this._p.onaudioprocess = (e) => { this._process(e); };
-		this._sw = this._synth.context().createGain();
 		this._g = this._synth.context().createGain();
-		this._p.connect(this._sw).connect(this._g);
+		this._p.connect(this._g).connect(this._sw);
 
-		this._sw.gain.value = 0;
-		this._g.gain.value  = params.gain ?? 0.5;
+		this._g.gain.value = params.gain ?? 1;
 	}
 
 	_process(e) {
@@ -28,35 +26,18 @@ class NoisePatch extends SourcePatch {
 		}
 	}
 
-	getInput(key = null) {
-		switch (key) {
-			case 'gain': return this._g.gain;
-		}
-	}
 
-	getOutput() {
-		return this._g;
-	}
+	// -------------------------------------------------------------------------
 
-	set(key, val, time) {
-		key = Patch._NORM_LIST[key] ?? key;
-		val = Patch._NORM_LIST[val] ?? val;
-		time ??= this._synth.now();
-		switch (key) {
-			case 'gain': this._g.gain.setValueAtTime(val, time); break;
-		}
-	}
 
-	start(time) {
-		time ??= this._synth.now();
-		setValueAtTime(this._sw.gain, 1, time);
-	}
-
-	stop(time) {
-		time ??= this._synth.now();
-		setValueAtTime(this._sw.gain, 0, time);
+	gain(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._g.gain;
+		setParam(this._g.gain, value, time, type);
+		return this;
 	}
 
 }
 
 NoisePatch.BUFFER_SIZE = 2048;
+
+assignAlias(NoisePatch);

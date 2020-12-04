@@ -1,10 +1,10 @@
 /**~ja
  * スピーカー・パッチ
- * @version 2020-12-02
+ * @version 2020-12-04
  */
 /**~en
  * Speaker patch
- * @version 2020-12-02
+ * @version 2020-12-04
  */
 class SpeakerPatch extends Patch {
 
@@ -17,24 +17,21 @@ class SpeakerPatch extends Patch {
 		this._g.gain.value = params.gain ?? 1;
 	}
 
-	getInput(key = null) {
-		switch (key) {
-			case 'gain': return this._g.gain;
-		}
+
+	getInput() {
 		return this._g;
 	}
 
-	getOutput(key = null) {
-		return null;
-	}
 
-	set(key, val, time) {
-		key = Patch._NORM_LIST[key] ?? key;
-		val = Patch._NORM_LIST[val] ?? val;
-		time ??= this._synth.now();
-		switch (key) {
-			case 'gain': this._g.gain.setValueAtTime(val, time); break;
-		}
+	// -------------------------------------------------------------------------
+
+
+	gain(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._g.gain;
+		setParam(this._g.gain, value, time, type);
+		return this;
 	}
 
 }
+
+assignAlias(SpeakerPatch);

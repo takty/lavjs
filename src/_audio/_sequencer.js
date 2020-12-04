@@ -63,7 +63,7 @@ class Sequencer {
 		var wrapper = function (e, f, v, dur, opt) {
 			// this.inst(f, v, e.time, dur, opt);
 			this.play(this.inst, e.time, f, v, opt);
-			this.stop(this.inst, e.time + dur);
+			if (this.stop) this.stop(this.inst, e.time + dur);
 		}.bind(this);
 
 		var sch = this._scheduler;

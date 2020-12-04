@@ -4,7 +4,7 @@
  * 音を鳴らすための部品を作るライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-12-03
+ * @version 2020-12-04
  */
 
 
@@ -23,28 +23,81 @@ const PATCH = (function () {
 	//~en Utilities used only in the library --------------------------------------
 
 
+	// キー文字列正規化リスト
+	const KEY_NORM_LIST = {
+		osc  : 'oscillator',
+		mic  : 'microphone',
+		sin  : 'sine',
+		tri  : 'triangle',
+		saw  : 'sawtooth',
+		sq   : 'square',
+		const: 'constant',
+		line : 'linear',
+		exp  : 'exponential',
+		lpf  : 'lowpass',
+		hpf  : 'highpass',
+		bpf  : 'bandpass',
+		wave : 'waveform',
+		spec : 'spectrum',
+		freq : 'frequency',
+		freq1: 'frequency1',
+		freq2: 'frequency2',
+		freq3: 'frequency3',
+		env  : 'envelope',
+		dur  : 'duration',
+		amp  : 'gain',
+	};
+
+	function assignAlias(cls) {
+		for (const [alias, orig] of Object.entries(KEY_NORM_LIST)) {
+			if (cls.prototype[orig]) {
+				cls.prototype[alias] = cls.prototype[orig];
+			}
+		}
+	}
+
+	function normalizeParams(params) {
+		const ret = {};
+		for (const [key, val] of Object.entries(params)) {
+			const k = KEY_NORM_LIST[key] ?? key;
+			const v = KEY_NORM_LIST[val] ?? val;
+			ret[k] = v;
+		}
+		return ret;
+	}
+
 	/**~ja
 	 * 最小値
 	 */
 	/**~en
 	 * Minimum value
 	 */
-	const DELAY = 0.005;
-
-	function setValueAtTime(param, value, time) {
-		cancelAndHoldAtTime(param, time);
-		param.setValueAtTime(param.value, time);
-		param.setTargetAtTime(value, time, DELAY);
-	}
+	const DELAY = 0.001;
 
 	function cancelAndHoldAtTime(param, time) {
 		if (param.cancelAndHoldAtTime) {
 			param.cancelAndHoldAtTime(time);
-			// param.setValueAtTime(param.value, time);
 		} else {
 			const val = param.value;
 			param.cancelScheduledValues(time);
 			param.setValueAtTime(val, time);
+		}
+	}
+
+	function setParam(param, value, time, type) {
+		switch (KEY_NORM_LIST[type] ?? type) {
+			case 'linear':
+				cancelAndHoldAtTime(param, time);
+				param.linearRampToValueAtTime(value, time);
+				break;
+			case 'exponential':
+				cancelAndHoldAtTime(param, time);
+				param.exponentialRampToValueAtTime(value, time);
+				break;
+			default:
+				cancelAndHoldAtTime(param, time);
+				param.setTargetAtTime(value, time, DELAY);
+				break;
 		}
 	}
 
@@ -55,6 +108,10 @@ const PATCH = (function () {
 
 	//=
 	//=include _audio/_patch-base.js
+
+
+	//=
+	//=include _audio/_patch-source.js
 
 
 	//=
@@ -93,22 +150,8 @@ const PATCH = (function () {
 	//=include _audio/_patch-speaker.js
 
 
-	//~ja ノブ -----------------------------------------------------------------
-	//~en Knob ---------------------------------------------------------------
-
-
-	class Knob {
-		on(time) {}
-		off(time) {}
-	}
-
-
 	//=
-	//=include _audio/_knob-basic.js
-
-
-	//=
-	//=include _audio/_knob-envelope.js
+	//=include _audio/_patch-envelope.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------
@@ -130,9 +173,7 @@ const PATCH = (function () {
 
 		ScopePatch,
 		SpeakerPatch,
-
-		BasicKnob,
-		EnvelopeKnob,
+		EnvelopePatch,
 	};
 
 })();

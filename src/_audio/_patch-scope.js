@@ -1,10 +1,10 @@
 /**~ja
  * スコープ・パッチ
- * @version 2020-12-02
+ * @version 2020-12-04
  */
 /**~en
  * Scope patch
- * @version 2020-12-02
+ * @version 2020-12-04
  */
 class ScopePatch extends Patch {
 
@@ -21,29 +21,19 @@ class ScopePatch extends Patch {
 	}
 
 	_update() {
-		if (!this._widget) return;
 		this._widget.setMode(this._type);
 		this._widget.setSynchronized(this._sync);
 		this._widget.setAnalyserNode(this._a);
 	}
 
-	getInput(key = null) {
+	getInput() {
 		return this._a;
 	}
 
-	getOutput(key = null) {
+	getOutput() {
 		return this._a;
-	}
-
-	set(key, val, time) {
-		key = Patch._NORM_LIST[key] ?? key;
-		val = Patch._NORM_LIST[val] ?? val;
-		time ??= this._synth.now();
-		switch (key) {
-			case 'type'        : this._type   = val; this._update(); break;
-			case 'synchronized': this._sync   = val; this._update(); break;
-			case 'widget'      : this._widget = val; this._update(); break;
-		}
 	}
 
 }
+
+assignAlias(ScopePatch);

@@ -1,10 +1,10 @@
 /**~ja
  * シンセ
- * @version 2020-12-03
+ * @version 2020-12-04
  */
 /**~en
  * Synth
- * @version 2020-12-03
+ * @version 2020-12-04
  */
 class Synth {
 
@@ -26,6 +26,10 @@ class Synth {
 		return this._context;
 	}
 
+	now() {
+		return this._context.currentTime;
+	}
+
 	speaker(params = {}) {
 		if (!this._speaker) {
 			this._speaker = new PATCH.SpeakerPatch(this, params);
@@ -34,8 +38,8 @@ class Synth {
 		return this._speaker;
 	}
 
-	add(params) {
-		const p = PATCH.Patch.make(this, params);
+	make(type, params = {}) {
+		const p = PATCH.Patch.make(this, type, params);
 		this._patches.push(p);
 		if (p instanceof PATCH.SourcePatch) {
 			this._sources.push(p);
@@ -46,29 +50,14 @@ class Synth {
 	connect(...ps) {
 		let lp = null;
 		for (let p of ps) {
-			p = this._flatten(p);
+			p = Array.isArray(p) ? p : [p];
 			if (lp) {
 				for (const j of lp) {
-					for (const i of p) {
-						j.getOutput().connect(i.getInput());
-					}
+					for (const i of p) j.getOutput().connect(i.getInput());
 				}
 			}
 			lp = p;
 		}
-	}
-
-	_flatten(p, ret = []) {
-		const ps = Array.isArray(p) ? p : [p];
-		for (let p of ps) {
-			if (Array.isArray(p)) this._flatten(p, ret);
-			else ret.push(p);
-		}
-		return ret;
-	}
-
-	now() {
-		return this._context.currentTime;
 	}
 
 	start(time = this._context.currentTime) {

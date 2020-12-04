@@ -1,10 +1,10 @@
 /**~ja
  * フォルマント・パッチ
- * @version 2020-12-02
+ * @version 2020-12-04
  */
 /**~en
  * Formant patch
- * @version 2020-12-02
+ * @version 2020-12-04
  */
 class FormantPatch extends Patch {
 
@@ -35,34 +35,54 @@ class FormantPatch extends Patch {
 		this._f3.Q.value = params.Q3 ?? 32;
 	}
 
-	getInput(key = null) {
-		switch (key) {
-			case 'Q1'        : return this._f1.Q;
-			case 'Q2'        : return this._f2.Q;
-			case 'Q3'        : return this._f3.Q;
-			case 'frequency1': return this._f1.frequency;
-			case 'frequency2': return this._f2.frequency;
-			case 'frequency3': return this._f3.frequency;
-		}
+	getInput() {
 		return this._i;
 	}
 
-	getOutput(key = null) {
+	getOutput() {
 		return this._g;
 	}
 
-	set(key, val, time) {
-		key = Patch._NORM_LIST[key] ?? key;
-		val = Patch._NORM_LIST[val] ?? val;
-		time ??= this._synth.now();
-		switch (key) {
-			case 'Q1'        : this._f1.Q.setValueAtTime(val, time); break;
-			case 'Q2'        : this._f2.Q.setValueAtTime(val, time); break;
-			case 'Q3'        : this._f3.Q.setValueAtTime(val, time); break;
-			case 'frequency1': this._f1.frequency.setValueAtTime(val, time); break;
-			case 'frequency2': this._f2.frequency.setValueAtTime(val, time); break;
-			case 'frequency3': this._f3.frequency.setValueAtTime(val, time); break;
-		}
+
+	// -------------------------------------------------------------------------
+
+
+	frequency1(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._f1.frequency;
+		setParam(this._f1.frequency, value, time, type);
+		return this;
+	}
+
+	Q1(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._f1.Q;
+		setParam(this._f1.Q, value, time, type);
+		return this;
+	}
+
+	frequency2(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._f2.frequency;
+		setParam(this._f2.frequency, value, time, type);
+		return this;
+	}
+
+	Q2(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._f2.Q;
+		setParam(this._f2.Q, value, time, type);
+		return this;
+	}
+
+	frequency3(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._f3.frequency;
+		setParam(this._f3.frequency, value, time, type);
+		return this;
+	}
+
+	Q3(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._f3.Q;
+		setParam(this._f3.Q, value, time, type);
+		return this;
 	}
 
 }
+
+assignAlias(FormantPatch);

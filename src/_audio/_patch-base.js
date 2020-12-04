@@ -1,18 +1,19 @@
 /**~ja
  * パッチ・ベース
- * @version 2020-12-03
+ * @version 2020-12-04
  */
 /**~en
  * Patch base
- * @version 2020-12-03
+ * @version 2020-12-04
  */
 class Patch {
 
-	static make(synth, params) {
-		params = Patch._normalizeParams(params);
-		const t = params.type ?? '';
+	static make(synth, type, params) {
+		type = KEY_NORM_LIST[type] ?? type;
+		params = normalizeParams(params);
+		params.type = type;
 
-		switch (t) {
+		switch (type) {
 			case 'sine': case 'triangle': case 'sawtooth': case 'square':
 			case 'oscillator': return new PATCH.OscillatorPatch(synth, params);
 			case 'microphone': return new PATCH.MicrophonePatch(synth, params);
@@ -26,65 +27,21 @@ class Patch {
 
 			case 'spectrum': case 'waveform':
 			case 'scope'   : return new PATCH.ScopePatch(synth, params);
+			case 'envelope': return new PATCH.EnvelopePatch(synth, params);
 		}
-		throw `Cannot make '${t}' patch!`;
-	}
-
-	static _normalizeParams(params) {
-		const ret = {};
-		for (const [key, val] of Object.entries(params)) {
-			const k = Patch._NORM_LIST[key] ?? key;
-			const v = Patch._NORM_LIST[val] ?? val;
-			ret[k] = v;
-		}
-		return ret;
+		throw `Cannot make '${type}' patch!`;
 	}
 
 	constructor(synth) {
 		this._synth = synth;
 	}
 
-	getKnob(key, params) {
-		params = Patch._normalizeParams(params);
-		const t = params.type ?? '';
-
-		const ap = this.getInput(key);
-		switch (t) {
-			case 'constant': case 'linear': case 'exponential':
-			case 'basic'   : return new BasicKnob(this._synth, ap, params);
-			case 'envelope': return new EnvelopeKnob(this._synth, ap, params);
+	connect(target) {
+		if (target instanceof Patch) {
+			this.getOutput().connect(target.getInput());
+		} else if (target instanceof AudioParam) {
+			this.getOutput().connect(target);
 		}
 	}
-
-}
-
-// キー文字列正規化リスト
-Patch._NORM_LIST = {
-	osc: 'oscillator',
-	mic: 'microphone',
-	sin: 'sine',
-	tri: 'triangle',
-	saw: 'sawtooth',
-	sq: 'square',
-	const: 'constant',
-	line: 'linear',
-	exp: 'exponential',
-	lpf: 'lowpass',
-	hpf: 'highpass',
-	bpf: 'bandpass',
-	wave: 'waveform',
-	spec: 'spectrum',
-	freq: 'frequency',
-	env: 'envelope',
-	dur: 'duration',
-
-	amp: 'gain',
-};
-
-class SourcePatch extends Patch {
-
-	start(time) {}
-
-	stop(time) {}
 
 }

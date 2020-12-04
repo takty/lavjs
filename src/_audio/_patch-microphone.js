@@ -11,55 +11,43 @@ class MicrophonePatch extends SourcePatch {
 	constructor(synth, params) {
 		super(synth);
 
-		this._sw = this._synth.context().createGain();
 		this._f = this._synth.context().createBiquadFilter();
 		this._g = this._synth.context().createGain();
-		this._sw.connect(this._f).connect(this._g);
+		this._f.connect(this._g).connect(this._sw);
 
 		navigator.getUserMedia({ audio: true, video: false }, (stream) => {
 			this._m = this._synth.context().createMediaStreamSource(stream);
-			this._m.connect(this._sw);
+			this._m.connect(this._f);
 		}, () => {});
 
-		this._sw.gain.value     = 0;
-		this._f.type            = 'notch';
+		this._f.type            = params.type      ?? 'notch';
 		this._f.Q.value         = params.Q         ?? 12;
 		this._f.frequency.value = params.frequency ?? 0;
 		this._g.gain.value      = params.gain      ?? 10;
 	}
 
-	getInput(key = null) {
-		switch (key) {
-			case 'Q'        : return this._f.Q;
-			case 'frequency': return this._f.frequency;
-			case 'gain'     : return this._g.gain;
-		}
+
+	// -------------------------------------------------------------------------
+
+
+	frequency(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._o.frequency;
+		setParam(this._o.frequency, value, time, type);
+		return this;
 	}
 
-	getOutput(key = null) {
-		return this._g;
+	Q(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._o.Q;
+		setParam(this._o.Q, value, time, type);
+		return this;
 	}
 
-	set(key, val, time) {
-		key = Patch._NORM_LIST[key] ?? key;
-		val = Patch._NORM_LIST[val] ?? val;
-		time ??= this._synth.now();
-		switch (key) {
-			case 'type'     : this._f.type            = val; break;
-			case 'Q'        : this._f.Q.setValueAtTime(val, time); break;
-			case 'frequency': this._f.frequency.setValueAtTime(val, time); break;
-			case 'gain'     : this._g.gain.setValueAtTime(val, time); break;
-		}
-	}
-
-	start(time) {
-		time ??= this._synth.now();
-		setValueAtTime(this._sw.gain, 1, time);
-	}
-
-	stop(time) {
-		time ??= this._synth.now();
-		setValueAtTime(this._sw.gain, 0, time);
+	gain(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._g.gain;
+		setParam(this._g.gain, value, time, type);
+		return this;
 	}
 
 }
+
+assignAlias(MicrophonePatch);

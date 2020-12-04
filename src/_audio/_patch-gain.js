@@ -1,10 +1,10 @@
 /**~ja
  * ゲイン・パッチ
- * @version 2020-12-03
+ * @version 2020-12-04
  */
 /**~en
  * Gain patch
- * @version 2020-12-03
+ * @version 2020-12-04
  */
 class GainPatch extends Patch {
 
@@ -15,10 +15,7 @@ class GainPatch extends Patch {
 		this._g.gain.value = params.gain ?? 1;
 	}
 
-	getInput(key = null) {
-		switch (key) {
-			case 'gain': return this._g.gain;
-		}
+	getInput() {
 		return this._g;
 	}
 
@@ -26,13 +23,16 @@ class GainPatch extends Patch {
 		return this._g;
 	}
 
-	set(key, val, time) {
-		key = Patch._NORM_LIST[key] ?? key;
-		val = Patch._NORM_LIST[val] ?? val;
-		time ??= this._synth.now();
-		switch (key) {
-			case 'gain': this._g.gain.setValueAtTime(val, time); break;
-		}
+
+	// -------------------------------------------------------------------------
+
+
+	gain(value = null, time = this._synth.now(), type = null) {
+		if (!value) return this._g.gain;
+		setParam(this._g.gain, value, time, type);
+		return this;
 	}
 
 }
+
+assignAlias(GainPatch);
