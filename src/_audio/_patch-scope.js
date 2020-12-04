@@ -1,10 +1,10 @@
 /**~ja
  * スコープ・パッチ
- * @version 2020-12-04
+ * @version 2020-12-05
  */
 /**~en
  * Scope patch
- * @version 2020-12-04
+ * @version 2020-12-05
  */
 class ScopePatch extends Patch {
 
@@ -17,7 +17,7 @@ class ScopePatch extends Patch {
 
 		this._a = this._synth.context().createAnalyser();
 
-		this._update();
+		if (this._widget) this._update();
 	}
 
 	_update() {

@@ -1,17 +1,17 @@
 /**~ja
  * 音声ファイル・パッチ
- * @version 2020-12-04
+ * @version 2020-12-05
  */
 /**~en
  * Sound file patch
- * @version 2020-12-04
+ * @version 2020-12-05
  */
 class SoundFilePatch extends SourcePatch {
 
 	constructor(synth, params) {
 		super(synth);
 		this._buffer = null;
-		if (params.url) this._fetchData(params.url);
+		if (params.url) this.loadFile(params.url);
 
 		this._loop         = params.loop  ?? false;
 		this._start        = params.start ?? 0;
@@ -26,7 +26,7 @@ class SoundFilePatch extends SourcePatch {
 		this._g.gain.value = params.gain ?? 1;
 	}
 
-	async _fetchData(url) {
+	async loadFile(url) {
 		try {
 			const res = await fetch(url);
 			const buf = await res.arrayBuffer();

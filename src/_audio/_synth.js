@@ -1,10 +1,10 @@
 /**~ja
  * シンセ
- * @version 2020-12-04
+ * @version 2020-12-05
  */
 /**~en
  * Synth
- * @version 2020-12-04
+ * @version 2020-12-05
  */
 class Synth {
 
@@ -16,11 +16,11 @@ class Synth {
 
 	/**~ja
 	 * オーディオ・コンテキストを返す
-	 * @return {CanvasRenderingContext2D} オーディオ・コンテキスト
+	 * @return {AudioContext} オーディオ・コンテキスト
 	 */
 	/**~en
 	 * Get the audio context
-	 * @return {CanvasRenderingContext2D} Audio context
+	 * @return {AudioContext} Audio context
 	 */
 	context() {
 		return this._context;

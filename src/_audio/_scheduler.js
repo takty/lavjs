@@ -1,10 +1,10 @@
 /**~ja
  * スケジューラー
- * @version 2020-11-29
+ * @version 2020-12-05
  */
 /**~en
  * Scheduler
- * @version 2020-11-29
+ * @version 2020-12-05
  */
 class Scheduler {
 
@@ -23,6 +23,10 @@ class Scheduler {
 			const e = es.shift();
 			e.callback({ sender: this, time: e.time }, ...e.args);
 		}
+	}
+
+	now() {
+		return this._context.currentTime;
 	}
 
 	nextTick(time, callback, ...args) {
@@ -48,21 +52,20 @@ class Scheduler {
 		return this;
 	}
 
-	start(callback, ...arg) {
-		const fn = this._process.bind(this);
+	start(callback = null, ...args) {
 		if (this._intId === 0) {
-			this._intId = setInterval(fn, Scheduler.TICK_INTERVAL);
+			this._intId = setInterval(this._process.bind(this), Scheduler.TICK_INTERVAL);
 			if (callback) {
-				this.insert(this._context.currentTime, callback, arg);
-				fn();
+				this.insert(this._context.currentTime, callback, args);
+				this._process();
 			}
 		} else if (callback) {
-			this.insert(this._context.currentTime, callback, arg);
+			this.insert(this._context.currentTime, callback, args);
 		}
 		return this;
 	}
 
-	stop(reset) {
+	stop(reset = false) {
 		if (this._intId !== 0) {
 			clearInterval(this._intId);
 			this._intId = 0;
