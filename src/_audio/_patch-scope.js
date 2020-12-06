@@ -1,10 +1,10 @@
 /**~ja
  * スコープ・パッチ
- * @version 2020-12-05
+ * @version 2020-12-06
  */
 /**~en
  * Scope patch
- * @version 2020-12-05
+ * @version 2020-12-06
  */
 class ScopePatch extends Patch {
 
@@ -16,14 +16,14 @@ class ScopePatch extends Patch {
 		this._widget = params.widget       ?? null;
 
 		this._a = this._synth.context().createAnalyser();
+		this._a.smoothingTimeConstant = 0.9;
 
 		if (this._widget) this._update();
 	}
 
 	_update() {
-		this._widget.setMode(this._type);
 		this._widget.setSynchronized(this._sync);
-		this._widget.setAnalyserNode(this._a);
+		this._widget.setDataSource(new DataSource(this._a));
 	}
 
 	getInput() {
@@ -37,3 +37,35 @@ class ScopePatch extends Patch {
 }
 
 assignAlias(ScopePatch);
+
+class DataSource {
+
+	constructor(a) { 
+		this._a = a; 
+	}
+
+	size() { 
+		return this._a.fftSize;
+	}
+
+	sampleRate() { 
+		return this._a.context.sampleRate; 
+	}
+
+	getTimeDomainData(ret) { 
+		this._a.getByteTimeDomainData(ret); 
+	}
+
+	getFrequencyData(ret) { 
+		this._a.getByteFrequencyData(ret); 
+	}
+
+	minDecibels() { 
+		return this._a.minDecibels; 
+	}
+
+	maxDecibels() { 
+		return this._a.maxDecibels; 
+	}
+
+}

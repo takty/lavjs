@@ -4,7 +4,7 @@
  * 音を鳴らすための部品を作るライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-12-05
+ * @version 2020-12-06
  */
 
 
@@ -67,10 +67,18 @@ var SYNTH = (function () {
 	//=include _audio/_scope.js
 
 
+	//=
+	//=include _audio/_waveform-scope.js
+
+
+	//=
+	//=include _audio/_spectrum-scope.js
+
+
 	//~ja ライブラリを作る --------------------------------------------------------
 	//~en Create a library --------------------------------------------------------
 
 
-	return { Synth, Scheduler, Sequencer, Scope, noteNumToFreq };
+	return { Synth, Scheduler, Sequencer, WaveformScope, SpectrumScope, noteNumToFreq };
 
 })();
