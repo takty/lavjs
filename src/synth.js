@@ -8,7 +8,13 @@
  */
 
 
-var SYNTH = (function () {
+/**~ja
+ * ライブラリ変数
+ */
+/**~en
+ * Library variable
+ */
+const SYNTH = (function () {
 
 	'use strict';
 
@@ -40,16 +46,6 @@ var SYNTH = (function () {
 		return 440 * Math.pow(2, (num - 69) / 12);
 	};
 
-	//（ライブラリの中だけで使う関数）CSSのスタイルを追加する（セレクター、スタイル）
-	const addCSS = (function () {
-		const s = document.createElement('style');
-		s.setAttribute('type', 'text/css');
-		document.head.appendChild(s);
-		return (selector, style) => {
-			s.sheet.insertRule(`${selector}{${style}}`, 0);
-		};
-	})();
-
 
 	//=
 	//=include _audio/_synth.js
@@ -63,22 +59,10 @@ var SYNTH = (function () {
 	//=include _audio/_sequencer.js
 
 
-	//=
-	//=include _audio/_scope.js
-
-
-	//=
-	//=include _audio/_waveform-scope.js
-
-
-	//=
-	//=include _audio/_spectrum-scope.js
-
-
 	//~ja ライブラリを作る --------------------------------------------------------
 	//~en Create a library --------------------------------------------------------
 
 
-	return { Synth, Scheduler, Sequencer, WaveformScope, SpectrumScope, noteNumToFreq };
+	return { Synth, Scheduler, Sequencer, noteNumToFreq };
 
 })();

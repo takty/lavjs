@@ -6,7 +6,7 @@
  * Waveform scope
  * @version 2020-12-06
  */
-class WaveformScope extends Scope {
+class WaveformScope extends ScopeBase {
 
 	// スコープを作る（横幅、たて幅）
 	constructor(width, height) {

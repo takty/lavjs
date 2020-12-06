@@ -6,7 +6,7 @@
  * Spectrum scope
  * @version 2020-12-06
  */
-class SpectrumScope extends Scope {
+class SpectrumScope extends ScopeBase {
 
 	// スコープを作る（横幅、たて幅）
 	constructor(width, height) {

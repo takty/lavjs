@@ -1,12 +1,12 @@
 /**~ja
- * スコープ
+ * スコープ・ベース
  * @version 2020-12-06
  */
 /**~en
- * スコープ
+ * スコープ・ベース
  * @version 2020-12-06
  */
-class Scope {
+class ScopeBase {
 
 	// スコープを作る（横幅、たて幅）
 	constructor(width, height) {
