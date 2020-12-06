@@ -1,10 +1,10 @@
 /**~ja
  * マイク・パッチ
- * @version 2020-12-03
+ * @version 2020-12-06
  */
 /**~en
  * Microphone patch
- * @version 2020-12-03
+ * @version 2020-12-06
  */
 class MicrophonePatch extends SourcePatch {
 
@@ -20,10 +20,10 @@ class MicrophonePatch extends SourcePatch {
 			this._m.connect(this._f);
 		}, () => {});
 
-		this._f.type            = params.type      ?? 'notch';
-		this._f.Q.value         = params.Q         ?? 12;
-		this._f.frequency.value = params.frequency ?? 0;
-		this._g.gain.value      = params.gain      ?? 10;
+		this._f.type            = params.filterType ?? 'notch';
+		this._f.Q.value         = params.Q          ?? 12;
+		this._f.frequency.value = params.frequency  ?? 0;
+		this._g.gain.value      = params.gain       ?? 10;
 	}
 
 
