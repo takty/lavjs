@@ -1,13 +1,25 @@
 /**~ja
  * エンベロープ・パッチ
- * @version 2020-12-04
+ * @extends {Patch}
+ * @version 2020-12-07
  */
 /**~en
  * Envelope patch
- * @version 2020-12-04
+ * @extends {Patch}
+ * @version 2020-12-07
  */
 class EnvelopePatch extends Patch {
 
+	/**~ja
+	 * エンベロープ・パッチを作る
+	 * @param {Synth} synth シンセ
+	 * @param {object} params パラメーター
+	 */
+	/**~en
+	 * Make an envelope patch
+	 * @param {Synth} synth Synth
+	 * @param {object} params Parameters
+	 */
 	constructor(synth, params) {
 		super(synth);
 
@@ -20,10 +32,26 @@ class EnvelopePatch extends Patch {
 		this._release = params.release ?? 0.8;
 	}
 
+	/**~ja
+	 * 入力（オーディオ・ノード）
+	 * @return {AudioNode} オーディオ・ノード
+	 */
+	/**~en
+	 * Input (audio node)
+	 * @return {AudioNode} Audio node
+	 */
 	getInput() {
 		return this._g;
 	}
 
+	/**~ja
+	 * 出力（オーディオ・ノード）
+	 * @return {AudioNode} オーディオ・ノード
+	 */
+	/**~en
+	 * Output (audio node)
+	 * @return {AudioNode} Audio node
+	 */
 	getOutput() {
 		return this._g;
 	}

@@ -1,13 +1,25 @@
 /**~ja
  * ノイズ・パッチ
- * @version 2020-12-04
+ * @extends {SourcePatch}
+ * @version 2020-12-07
  */
 /**~en
  * Noise patch
- * @version 2020-12-04
+ * @extends {SourcePatch}
+ * @version 2020-12-07
  */
 class NoisePatch extends SourcePatch {
 
+	/**~ja
+	 * ノイズ・パッチを作る
+	 * @param {Synth} synth シンセ
+	 * @param {object} params パラメーター
+	 */
+	/**~en
+	 * Make a noise patch
+	 * @param {Synth} synth Synth
+	 * @param {object} params Parameters
+	 */
 	constructor(synth, params) {
 		super(synth);
 

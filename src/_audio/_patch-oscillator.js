@@ -1,13 +1,25 @@
 /**~ja
  * オシレーター・パッチ
- * @version 2020-12-04
+ * @extends {SourcePatch}
+ * @version 2020-12-07
  */
 /**~en
  * Oscillator patch
- * @version 2020-12-04
+ * @extends {SourcePatch}
+ * @version 2020-12-07
  */
 class OscillatorPatch extends SourcePatch {
 
+	/**~ja
+	 * オシレーター・パッチを作る
+	 * @param {Synth} synth シンセ
+	 * @param {object} params パラメーター
+	 */
+	/**~en
+	 * Make an oscillator patch
+	 * @param {Synth} synth Synth
+	 * @param {object} params Parameters
+	 */
 	constructor(synth, params) {
 		super(synth);
 
@@ -26,6 +38,20 @@ class OscillatorPatch extends SourcePatch {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * 周波数
+	 * @param {number=} value 周波数
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|BiquadFilterPatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * Frequency
+	 * @param {number=} value Frequency
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|BiquadFilterPatch} Audio paramter, or this patch
+	 */
 	frequency(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._o.frequency;
 		setParam(this._o.frequency, value, time, type);

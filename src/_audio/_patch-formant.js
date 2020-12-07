@@ -1,13 +1,25 @@
 /**~ja
  * フォルマント・パッチ
- * @version 2020-12-04
+ * @extends {Patch}
+ * @version 2020-12-07
  */
 /**~en
  * Formant patch
- * @version 2020-12-04
+ * @extends {Patch}
+ * @version 2020-12-07
  */
 class FormantPatch extends Patch {
 
+	/**~ja
+	 * フォルマント・パッチを作る
+	 * @param {Synth} synth シンセ
+	 * @param {object} params パラメーター
+	 */
+	/**~en
+	 * Make a formant patch
+	 * @param {Synth} synth Synth
+	 * @param {object} params Parameters
+	 */
 	constructor(synth, params) {
 		super(synth);
 
@@ -35,10 +47,26 @@ class FormantPatch extends Patch {
 		this._f3.Q.value = params.Q3 ?? 32;
 	}
 
+	/**~ja
+	 * 入力（オーディオ・ノード）
+	 * @return {AudioNode} オーディオ・ノード
+	 */
+	/**~en
+	 * Input (audio node)
+	 * @return {AudioNode} Audio node
+	 */
 	getInput() {
 		return this._i;
 	}
 
+	/**~ja
+	 * 出力（オーディオ・ノード）
+	 * @return {AudioNode} オーディオ・ノード
+	 */
+	/**~en
+	 * Output (audio node)
+	 * @return {AudioNode} Audio node
+	 */
 	getOutput() {
 		return this._g;
 	}

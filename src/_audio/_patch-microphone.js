@@ -1,13 +1,25 @@
 /**~ja
  * マイク・パッチ
- * @version 2020-12-06
+ * @extends {SourcePatch}
+ * @version 2020-12-07
  */
 /**~en
  * Microphone patch
- * @version 2020-12-06
+ * @extends {SourcePatch}
+ * @version 2020-12-07
  */
 class MicrophonePatch extends SourcePatch {
 
+	/**~ja
+	 * マイク・パッチを作る
+	 * @param {Synth} synth シンセ
+	 * @param {object} params パラメーター
+	 */
+	/**~en
+	 * Make a microphone patch
+	 * @param {Synth} synth Synth
+	 * @param {object} params Parameters
+	 */
 	constructor(synth, params) {
 		super(synth);
 
@@ -30,12 +42,40 @@ class MicrophonePatch extends SourcePatch {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * 周波数
+	 * @param {number=} value 周波数
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|BiquadFilterPatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * Frequency
+	 * @param {number=} value Frequency
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|BiquadFilterPatch} Audio paramter, or this patch
+	 */
 	frequency(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._o.frequency;
 		setParam(this._o.frequency, value, time, type);
 		return this;
 	}
 
+	/**~ja
+	 * Q値
+	 * @param {number=} value Q値
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|BiquadFilterPatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * Q value
+	 * @param {number=} value Q value
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|BiquadFilterPatch} Audio paramter, or this patch
+	 */
 	Q(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._o.Q;
 		setParam(this._o.Q, value, time, type);

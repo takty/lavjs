@@ -1,13 +1,25 @@
 /**~ja
  * ソース・パッチ
- * @version 2020-12-04
+ * @extends {Patch}
+ * @version 2020-12-07
  */
 /**~en
  * Source patch
- * @version 2020-12-04
+ * @extends {Patch}
+ * @version 2020-12-07
  */
 class SourcePatch extends Patch {
 
+	/**~ja
+	 * ソース・パッチを作る
+	 * @param {Synth} synth シンセ
+	 * @param {object} params パラメーター
+	 */
+	/**~en
+	 * Make a source patch
+	 * @param {Synth} synth Synth
+	 * @param {object} params Parameters
+	 */
 	constructor(synth) {
 		super(synth);
 		this._sw = this._synth.context().createGain();
@@ -26,6 +38,14 @@ class SourcePatch extends Patch {
 		this._sw.gain.setTargetAtTime(0, time, DELAY);
 	}
 
+	/**~ja
+	 * 出力（オーディオ・ノード）
+	 * @return {AudioNode} オーディオ・ノード
+	 */
+	/**~en
+	 * Output (audio node)
+	 * @return {AudioNode} Audio node
+	 */
 	getOutput() {
 		return this._sw;
 	}

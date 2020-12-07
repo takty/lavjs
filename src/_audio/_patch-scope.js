@@ -1,17 +1,28 @@
 /**~ja
  * スコープ・パッチ
- * @version 2020-12-06
+ * @extends {Patch}
+ * @version 2020-12-07
  */
 /**~en
  * Scope patch
- * @version 2020-12-06
+ * @extends {Patch}
+ * @version 2020-12-07
  */
 class ScopePatch extends Patch {
 
+	/**~ja
+	 * スコープ・パッチを作る
+	 * @param {Synth} synth シンセ
+	 * @param {object} params パラメーター
+	 */
+	/**~en
+	 * Make a scope patch
+	 * @param {Synth} synth Synth
+	 * @param {object} params Parameters
+	 */
 	constructor(synth, params) {
 		super(synth);
 
-		this._type   = params.type         ?? null;
 		this._sync   = params.synchronized ?? true;
 		this._widget = params.widget       ?? null;
 
@@ -26,10 +37,26 @@ class ScopePatch extends Patch {
 		this._widget.setDataSource(new DataSource(this._a));
 	}
 
+	/**~ja
+	 * 入力（オーディオ・ノード）
+	 * @return {AudioNode} オーディオ・ノード
+	 */
+	/**~en
+	 * Input (audio node)
+	 * @return {AudioNode} Audio node
+	 */
 	getInput() {
 		return this._a;
 	}
 
+	/**~ja
+	 * 出力（オーディオ・ノード）
+	 * @return {AudioNode} オーディオ・ノード
+	 */
+	/**~en
+	 * Output (audio node)
+	 * @return {AudioNode} Audio node
+	 */
 	getOutput() {
 		return this._a;
 	}
@@ -40,32 +67,32 @@ assignAlias(ScopePatch);
 
 class DataSource {
 
-	constructor(a) { 
-		this._a = a; 
+	constructor(a) {
+		this._a = a;
 	}
 
-	size() { 
+	size() {
 		return this._a.fftSize;
 	}
 
-	sampleRate() { 
-		return this._a.context.sampleRate; 
+	sampleRate() {
+		return this._a.context.sampleRate;
 	}
 
-	getTimeDomainData(ret) { 
-		this._a.getByteTimeDomainData(ret); 
+	getTimeDomainData(ret) {
+		this._a.getByteTimeDomainData(ret);
 	}
 
-	getFrequencyData(ret) { 
-		this._a.getByteFrequencyData(ret); 
+	getFrequencyData(ret) {
+		this._a.getByteFrequencyData(ret);
 	}
 
-	minDecibels() { 
-		return this._a.minDecibels; 
+	minDecibels() {
+		return this._a.minDecibels;
 	}
 
-	maxDecibels() { 
-		return this._a.maxDecibels; 
+	maxDecibels() {
+		return this._a.maxDecibels;
 	}
 
 }

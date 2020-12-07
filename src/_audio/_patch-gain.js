@@ -1,13 +1,25 @@
 /**~ja
  * ゲイン・パッチ
- * @version 2020-12-04
+ * @extends {Patch}
+ * @version 2020-12-07
  */
 /**~en
  * Gain patch
- * @version 2020-12-04
+ * @extends {Patch}
+ * @version 2020-12-07
  */
 class GainPatch extends Patch {
 
+	/**~ja
+	 * ゲイン・パッチを作る
+	 * @param {Synth} synth シンセ
+	 * @param {object} params パラメーター
+	 */
+	/**~en
+	 * Make a gain patch
+	 * @param {Synth} synth Synth
+	 * @param {object} params Parameters
+	 */
 	constructor(synth, params) {
 		super(synth);
 
@@ -15,10 +27,26 @@ class GainPatch extends Patch {
 		this._g.gain.value = params.gain ?? 1;
 	}
 
+	/**~ja
+	 * 入力（オーディオ・ノード）
+	 * @return {AudioNode} オーディオ・ノード
+	 */
+	/**~en
+	 * Input (audio node)
+	 * @return {AudioNode} Audio node
+	 */
 	getInput() {
 		return this._g;
 	}
 
+	/**~ja
+	 * 出力（オーディオ・ノード）
+	 * @return {AudioNode} オーディオ・ノード
+	 */
+	/**~en
+	 * Output (audio node)
+	 * @return {AudioNode} Audio node
+	 */
 	getOutput() {
 		return this._g;
 	}

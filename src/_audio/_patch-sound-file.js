@@ -1,13 +1,25 @@
 /**~ja
  * 音声ファイル・パッチ
- * @version 2020-12-05
+ * @extends {SourcePatch}
+ * @version 2020-12-07
  */
 /**~en
  * Sound file patch
- * @version 2020-12-05
+ * @extends {SourcePatch}
+ * @version 2020-12-07
  */
 class SoundFilePatch extends SourcePatch {
 
+	/**~ja
+	 * 音声ファイル・パッチを作る
+	 * @param {Synth} synth シンセ
+	 * @param {object} params パラメーター
+	 */
+	/**~en
+	 * Make a sound file patch
+	 * @param {Synth} synth Synth
+	 * @param {object} params Parameters
+	 */
 	constructor(synth, params) {
 		super(synth);
 		this._buffer = null;
