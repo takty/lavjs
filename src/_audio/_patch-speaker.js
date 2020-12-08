@@ -1,12 +1,12 @@
 /**~ja
  * スピーカー・パッチ
  * @extends {Patch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 /**~en
  * Speaker patch
  * @extends {Patch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 class SpeakerPatch extends Patch {
 
@@ -45,6 +45,20 @@ class SpeakerPatch extends Patch {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * ゲイン
+	 * @param {number=} value ゲイン
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|SpeakerPatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * Gain
+	 * @param {number=} value Gain
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|SpeakerPatch} Audio paramter, or this patch
+	 */
 	gain(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);

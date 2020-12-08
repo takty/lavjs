@@ -1,12 +1,12 @@
 /**~ja
  * フィルター・パッチ
  * @extends {Patch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 /**~en
  * Filter patch
  * @extends {Patch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 class BiquadFilterPatch extends Patch {
 
@@ -59,14 +59,14 @@ class BiquadFilterPatch extends Patch {
 
 
 	/**~ja
-	 * 周波数
+	 * 周波数 [Hz]
 	 * @param {number=} value 周波数
 	 * @param {number=} time 時刻
 	 * @param {string=} type 変更の種類
 	 * @return {AudioParam|BiquadFilterPatch} オーディオ・パラメーター／このパッチ
 	 */
 	/**~en
-	 * Frequency
+	 * Frequency [Hz]
 	 * @param {number=} value Frequency
 	 * @param {number=} time Time
 	 * @param {string=} type Type of changing

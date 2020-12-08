@@ -1,12 +1,12 @@
 /**~ja
  * ノイズ・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 /**~en
  * Noise patch
  * @extends {SourcePatch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 class NoisePatch extends SourcePatch {
 
@@ -31,6 +31,16 @@ class NoisePatch extends SourcePatch {
 		this._g.gain.value = params.gain ?? 1;
 	}
 
+	/**~ja
+	 * オーディオ処理イベントに対応してノイズ・データを作成する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {AudioProcessingEvent} e イベント
+	 */
+	/**~en
+	 * Respond to audio processing events for making noise data (used only in the library)
+	 * @private
+	 * @param {AudioProcessingEvent} e Event
+	 */
 	_process(e) {
 		const output = e.outputBuffer.getChannelData(0);
 		for (let i = 0; i < NoisePatch.BUFFER_SIZE; i += 1) {
@@ -42,6 +52,20 @@ class NoisePatch extends SourcePatch {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * ゲイン
+	 * @param {number=} value ゲイン
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|NoisePatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * Gain
+	 * @param {number=} value Gain
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|NoisePatch} Audio paramter, or this patch
+	 */
 	gain(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);

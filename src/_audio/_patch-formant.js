@@ -1,12 +1,12 @@
 /**~ja
  * フォルマント・パッチ
  * @extends {Patch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 /**~en
  * Formant patch
  * @extends {Patch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 class FormantPatch extends Patch {
 
@@ -75,36 +75,120 @@ class FormantPatch extends Patch {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * 第一周波数 [Hz]
+	 * @param {number=} value 周波数
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|FormantPatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * First Frequency [Hz]
+	 * @param {number=} value Frequency
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|FormantPatch} Audio paramter, or this patch
+	 */
 	frequency1(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._f1.frequency;
 		setParam(this._f1.frequency, value, time, type);
 		return this;
 	}
 
+	/**~ja
+	 * 第一Q値
+	 * @param {number=} value Q値
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|FormantPatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * First Q value
+	 * @param {number=} value Q value
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|FormantPatch} Audio paramter, or this patch
+	 */
 	Q1(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._f1.Q;
 		setParam(this._f1.Q, value, time, type);
 		return this;
 	}
 
+	/**~ja
+	 * 第二周波数 [Hz]
+	 * @param {number=} value 周波数
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|FormantPatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * Second Frequency [Hz]
+	 * @param {number=} value Frequency
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|FormantPatch} Audio paramter, or this patch
+	 */
 	frequency2(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._f2.frequency;
 		setParam(this._f2.frequency, value, time, type);
 		return this;
 	}
 
+	/**~ja
+	 * 第二Q値
+	 * @param {number=} value Q値
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|FormantPatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * Second Q value
+	 * @param {number=} value Q value
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|FormantPatch} Audio paramter, or this patch
+	 */
 	Q2(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._f2.Q;
 		setParam(this._f2.Q, value, time, type);
 		return this;
 	}
 
+	/**~ja
+	 * 第三周波数 [Hz]
+	 * @param {number=} value 周波数
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|FormantPatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * Third Frequency [Hz]
+	 * @param {number=} value Frequency
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|FormantPatch} Audio paramter, or this patch
+	 */
 	frequency3(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._f3.frequency;
 		setParam(this._f3.frequency, value, time, type);
 		return this;
 	}
 
+	/**~ja
+	 * 第三Q値
+	 * @param {number=} value Q値
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|FormantPatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * Third Q value
+	 * @param {number=} value Q value
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|FormantPatch} Audio paramter, or this patch
+	 */
 	Q3(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._f3.Q;
 		setParam(this._f3.Q, value, time, type);

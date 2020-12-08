@@ -1,12 +1,12 @@
 /**~ja
  * マイク・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 /**~en
  * Microphone patch
  * @extends {SourcePatch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 class MicrophonePatch extends SourcePatch {
 
@@ -43,18 +43,18 @@ class MicrophonePatch extends SourcePatch {
 
 
 	/**~ja
-	 * 周波数
+	 * 周波数 [Hz]
 	 * @param {number=} value 周波数
 	 * @param {number=} time 時刻
 	 * @param {string=} type 変更の種類
-	 * @return {AudioParam|BiquadFilterPatch} オーディオ・パラメーター／このパッチ
+	 * @return {AudioParam|MicrophonePatch} オーディオ・パラメーター／このパッチ
 	 */
 	/**~en
-	 * Frequency
+	 * Frequency [Hz]
 	 * @param {number=} value Frequency
 	 * @param {number=} time Time
 	 * @param {string=} type Type of changing
-	 * @return {AudioParam|BiquadFilterPatch} Audio paramter, or this patch
+	 * @return {AudioParam|MicrophonePatch} Audio paramter, or this patch
 	 */
 	frequency(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._o.frequency;
@@ -67,14 +67,14 @@ class MicrophonePatch extends SourcePatch {
 	 * @param {number=} value Q値
 	 * @param {number=} time 時刻
 	 * @param {string=} type 変更の種類
-	 * @return {AudioParam|BiquadFilterPatch} オーディオ・パラメーター／このパッチ
+	 * @return {AudioParam|MicrophonePatch} オーディオ・パラメーター／このパッチ
 	 */
 	/**~en
 	 * Q value
 	 * @param {number=} value Q value
 	 * @param {number=} time Time
 	 * @param {string=} type Type of changing
-	 * @return {AudioParam|BiquadFilterPatch} Audio paramter, or this patch
+	 * @return {AudioParam|MicrophonePatch} Audio paramter, or this patch
 	 */
 	Q(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._o.Q;
@@ -82,6 +82,20 @@ class MicrophonePatch extends SourcePatch {
 		return this;
 	}
 
+	/**~ja
+	 * ゲイン
+	 * @param {number=} value ゲイン
+	 * @param {number=} time 時刻
+	 * @param {string=} type 変更の種類
+	 * @return {AudioParam|MicrophonePatch} オーディオ・パラメーター／このパッチ
+	 */
+	/**~en
+	 * Gain
+	 * @param {number=} value Gain
+	 * @param {number=} time Time
+	 * @param {string=} type Type of changing
+	 * @return {AudioParam|MicrophonePatch} Audio paramter, or this patch
+	 */
 	gain(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);

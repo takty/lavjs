@@ -1,12 +1,12 @@
 /**~ja
  * スコープ・パッチ
  * @extends {Patch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 /**~en
  * Scope patch
  * @extends {Patch}
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 class ScopePatch extends Patch {
 
@@ -32,6 +32,14 @@ class ScopePatch extends Patch {
 		if (this._widget) this._update();
 	}
 
+	/**~ja
+	 * ウィジェットを更新する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Update the scope widget (used only in the library)
+	 * @private
+	 */
 	_update() {
 		this._widget.setSynchronized(this._sync);
 		this._widget.setDataSource(new DataSource(this._a));
@@ -65,6 +73,16 @@ class ScopePatch extends Patch {
 
 assignAlias(ScopePatch);
 
+/**~ja
+ * データ・ソース（ライブラリ内だけで使用）
+ * @private
+ * @version 2020-12-08
+ */
+/**~en
+ * Data source (used only in the library)
+ * @private
+ * @version 2020-12-08
+ */
 class DataSource {
 
 	constructor(a) {
