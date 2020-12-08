@@ -1,10 +1,10 @@
 /**~ja
  * パッチ・ベース
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 /**~en
  * Patch base
- * @version 2020-12-07
+ * @version 2020-12-08
  */
 class Patch {
 
@@ -13,14 +13,14 @@ class Patch {
 	 * @param {Synth} synth シンセ
 	 * @param {string} type パッチの種類
 	 * @param {object} params パラメーター
-	 * @return {Patch=} パッチ
+	 * @return {?Patch} パッチ
 	 */
 	/**~en
 	 * Make various patches
 	 * @param {Synth} synth Synth
 	 * @param {string} type Type of a patch
 	 * @param {object} params Parameters
-	 * @return {Patch=} A patch
+	 * @return {?Patch} A patch
 	 */
 	static make(synth, type, params) {
 		type = KEY_NORM_LIST[type] ?? type;
@@ -59,11 +59,11 @@ class Patch {
 
 	/**~ja
 	 * 接続する
-	 * @param {Patch=|AudioParam=} target 接続先
+	 * @param {Patch|AudioParam} target 接続先
 	 */
 	/**~en
 	 * Connect
-	 * @param {Patch=|AudioParam=} target Target of connection
+	 * @param {Patch|AudioParam} target Target of connection
 	 */
 	connect(target) {
 		if (target instanceof Patch) {

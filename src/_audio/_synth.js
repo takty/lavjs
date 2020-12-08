@@ -1,10 +1,10 @@
 /**~ja
  * シンセ
- * @version 2020-12-05
+ * @version 2020-12-08
  */
 /**~en
  * Synth
- * @version 2020-12-05
+ * @version 2020-12-08
  */
 class Synth {
 
@@ -26,10 +26,28 @@ class Synth {
 		return this._context;
 	}
 
+	/**~ja
+	 * 現在の時刻を返す
+	 * @return {number} 時刻
+	 */
+	/**~en
+	 * Get the current time
+	 * @return {number} Time
+	 */
 	now() {
 		return this._context.currentTime;
 	}
 
+	/**~ja
+	 * スピーカーを返す
+	 * @param {object} params パラメーター
+	 * @return {SpeakerPatch} スピーカー・パッチ
+	 */
+	/**~en
+	 * Get the speaker
+	 * @param {object} params Parameters
+	 * @return {SpeakerPatch} The speaker patch
+	 */
 	speaker(params = {}) {
 		if (!this._speaker) {
 			this._speaker = new PATCH.SpeakerPatch(this, params);
@@ -38,6 +56,18 @@ class Synth {
 		return this._speaker;
 	}
 
+	/**~ja
+	 * 各種パッチを作る
+	 * @param {string} type パッチの種類
+	 * @param {object} params パラメーター
+	 * @return {?Patch} パッチ
+	 */
+	/**~en
+	 * Make various patches
+	 * @param {string} type Type of a patch
+	 * @param {object} params Parameters
+	 * @return {?Patch} A patch
+	 */
 	make(type, params = {}) {
 		const p = PATCH.Patch.make(this, type, params);
 		this._patches.push(p);
@@ -47,6 +77,14 @@ class Synth {
 		return p;
 	}
 
+	/**~ja
+	 * パッチを繋げる
+	 * @param {Patch[]} ps パッチ
+	 */
+	/**~en
+	 * Connect patches
+	 * @param {Patch[]} ps Patches
+	 */
 	connect(...ps) {
 		let lp = null;
 		for (let p of ps) {
@@ -60,12 +98,28 @@ class Synth {
 		}
 	}
 
-	start(time = this._context.currentTime) {
+	/**~ja
+	 * 再生する
+	 * @param {number=} time 時刻
+	 */
+	/**~en
+	 * Play
+	 * @param {number=} time Time
+	 */
+	play(time = this._context.currentTime) {
 		for (const p of this._sources) {
-			p.start(time);
+			p.play(time);
 		}
 	}
 
+	/**~ja
+	 * 停止する
+	 * @param {number=} time 時刻
+	 */
+	/**~en
+	 * Stop
+	 * @param {number=} time Time
+	 */
 	stop(time = this._context.currentTime) {
 		for (const p of this._sources) {
 			p.stop(time);
