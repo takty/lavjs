@@ -2,31 +2,31 @@
 	"!name": "lavjs",
 	"VISION": {
 		"conspicuityOfLab": {
-			"!type": "fn(L: number, a: number, b: number) -> number"
+			"!type": "fn(lab: [number, number, number]) -> number"
 		},
 		"differenceBetweenLab": {
-			"!type": "fn(L1: number, a1: number, b1: number, L2: number, a2: number, b2: number) -> number"
+			"!type": "fn(lab1: [number, number, number], lab2: [number, number, number]) -> number"
 		},
 		"categoryOfYxy": {
-			"!type": "fn(Y: number, x: number, y: number) -> string"
+			"!type": "fn(yxy: [number, number, number]) -> string"
 		},
 		"lmsToProtanopia": {
-			"!type": "fn(l: number, m: number, s: number, doCorrection?: bool) -> [number, number, number]"
+			"!type": "fn(lms: [number, number, number], doCorrection?: bool) -> [number, number, number]"
 		},
 		"lmsToDeuteranopia": {
-			"!type": "fn(l: number, m: number, s: number, doCorrection?: bool) -> [number, number, number]"
+			"!type": "fn(lms: [number, number, number], doCorrection?: bool) -> [number, number, number]"
 		},
 		"lrgbToProtanopia": {
-			"!type": "fn(lr: number, lg: number, lb: number, doCorrection?: bool) -> [number, number, number]"
+			"!type": "fn(lrgb: [number, number, number], doCorrection?: bool) -> [number, number, number]"
 		},
 		"lrgbToDeuteranopia": {
-			"!type": "fn(lr: number, lg: number, lb: number, doCorrection?: bool) -> [number, number, number]"
+			"!type": "fn(lrgb: [number, number, number], doCorrection?: bool) -> [number, number, number]"
 		},
 		"labToElderlyAB": {
-			"!type": "fn(L: number, a: number, b: number) -> [number, number, number]"
+			"!type": "fn(lab: [number, number, number]) -> [number, number, number]"
 		},
 		"labToYoungAB": {
-			"!type": "fn(L: number, a: number, b: number) -> [number, number, number]"
+			"!type": "fn(lab: [number, number, number]) -> [number, number, number]"
 		}
 	}
 }
