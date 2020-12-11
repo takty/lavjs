@@ -1,21 +1,21 @@
 /**~ja
  * スケジューラー
- * @version 2020-12-05
+ * @version 2020-12-11
  */
 /**~en
  * Scheduler
- * @version 2020-12-05
+ * @version 2020-12-11
  */
 class Scheduler {
 
-	constructor(context) {
-		this._context = context;
+	constructor(timestampFunction) {
+		this._timestamp = timestampFunction;
 		this._intId = 0;
 		this._events = [];
 	}
 
 	_process() {
-		const bgn = this._context.currentTime;
+		const bgn = this._timestamp();
 		const end = bgn + Scheduler.SCHEDULE_SPAN / 1000;
 
 		const es = this._events;
@@ -26,11 +26,11 @@ class Scheduler {
 	}
 
 	now() {
-		return this._context.currentTime;
+		return this._timestamp();
 	}
 
 	nextTick(time, callback, ...args) {
-		const t = time ?? this._context.currentTime;
+		const t = time ?? this._timestamp();
 		this.insert(t + Scheduler.SCHEDULE_SPAN / 1000, callback, ...args);
 		return this;
 	}
@@ -56,11 +56,11 @@ class Scheduler {
 		if (this._intId === 0) {
 			this._intId = setInterval(this._process.bind(this), Scheduler.TICK_INTERVAL);
 			if (callback) {
-				this.insert(this._context.currentTime, callback, args);
+				this.insert(this._timestamp(), callback, args);
 				this._process();
 			}
 		} else if (callback) {
-			this.insert(this._context.currentTime, callback, args);
+			this.insert(this._timestamp(), callback, args);
 		}
 		return this;
 	}
