@@ -20,7 +20,7 @@
 		"gulp-comment-tag": "git+https://github.com/takty/gulp-comment-tag.git",
 		"gulp-delete-lines": "0.0.7",
 		"gulp-include": "^2.4.1",
-		"gulp-load-plugins": "^2.0.4",
+		"gulp-load-plugins": "^2.0.6",
 		"gulp-plumber": "^1.2.1",
 		"gulp-preprocess": "^3.0.3",
 		"gulp-replace": "^1.0.0"
