@@ -4,7 +4,7 @@
  * 音を鳴らすための部品を作るライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-12-06
+ * @version 2020-12-13
  */
 
 
@@ -41,11 +41,6 @@ const SYNTH = (function () {
 		return ret;
 	}
 
-	// ノート番号を周波数に変換する
-	const noteNumToFreq = function (num) {
-		return 440 * Math.pow(2, (num - 69) / 12);
-	};
-
 
 	//=
 	//=include _audio/_synth.js
@@ -63,6 +58,6 @@ const SYNTH = (function () {
 	//~en Create a library --------------------------------------------------------
 
 
-	return { Synth, Scheduler, Sequencer, noteNumToFreq };
+	return { Synth, Scheduler, Sequencer };
 
 })();

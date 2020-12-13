@@ -1,173 +1,209 @@
 /**~ja
  * シーケンサー
- * @version 2020-12-11
+ * @version 2020-12-13
  */
 /**~en
  * Sequencer
- * @version 2020-12-11
+ * @version 2020-12-13
  */
 class Sequencer {
 
-	// ノート名をノート番号に変換する
-	static noteNameToNoteNum(name) {
-		if (!name || name.length === 0) return 69;
-		const c = name[0].toUpperCase();
-		const o = parseInt(name.substr(1));
-		let n = { 'C': 60, 'D': 62, 'E': 64, 'F': 65, 'G': 67, 'A': 69, 'B': 71 }[c];
-		if (!Number.isNaN(o)) n += (o - 4) * 12;
-		n += name.split('#').length - 1;
-		n -= name.split('b').length - 1;
-		return n;
-	}
-
-	constructor(context, params) {
-		this._scheduler = new Scheduler(() => { return context.currentTime; });
-		this._lastTime = this._scheduler.now() + 1;
+	constructor(ctx, params) {
+		const nowFn = (ctx instanceof Synth) ? (() => ctx.now()) : (() => ctx.currentTime);
+		this._scheduler = new Scheduler(nowFn);
+		this._lastTime = 0;
+		this._buf = [];
 
 		params = normalizeParams(params);
-		this._bpm        = params.bpm        ?? 100;
-		this._gain       = params.gain       ?? 1;
 		this._inst       = params.instrument ?? null;
 		this._play       = params.play       ?? null;
 		this._stop       = params.stop       ?? null;
+		this._bpm        = params.bpm        ?? 100;
+		this._gain       = params.gain       ?? 1;
 		this._swingRatio = params.swingRatio ?? 0.5;
+
+		this._octave   = 4;
+		this._length   = 4;
+		this._volume   = 5;
+		this._gateTime = 10;
+		this._opts     = [];
 	}
 
-	note(name, len, vel, ...opt) {
-		const spb = 60 / this._bpm;
-		const dur = (len === undefined) ? spb : (4 * spb * (1 / len));
-		const v = this._gain * ((vel === undefined) ? 0.5 : vel);
-
-		if (!Array.isArray(name)) name = [name];
-
-		for (const n of name) {
-			const f = noteNumToFreq(Sequencer.noteNameToNoteNum(n));
-			const fn = (e) => {
-				if (this._play) this._play(this._inst, e.time, f, v, ...opt);
-				if (this._stop) this._stop(this._inst, e.time + dur);
-			};
-			this._scheduler.insert(this._lastTime, fn);
+	play(delay = 0.5) {
+		const now = this._scheduler.now() + delay;
+		for (const b of this._buf) {
+			const [t, fn] = b;
+			this._scheduler.insert(now + t, fn);
 		}
-		this._lastTime += dur;
 		this._scheduler.start();
-		return this;
 	}
 
-	rest(len) {
-		const spb = 60 / this._bpm;
-		const dur = (len === undefined) ? spb : (4 * spb * (1 / len));
-
-		this._lastTime += dur;
-		this._scheduler.start();
-		return this;
+	reset() {
+		this._lastTime = 0;
+		this._buf = [];
 	}
 
-	playNote(notes) {
-		const ni = { 'C': 0, 'D': 2, 'E': 4, 'F': 5, 'G': 7, 'A': 9, 'B': 11 };
-		let bpm = this._bpm;
-		let oct = 4;
-		let shift = 0;
-		let len = 4;
-		let vel = 5;
-		let l = 0;
-		const numRe = new RegExp('\d+');
-		const lenRe = new RegExp('\.|\d+\.?');
+
+	// -------------------------------------------------------------------------
+
+
+	setNote(notes) {
+		let ps = 0;
+		let dur = 0;
 		for (let i = 0; i < notes.length; i += 1) {
-			const c = notes[i];
-			switch (c) {
+			const ch = notes[i];
+			switch (ch) {
 				case 'C': case 'D': case 'E': case 'F': case 'G': case 'A': case 'B':
-					const nn = ni[c] + (oct + 1) * 12 + shift;
-					shift = 0;
-					[l, i] = this._getLength(notes, i + 1, len);
-					console.log(c, nn, l);
-					break;
-				case '#': case '+':
-					shift += 1;
-					break;
-				case '-':
-					shift -= 1;
+					[ps,  i] = this._getPitchShift(notes, i + 1);
+					[dur, i] = this._getLength(notes, i + 1);
+					this._note(dur, ch, ps);
+					this._lastTime += dur;
 					break;
 				case 'R':
-					[l, i] = this._getLength(notes, i + 1, len);
-					console.log(c, l);
+					[dur, i] = this._getLength(notes, i + 1);
+					this._lastTime += dur;
+					break;
+				case 'Q':
+					[this._gateTime, i] = this._getNum(notes, i + 1, this._gateTime);
 					break;
 				case 'L':
-					[len, i] = this._getLength(notes, i + 1, len);
-					console.log('LEN', len);
+					[this._length, i] = this._getNum(notes, i + 1, this._length);
 					break;
 				case 'O':
-					[oct, i] = this._getNum(notes, i + 1, oct);
-					console.log('OCT', oct);
+					[this._octave, i] = this._getNum(notes, i + 1, this._octave);
 					break;
 				case 'V':
-					[vel, i] = this._getNum(notes, i + 1, vel);
-					console.log('VEL', vel);
+					[this._volume, i] = this._getNum(notes, i + 1, this._volume);
 					break;
 				case 'T':
-					[bpm, i] = this._getNum(notes, i + 1, bpm);
-					console.log('BPM', bpm, i);
+					[this._bpm, i] = this._getNum(notes, i + 1, this._bpm);
 					break;
 				case '>':
-					oct += 1;
+					this._octave += 1;
 					break;
 				case '<':
-					oct -= 1;
+					this._octave -= 1;
 					break;
+				case '{':
+					[this._opts, i] = this._getOption(notes, i + 1);
+					break;
+				case ' ': case '|':
+					break;
+				default:
+					throw new Error(`${notes.slice(0, i)} ${notes[i]} ${notes.slice(i + 1)}`);
 			}
 		}
+	}
+
+	_getPitchShift(str, idx) {
+		Sequencer.RE_PITCH_SHIFT.lastIndex = idx;
+		const res = Sequencer.RE_PITCH_SHIFT.exec(str);
+		if (res === null) return [0, idx - 1];
+		let v = 0;
+		for (const c of res[0]) {
+			if (c === '+' || c === '#') v += 1;
+			else if (c === '-') v -= 1;
+		}
+		return [v, Sequencer.RE_PITCH_SHIFT.lastIndex - 1];
 	}
 
 	_getNum(str, idx, def) {
-		const re = /\d+/y;
-		re.lastIndex = idx;
-		const res = re.exec(str);
-		if (res === null) return [def, idx];
+		Sequencer.RE_NUMBER.lastIndex = idx;
+		const res = Sequencer.RE_NUMBER.exec(str);
+		if (res === null) return [def, idx - 1];
 		const v = parseInt(res[0]);
-		const i = re.lastIndex - 1;
-		return [v, i];
+		return [v, Sequencer.RE_NUMBER.lastIndex - 1];
 	}
 
-	_getLength(str, idx, def) {
-		const re = /\.+|(\d+)(\.*)/y;
-		re.lastIndex = idx;
-		const res = re.exec(str);
-		if (res === null) return [def, idx];
-		let l = def
+	_getLength(str, idx) {
+		const def = (4 * (60 / this._bpm) * (1 / this._length));
+		Sequencer.RE_LENGTH.lastIndex = idx;
+		const res = Sequencer.RE_LENGTH.exec(str);
+		if (res === null) return [def, idx - 1];
+		let dur = null;
+		let dots = null;
 		if (!res[1]) {
-			let hl = l / 2;
-			for (let i = 0; i < res[0].length; i += 1) {
-				l += hl;
-				hl /= 2;
-			}
+			dur = def;
+			dots = res[0];
 		} else {
 			const v = parseInt(res[1]);
-			l = (4 * (60 / this._bpm) * (1 / v));
-			if (res[2]) {
-				let hl = l / 2;
-				for (let i = 0; i < res[2].length; i += 1) {
-					l += hl;
-					hl /= 2;
-				}
+			dur = (4 * (60 / this._bpm) * (1 / v));
+			if (res[2]) dots = res[2];
+		}
+		if (dots) {
+			let hl = dur / 2;
+			for (let i = 0; i < dots.length; i += 1) {
+				dur += hl;
+				hl /= 2;
 			}
 		}
-		const i = re.lastIndex - 1;
-		return [l, i];
+		return [dur, Sequencer.RE_LENGTH.lastIndex - 1];
 	}
 
-	playBeat(beats) {
+	_getOption(str, idx) {
+		let o = null;
+		let i = idx;
+		for (; i < str.length; i += 1) {
+			const ch = str[i];
+			if (ch === '}') {
+				o = str.substr(idx, i - idx);
+				break;
+			}
+		}
+		if (o === null) throw new Error(`${str.slice(0, idx - 1)} ${str[idx - 1]} ${str.slice(idx)}`);
+		const opts = [];
+		if (o) {
+			const os = o.split(',');
+			for (const o of os) {
+				const v = parseFloat(o);
+				if (Number.isNaN(v)) opts.push(o);
+				else opts.push(v);
+			}
+		}
+		return [opts, i];
+	}
+
+	_note(dur, noteCh, shift) {
+		const base = Sequencer.NOTE_TO_BASE_NO[noteCh];
+		const nn = base + (this._octave + 1) * 12 + shift;
+		const freq = 440 * Math.pow(2, (nn - 69) / 12);
+
+		const gain = this._gain * this._volume / 9;
+		dur *= (this._gateTime / 10);
+		const fn = (e) => {
+			if (this._play) this._play(this._inst, e.time, freq, gain, ...this._opts);
+			if (this._stop) this._stop(this._inst, e.time + dur);
+		};
+		this._buf.push([this._lastTime, fn]);
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	setBeat(beats) {
 		beats = beats.replace(/\|/g, '');
 		for (let i = 0; i < beats.length; i += 1) {
-			const c = beats.charAt(i);
-			const v = parseInt(c);
-			const dur = (i % 4 < 2) ? this._swingRatio / 8 : (1 - this._swingRatio) / 8;
-			if (0 <= v && v <= 9) {
-				this.note('', 1 / dur, this._gain * (0.1 * (v + 1)));
-			} else {
-				this.rest(1 / dur);
+			const v = (i % 4 < 2) ? 8 / this._swingRatio : 8 / (1 - this._swingRatio);
+			const dur = (4 * (60 / this._bpm) * (1 / v));
+			
+			const ch = beats[i];
+			if ('0123456789'.indexOf(ch) !== -1) {
+				const vol = parseInt(ch);
+				const gain = this._gain * vol / 9;
+				const fn = (e) => {
+					if (this._play) this._play(this._inst, e.time, 440, gain);
+					if (this._stop) this._stop(this._inst, e.time + dur);
+				};
+				this._buf.push([this._lastTime, fn]);
 			}
+			this._lastTime += dur;
 		}
 	}
+
 }
 
-Sequencer.prototype.n = Sequencer.prototype.note;
-Sequencer.prototype.r = Sequencer.prototype.rest;
+Sequencer.NOTE_TO_BASE_NO = { 'C': 0, 'D': 2, 'E': 4, 'F': 5, 'G': 7, 'A': 9, 'B': 11 };
+Sequencer.RE_PITCH_SHIFT  = /#|\+|-/y;
+Sequencer.RE_NUMBER       = /\d+/y;
+Sequencer.RE_LENGTH       = /\.+|(\d+)(\.*)/y;
