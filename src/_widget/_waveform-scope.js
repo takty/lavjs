@@ -1,21 +1,35 @@
 /**~ja
  * 波形スコープ
- * @version 2020-12-06
+ * @version 2020-12-16
  */
 /**~en
  * Waveform scope
- * @version 2020-12-06
+ * @version 2020-12-16
  */
 class WaveformScope extends ScopeBase {
 
-	// スコープを作る（横幅、たて幅）
+	/**~ja
+	 * 波形スコープを作る
+	 * @param {number} width 横幅
+	 * @param {number} height たて幅
+	 */
+	/**~en
+	 * Make a waveform scope
+	 * @param {number} width Width
+	 * @param {number} height Height
+	 */
 	constructor(width, height) {
 		super(width, height);
-
-		this._initView(width, height);
-		this._animate();
 	}
 	
+	/**~ja
+	 * 更新する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Update (used only in the library)
+	 * @private
+	 */
 	_update() {
 		if (this._freeze) return;
 		let cor = -1, pulseW = 0, viewOff = 0, lowLevel = false;
@@ -42,6 +56,14 @@ class WaveformScope extends ScopeBase {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * 自動的に波形のオフセットを求める（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Automatically find the waveform offset (used only in the library)
+	 * @private
+	 */
 	_autoOffset(buf, width) {
 		let maxSum = 0, o = 0;
 
@@ -65,13 +87,22 @@ class WaveformScope extends ScopeBase {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * 時間軸のグラフを描画する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Draw a graph on the time axis (used only in the library)
+	 * @private
+	 */
 	_drawTime(ctx, w, h, buf, sampleRate, cor, lowLevel) {
 		const len = WaveformScope.WAVE_MSEC_MAX /*ms*/ * sampleRate / 1000;
 
 		ctx.fillStyle = 'White';
 		ctx.fillRect(0, 0, w, h);
 
-		// 波形描画
+		//~ja 波形描画
+		//~en Drawing waveform
 		ctx.strokeStyle = 'rgb(0, 63, 0)';
 		ctx.setLineDash([]);
 		ctx.beginPath();
@@ -86,7 +117,8 @@ class WaveformScope extends ScopeBase {
 		}
 		ctx.stroke();
 
-		// 目盛描画
+		//~ja 目盛描画
+		//~en Drawing scales
 		ctx.fillStyle = 'rgba(0, 127, 127, 0.75)';
 		ctx.strokeStyle = 'rgba(0, 127, 127, 1)';
 		ctx.setLineDash([2, 2]);
@@ -99,7 +131,8 @@ class WaveformScope extends ScopeBase {
 			this._drawVIndicator(ctx, w, h, x, h / 2, i * WaveformScope.WAVE_MSEC_IND, 'ms');
 		}
 
-		// ピッチ描画
+		//~ja ピッチ描画
+		//~en Drawing pitch
 		if (cor !== 0 && !lowLevel) {
 			ctx.strokeStyle = 'rgba(255, 0, 0, 0.75)';
 			ctx.setLineDash([]);
@@ -116,6 +149,14 @@ class WaveformScope extends ScopeBase {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * データ・ソースをセットする
+	 * @param {DataSource} dataSource データ・ソース
+	 */
+	/**~en
+	 * Set a data source
+	 * @param {DataSource} dataSource Data source
+	 */
 	setDataSource(dataSource) {
 		if (this._source !== dataSource) this._source = dataSource;
 		if (dataSource) {

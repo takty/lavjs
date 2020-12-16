@@ -1,14 +1,23 @@
 /**~ja
  * スコープ・ベース
- * @version 2020-12-06
+ * @version 2020-12-16
  */
 /**~en
- * スコープ・ベース
- * @version 2020-12-06
+ * Scope base
+ * @version 2020-12-16
  */
 class ScopeBase {
 
-	// スコープを作る（横幅、たて幅）
+	/**~ja
+	 * スコープ・ベースを作る
+	 * @param {number} width 横幅
+	 * @param {number} height たて幅
+	 */
+	/**~en
+	 * Make a scope base
+	 * @param {number} width Width
+	 * @param {number} height Height
+	 */
 	constructor(width, height) {
 		this._size = 0;
 		this._buf = [];
@@ -19,9 +28,18 @@ class ScopeBase {
 		this._freeze = false;
 		this._isSynchronized = true;
 		this._cor = 0;
+		this._initView(width, height);
+		this._animate();
 	}
 
-	// 描画の設定
+	/**~ja
+	 * 表示を初期化する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Initialize view (used only in the library)
+	 * @private
+	 */
 	_initView(width, height) {
 		this._width  = width  - 16;
 		this._height = height - 16;
@@ -49,6 +67,14 @@ class ScopeBase {
 		');
 	}
 
+	/**~ja
+	 * アニメーションする（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Do animation (used only in the library)
+	 * @private
+	 */
 	_animate() {
 		const loop = () => {
 			this._update();
@@ -63,6 +89,14 @@ class ScopeBase {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * 自動的にコリレーションを求める（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Automatically calculate correlation (used only in the library)
+	 * @private
+	 */
 	_autoCorrelate(bufTd, sampleRate, cors) {
 		let bestOff = -1;
 		let bestCor = 0;
@@ -95,12 +129,28 @@ class ScopeBase {
 		return [-1, 0];
 	}
 
+	/**~ja
+	 * RMSを計算する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Calculate RMS (used only in the library)
+	 * @private
+	 */
 	_calcRms(buf) {
 		let s = 0;
 		for (const v of buf) s += v * v;
 		return Math.sqrt(s / buf.length);
 	}
 
+	/**~ja
+	 * データをセットする（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Set data (used only in the library)
+	 * @private
+	 */
 	_setData(buf, data, offset, isSynchronized, len = buf.length) {
 		if (isSynchronized) {
 			for (let i = 0; i < len; i += 1) {
@@ -118,6 +168,14 @@ class ScopeBase {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * 水平線を描画する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Draw horizontal lines (used only in the library)
+	 * @private
+	 */
 	_drawHLines(ctx, w, h, indicators) {
 		ctx.beginPath();
 		ctx.moveTo(0, 0); ctx.lineTo(w, 0);
@@ -137,6 +195,14 @@ class ScopeBase {
 		ctx.fillText(indicators[4], 0, h);
 	}
 
+	/**~ja
+	 * 垂直方向のインジケーターを描画する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Draw vertical indicators (used only in the library)
+	 * @private
+	 */
 	_drawVIndicator(ctx, w, h, x, y, val, unit) {
 		ctx.beginPath();
 		ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h);
@@ -147,6 +213,14 @@ class ScopeBase {
 		ctx.fillText(unit, x + 3, y);
 	}
 
+	/**~ja
+	 * コリレーションを描画する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Draw the correlation (used only in the library)
+	 * @private
+	 */
 	_drawCorr(ctx, w, h, cor, lowLevel) {
 		ctx.textBaseline = 'top';
 		ctx.textAlign = 'right';
@@ -158,6 +232,14 @@ class ScopeBase {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * 同期するかどうかを設定する
+	 * @param {boolean} enabled 同期するか
+	 */
+	/**~en
+	 * Set whether to be synchronized
+	 * @param {boolean} enabled Whether to be synchronized
+	 */
 	setSynchronized(enabled) {
 		this._isSynchronized = enabled;
 	}

@@ -1,23 +1,37 @@
 /**~ja
  * スペクトル・スコープ
- * @version 2020-12-06
+ * @version 2020-12-16
  */
 /**~en
  * Spectrum scope
- * @version 2020-12-06
+ * @version 2020-12-16
  */
 class SpectrumScope extends ScopeBase {
 
-	// スコープを作る（横幅、たて幅）
+	/**~ja
+	 * スペクトル・スコープを作る
+	 * @param {number} width 横幅
+	 * @param {number} height たて幅
+	 */
+	/**~en
+	 * Make a spectrum scope
+	 * @param {number} width Width
+	 * @param {number} height Height
+	 */
 	constructor(width, height) {
 		super(width, height);
 		this._minDb = 0;
 		this._maxDb = 0;
-
-		this._initView(width, height);
-		this._animate();
 	}
 
+	/**~ja
+	 * 更新する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Update (used only in the library)
+	 * @private
+	 */
 	_update() {
 		if (this._freeze) return;
 		let cor = 0, lowLevel = false;
@@ -44,6 +58,14 @@ class SpectrumScope extends ScopeBase {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * 周波数軸のグラフを描画する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Draw a graph on the frequency axis (used only in the library)
+	 * @private
+	 */
 	_drawFreq(ctx, w, h, buf, sampleRate, cor, lowLevel) {
 		const fs = buf.length;
 		const len = SpectrumScope.SPEC_FREQ_MAX * fs / sampleRate;
@@ -51,7 +73,8 @@ class SpectrumScope extends ScopeBase {
 		ctx.fillStyle = 'White';
 		ctx.fillRect(0, 0, w, h);
 
-		// スペクトル描画
+		//~ja スペクトル描画
+		//~en Drawing spectrum
 		ctx.strokeStyle = 'rgb(0, 0, 63)';
 		ctx.setLineDash([]);
 		ctx.beginPath();
@@ -66,7 +89,8 @@ class SpectrumScope extends ScopeBase {
 		}
 		ctx.stroke();
 
-		// 目盛描画
+		//~ja 目盛描画
+		//~en Drawing scales
 		ctx.fillStyle = 'rgba(0, 127, 255, 0.75)';
 		ctx.strokeStyle = 'rgba(0, 127, 255, 1)';
 		ctx.setLineDash([2, 2]);
@@ -79,7 +103,8 @@ class SpectrumScope extends ScopeBase {
 			this._drawVIndicator(ctx, w, h, x, h, i * SpectrumScope.SPEC_FREQ_IND / 1000, 'kHz');
 		}
 
-		// ピッチ描画
+		//~ja ピッチ描画
+		//~en Drawing pitch
 		if (cor !== 0 && !lowLevel) {
 			ctx.strokeStyle = 'rgba(255, 0, 0, 0.75)';
 			ctx.setLineDash([]);
@@ -96,6 +121,14 @@ class SpectrumScope extends ScopeBase {
 	// -------------------------------------------------------------------------
 
 
+	/**~ja
+	 * データ・ソースをセットする
+	 * @param {DataSource} dataSource データ・ソース
+	 */
+	/**~en
+	 * Set a data source
+	 * @param {DataSource} dataSource Data source
+	 */
 	setDataSource(dataSource) {
 		if (this._source !== dataSource) this._source = dataSource;
 		if (dataSource) {
