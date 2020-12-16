@@ -146,7 +146,7 @@ const WIDGET = (function () {
 
 
 	//=
-	//=include _widget/_sliderBase.js
+	//=include _widget/_slider-base.js
 
 
 	//=
