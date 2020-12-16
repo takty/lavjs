@@ -1,13 +1,23 @@
 /**~ja
  * シーケンサー
- * @version 2020-12-13
+ * @version 2020-12-16
  */
 /**~en
  * Sequencer
- * @version 2020-12-13
+ * @version 2020-12-16
  */
 class Sequencer {
 
+	/**~ja
+	 * シーケンサーを作る
+	 * @param {Synth|AudioContext} ctx シンセ／オーディオ・コンテキスト
+	 * @param {object} params パラメーター
+	 */
+	/**~en
+	 * Make a sequencer
+	 * @param {Synth|AudioContext} ctx Synth, or audio context
+	 * @param {object} params Parameters
+	 */
 	constructor(ctx, params) {
 		const nowFn = (ctx instanceof Synth) ? (() => ctx.now()) : (() => ctx.currentTime);
 		this._scheduler = new Scheduler(nowFn);
@@ -29,6 +39,14 @@ class Sequencer {
 		this._opts     = [];
 	}
 
+	/**~ja
+	 * 再生する
+	 * @param {number=} delay 遅延時間 [s]
+	 */
+	/**~en
+	 * Play
+	 * @param {number=} delay Delay time [s]
+	 */
 	play(delay = 0.5) {
 		const now = this._scheduler.now() + delay;
 		for (const b of this._buf) {
@@ -38,7 +56,14 @@ class Sequencer {
 		this._scheduler.start();
 	}
 
+	/**~ja
+	 * リセットする
+	 */
+	/**~en
+	 * Reset
+	 */
 	reset() {
+		this._scheduler.stop(true);
 		this._lastTime = 0;
 		this._buf = [];
 	}
@@ -47,7 +72,17 @@ class Sequencer {
 	// -------------------------------------------------------------------------
 
 
-	setNote(notes) {
+	/**~ja
+	 * 楽譜をセットする
+	 * @param {string} notes 楽譜を表す文字列
+	 * @return {Sequencer} このシーケンサー
+	 */
+	/**~en
+	 * Set score
+	 * @param {string} notes String representing score
+	 * @return {Sequencer} This sequencer
+	 */
+	setScore(notes) {
 		let ps = 0;
 		let dur = 0;
 		for (let i = 0; i < notes.length; i += 1) {
@@ -56,7 +91,7 @@ class Sequencer {
 				case 'C': case 'D': case 'E': case 'F': case 'G': case 'A': case 'B':
 					[ps,  i] = this._getPitchShift(notes, i + 1);
 					[dur, i] = this._getLength(notes, i + 1);
-					this._note(dur, ch, ps);
+					this._sound(dur, ch, ps);
 					this._lastTime += dur;
 					break;
 				case 'R':
@@ -64,19 +99,19 @@ class Sequencer {
 					this._lastTime += dur;
 					break;
 				case 'Q':
-					[this._gateTime, i] = this._getNum(notes, i + 1, this._gateTime);
+					[this._gateTime, i] = this._getNumber(notes, i + 1, this._gateTime);
 					break;
 				case 'L':
-					[this._length, i] = this._getNum(notes, i + 1, this._length);
+					[this._length, i] = this._getNumber(notes, i + 1, this._length);
 					break;
 				case 'O':
-					[this._octave, i] = this._getNum(notes, i + 1, this._octave);
+					[this._octave, i] = this._getNumber(notes, i + 1, this._octave);
 					break;
 				case 'V':
-					[this._volume, i] = this._getNum(notes, i + 1, this._volume);
+					[this._volume, i] = this._getNumber(notes, i + 1, this._volume);
 					break;
 				case 'T':
-					[this._bpm, i] = this._getNum(notes, i + 1, this._bpm);
+					[this._bpm, i] = this._getNumber(notes, i + 1, this._bpm);
 					break;
 				case '>':
 					this._octave += 1;
@@ -93,8 +128,23 @@ class Sequencer {
 					throw new Error(`${notes.slice(0, i)} ${notes[i]} ${notes.slice(i + 1)}`);
 			}
 		}
+		return this;
 	}
 
+	/**~ja
+	 * フラットとシャープを取得する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {string} str 楽譜を表す文字列
+	 * @param {number} idx 調べるインデックス
+	 * @return {[number, number]} 音程のズレと調べ終わったインデックス
+	 */
+	/**~en
+	 * Get flats and sharps (used only in the library)
+	 * @private
+	 * @param {string} str String representing score
+	 * @param {number} idx Index to be checked
+	 * @return {[number, number]} Pitch shift and checked index
+	 */
 	_getPitchShift(str, idx) {
 		Sequencer.RE_PITCH_SHIFT.lastIndex = idx;
 		const res = Sequencer.RE_PITCH_SHIFT.exec(str);
@@ -107,7 +157,21 @@ class Sequencer {
 		return [v, Sequencer.RE_PITCH_SHIFT.lastIndex - 1];
 	}
 
-	_getNum(str, idx, def) {
+	/**~ja
+	 * 数値を取得する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {string} str 楽譜を表す文字列
+	 * @param {number} idx 調べるインデックス
+	 * @return {[number, number]} 数値と調べ終わったインデックス
+	 */
+	/**~en
+	 * Get number (used only in the library)
+	 * @private
+	 * @param {string} str String representing score
+	 * @param {number} idx Index to be checked
+	 * @return {[number, number]} Number and checked index
+	 */
+	_getNumber(str, idx, def) {
 		Sequencer.RE_NUMBER.lastIndex = idx;
 		const res = Sequencer.RE_NUMBER.exec(str);
 		if (res === null) return [def, idx - 1];
@@ -115,6 +179,20 @@ class Sequencer {
 		return [v, Sequencer.RE_NUMBER.lastIndex - 1];
 	}
 
+	/**~ja
+	 * 音符と休符の長さを取得する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {string} str 楽譜を表す文字列
+	 * @param {number} idx 調べるインデックス
+	 * @return {[number, number]} 長さと調べ終わったインデックス
+	 */
+	/**~en
+	 * Get length of notes and rests (used only in the library)
+	 * @private
+	 * @param {string} str String representing score
+	 * @param {number} idx Index to be checked
+	 * @return {[number, number]} Length and checked index
+	 */
 	_getLength(str, idx) {
 		const def = (4 * (60 / this._bpm) * (1 / this._length));
 		Sequencer.RE_LENGTH.lastIndex = idx;
@@ -140,6 +218,20 @@ class Sequencer {
 		return [dur, Sequencer.RE_LENGTH.lastIndex - 1];
 	}
 
+	/**~ja
+	 * オプションを取得する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {string} str 楽譜を表す文字列
+	 * @param {number} idx 調べるインデックス
+	 * @return {[Array, number]} オプションと調べ終わったインデックス
+	 */
+	/**~en
+	 * Get option (used only in the library)
+	 * @private
+	 * @param {string} str String representing score
+	 * @param {number} idx Index to be checked
+	 * @return {[Array, number]} Option and checked index
+	 */
 	_getOption(str, idx) {
 		let o = null;
 		let i = idx;
@@ -163,7 +255,21 @@ class Sequencer {
 		return [opts, i];
 	}
 
-	_note(dur, noteCh, shift) {
+	/**~ja
+	 * 音を鳴らす（ライブラリ内だけで使用）
+	 * @private
+	 * @param {number} dur 音の継続時間 [s]
+	 * @param {string} noteCh 音程を表す文字
+	 * @param {number} shift 音程のズレ
+	 */
+	/**~en
+	 * Play sound (used only in the library)
+	 * @private
+	 * @param {number} dur Duration of sound [s]
+	 * @param {string} noteCh Character representing pitch
+	 * @param {number} shift Pitch shift
+	 */
+	_sound(dur, noteCh, shift) {
 		const base = Sequencer.NOTE_TO_BASE_NO[noteCh];
 		const nn = base + (this._octave + 1) * 12 + shift;
 		const freq = 440 * Math.pow(2, (nn - 69) / 12);
@@ -181,13 +287,23 @@ class Sequencer {
 	// -------------------------------------------------------------------------
 
 
-	setBeat(beats) {
-		beats = beats.replace(/\|/g, '');
-		for (let i = 0; i < beats.length; i += 1) {
+	/**~ja
+	 * リズムをセットする
+	 * @param {string} rhythm リズムを表す文字列
+	 * @return {Sequencer} このシーケンサー
+	 */
+	/**~en
+	 * Set rhythm
+	 * @param {string} rhythm String representing rhythm
+	 * @return {Sequencer} This sequencer
+	 */
+	setRhythm(rhythm) {
+		rhythm = rhythm.replace(/\|/g, '');
+		for (let i = 0; i < rhythm.length; i += 1) {
 			const v = (i % 4 < 2) ? 8 / this._swingRatio : 8 / (1 - this._swingRatio);
 			const dur = (4 * (60 / this._bpm) * (1 / v));
 			
-			const ch = beats[i];
+			const ch = rhythm[i];
 			if ('0123456789'.indexOf(ch) !== -1) {
 				const vol = parseInt(ch);
 				const gain = this._gain * vol / 9;
@@ -199,6 +315,7 @@ class Sequencer {
 			}
 			this._lastTime += dur;
 		}
+		return this;
 	}
 
 }

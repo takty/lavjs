@@ -1,13 +1,19 @@
 /**~ja
  * シンセ
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
  * Synth
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 class Synth {
 
+	/**~ja
+	 * シンセを作る
+	 */
+	/**~en
+	 * Make a synth
+	 */
 	constructor() {
 		this._context = new AudioContext();
 		this._patches = [];
@@ -80,10 +86,12 @@ class Synth {
 	/**~ja
 	 * パッチを繋げる
 	 * @param {Patch[]} ps パッチ
+	 * @return {Synth} このシンセ
 	 */
 	/**~en
 	 * Connect patches
 	 * @param {Patch[]} ps Patches
+	 * @return {Synth} This synth
 	 */
 	connect(...ps) {
 		let lp = null;
@@ -96,34 +104,41 @@ class Synth {
 			}
 			lp = p;
 		}
+		return this;
 	}
 
 	/**~ja
 	 * 再生する
-	 * @param {number=} time 時刻
+	 * @param {number=} time 時刻 [s]
+	 * @return {Synth} このシンセ
 	 */
 	/**~en
 	 * Play
-	 * @param {number=} time Time
+	 * @param {number=} time Time [s]
+	 * @return {Synth} This synth
 	 */
 	play(time = this._context.currentTime) {
 		for (const p of this._sources) {
 			p.play(time);
 		}
+		return this;
 	}
 
 	/**~ja
 	 * 停止する
-	 * @param {number=} time 時刻
+	 * @param {number=} time 時刻 [s]
+	 * @return {Synth} このシンセ
 	 */
 	/**~en
 	 * Stop
-	 * @param {number=} time Time
+	 * @param {number=} time Time [s]
+	 * @return {Synth} This synth
 	 */
 	stop(time = this._context.currentTime) {
 		for (const p of this._sources) {
 			p.stop(time);
 		}
+		return this;
 	}
 
 }
