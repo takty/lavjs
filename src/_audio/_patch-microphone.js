@@ -1,12 +1,12 @@
 /**~ja
  * マイク・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
  * Microphone patch
  * @extends {SourcePatch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 class MicrophonePatch extends SourcePatch {
 
@@ -20,7 +20,7 @@ class MicrophonePatch extends SourcePatch {
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */
-	constructor(synth, params) {
+	constructor(synth, { type = 'notch', Q = 12, frequency = 0, gain = 10 }) {
 		super(synth);
 
 		this._f = this._synth.context().createBiquadFilter();
@@ -32,10 +32,10 @@ class MicrophonePatch extends SourcePatch {
 			this._m.connect(this._f);
 		}, () => {});
 
-		this._f.type            = params.filterType ?? 'notch';
-		this._f.Q.value         = params.Q          ?? 12;
-		this._f.frequency.value = params.frequency  ?? 0;
-		this._g.gain.value      = params.gain       ?? 10;
+		this._f.type            = type;
+		this._f.Q.value         = Q;
+		this._f.frequency.value = frequency;
+		this._g.gain.value      = gain;
 	}
 
 
@@ -43,15 +43,31 @@ class MicrophonePatch extends SourcePatch {
 
 
 	/**~ja
-	 * 周波数 [Hz]
-	 * @param {number=} value 周波数
+	 * フィルターの種類
+	 * @param {string=} value フィルターの種類
+	 * @return {string|MicrophonePatch} フィルターの種類／このパッチ
+	 */
+	/**~en
+	 * Filter type
+	 * @param {string=} value Filter type
+	 * @return {string|MicrophonePatch} Filter type, or this patch
+	 */
+	type(value = null) {
+		if (!value) return this._f.type;
+		this._f.type = value;
+		return this;
+	}
+
+	/**~ja
+	 * フィルターの周波数 [Hz]
+	 * @param {number=} value フィルターの周波数
 	 * @param {number=} time 時刻
 	 * @param {string=} type 変更の種類
 	 * @return {AudioParam|MicrophonePatch} オーディオ・パラメーター／このパッチ
 	 */
 	/**~en
-	 * Frequency [Hz]
-	 * @param {number=} value Frequency
+	 * Filter frequency [Hz]
+	 * @param {number=} value Filter frequency
 	 * @param {number=} time Time
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|MicrophonePatch} Audio paramter, or this patch
@@ -63,15 +79,15 @@ class MicrophonePatch extends SourcePatch {
 	}
 
 	/**~ja
-	 * Q値
-	 * @param {number=} value Q値
+	 * フィルターのQ値
+	 * @param {number=} value フィルターのQ値
 	 * @param {number=} time 時刻
 	 * @param {string=} type 変更の種類
 	 * @return {AudioParam|MicrophonePatch} オーディオ・パラメーター／このパッチ
 	 */
 	/**~en
-	 * Q value
-	 * @param {number=} value Q value
+	 * Filter Q value
+	 * @param {number=} value Filter Q value
 	 * @param {number=} time Time
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|MicrophonePatch} Audio paramter, or this patch

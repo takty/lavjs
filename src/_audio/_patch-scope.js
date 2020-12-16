@@ -1,12 +1,12 @@
 /**~ja
  * スコープ・パッチ
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
  * Scope patch
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 class ScopePatch extends Patch {
 
@@ -20,14 +20,14 @@ class ScopePatch extends Patch {
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */
-	constructor(synth, params) {
+	constructor(synth, { widget = null, isSynchronized = true, smoothingTimeConstant = 0.9 }) {
 		super(synth);
 
-		this._sync   = params.synchronized ?? true;
-		this._widget = params.widget       ?? null;
+		this._widget = widget;
+		this._sync   = isSynchronized;
 
 		this._a = this._synth.context().createAnalyser();
-		this._a.smoothingTimeConstant = 0.9;
+		this._a.smoothingTimeConstant = smoothingTimeConstant;
 
 		if (this._widget) this._update();
 	}
@@ -67,6 +67,26 @@ class ScopePatch extends Patch {
 	 */
 	getOutput() {
 		return this._a;
+	}
+
+
+	// -------------------------------------------------------------------------
+
+
+	/**~ja
+	 * スムージング時間定数
+	 * @param {number=} value 定数
+	 * @return {number|ScopePatch} 定数／このパッチ
+	 */
+	/**~en
+	 * Smoothing time constant
+	 * @param {number=} value Constant
+	 * @return {number|ScopePatch} Constant, or this patch
+	 */
+	smoothingTimeConstant(value = null) {
+		if (!value) return this._a.smoothingTimeConstant;
+		this._a.smoothingTimeConstant = value;
+		return this;
 	}
 
 }

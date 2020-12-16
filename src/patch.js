@@ -4,7 +4,15 @@
  * 音を鳴らすための部品を作るライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-12-04
+ * @version 2020-12-16
+ */
+/**~en
+ * Patch library (PATCH)
+ *
+ * A library for making parts for playing sounds.
+ *
+ * @author Takuto Yanagida
+ * @version 2020-12-16
  */
 
 
@@ -23,7 +31,8 @@ const PATCH = (function () {
 	//~en Utilities used only in the library --------------------------------------
 
 
-	// キー文字列正規化リスト
+	//~ja キー文字列正規化リスト
+	//~en Key string normalizing list
 	const KEY_NORM_LIST = {
 		osc  : 'oscillator',
 		mic  : 'microphone',
@@ -39,6 +48,7 @@ const PATCH = (function () {
 		bpf  : 'bandpass',
 		wave : 'waveform',
 		spec : 'spectrum',
+		sync : 'isSynchronized',
 		freq : 'frequency',
 		freq1: 'frequency1',
 		freq2: 'frequency2',
@@ -48,6 +58,14 @@ const PATCH = (function () {
 		amp  : 'gain',
 	};
 
+	/**~ja
+	 * 関数（メソッド）の別名をつける
+	 * @param {object} cls クラス
+	 */
+	/**~en
+	 * Give aliases for functions (methods)
+	 * @param {object} cls Class
+	 */
 	function assignAlias(cls) {
 		for (const [alias, orig] of Object.entries(KEY_NORM_LIST)) {
 			if (cls.prototype[orig]) {
@@ -56,6 +74,16 @@ const PATCH = (function () {
 		}
 	}
 
+	/**~ja
+	 * パラメーターのキーを正規化する
+	 * @param {object} params パラメーター
+	 * @return {object} 正規化されたパラメーター
+	 */
+	/**~en
+	 * Normalize keys of parameters
+	 * @param {object} params parameters
+	 * @return {object} Normalized parameters
+	 */
 	function normalizeParams(params) {
 		const ret = {};
 		for (const [key, val] of Object.entries(params)) {
@@ -66,14 +94,20 @@ const PATCH = (function () {
 		return ret;
 	}
 
-	/**~ja
-	 * 最小値
-	 */
-	/**~en
-	 * Minimum value
-	 */
+	//~ja 最小値
+	//~en Minimum value
 	const DELAY = 0.001;
 
+	/**~ja
+	 * cancelAndHoldAtTimeメソッドの代替
+	 * @param {AudioParam} param オーディオ・パラメーター
+	 * @param {number} time 時刻 [s]
+	 */
+	/**~en
+	 * Polyfill of cancelAndHoldAtTime method
+	 * @param {AudioParam} params Audio parameter
+	 * @param {number} time Time [s]
+	 */
 	function cancelAndHoldAtTime(param, time) {
 		if (param.cancelAndHoldAtTime) {
 			param.cancelAndHoldAtTime(time);
@@ -84,6 +118,20 @@ const PATCH = (function () {
 		}
 	}
 
+	/**~ja
+	 * オーディオ・パラメーターに値を設定する
+	 * @param {AudioParam} param オーディオ・パラメーター
+	 * @param {number} value 値
+	 * @param {number} time 時刻 [s]
+	 * @param {string} type 種類
+	 */
+	/**~en
+	 * Set a value to the audio parameter
+	 * @param {AudioParam} params Audio parameter
+	 * @param {number} value Value
+	 * @param {number} time Time [s]
+	 * @param {string} type Type
+	 */
 	function setParam(param, value, time, type) {
 		switch (KEY_NORM_LIST[type] ?? type) {
 			case 'linear':
@@ -119,15 +167,15 @@ const PATCH = (function () {
 
 
 	//=
+	//=include _audio/_patch-noise.js
+
+
+	//=
 	//=include _audio/_patch-microphone.js
 
 
 	//=
-	//=include _audio/_patch-sound-file.js
-
-
-	//=
-	//=include _audio/_patch-noise.js
+	//=include _audio/_patch-buffer-source.js
 
 
 	//=
@@ -143,15 +191,15 @@ const PATCH = (function () {
 
 
 	//=
+	//=include _audio/_patch-envelope.js
+
+
+	//=
 	//=include _audio/_patch-scope.js
 
 
 	//=
 	//=include _audio/_patch-speaker.js
-
-
-	//=
-	//=include _audio/_patch-envelope.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------
@@ -163,9 +211,9 @@ const PATCH = (function () {
 		SourcePatch,
 
 		OscillatorPatch,
-		MicrophonePatch,
-		SoundFilePatch,
 		NoisePatch,
+		MicrophonePatch,
+		BufferSourcePatch,
 
 		GainPatch,
 		BiquadFilterPatch,
@@ -174,6 +222,8 @@ const PATCH = (function () {
 		ScopePatch,
 		SpeakerPatch,
 		EnvelopePatch,
+
+		normalizeParams
 	};
 
 })();

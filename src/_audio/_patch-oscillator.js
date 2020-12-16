@@ -1,12 +1,12 @@
 /**~ja
  * オシレーター・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
  * Oscillator patch
  * @extends {SourcePatch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 class OscillatorPatch extends SourcePatch {
 
@@ -20,23 +20,39 @@ class OscillatorPatch extends SourcePatch {
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */
-	constructor(synth, params) {
+	constructor(synth, { type = 'sine', frequency = 440, detune = 0, gain = 1 }) {
 		super(synth);
 
 		this._o = this._synth.context().createOscillator();
 		this._g = this._synth.context().createGain();
 		this._o.connect(this._g).connect(this._sw);
 
-		this._o.type            = params.type      ?? 'sine';
-		this._o.frequency.value = params.frequency ?? 440;
-		this._o.detune.value    = params.detune    ?? 0;
-		this._g.gain.value      = params.gain      ?? 1;
+		this._o.type            = type;
+		this._o.frequency.value = frequency;
+		this._o.detune.value    = detune;
+		this._g.gain.value      = gain;
 		this._o.start();
 	}
 
 
 	// -------------------------------------------------------------------------
 
+
+	/**~ja
+	 * 波形の種類
+	 * @param {string=} value 波形の種類
+	 * @return {string|OscillatorPatch} 波形の種類／このパッチ
+	 */
+	/**~en
+	 * Waveform type
+	 * @param {string=} value Waveform type
+	 * @return {string|OscillatorPatch} Waveform type, or this patch
+	 */
+	type(value = null) {
+		if (!value) return this._o.type;
+		this._o.type = value;
+		return this;
+	}
 
 	/**~ja
 	 * 周波数 [Hz]

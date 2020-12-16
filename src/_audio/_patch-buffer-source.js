@@ -1,14 +1,14 @@
 /**~ja
- * 音声ファイル・パッチ
+ * バッファー・ソース・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
- * Sound file patch
+ * Buffer source patch
  * @extends {SourcePatch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
-class SoundFilePatch extends SourcePatch {
+class BufferSourcePatch extends SourcePatch {
 
 	/**~ja
 	 * 音声ファイル・パッチを作る
@@ -20,22 +20,22 @@ class SoundFilePatch extends SourcePatch {
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */
-	constructor(synth, params) {
+	constructor(synth, { url = null, loop = false, start = 0, end = 0, detune = 0, playbackRate = 1, gain = 1 }) {
 		super(synth);
 		this._buffer = null;
-		if (params.url) this.loadFile(params.url);
+		if (url) this.loadFile(params.url);
 
-		this._loop         = params.loop  ?? false;
-		this._start        = params.start ?? 0;
-		this._end          = params.end   ?? 0;
-		this._detune       = params.detune       ?? 0;
-		this._playbackRate = params.playbackRate ?? 1;
+		this._loop         = loop;
+		this._start        = start;
+		this._end          = end;
+		this._detune       = detune;
+		this._playbackRate = playbackRate;
 
 		this._s = null;
 		this._g = this._synth.context().createGain();
 		this._g.connect(this._sw);
 
-		this._g.gain.value = params.gain ?? 1;
+		this._g.gain.value = gain;
 	}
 
 	/**~ja
@@ -52,7 +52,7 @@ class SoundFilePatch extends SourcePatch {
 			const buf = await res.arrayBuffer();
 			this._buffer = await this._synth.context().decodeAudioData(buf);
 		} catch (e) {
-			console.error('SoundFilePatch: error');
+			console.error('BufferSourcePatch: error');
 		}
 	}
 
@@ -126,14 +126,14 @@ class SoundFilePatch extends SourcePatch {
 	 * @param {number=} value 再生レート（スピード）
 	 * @param {number=} time 時刻
 	 * @param {string=} type 変更の種類
-	 * @return {AudioParam|SoundFilePatch} オーディオ・パラメーター／このパッチ
+	 * @return {AudioParam|BufferSourcePatch} オーディオ・パラメーター／このパッチ
 	 */
 	/**~en
 	 * Playback rate
 	 * @param {number=} value Playback rate (speed)
 	 * @param {number=} time Time
 	 * @param {string=} type Type of changing
-	 * @return {AudioParam|SoundFilePatch} Audio paramter, or this patch
+	 * @return {AudioParam|BufferSourcePatch} Audio paramter, or this patch
 	 */
 	playbackRate(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._s.playbackRate;
@@ -147,14 +147,14 @@ class SoundFilePatch extends SourcePatch {
 	 * @param {number=} value 離調
 	 * @param {number=} time 時刻
 	 * @param {string=} type 変更の種類
-	 * @return {AudioParam|SoundFilePatch} オーディオ・パラメーター／このパッチ
+	 * @return {AudioParam|BufferSourcePatch} オーディオ・パラメーター／このパッチ
 	 */
 	/**~en
 	 * Detune [cent]
 	 * @param {number=} value Detune
 	 * @param {number=} time Time
 	 * @param {string=} type Type of changing
-	 * @return {AudioParam|SoundFilePatch} Audio paramter, or this patch
+	 * @return {AudioParam|BufferSourcePatch} Audio paramter, or this patch
 	 */
 	detune(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._s.detune;
@@ -168,14 +168,14 @@ class SoundFilePatch extends SourcePatch {
 	 * @param {number=} value ゲイン
 	 * @param {number=} time 時刻
 	 * @param {string=} type 変更の種類
-	 * @return {AudioParam|SoundFilePatch} オーディオ・パラメーター／このパッチ
+	 * @return {AudioParam|BufferSourcePatch} オーディオ・パラメーター／このパッチ
 	 */
 	/**~en
 	 * Gain
 	 * @param {number=} value Gain
 	 * @param {number=} time Time
 	 * @param {string=} type Type of changing
-	 * @return {AudioParam|SoundFilePatch} Audio paramter, or this patch
+	 * @return {AudioParam|BufferSourcePatch} Audio paramter, or this patch
 	 */
 	gain(value = null, time = this._synth.now(), type = null) {
 		if (!value) return this._g.gain;
@@ -185,4 +185,4 @@ class SoundFilePatch extends SourcePatch {
 
 }
 
-assignAlias(SoundFilePatch);
+assignAlias(BufferSourcePatch);

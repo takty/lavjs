@@ -62,26 +62,160 @@ class Synth {
 		return this._speaker;
 	}
 
+
+	// -------------------------------------------------------------------------
+
+
 	/**~ja
-	 * 各種パッチを作る
-	 * @param {string} type パッチの種類
+	 * オシレーター・パッチを作る
 	 * @param {object} params パラメーター
-	 * @return {?Patch} パッチ
+	 * @return {OscillatorPatch} パッチ
 	 */
 	/**~en
-	 * Make various patches
-	 * @param {string} type Type of a patch
+	 * Make a oscillator patch
 	 * @param {object} params Parameters
-	 * @return {?Patch} A patch
+	 * @return {OscillatorPatch} A patch
 	 */
-	make(type, params = {}) {
-		const p = PATCH.Patch.make(this, type, params);
+	makeOscillator(params = {}) {
+		params = PATCH.normalizeParams(params);
+		const p = new PATCH.OscillatorPatch(this, params);
+		return this._addPatch(p);
+	}
+
+	/**~ja
+	 * ノイズ・パッチを作る
+	 * @param {object} params パラメーター
+	 * @return {NoisePatch} パッチ
+	 */
+	/**~en
+	 * Make a noise patch
+	 * @param {object} params Parameters
+	 * @return {NoisePatch} A patch
+	 */
+	makeNoise(params = {}) {
+		params = PATCH.normalizeParams(params);
+		const p = new PATCH.NoisePatch(this, params);
+		return this._addPatch(p);
+	}
+
+	/**~ja
+	 * マイクロフォン・パッチを作る
+	 * @param {object} params パラメーター
+	 * @return {MicrophonePatch} パッチ
+	 */
+	/**~en
+	 * Make a microphone patch
+	 * @param {object} params Parameters
+	 * @return {MicrophonePatch} A patch
+	 */
+	makeMicrophone(params = {}) {
+		params = PATCH.normalizeParams(params);
+		const p = new PATCH.MicrophonePatch(this, params);
+		return this._addPatch(p);
+	}
+
+	/**~ja
+	 * バッファー・ソース・パッチを作る
+	 * @param {object} params パラメーター
+	 * @return {BufferSourcePatch} パッチ
+	 */
+	/**~en
+	 * Make a buffer source patch
+	 * @param {object} params Parameters
+	 * @return {BufferSourcePatch} A patch
+	 */
+	makeBufferSource(params = {}) {
+		params = PATCH.normalizeParams(params);
+		const p = new PATCH.BufferSourcePatch(this, params);
+		return this._addPatch(p);
+	}
+
+	/**~ja
+	 * ゲイン・パッチを作る
+	 * @param {object} params パラメーター
+	 * @return {GainPatch} パッチ
+	 */
+	/**~en
+	 * Make a gain patch
+	 * @param {object} params Parameters
+	 * @return {GainPatch} A patch
+	 */
+	makeGain(params = {}) {
+		params = PATCH.normalizeParams(params);
+		const p = new PATCH.GainPatch(this, params);
+		return this._addPatch(p);
+	}
+
+	/**~ja
+	 * 二次フィルター・パッチを作る
+	 * @param {object} params パラメーター
+	 * @return {BiquadFilterPatch} パッチ
+	 */
+	/**~en
+	 * Make a biquad filter patch
+	 * @param {object} params Parameters
+	 * @return {BiquadFilterPatch} A patch
+	 */
+	makeBiquadFilter(params = {}) {
+		params = PATCH.normalizeParams(params);
+		const p = new PATCH.BiquadFilterPatch(this, params);
+		return this._addPatch(p);
+	}
+
+	/**~ja
+	 * エンベロープ・パッチを作る
+	 * @param {object} params パラメーター
+	 * @return {EnvelopePatch} パッチ
+	 */
+	/**~en
+	 * Make a envelope patch
+	 * @param {object} params Parameters
+	 * @return {EnvelopePatch} A patch
+	 */
+	makeEnvelope(params = {}) {
+		params = PATCH.normalizeParams(params);
+		const p = new PATCH.EnvelopePatch(this, params);
+		return this._addPatch(p);
+	}
+
+	/**~ja
+	 * スコープ・パッチを作る
+	 * @param {object} params パラメーター
+	 * @return {ScopePatch} パッチ
+	 */
+	/**~en
+	 * Make a scope patch
+	 * @param {object} params Parameters
+	 * @return {ScopePatch} A patch
+	 */
+	makeScope(params = {}) {
+		params = PATCH.normalizeParams(params);
+		const p = new PATCH.ScopePatch(this, params);
+		return this._addPatch(p);
+	}
+
+	/**~ja
+	 * パッチを追加する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {Patch} p パッチ
+	 * @return {Patch} パッチ
+	 */
+	/**~en
+	 *　Add a patch (used only in the library)
+	 * @param {Patch} p Patch
+	 * @return {Patch} A patch
+	 */
+	_addPatch(p) {
 		this._patches.push(p);
 		if (p instanceof PATCH.SourcePatch) {
 			this._sources.push(p);
 		}
 		return p;
 	}
+
+
+	// -------------------------------------------------------------------------
+
 
 	/**~ja
 	 * パッチを繋げる
@@ -142,3 +276,5 @@ class Synth {
 	}
 
 }
+
+assignAlias(Synth);

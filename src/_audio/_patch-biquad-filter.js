@@ -1,33 +1,33 @@
 /**~ja
- * フィルター・パッチ
+ * 二次フィルター・パッチ
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
- * Filter patch
+ * Biquad filter patch
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 class BiquadFilterPatch extends Patch {
 
 	/**~ja
-	 * フィルター・パッチを作る
+	 * 二次フィルター・パッチを作る
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
 	/**~en
-	 * Make a filter patch
+	 * Make a biquad filter patch
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */
-	constructor(synth, params) {
+	constructor(synth, { type = 'lowpass', frequency = 1000, Q = 1 }) {
 		super(synth);
 
 		this._f = this._synth.context().createBiquadFilter();
 
-		this._f.type            = params.type      ?? 'lowpass';
-		this._f.frequency.value = params.frequency ?? 1000;
-		this._f.Q.value         = params.Q         ?? 1;
+		this._f.type            = type;
+		this._f.frequency.value = frequency;
+		this._f.Q.value         = Q;
 	}
 
 	/**~ja
@@ -57,6 +57,22 @@ class BiquadFilterPatch extends Patch {
 
 	// -------------------------------------------------------------------------
 
+
+	/**~ja
+	 * 種類
+	 * @param {string=} value 種類
+	 * @return {string|BiquadFilterPatch} 種類／このパッチ
+	 */
+	/**~en
+	 * Type
+	 * @param {string=} value Type
+	 * @return {string|BiquadFilterPatch} Type, or this patch
+	 */
+	type(value = null) {
+		if (!value) return this._f.type;
+		this._f.type = value;
+		return this;
+	}
 
 	/**~ja
 	 * 周波数 [Hz]

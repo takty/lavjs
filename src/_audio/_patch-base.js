@@ -32,7 +32,7 @@ class Patch {
 			case 'oscillator': return new PATCH.OscillatorPatch(synth, params);
 			case 'microphone': return new PATCH.MicrophonePatch(synth, params);
 			case 'noise'     : return new PATCH.NoisePatch(synth, params);
-			case 'file'      : return new PATCH.SoundFilePatch(synth, params);
+			case 'file'      : return new PATCH.BufferSourcePatch(synth, params);
 
 			case 'gain'      : return new PATCH.GainPatch(synth, params);
 			case 'lowpass': case 'highpass': case 'bandpass': case 'lowshelf': case 'highshelf': case 'peaking': case 'notch': case 'allpass':

@@ -1,12 +1,12 @@
 /**~ja
  * フォルマント・パッチ
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
  * Formant patch
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 class FormantPatch extends Patch {
 
@@ -20,7 +20,17 @@ class FormantPatch extends Patch {
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */
-	constructor(synth, params) {
+	constructor(synth, {
+		type1 = 'bandpass',
+		type2 = 'bandpass',
+		type3 = 'bandpass',
+		frequency1 = 700,
+		frequency2 = 1200,
+		frequency3 = 2900,
+		Q1 = 32,
+		Q2 = 32,
+		Q3 = 32,
+	}) {
 		super(synth);
 
 		this._i  = this._synth.context().createBiquadFilter();
@@ -36,15 +46,15 @@ class FormantPatch extends Patch {
 		this._i.Q.value         = 1;
 		this._i.frequency.value = 800;
 
-		this._f1.type = 'bandpass';
-		this._f2.type = 'bandpass';
-		this._f3.type = 'bandpass';
-		this._f1.frequency.value = params.frequency1 ?? 700;
-		this._f2.frequency.value = params.frequency2 ?? 1200;
-		this._f3.frequency.value = params.frequency3 ?? 2900;
-		this._f1.Q.value = params.Q1 ?? 32;
-		this._f2.Q.value = params.Q2 ?? 32;
-		this._f3.Q.value = params.Q3 ?? 32;
+		this._f1.type = type1;
+		this._f2.type = type2;
+		this._f3.type = type3;
+		this._f1.frequency.value = frequency1;
+		this._f2.frequency.value = frequency2;
+		this._f3.frequency.value = frequency3;
+		this._f1.Q.value = Q1;
+		this._f2.Q.value = Q2;
+		this._f3.Q.value = Q3;
 	}
 
 	/**~ja

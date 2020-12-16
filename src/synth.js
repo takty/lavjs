@@ -1,10 +1,14 @@
 /**~ja
  * シンセサイザー・ライブラリー（SYNTH）
  *
- * 音を鳴らすための部品を作るライブラリです。
+ * @author Takuto Yanagida
+ * @version 2020-12-16
+ */
+/**~en
+ * Synthesizer library (SYNTH)
  *
  * @author Takuto Yanagida
- * @version 2020-12-13
+ * @version 2020-12-16
  */
 
 
@@ -23,14 +27,47 @@ const SYNTH = (function () {
 	//~en Utilities used only in the library --------------------------------------
 
 
-	// キー文字列正規化リスト
+	//~ja キー文字列正規化リスト
+	//~en Key string normalizing list
 	const KEY_NORM_LIST = {
-		sr   : 'swingRatio',
-		inst : 'instrument',
-		tempo: 'bpm',
-		amp  : 'gain',
+		sr        : 'swingRatio',
+		inst      : 'instrument',
+		tempo     : 'bpm',
+		amp       : 'gain',
+
+		makeOsc   : 'makeOscillator',
+		makeMic   : 'makeMicrophone',
+		makeFile  : 'makeBufferSource',
+		makeFilter: 'makeBiquadFilter',
+		makeEnv   : 'makeEnvelope',
 	};
 
+	/**~ja
+	 * 関数（メソッド）の別名をつける
+	 * @param {object} cls クラス
+	 */
+	/**~en
+	 * Give aliases for functions (methods)
+	 * @param {object} cls Class
+	 */
+	function assignAlias(cls) {
+		for (const [alias, orig] of Object.entries(KEY_NORM_LIST)) {
+			if (cls.prototype[orig]) {
+				cls.prototype[alias] = cls.prototype[orig];
+			}
+		}
+	}
+
+	/**~ja
+	 * パラメーターのキーを正規化する
+	 * @param {object} params パラメーター
+	 * @return {object} 正規化されたパラメーター
+	 */
+	/**~en
+	 * Normalize keys of parameters
+	 * @param {object} params parameters
+	 * @return {object} Normalized parameters
+	 */
 	function normalizeParams(params) {
 		const ret = {};
 		for (const [key, val] of Object.entries(params)) {

@@ -1,12 +1,12 @@
 /**~ja
  * エンベロープ・パッチ
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
  * Envelope patch
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 class EnvelopePatch extends Patch {
 
@@ -20,16 +20,16 @@ class EnvelopePatch extends Patch {
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */
-	constructor(synth, params) {
+	constructor(synth, { attack = 0.02, decay = 0.4, sustain = 0.05, release = 0.8 }) {
 		super(synth);
 
 		this._g = this._synth.context().createGain();
 		this._g.gain.value = 0;
 
-		this._attack  = params.attack  ?? 0.02;
-		this._decay   = params.decay   ?? 0.4;
-		this._sustain = params.sustain ?? 0.05;
-		this._release = params.release ?? 0.8;
+		this._attack  = attack;
+		this._decay   = decay;
+		this._sustain = sustain;
+		this._release = release;
 	}
 
 	/**~ja

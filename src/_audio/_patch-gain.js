@@ -1,12 +1,12 @@
 /**~ja
  * ゲイン・パッチ
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
  * Gain patch
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 class GainPatch extends Patch {
 
@@ -20,11 +20,11 @@ class GainPatch extends Patch {
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */
-	constructor(synth, params) {
+	constructor(synth, { gain = 1 }) {
 		super(synth);
 
 		this._g = this._synth.context().createGain();
-		this._g.gain.value = params.gain ?? 1;
+		this._g.gain.value = gain;
 	}
 
 	/**~ja

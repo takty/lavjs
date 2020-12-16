@@ -1,12 +1,12 @@
 /**~ja
  * ノイズ・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
  * Noise patch
  * @extends {SourcePatch}
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 class NoisePatch extends SourcePatch {
 
@@ -20,7 +20,7 @@ class NoisePatch extends SourcePatch {
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */
-	constructor(synth, params) {
+	constructor(synth, { gain = 1 }) {
 		super(synth);
 
 		this._p = this._synth.context().createScriptProcessor(NoisePatch.BUFFER_SIZE, 0, 1);
@@ -28,7 +28,7 @@ class NoisePatch extends SourcePatch {
 		this._g = this._synth.context().createGain();
 		this._p.connect(this._g).connect(this._sw);
 
-		this._g.gain.value = params.gain ?? 1;
+		this._g.gain.value = gain;
 	}
 
 	/**~ja
