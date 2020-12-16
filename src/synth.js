@@ -80,15 +80,15 @@ const SYNTH = (function () {
 
 
 	//=
-	//=include _audio/_synth.js
+	//=include _acoustic/_synth.js
 
 
 	//=
-	//=include _audio/_scheduler.js
+	//=include _acoustic/_scheduler.js
 
 
 	//=
-	//=include _audio/_sequencer.js
+	//=include _acoustic/_sequencer.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------

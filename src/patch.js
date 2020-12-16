@@ -155,51 +155,51 @@ const PATCH = (function () {
 
 
 	//=
-	//=include _audio/_patch-base.js
+	//=include _acoustic/_patch-base.js
 
 
 	//=
-	//=include _audio/_patch-source.js
+	//=include _acoustic/_patch-source.js
 
 
 	//=
-	//=include _audio/_patch-oscillator.js
+	//=include _acoustic/_patch-oscillator.js
 
 
 	//=
-	//=include _audio/_patch-noise.js
+	//=include _acoustic/_patch-noise.js
 
 
 	//=
-	//=include _audio/_patch-microphone.js
+	//=include _acoustic/_patch-microphone.js
 
 
 	//=
-	//=include _audio/_patch-buffer-source.js
+	//=include _acoustic/_patch-buffer-source.js
 
 
 	//=
-	//=include _audio/_patch-gain.js
+	//=include _acoustic/_patch-gain.js
 
 
 	//=
-	//=include _audio/_patch-biquad-filter.js
+	//=include _acoustic/_patch-biquad-filter.js
 
 
 	//=
-	//=include _audio/_patch-formant.js
+	//=include _acoustic/_patch-formant.js
 
 
 	//=
-	//=include _audio/_patch-envelope.js
+	//=include _acoustic/_patch-envelope.js
 
 
 	//=
-	//=include _audio/_patch-scope.js
+	//=include _acoustic/_patch-scope.js
 
 
 	//=
-	//=include _audio/_patch-speaker.js
+	//=include _acoustic/_patch-speaker.js
 
 
 	//~ja ライブラリを作る --------------------------------------------------------
