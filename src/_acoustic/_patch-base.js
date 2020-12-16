@@ -1,10 +1,10 @@
 /**~ja
  * パッチ・ベース
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 /**~en
  * Patch base
- * @version 2020-12-08
+ * @version 2020-12-16
  */
 class Patch {
 
@@ -37,7 +37,6 @@ class Patch {
 			case 'gain'      : return new PATCH.GainPatch(synth, params);
 			case 'lowpass': case 'highpass': case 'bandpass': case 'lowshelf': case 'highshelf': case 'peaking': case 'notch': case 'allpass':
 			case 'biquad'   : return new PATCH.BiquadFilterPatch(synth, params);
-			case 'formant'  : return new PATCH.FormantPatch(synth, params);
 
 			case 'scope'   : return new PATCH.ScopePatch(synth, params);
 			case 'envelope': return new PATCH.EnvelopePatch(synth, params);

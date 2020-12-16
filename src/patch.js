@@ -187,10 +187,6 @@ const PATCH = (function () {
 
 
 	//=
-	//=include _acoustic/_patch-formant.js
-
-
-	//=
 	//=include _acoustic/_patch-envelope.js
 
 
@@ -217,7 +213,6 @@ const PATCH = (function () {
 
 		GainPatch,
 		BiquadFilterPatch,
-		FormantPatch,
 
 		ScopePatch,
 		SpeakerPatch,
