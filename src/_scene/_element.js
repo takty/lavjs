@@ -438,7 +438,7 @@ class Element {
 		if (this._onUpdated) this._onUpdated.call(this);
 		//~ja 最初にこの関数が呼ばれ、座標などが正しいことを示す
 		//~en This function is called first to indicate that the coordinates etc. are correct
-		this._fisrtUpdated = true;
+		this._firstUpdated = true;
 	}
 
 }
