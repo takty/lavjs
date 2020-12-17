@@ -1,17 +1,17 @@
 /**~ja
- * マイク・パッチ
+ * マイクロフォン・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2020-12-17
  */
 /**~en
  * Microphone patch
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2020-12-17
  */
 class MicrophonePatch extends SourcePatch {
 
 	/**~ja
-	 * マイク・パッチを作る
+	 * マイクロフォン・パッチを作る
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
