@@ -4,7 +4,7 @@
  * 波形の解析を行うウィジェットを使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-12-16
+ * @version 2020-12-17
  */
 /**~en
  * Analyzer library (ANALYZER)
@@ -12,7 +12,7 @@
  * A library that enables to use widgets that analyze waveforms.
  *
  * @author Takuto Yanagida
- * @version 2020-12-16
+ * @version 2020-12-17
  */
 
 
@@ -31,16 +31,11 @@ const ANALYZER = (function () {
 	//~en Utilities used only in the library --------------------------------------
 
 
-	//~ja CSSのスタイルを追加する
-	//~en Add CSS styles
-	const addCSS = (function () {
-		const s = document.createElement('style');
-		s.setAttribute('type', 'text/css');
-		document.head.appendChild(s);
-		return (selector, style) => {
-			s.sheet.insertRule(`${selector}{${style}}`, 0);
-		};
-	})();
+	//=
+	//=include _widget/_util.js
+
+
+	// -------------------------------------------------------------------------
 
 
 	//=

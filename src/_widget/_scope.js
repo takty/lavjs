@@ -1,10 +1,10 @@
 /**~ja
  * スコープ・ベース
- * @version 2020-12-16
+ * @version 2020-12-17
  */
 /**~en
  * Scope base
- * @version 2020-12-16
+ * @version 2020-12-17
  */
 class ScopeBase {
 
@@ -57,14 +57,22 @@ class ScopeBase {
 		this._ctx = can.getContext('2d');
 		this._outer.appendChild(can);
 
-		addCSS('.' + NS + 'analyser', '\
-			position: relative; width: ' + this._width + 'px; height: ' + this._height + 'px; margin: 4px; padding: 4px;\
-			display: block; vertical-align: middle; border-radius: 4px; background-color: White;\
-			box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);\
-		');
-		addCSS('.' + NS + 'can', '\
-			border: 0px; font-family: Consolas, Menlo, "Courier New", "メイリオ", Meiryo, monospace;\
-		');
+		addStyle(`.${NS}analyser`, {
+			position       : 'relative',
+			width          : this._width + 'px',
+			height         : this._height + 'px',
+			margin         : '4px',
+			padding        : '4px',
+			display        : 'block',
+			verticalAlign  : 'middle',
+			borderRadius   : '1px',
+			backgroundColor: 'White',
+			boxShadow      : '1px 1px 8px rgba(0, 0, 0, 0.5)',
+		});
+		addStyle(`.${NS}can`, {
+			border    : '0px', 
+			fontFamily: 'Consolas, Menlo, "Courier New", "メイリオ", Meiryo, monospace',
+		});
 	}
 
 	/**~ja
