@@ -18,6 +18,18 @@
 				}
 			}
 		},
+		"Microphone": {
+			"!type": "fn()",
+			"prototype": {
+				"!proto": "SENSOR.Sensor.prototype",
+				"start": {
+					"!type": "fn() -> +Promise"
+				},
+				"getLevel": {
+					"!type": "fn() -> number"
+				}
+			}
+		},
 		"Geolocation": {
 			"!type": "fn()",
 			"prototype": {

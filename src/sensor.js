@@ -4,7 +4,7 @@
  * 様々なセンサーを使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-11-27
+ * @version 2020-12-17
  */
 /**~en
  * Sensor library (SENSOR)
@@ -12,7 +12,7 @@
  * A library that allows you to use various sensors.
  *
  * @author Takuto Yanagida
- * @version 2020-11-27
+ * @version 2020-12-17
  */
 
 
@@ -37,6 +37,10 @@ const SENSOR = (function () {
 
 
 	//=
+	//=include _sensor/_microphone.js
+
+
+	//=
 	//=include _sensor/_geolocation.js
 
 
@@ -52,6 +56,6 @@ const SENSOR = (function () {
 	//~en Create a library --------------------------------------------------------
 
 
-	return { Camera, Geolocation, Weather, Motion };
+	return { Camera, Microphone, Geolocation, Weather, Motion };
 
 }());
