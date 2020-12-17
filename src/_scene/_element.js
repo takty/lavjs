@@ -1,20 +1,20 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
- * @version 2020-05-05
+ * @version 2020-12-17
  */
 /**~en
  * Element (common to sprites and stages)
- * @version 2020-05-05
+ * @version 2020-12-17
  */
 class Element {
 
 	/**~ja
 	 * 要素を作る
-	 * @param {Motion?} [motion=null] 動き
+	 * @param {Motion=} [motion=null] 動き
 	 */
 	/**~en
 	 * Make an element
-	 * @param {Motion?} [motion=null] Motion
+	 * @param {Motion=} [motion=null] Motion
 	 */
 	constructor(motion = null) {
 		this._parent    = null;
@@ -47,12 +47,12 @@ class Element {
 
 	/**~ja
 	 * x座標
-	 * @param {number=} val x座標の値
+	 * @param {?number} val x座標の値
 	 * @return {number|Element} x座標の値／この要素
 	 */
 	/**~en
 	 * X coordinate
-	 * @param {number=} val Value of x coordinate
+	 * @param {?number} val Value of x coordinate
 	 * @return {number|Element} Value of x coordinate, or this element
 	 */
 	x(val) {
@@ -63,12 +63,12 @@ class Element {
 
 	/**~ja
 	 * y座標
-	 * @param {number=} val y座標の値
+	 * @param {?number} val y座標の値
 	 * @return {number|Element} y座標の値／この要素
 	 */
 	/**~en
 	 * Y coordinate
-	 * @param {number=} val Value of y coordinate
+	 * @param {?number} val Value of y coordinate
 	 * @return {number|Element} Value of y coordinate, or this element
 	 */
 	y(val) {
@@ -79,12 +79,12 @@ class Element {
 
 	/**~ja
 	 * 方向
-	 * @param {number=} deg 角度の値
+	 * @param {?number} deg 角度の値
 	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * Direction
-	 * @param {number=} deg Value of degree
+	 * @param {?number} deg Value of degree
 	 * @return {number|Element} Value of degree, or this element
 	 */
 	direction(deg) {
@@ -97,14 +97,14 @@ class Element {
 	 * 移動する
 	 * @param {number} x x座標
 	 * @param {number} y y座標
-	 * @param {number=} opt_dir 方向（オプション）
+	 * @param {?number} opt_dir 方向（オプション）
 	 * @return {Element} この要素
 	 */
 	/**~en
 	 * Move to
 	 * @param {number} x X coordinate
 	 * @param {number} y Y coordinate
-	 * @param {number=} opt_dir Direction (optional)
+	 * @param {?number} opt_dir Direction (optional)
 	 * @return {Element} This element
 	 */
 	moveTo(x, y, opt_dir) {
@@ -116,12 +116,12 @@ class Element {
 
 	/**~ja
 	 * スケール
-	 * @param {number=} val スケールの値
+	 * @param {?number} val スケールの値
 	 * @return {number|Element} スケールの値／この要素
 	 */
 	/**~en
 	 * Scale
-	 * @param {number=} val Value of scale
+	 * @param {?number} val Value of scale
 	 * @return {number|Element} Value of scale, or this element
 	 */
 	scale(val) {
@@ -132,12 +132,12 @@ class Element {
 
 	/**~ja
 	 * アルファ
-	 * @param {number=} val アルファの値
+	 * @param {?number} val アルファの値
 	 * @return {number|Element} アルファの値／この要素
 	 */
 	/**~en
 	 * Alpha
-	 * @param {number=} val Value of alpha
+	 * @param {?number} val Value of alpha
 	 * @return {number|Element} Value of alpha, or this element
 	 */
 	alpha(val) {
@@ -148,12 +148,12 @@ class Element {
 
 	/**~ja
 	 * z軸を中心とする角度（向き）
-	 * @param {number=} deg 角度の値
+	 * @param {?number} deg 角度の値
 	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * Angle around z axis (direction)
-	 * @param {number=} deg Value of degree
+	 * @param {?number} deg Value of degree
 	 * @return {number|Element} Value of degree, or this element
 	 */
 	angle(val) {
@@ -164,12 +164,12 @@ class Element {
 
 	/**~ja
 	 * x軸を中心とする角度（向き）
-	 * @param {number=} deg 角度の値
+	 * @param {?number} deg 角度の値
 	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * Angle around x axis (direction)
-	 * @param {number=} deg Value of degree
+	 * @param {?number} deg Value of degree
 	 * @return {number|Element} Value of degree, or this element
 	 */
 	angleX(val) {
@@ -180,12 +180,12 @@ class Element {
 
 	/**~ja
 	 * z軸を中心とする角度2（向き）
-	 * @param {number=} deg 角度の値
+	 * @param {?number} deg 角度の値
 	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * 2nd angle around z axis (direction)
-	 * @param {number=} deg Value of degree
+	 * @param {?number} deg Value of degree
 	 * @return {number|Element} Value of degree, or this element
 	 */
 	angleZ(val) {
@@ -212,12 +212,12 @@ class Element {
 
 	/**~ja
 	 * スピード
-	 * @param {number=} val スピード
+	 * @param {?number} val スピード
 	 * @return {number|Element} スピード／この要素
 	 */
 	/**~en
 	 * Speed
-	 * @param {number=} val Speed
+	 * @param {?number} val Speed
 	 * @return {number|Element} Speed or this element
 	 */
 	speed(val) {
@@ -228,12 +228,12 @@ class Element {
 
 	/**~ja
 	 * 方向スピード
-	 * @param {number=} val 方向スピード
+	 * @param {?number} val 方向スピード
 	 * @return {number|Element} 方向スピード／この要素
 	 */
 	/**~en
 	 * Angle speed
-	 * @param {number=} val Angle speed
+	 * @param {?number} val Angle speed
 	 * @return {number|Element} Angle speed or this element
 	 */
 	angleSpeed(val) {
@@ -244,12 +244,12 @@ class Element {
 
 	/**~ja
 	 * 方向スピードx
-	 * @param {number=} val 方向スピード
+	 * @param {?number} val 方向スピード
 	 * @return {number|Element} 方向スピード／この要素
 	 */
 	/**~en
 	 * Angle speed x
-	 * @param {number=} val Angle speed
+	 * @param {?number} val Angle speed
 	 * @return {number|Element} Angle speed or this element
 	 */
 	angleSpeedX(val) {
@@ -260,12 +260,12 @@ class Element {
 
 	/**~ja
 	 * 方向スピードz
-	 * @param {number=} val 方向スピード
+	 * @param {?number} val 方向スピード
 	 * @return {number|Element} 方向スピード／この要素
 	 */
 	/**~en
 	 * Angle speed z
-	 * @param {number=} val Angle speed
+	 * @param {?number} val Angle speed
 	 * @return {number|Element} Angle speed or this element
 	 */
 	angleSpeedZ(val) {
@@ -354,12 +354,12 @@ class Element {
 
 	/**~ja
 	 * データ
-	 * @param {object=} val データ
+	 * @param {?object} val データ
 	 * @return {object|Element} データ／この要素
 	 */
 	/**~en
 	 * Data
-	 * @param {object=} val Data
+	 * @param {?object} val Data
 	 * @return {object|Element} Data or this element
 	 */
 	data(val) {

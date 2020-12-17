@@ -1,10 +1,10 @@
 /**~ja
  * スタイル・ベース（ストローク・フィル共通）
- * @version 2020-04-22
+ * @version 2020-12-17
  */
 /**~en
  * Style base (Common to stroke and fill)
- * @version 2020-04-22
+ * @version 2020-12-17
  */
 class StyleBase {
 
@@ -57,13 +57,13 @@ class StyleBase {
 
 	/**~ja
 	 * 色の名前を設定する
-	 * @param {string=} color 色の名前
+	 * @param {?string} color 色の名前
 	 * @param {number=} [opt_alpha=1] アルファ 0-1
 	 * @return {string|StyleBase} 色かこのスタイル
 	 */
 	/**~en
 	 * Set the color name
-	 * @param {string=} color Color name
+	 * @param {?string} color Color name
 	 * @param {number=} [opt_alpha=1] Alpha 0-1
 	 * @return {string|StyleBase} Color or this style
 	 */
@@ -89,19 +89,19 @@ class StyleBase {
 
 	/**~ja
 	 * RGB(A)を設定する
-	 * @param {number=} r 赤 0-255
-	 * @param {number=} g 緑 0-255
-	 * @param {number=} b 青 0-255
+	 * @param {?number} r 赤 0-255
+	 * @param {?number} g 緑 0-255
+	 * @param {?number} b 青 0-255
 	 * @param {number=} [opt_alpha=1] アルファ 0-1
-	 * @return {Array<number>|StyleBase} RGBかこのスタイル
+	 * @return {number[]|StyleBase} RGBかこのスタイル
 	 */
 	/**~en
 	 * Set RGB(A)
-	 * @param {number=} r Red 0-255
-	 * @param {number=} g Green 0-255
-	 * @param {number=} b Blue 0-255
+	 * @param {?number} r Red 0-255
+	 * @param {?number} g Green 0-255
+	 * @param {?number} b Blue 0-255
 	 * @param {number=} [opt_alpha=1] Alpha 0-1
-	 * @return {Array<number>|StyleBase} RGB or this style
+	 * @return {number[]|StyleBase} RGB or this style
 	 */
 	rgb(r, g, b, opt_alpha = 1) {
 		if (arguments.length === 0) return this._rgb;
@@ -115,19 +115,19 @@ class StyleBase {
 
 	/**~ja
 	 * HSL(A)を設定する
-	 * @param {number=} h 色相 0-360
-	 * @param {number=} s 彩度 0-100
-	 * @param {number=} l 明度 0-100
+	 * @param {?number} h 色相 0-360
+	 * @param {?number} s 彩度 0-100
+	 * @param {?number} l 明度 0-100
 	 * @param {number=} [opt_alpha=1] アルファ 0-1
-	 * @return {Array<number>|StyleBase} HSLかこのスタイル
+	 * @return {number[]|StyleBase} HSLかこのスタイル
 	 */
 	/**~en
 	 * Set HSL(A)
-	 * @param {number=} h Hue 0-360
-	 * @param {number=} s Saturation 0-100
-	 * @param {number=} l Lightness 0-100
+	 * @param {?number} h Hue 0-360
+	 * @param {?number} s Saturation 0-100
+	 * @param {?number} l Lightness 0-100
 	 * @param {number=} [opt_alpha=1] Alpha 0-1
-	 * @return {Array<number>|StyleBase} HSL or this style
+	 * @return {number[]|StyleBase} HSL or this style
 	 */
 	hsl(h, s, l, opt_alpha = 1) {
 		if (arguments.length === 0) return this._hsl;
@@ -139,12 +139,12 @@ class StyleBase {
 
 	/**~ja
 	 * 色を明るくする
-	 * @param {number} [opt_rate=10] 割合 %
+	 * @param {number=} [opt_rate=10] 割合 %
 	 * @return {StyleBase} このスタイル
 	 */
 	/**~en
 	 * Lighten the color
-	 * @param {number} [opt_rate=10] Rate %
+	 * @param {number=} [opt_rate=10] Rate %
 	 * @return {StyleBase} This style
 	 */
 	lighten(opt_rate = 10) {
@@ -168,12 +168,12 @@ class StyleBase {
 
 	/**~ja
 	 * 色を暗くする
-	 * @param {number} [opt_rate=10] 割合 %
+	 * @param {number=} [opt_rate=10] 割合 %
 	 * @return {StyleBase} このスタイル
 	 */
 	/**~en
 	 * Darken the color
-	 * @param {number} [opt_rate=10] Rate %
+	 * @param {number=} [opt_rate=10] Rate %
 	 * @return {StyleBase} This style
 	 */
 	darken(opt_rate = 10) {
@@ -201,9 +201,9 @@ class StyleBase {
 	 * - 円形の場合（'radial'、[中心座標1 x、y]、[開始半径、終了半径]、<[中心座標2 x、y]>）
 	 * - その他（'種類'）
 	 * @param {string} type 種類（'linear', 'radial', その他）
-	 * @param {Array<number>} xy1_dir [開始座標x, y]，または[中心座標1 x、y]
-	 * @param {Array<number>} xy2_rs [終了座標x, y]，または[開始半径、終了半径]
-	 * @param {Array<number>=} xy2 [中心座標2 x、y]
+	 * @param {number[]} xy1_dir [開始座標x, y]，または[中心座標1 x、y]
+	 * @param {number[]} xy2_rs [終了座標x, y]，または[開始半径、終了半径]
+	 * @param {number[]=} xy2 [中心座標2 x、y]
 	 * @return {Array|StyleBase} グラデーションの設定かこのスタイル
 	 */
 	/**~en
@@ -212,9 +212,9 @@ class StyleBase {
 	 * - Radial ('radial', [1st center coordinates x、y], [Start radius, End radius], <[2nd center coordinates x, y]>)
 	 * - Others ('type')
 	 * @param {string} type Type ('linear', 'radial', Others)
-	 * @param {Array<number>} xy1_dir [Start coordinates x, y], or [1st center coordinates x、y]
-	 * @param {Array<number>} xy2_rs [End coordinates x, y], or [Start radius, End radius]
-	 * @param {Array<number>=} xy2 [2nd center coordinates x、y]
+	 * @param {number[]} xy1_dir [Start coordinates x, y], or [1st center coordinates x、y]
+	 * @param {number[]} xy2_rs [End coordinates x, y], or [Start radius, End radius]
+	 * @param {number[]=} xy2 [2nd center coordinates x、y]
 	 * @return {Array|StyleBase} Gradation setting or this style
 	 */
 	gradation(type, xy1_dir, xy2_rs, xy2) {
@@ -340,14 +340,14 @@ class StyleBase {
 
 	/**~ja
 	 * アルファをセットする
-	 * @param {number=} alpha アルファ
-	 * @param {string=} op 四則演算記号
+	 * @param {?number} alpha アルファ
+	 * @param {?string} op 四則演算記号
 	 * @return {number|StyleBase} アルファかこのスタイル
 	 */
 	/**~en
 	 * Set alpha
-	 * @param {number=} alpha Alpha
-	 * @param {string=} op Arithmetic symbol
+	 * @param {?number} alpha Alpha
+	 * @param {?string} op Arithmetic symbol
 	 * @return {number|StyleBase} Alpha or this style
 	 */
 	alpha(alpha, op) {
@@ -367,12 +367,12 @@ class StyleBase {
 
 	/**~ja
 	 * コンポジション（合成方法）をセットする
-	 * @param {string=} composition コンポジション
+	 * @param {?string} composition コンポジション
 	 * @return {string|StyleBase} コンポジションかこのスタイル
 	 */
 	/**~en
 	 * Set composition (composition method)
-	 * @param {string=} composition Composition
+	 * @param {?string} composition Composition
 	 * @return {string|StyleBase} Composition or this style
 	 */
 	composition(composition) {
@@ -383,18 +383,18 @@ class StyleBase {
 
 	/**~ja
 	 * 影をセットする
-	 * @param {number?} blur ぼかし量
-	 * @param {string?} color 色
-	 * @param {number?} x 影のずれx
-	 * @param {number?} y 影のずれy
+	 * @param {?number} blur ぼかし量
+	 * @param {?string} color 色
+	 * @param {?number} x 影のずれx
+	 * @param {?number} y 影のずれy
 	 * @return {Shadow|StyleBase} 影かこのスタイル
 	 */
 	/**~en
 	 * Set shadow
-	 * @param {number?} blur Blur amount
-	 * @param {string?} color Color
-	 * @param {number?} x Shadow offset x
-	 * @param {number?} y Shadow offset y
+	 * @param {?number} blur Blur amount
+	 * @param {?string} color Color
+	 * @param {?number} x Shadow offset x
+	 * @param {?number} y Shadow offset y
 	 * @return {Shadow|StyleBase} Shadow or this style
 	 */
 	shadow(blur, color, x, y) {
@@ -430,14 +430,14 @@ class StyleBase {
 	 * スタイルを作る（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {Array<number>} gradArea グラデーション範囲
+	 * @param {number[]} gradArea グラデーション範囲
 	 * @return {string} スタイル文字列
 	 */
 	/**~en
 	 * Make the style (used only in the library)
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {Array<number>} gradArea Gradation area
+	 * @param {number[]} gradArea Gradation area
 	 * @return {string} Style string
 	 */
 	_makeStyle(ctx, gradArea) {
@@ -505,7 +505,7 @@ class StyleBase {
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {string} type 種類
 	 * @param {dict} bs 範囲
-	 * @return {Array<number>} 線形グラデーションのパラメター
+	 * @return {number[]} 線形グラデーションのパラメター
 	 */
 	/**~en
 	 * Make linear gradation parameters (used only in the library)
@@ -513,7 +513,7 @@ class StyleBase {
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {string} type Type
 	 * @param {dict} bs Bounds
-	 * @return {Array<number>} Linear gradation parameters
+	 * @return {number[]} Linear gradation parameters
 	 */
 	_makeLinearGradParams(ctx, type, bs) {
 		//@ifdef ja
@@ -544,7 +544,7 @@ class StyleBase {
 	 * @param {string} type 種類
 	 * @param {dict} bs 範囲
 	 * @param {dict} opt オプション
-	 * @return {Array<number>} 円形グラデーションのパラメター
+	 * @return {number[]} 円形グラデーションのパラメター
 	 */
 	/**~en
 	 * Make radial gradation parameters (used only in the library)
@@ -553,7 +553,7 @@ class StyleBase {
 	 * @param {string} type Type
 	 * @param {dict} bs Bounds
 	 * @param {dict} opt Options
-	 * @return {Array<number>} Radial gradation parameters
+	 * @return {number[]} Radial gradation parameters
 	 */
 	_makeRadialGradParams(ctx, type, bs, opt) {
 		const SQRT2 = 1.41421356237;
@@ -585,13 +585,13 @@ class StyleBase {
 	 * 円形グラデーションのオプションをセットする（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {Array<number>} opt オプション
+	 * @param {number[]} opt オプション
 	 */
 	/**~en
 	 * Set radial gradation options (used only in the library)
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {Array<number>} opt Options
+	 * @param {number[]} opt Options
 	 */
 	_setGradOpt(ctx, opt) {
 		ctx.translate(opt.center[0], opt.center[1]);
