@@ -1,12 +1,12 @@
 /**~ja
  * 天気センサー
  * @extends {Sensor}
- * @version 2020-11-27
+ * @version 2020-12-17
  */
 /**~en
  * Weather sensor
  * @extends {Sensor}
- * @version 2020-11-27
+ * @version 2020-12-17
  */
 class Weather extends Sensor {
 
@@ -75,7 +75,7 @@ class Weather extends Sensor {
 	 * @param {object} res JSON
 	 */
 	/**~en
-	 * Process successed (used only in the library)
+	 * Process successful (used only in the library)
 	 * @private
 	 * @param {object} res JSON
 	 */

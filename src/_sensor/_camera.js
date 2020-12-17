@@ -1,12 +1,12 @@
 /**~ja
  * カメラ・センサー
  * @extends {Sensor}
- * @version 2020-11-27
+ * @version 2020-12-17
  */
 /**~en
  * Camera sensor
  * @extends {Sensor}
- * @version 2020-11-27
+ * @version 2020-12-17
  */
 class Camera extends Sensor {
 
@@ -77,7 +77,7 @@ class Camera extends Sensor {
 	 * @param {MediaStream} stream メディア・ストリーム
 	 */
 	/**~en
-	 * Process successed (used only in the library)
+	 * Process successful (used only in the library)
 	 * @private
 	 * @param {MediaStream} stream Media stream
 	 */

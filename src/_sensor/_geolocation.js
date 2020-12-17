@@ -1,12 +1,12 @@
 /**~ja
  * ジオロケーション・センサー
  * @extends {Sensor}
- * @version 2020-11-27
+ * @version 2020-12-17
  */
 /**~en
  * Geolocation sensor
  * @extends {Sensor}
- * @version 2020-11-27
+ * @version 2020-12-17
  */
 class Geolocation extends Sensor {
 
@@ -68,7 +68,7 @@ class Geolocation extends Sensor {
 	 * @param {MediaStream} stream メディア・ストリーム
 	 */
 	/**~en
-	 * Process successed (used only in the library)
+	 * Process successful (used only in the library)
 	 * @private
 	 * @param {MediaStream} stream Media stream
 	 */
