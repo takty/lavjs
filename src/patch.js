@@ -214,9 +214,9 @@ const PATCH = (function () {
 		GainPatch,
 		BiquadFilterPatch,
 
+		EnvelopePatch,
 		ScopePatch,
 		SpeakerPatch,
-		EnvelopePatch,
 
 		normalizeParams
 	};
