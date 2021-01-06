@@ -1,12 +1,12 @@
 /**~ja
  * キー操作処理
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2021-01-06
  */
 /**~en
  * Key operation handler
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2021-01-06
  */
 class KeyHandler {
 
@@ -81,6 +81,54 @@ class KeyHandler {
 	onKeyUp(handler) {
 		if (handler === undefined) return this._onUp;
 		this._onUp = handler;
+	}
+
+	/**~ja
+	 * カーソル・キーの左が押されているか？
+	 * @return {boolean} カーソル・キーの左が押されているか
+	 */
+	/**~en
+	 * Whether the left arrow key is pressed
+	 * @return {boolean} Whether the left arrow key is pressed
+	 */
+	keyArrowLeft() {
+		return this._keys[37];
+	}
+
+	/**~ja
+	 * カーソル・キーの上が押されているか？
+	 * @return {boolean} カーソル・キーの上が押されているか
+	 */
+	/**~en
+	 * Whether the up arrow key is pressed
+	 * @return {boolean} Whether the up arrow key is pressed
+	 */
+	keyArrowUp() {
+		return this._keys[38];
+	}
+
+	/**~ja
+	 * カーソル・キーの右が押されているか？
+	 * @return {boolean} カーソル・キーの右が押されているか
+	 */
+	/**~en
+	 * Whether the right arrow key is pressed
+	 * @return {boolean} Whether the right arrow key is pressed
+	 */
+	keyArrowRight() {
+		return this._keys[39];
+	}
+
+	/**~ja
+	 * カーソル・キーの下が押されているか？
+	 * @return {boolean} カーソル・キーの下が押されているか
+	 */
+	/**~en
+	 * Whether the down arrow key is pressed
+	 * @return {boolean} Whether the down arrow key is pressed
+	 */
+	keyArrowDown() {
+		return this._keys[40];
 	}
 
 }

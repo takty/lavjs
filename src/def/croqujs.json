@@ -70,6 +70,18 @@
 				"onKeyUp": {
 					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
 				},
+				"keyArrowLeft": {
+					"!type": "fn() -> bool"
+				},
+				"keyArrowUp": {
+					"!type": "fn() -> bool"
+				},
+				"keyArrowRight": {
+					"!type": "fn() -> bool"
+				},
+				"keyArrowDown": {
+					"!type": "fn() -> bool"
+				},
 				"onMouseDown": {
 					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
 				},
