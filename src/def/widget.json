@@ -15,6 +15,21 @@
 				}
 			}
 		},
+		"Chat": {
+			"!type": "fn(width: number, height?: number)",
+			"prototype": {
+				"!proto": "WIDGET.Widget.prototype",
+				"print": {
+					"!type": "fn(args?: [?]) -> !this"
+				},
+				"input": {
+					"!type": "fn() -> string"
+				},
+				"sleep": {
+					"!type": "fn(seconds: number) -> !Promise"
+				}
+			}
+		},
 		"Switch": {
 			"!type": "fn(num_or_names?: number|[string], cur?: number)",
 			"prototype": {

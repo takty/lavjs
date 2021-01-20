@@ -4,7 +4,7 @@
  * 様々なウィジェット（コントロール）を使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-12-17
+ * @version 2021-01-20
  */
 /**~en
  * Widget library (WIDGET)
@@ -12,7 +12,7 @@
  * A library that allows you to use various widgets (controls).
  *
  * @author Takuto Yanagida
- * @version 2020-12-17
+ * @version 2021-01-20
  */
 
 
@@ -118,6 +118,10 @@ const WIDGET = (function () {
 
 
 	//=
+	//=include _widget/_chat.js
+
+
+	//=
 	//=include _widget/_switch.js
 
 
@@ -149,6 +153,6 @@ const WIDGET = (function () {
 	//~en Create a library --------------------------------------------------------
 
 
-	return { Widget, Switch, Toggle, Output, Chart, Slider, Thermometer };
+	return { Widget, Chat, Switch, Toggle, Output, Chart, Slider, Thermometer };
 
 }());
