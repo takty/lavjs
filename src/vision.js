@@ -2,13 +2,13 @@
  * 視覚ライブラリ（VISION）
  *
  * @author Takuto Yanagida
- * @version 2020-11-27
+ * @version 2021-01-22
  */
 /**~en
  * Vision library (VISION)
  *
  * @author Takuto Yanagida
- * @version 2020-11-27
+ * @version 2021-01-22
  */
 
 
@@ -43,6 +43,7 @@ const VISION = (function () {
 		conspicuityOfLab    : Evaluation.conspicuityOfLab,
 		differenceBetweenLab: Evaluation.differenceBetweenLab,
 		categoryOfYxy       : Evaluation.categoryOfYxy,
+		distance            : Evaluation.distance,
 
 		lmsToProtanopia   : ColorVisionSimulation.lmsToProtanopia,
 		lmsToDeuteranopia : ColorVisionSimulation.lmsToDeuteranopia,
