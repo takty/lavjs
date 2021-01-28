@@ -1,10 +1,10 @@
 /**~ja
  * シーケンサー
- * @version 2020-12-16
+ * @version 2021-01-28
  */
 /**~en
  * Sequencer
- * @version 2020-12-16
+ * @version 2021-01-28
  */
 class Sequencer {
 
@@ -276,8 +276,9 @@ class Sequencer {
 
 		const gain = this._gain * this._volume / 9;
 		dur *= (this._gateTime / 10);
+		const opts = this._opts;
 		const fn = (e) => {
-			if (this._play) this._play(this._inst, e.time, freq, gain, ...this._opts);
+			if (this._play) this._play(this._inst, e.time, freq, gain, ...opts);
 			if (this._stop) this._stop(this._inst, e.time + dur);
 		};
 		this._buf.push([this._lastTime, fn]);
@@ -302,7 +303,7 @@ class Sequencer {
 		for (let i = 0; i < rhythm.length; i += 1) {
 			const v = (i % 4 < 2) ? 8 / this._swingRatio : 8 / (1 - this._swingRatio);
 			const dur = (4 * (60 / this._bpm) * (1 / v));
-			
+
 			const ch = rhythm[i];
 			if ('0123456789'.indexOf(ch) !== -1) {
 				const vol = parseInt(ch);
