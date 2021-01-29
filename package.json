@@ -14,7 +14,7 @@
 	"license": "MIT",
 	"homepage": "https://github.com/takty/lavjs#readme",
 	"dependencies": {
-		"fs-extra": "^9.0.1",
+		"fs-extra": "^9.1.0",
 		"glob": "^7.1.6",
 		"gulp": "^4.0.2",
 		"gulp-comment-tag": "git+https://github.com/takty/gulp-comment-tag.git",
