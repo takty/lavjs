@@ -1,12 +1,12 @@
 /**~ja
  * スコープ・パッチ
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-01-29
  */
 /**~en
  * Scope patch
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-01-29
  */
 class ScopePatch extends Patch {
 
@@ -23,26 +23,34 @@ class ScopePatch extends Patch {
 	constructor(synth, { widget = null, isSynchronized = true, smoothingTimeConstant = 0.9 }) {
 		super(synth);
 
-		this._widget = widget;
-		this._sync   = isSynchronized;
+		this._g = this._synth.context().createGain();
+		const a = this._createAnalyser(widget);
+		this._g.connect(a);
 
-		this._a = this._synth.context().createAnalyser();
-		this._a.smoothingTimeConstant = smoothingTimeConstant;
-
-		if (this._widget) this._update();
+		widget.setSynchronized(isSynchronized);
+		a.smoothingTimeConstant = smoothingTimeConstant;
 	}
 
 	/**~ja
-	 * ウィジェットを更新する（ライブラリ内だけで使用）
+	 * アナライザーを作る（ライブラリ内だけで使用）
+	 * @param {object} widget ウィジェット
 	 * @private
 	 */
 	/**~en
-	 * Update the scope widget (used only in the library)
+	 * Create an analyser (used only in the library)
+	 * @param {object} widget Widget
 	 * @private
 	 */
-	_update() {
-		this._widget.setSynchronized(this._sync);
-		this._widget.setDataSource(new DataSource(this._a));
+	_createAnalyser(widget) {
+		for (const wap of ScopePatch._WIDGET_ANALYSER_PAIRS) {
+			if (wap[0] === widget) {
+				return wap[1];
+			}
+		}
+		const a = this._synth.context().createAnalyser();
+		ScopePatch._WIDGET_ANALYSER_PAIRS.push([widget, a]);
+		widget.setDataSource(new DataSource(a));
+		return a;
 	}
 
 	/**~ja
@@ -54,7 +62,7 @@ class ScopePatch extends Patch {
 	 * @return {AudioNode} Audio node
 	 */
 	getInput() {
-		return this._a;
+		return this._g;
 	}
 
 	/**~ja
@@ -66,7 +74,7 @@ class ScopePatch extends Patch {
 	 * @return {AudioNode} Audio node
 	 */
 	getOutput() {
-		return this._a;
+		return this._g;
 	}
 
 
@@ -90,6 +98,7 @@ class ScopePatch extends Patch {
 	}
 
 }
+ScopePatch._WIDGET_ANALYSER_PAIRS = [];
 
 assignAlias(ScopePatch);
 
