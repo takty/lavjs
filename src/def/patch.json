@@ -173,6 +173,6 @@
 					"!type": "fn(value?: number, time?: number, type?: string) -> !this|+AudioParam"
 				}
 			}
-		},
+		}
 	}
 }
