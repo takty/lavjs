@@ -1,12 +1,12 @@
 /**~ja
  * キー操作処理
  * @author Takuto Yanagida
- * @version 2021-01-06
+ * @version 2021-01-29
  */
 /**~en
  * Key operation handler
  * @author Takuto Yanagida
- * @version 2021-01-06
+ * @version 2021-01-29
  */
 class KeyHandler {
 
@@ -26,24 +26,24 @@ class KeyHandler {
 		//~ja キー・ダウン・イベントに対応する
 		//~en Handle key down events
 		can.addEventListener('keydown', (e) => {
-			if (!this._keys[e.keyCode]) {
+			if (!this._keys[e.key]) {
 				if (this._onDown !== null) {
-					this._onDown(String.fromCharCode(e.keyCode), e);
+					this._onDown(e.key, e);
 					e.preventDefault();
 				}
-				this._keys[e.keyCode] = true;
+				this._keys[e.key] = true;
 			}
 		}, true);
 
 		//~ja キー・アップ・イベントに対応する
 		//~en Handle key up events
 		can.addEventListener('keyup', (e) => {
-			if (this._keys[e.keyCode]) {
+			if (this._keys[e.key]) {
 				if (this._onUp !== null) {
-					this._onUp(String.fromCharCode(e.keyCode), e);
+					this._onUp(e.key, e);
 					e.preventDefault();
 				}
-				this._keys[e.keyCode] = false;
+				this._keys[e.key] = false;
 			}
 		}, true);
 	}
@@ -92,7 +92,7 @@ class KeyHandler {
 	 * @return {boolean} Whether the left arrow key is pressed
 	 */
 	keyArrowLeft() {
-		return this._keys[37];
+		return this._keys['ArrowLeft'];
 	}
 
 	/**~ja
@@ -104,7 +104,7 @@ class KeyHandler {
 	 * @return {boolean} Whether the up arrow key is pressed
 	 */
 	keyArrowUp() {
-		return this._keys[38];
+		return this._keys['ArrowUp'];
 	}
 
 	/**~ja
@@ -116,7 +116,7 @@ class KeyHandler {
 	 * @return {boolean} Whether the right arrow key is pressed
 	 */
 	keyArrowRight() {
-		return this._keys[39];
+		return this._keys['ArrowRight'];
 	}
 
 	/**~ja
@@ -128,7 +128,7 @@ class KeyHandler {
 	 * @return {boolean} Whether the down arrow key is pressed
 	 */
 	keyArrowDown() {
-		return this._keys[40];
+		return this._keys['ArrowDown'];
 	}
 
 }
