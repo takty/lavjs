@@ -70,7 +70,7 @@ class ScopeBase {
 			boxShadow      : '1px 1px 8px rgba(0, 0, 0, 0.5)',
 		});
 		addStyle(`.${NS}can`, {
-			border    : '0px', 
+			border    : '0px',
 			fontFamily: 'Consolas, Menlo, "Courier New", "メイリオ", Meiryo, monospace',
 		});
 	}

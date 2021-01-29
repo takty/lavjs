@@ -1,10 +1,10 @@
 /**~ja
  * スペクトル・スコープ
- * @version 2020-12-16
+ * @version 2021-01-29
  */
 /**~en
  * Spectrum scope
- * @version 2020-12-16
+ * @version 2021-01-29
  */
 class SpectrumScope extends ScopeBase {
 
@@ -95,7 +95,7 @@ class SpectrumScope extends ScopeBase {
 		ctx.strokeStyle = 'rgba(0, 127, 255, 1)';
 		ctx.setLineDash([2, 2]);
 		this._drawHLines(ctx, w, h, ['' + this._maxDb, '', '', '', '' + this._minDb]);
-		
+
 		ctx.textBaseline = 'bottom';
 		const I = SpectrumScope.SPEC_FREQ_MAX / SpectrumScope.SPEC_FREQ_IND;
 		for (let i = 1; i < I; i += 1) {
@@ -132,7 +132,7 @@ class SpectrumScope extends ScopeBase {
 	setDataSource(dataSource) {
 		if (this._source !== dataSource) this._source = dataSource;
 		if (dataSource) {
-			this._size = this._source.size();
+			this._size = dataSource.size();
 			this._buf = new Float32Array(this._size);
 			this._buf.fill(0);
 			this._temp = new Uint8Array(this._size);

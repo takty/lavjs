@@ -1,10 +1,10 @@
 /**~ja
  * 波形スコープ
- * @version 2020-12-16
+ * @version 2021-01-29
  */
 /**~en
  * Waveform scope
- * @version 2020-12-16
+ * @version 2021-01-29
  */
 class WaveformScope extends ScopeBase {
 
@@ -21,7 +21,7 @@ class WaveformScope extends ScopeBase {
 	constructor(width, height) {
 		super(width, height);
 	}
-	
+
 	/**~ja
 	 * 更新する（ライブラリ内だけで使用）
 	 * @private
@@ -123,7 +123,7 @@ class WaveformScope extends ScopeBase {
 		ctx.strokeStyle = 'rgba(0, 127, 127, 1)';
 		ctx.setLineDash([2, 2]);
 		this._drawHLines(ctx, w, h, ['1.0', '0.5', '', '-0.5', '-1.0']);
-		
+
 		ctx.textBaseline = 'top';
 		const I = WaveformScope.WAVE_MSEC_MAX / WaveformScope.WAVE_MSEC_IND;
 		for (let i = 1; i < I; i += 1) {
@@ -160,7 +160,7 @@ class WaveformScope extends ScopeBase {
 	setDataSource(dataSource) {
 		if (this._source !== dataSource) this._source = dataSource;
 		if (dataSource) {
-			this._size = this._source.size();
+			this._size = dataSource.size();
 			this._buf = new Float32Array(this._size);
 			this._buf.fill(128);
 			this._temp = new Uint8Array(this._size);
