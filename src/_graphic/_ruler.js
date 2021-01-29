@@ -1,10 +1,10 @@
 /**~ja
  * 定規
- * @version 2020-04-21
+ * @version 2020-12-16
  */
 /**~en
  * Ruler
- * @version 2020-04-21
+ * @version 2020-12-16
  */
 class Ruler {
 
@@ -213,7 +213,7 @@ class Ruler {
 	}
 
 
-	//~ja 紙操作 ----------------------------------------------------------------
+	//~ja 紙操作 ------------------------------------------------------------------
 	//~en Paper operation ---------------------------------------------------------
 
 
@@ -471,18 +471,18 @@ class Ruler {
 	 */
 	draw(mode) {
 		let ms = mode;
-		if (ms.match(/(fill|stroke|clip|none)/)) {
-			ms = ms.replace(/(fill|stroke|clip)/g, '$1,').replace(/,$/, '').split(',');
-		}
-		for (let m of ms) {
+		ms = ms.replace('fill', 'f');
+		ms = ms.replace('stroke', 's');
+		ms = ms.replace('clip', 'c');
+		for (const m of ms) {
 			switch (m) {
-				case 'fill': case 'f':
+				case 'f':
 					this._fill.draw(this._ctx, this._area);
 					break;
-				case 'stroke': case 's':
+				case 's':
 					this._stroke.draw(this._ctx, this._area);
 					break;
-				case 'clip': case 'c':
+				case 'c':
 					if (this._isClipable) this._ctx.clip();
 					break;
 			}
@@ -557,5 +557,23 @@ class Ruler {
 		this._liner.line(fromX, fromY, deg(dr), dest, null, this._area);
 		return this;
 	};
+
+	/**~ja
+	 * 点をかく
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 * @return {Ruler} この定規
+	 */
+	/**~en
+	 * Draw a dot
+	 * @param {number} x X coordinate
+	 * @param {number} y Y coordinate
+	 * @return {Ruler} This ruler
+	 */
+	dot(x, y) {
+		this._ctx.beginPath();
+		this._ctx.rect(x, y, 1, 1);
+		return this;
+	}
 
 }

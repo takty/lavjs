@@ -1,10 +1,10 @@
 /**~ja
  * 紙
- * @version 2020-05-05
+ * @version 2021-01-06
  */
 /**~en
  * Paper
- * @version 2020-05-05
+ * @version 2021-01-06
  */
 class Paper {
 
@@ -153,6 +153,46 @@ class Paper {
 			this.fillStyle = style;
 			this.fillRect(0, 0, this.width(), this.height());
 		}
+		this.restore();
+		return this;
+	}
+
+	/**~ja
+	 * ピクセルの色を取得する
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 * @return {[number, number, number, number]} 色（RGBA）を表す配列
+	 */
+	/**~en
+	 * Get pixel color
+	 * @param {number} x x coordinate
+	 * @param {number} y y coordinate
+	 * @return {[number, number, number, number]} Array representing color (RGBA)
+	 */
+	getPixel(x, y) {
+		return this.getImageData(x, y, 1, 1).data;
+	}
+
+	/**~ja
+	 * ピクセルの色を設定する
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 * @param {[number, number, number, number]} rgba 色（RGBA）を表す配列
+	 * @return {Paper} この紙
+	 */
+	/**~en
+	 * Set pixel color
+	 * @param {number} x x coordinate
+	 * @param {number} y y coordinate
+	 * @param {[number, number, number, number]} rgba Array representing color (RGB)
+	 * @return {Paper} This paper
+	 */
+	setPixel(x, y, [r = 0, g = 0, b = 0, a = 255]) {
+		this.save();
+		this.strokeStyle = `rgba(${r},${g},${b},${a})`;
+		this.beginPath();
+		this.rect(x, y, 1, 1);
+		this.stroke();
 		this.restore();
 		return this;
 	}
@@ -495,6 +535,54 @@ class Paper {
 		if (handler === undefined) return this._keyEventHandler.onKeyUp();
 		this._keyEventHandler.onKeyUp(handler);
 		return this;
+	}
+
+	/**~ja
+	 * カーソル・キーの左が押されているか？
+	 * @return {boolean} カーソル・キーの左が押されているか
+	 */
+	/**~en
+	 * Whether the left arrow key is pressed
+	 * @return {boolean} Whether the left arrow key is pressed
+	 */
+	keyArrowLeft() {
+		return this._keyEventHandler.keyArrowLeft();
+	}
+
+	/**~ja
+	 * カーソル・キーの上が押されているか？
+	 * @return {boolean} カーソル・キーの上が押されているか
+	 */
+	/**~en
+	 * Whether the up arrow key is pressed
+	 * @return {boolean} Whether the up arrow key is pressed
+	 */
+	keyArrowUp() {
+		return this._keyEventHandler.keyArrowUp();
+	}
+
+	/**~ja
+	 * カーソル・キーの右が押されているか？
+	 * @return {boolean} カーソル・キーの右が押されているか
+	 */
+	/**~en
+	 * Whether the right arrow key is pressed
+	 * @return {boolean} Whether the right arrow key is pressed
+	 */
+	keyArrowRight() {
+		return this._keyEventHandler.keyArrowRight();
+	}
+
+	/**~ja
+	 * カーソル・キーの下が押されているか？
+	 * @return {boolean} カーソル・キーの下が押されているか
+	 */
+	/**~en
+	 * Whether the down arrow key is pressed
+	 * @return {boolean} Whether the down arrow key is pressed
+	 */
+	keyArrowDown() {
+		return this._keyEventHandler.keyArrowDown();
 	}
 
 

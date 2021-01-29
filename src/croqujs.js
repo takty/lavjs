@@ -7,7 +7,7 @@
  * （ここでの紙は、HTML5のCanvas要素のCanvasRenderingContext2Dを拡張したもののことです）
  *
  * @author Takuto Yanagida
- * @version 2020-04-30
+ * @version 2020-11-20
  */
 /**~en
  * Croqujs library (CROQUJS)
@@ -18,7 +18,7 @@
  * ('Paper' here is an extension of CanvasRenderingContext2D of HTML5 Canvas element)
  *
  * @author Takuto Yanagida
- * @version 2020-04-30
+ * @version 2020-11-20
  */
 
 
@@ -36,7 +36,7 @@ const CROQUJS = (function () {
 	//~ja 共通のCSS
 	//~en Common CSS
 	const s = document.createElement('style');
-	s.innerHTML = '*{margin:0;padding:0}body{white-space:nowrap;display:flex;flex-wrap:wrap;}';
+	s.innerHTML = '*{margin:0;padding:0}body{white-space:nowrap;display:flex;flex-wrap:wrap;align-items:flex-start;}';
 	document.head.appendChild(s);
 
 	//~ja すべてのプログラム（スクリプト）を読み込み終わったらsetup関数を呼び出すように、イベント・リスナーを登録する
@@ -48,8 +48,8 @@ const CROQUJS = (function () {
 	}, true);
 
 
-	//~ja ペーパー（CROQUJS.Paper) ---------------------------------------------
-	//~en Paper (CROQUJS.Paper) ------------------------------------------------
+	//~ja ペーパー（CROQUJS.Paper) ------------------------------------------------
+	//~en Paper (CROQUJS.Paper) ---------------------------------------------------
 
 
 	const CANVAS_TO_PAPER = {};
@@ -71,8 +71,8 @@ const CROQUJS = (function () {
 	//=include _croqujs/_paper.js
 
 
-	//~ja ユーティリティ関数 ---------------------------------------------------
-	//~en Utility functions ----------------------------------------------------
+	//~ja ユーティリティ関数 ------------------------------------------------------
+	//~en Utility functions -------------------------------------------------------
 
 
 	/**~ja
@@ -136,8 +136,8 @@ const CROQUJS = (function () {
 	//=include _croqujs/_loader.js
 
 
-	//~ja ライブラリを作る -----------------------------------------------------
-	//~en Create a library -----------------------------------------------------
+	//~ja ライブラリを作る --------------------------------------------------------
+	//~en Create a library --------------------------------------------------------
 
 
 	return { Paper, getTime, removeAll, currentPaper, loadScript, loadScriptSync };

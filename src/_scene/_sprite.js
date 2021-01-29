@@ -1,12 +1,12 @@
 /**~ja
  * スプライト
  * @extends {Element}
- * @version 2020-05-05
+ * @version 2020-12-17
  */
 /**~en
  * Sprite
  * @extends {Element}
- * @version 2020-05-05
+ * @version 2020-12-17
  */
 class Sprite extends Element {
 
@@ -49,7 +49,7 @@ class Sprite extends Element {
 		if (this._drawFunctionArgs) {
 			args = args_array.concat(this._drawFunctionArgs);
 		}
-		if (this._fisrtUpdated) {
+		if (this._firstUpdated) {
 			ctx.save();
 			this._setTransformation(ctx);
 			this._drawFunction.apply(this, args);

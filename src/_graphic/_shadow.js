@@ -1,10 +1,10 @@
 /**~ja
  * 影
- * @version 2020-04-21
+ * @version 2020-12-17
  */
 /**~en
  * Shadow
- * @version 2020-04-21
+ * @version 2020-12-17
  */
 class Shadow {
 
@@ -37,17 +37,17 @@ class Shadow {
 
 	/**~ja
 	 * 設定する
-	 * @param {number?} blur ぼかし量
-	 * @param {string?} color 色
-	 * @param {number?} x 影のずれx
-	 * @param {number?} y 影のずれy
+	 * @param {?number} blur ぼかし量
+	 * @param {?string} color 色
+	 * @param {?number} x 影のずれx
+	 * @param {?number} y 影のずれy
 	 */
 	/**~en
 	 * Set
-	 * @param {number?} blur Blur amount
-	 * @param {string?} color Color
-	 * @param {number?} x Shadow offset x
-	 * @param {number?} y Shadow offset y
+	 * @param {?number} blur Blur amount
+	 * @param {?string} color Color
+	 * @param {?number} x Shadow offset x
+	 * @param {?number} y Shadow offset y
 	 */
 	set(blur, color, x, y) {
 		//~ja 値がセットされているか!=でチェック

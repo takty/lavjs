@@ -1,10 +1,10 @@
 /**~ja
  * タートル・ベース
- * @version 2020-05-05
+ * @version 2020-12-16
  */
 /**~en
  * Turtle base
- * @version 2020-05-05
+ * @version 2020-12-16
  */
 class TurtleBase {
 
@@ -1011,18 +1011,18 @@ class TurtleBase {
 	 */
 	_drawActually() {
 		let ms = this._curMode;
-		if (ms.match(/(fill|stroke|clip|none)/)) {
-			ms = ms.replace(/(fill|stroke|clip)/g, '$1,').replace(/,$/, '').split(',');
-		}
-		for (let m of ms) {
+		ms = ms.replace('fill', 'f');
+		ms = ms.replace('stroke', 's');
+		ms = ms.replace('clip', 'c');
+		for (const m of ms) {
 			switch (m) {
-				case 'fill': case 'f':
+				case 'f':
 					this._fill.draw(this._ctx, this._area);
 					break;
-				case 'stroke': case 's':
+				case 's':
 					this._stroke.draw(this._ctx, this._area);
 					break;
-				case 'clip': case 'c':
+				case 'c':
 					if (this._isClipable) this._ctx.clip();
 					break;
 			}
@@ -1118,7 +1118,7 @@ class TurtleBase {
 	}
 
 
-	//~ja 紙操作 ----------------------------------------------------------------
+	//~ja 紙操作 ------------------------------------------------------------------
 	//~en Paper operation ---------------------------------------------------------
 
 
