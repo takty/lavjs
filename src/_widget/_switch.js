@@ -1,12 +1,12 @@
 /**~ja
  * スイッチ
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2021-01-29
  */
 /**~en
  * Switch
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2021-01-29
  */
 class Switch extends Widget {
 
@@ -14,14 +14,19 @@ class Switch extends Widget {
 	 * スイッチを作る
 	 * @param {number} [num_or_names=3] ボタン数／ボタンの名前配列
 	 * @param {number} [cur=0] 現在のボタン
+	 * @param {*} [{ horizontal = false }={}] オプション（横向きにする？）
 	 */
 	/**~en
 	 * Make a switch
 	 * @param {number} [num_or_names=3] Number of buttons, or an array of button names
 	 * @param {number} [cur=0] Index of currently selected button
+	 * @param {*} [{ horizontal = false }={}] Options (Whether to be horizontal)
 	 */
-	constructor(num_or_names = 3, cur = 0) {
+	constructor(num_or_names = 3, cur = 0, { horizontal = true }) {
 		super();
+		this._base.classList.add('__widget-button-array');
+		this._base.style.flexDirection = horizontal ? 'row' : 'column';
+
 		if (Array.isArray(num_or_names) && num_or_names.length === 0) num_or_names = ['?'];
 
 		const num = Array.isArray(num_or_names) ? num_or_names.length : num_or_names;

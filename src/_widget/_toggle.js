@@ -1,12 +1,12 @@
 /**~ja
  * トグル
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2021-01-29
  */
 /**~en
  * Toggle
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2021-01-29
  */
 class Toggle extends Widget {
 
@@ -14,14 +14,18 @@ class Toggle extends Widget {
 	 * トグル・ボタンを作る
 	 * @param {string=|Array<string>} [caption_s=''] ボタンの名前
 	 * @param {boolean=|Array<boolean>} [state_s=false] 現在の状態
+	 * @param {*} [{ horizontal = false }={}] オプション（横向きにする？）
 	 */
 	/**~en
 	 * Make a toggle button
 	 * @param {string=|Array<string>} [caption_s=''] Name(s) of button(s)
 	 * @param {boolean=|Array<boolean>} [state_s=false] Current state(s)
+	 * @param {*} [{ horizontal = false }={}] Options (Whether to be horizontal)
 	 */
-	constructor(caption_s = '', state_s = false) {
+	constructor(caption_s = '', state_s = false, { horizontal = true }) {
 		super();
+		this._base.classList.add('__widget-button-array');
+		this._base.style.flexDirection = horizontal ? 'row' : 'column';
 
 		const cs = Array.isArray(caption_s) ? caption_s : [caption_s];
 		const ss = Array.isArray(state_s) ? state_s : [state_s];
