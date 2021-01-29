@@ -1,10 +1,10 @@
 /**~ja
  * シーケンサー
- * @version 2021-01-28
+ * @version 2021-01-29
  */
 /**~en
  * Sequencer
- * @version 2021-01-28
+ * @version 2021-01-29
  */
 class Sequencer {
 
@@ -27,6 +27,7 @@ class Sequencer {
 		params = normalizeParams(params);
 		this._inst       = params.instrument ?? null;
 		this._play       = params.play       ?? null;
+		this._tune       = params.tune       ?? null;
 		this._stop       = params.stop       ?? null;
 		this._bpm        = params.bpm        ?? 100;
 		this._gain       = params.gain       ?? 1;
@@ -278,7 +279,8 @@ class Sequencer {
 		dur *= (this._gateTime / 10);
 		const opts = this._opts;
 		const fn = (e) => {
-			if (this._play) this._play(this._inst, e.time, freq, gain, ...opts);
+			if (this._tune) this._tune(this._inst, e.time, gain, freq, ...opts);
+			if (this._play) this._play(this._inst, e.time);
 			if (this._stop) this._stop(this._inst, e.time + dur);
 		};
 		this._buf.push([this._lastTime, fn]);
@@ -309,7 +311,8 @@ class Sequencer {
 				const vol = parseInt(ch);
 				const gain = this._gain * vol / 9;
 				const fn = (e) => {
-					if (this._play) this._play(this._inst, e.time, 440, gain);
+					if (this._tune) this._tune(this._inst, e.time, gain, 440);
+					if (this._play) this._play(this._inst, e.time);
 					if (this._stop) this._stop(this._inst, e.time + dur);
 				};
 				this._buf.push([this._lastTime, fn]);
