@@ -1,12 +1,12 @@
 /**~ja
  * スライダー
  * @author Takuto Yanagida
- * @version 2019-09-06
+ * @version 2021-01-29
  */
 /**~en
  * Slider
  * @author Takuto Yanagida
- * @version 2019-09-06
+ * @version 2021-01-29
  */
 class Slider extends SliderBase {
 
@@ -15,14 +15,14 @@ class Slider extends SliderBase {
 	 * @param {number} [min=0] 最小値
 	 * @param {number} [max=10] 最大値
 	 * @param {number} [value=0] 現在の値
-	 * @param {*} [{ int = false, reverse = false, horizontal = false, width = 72, height = 400 }={}] オプション（整数にする？、向きを逆にする？、たて向きにする？）
+	 * @param {*} [{ int = false, reverse = false, horizontal = false, width = 72, height = 400 }={}] オプション（整数にする？、向きを逆にする？、横向きにする？）
 	 */
 	/**~en
 	 * Make a slider
 	 * @param {number} [min=0] Minimum value
 	 * @param {number} [max=10] Maximum value
 	 * @param {number} [value=0] Current value
-	 * @param {*} [{ int = false, reverse = false, horizontal = false, width = 72, height = 400 }={}] Options (Whether to integer, whether to reverse, whether to be vertical)
+	 * @param {*} [{ int = false, reverse = false, horizontal = false, width = 72, height = 400 }={}] Options (Whether to integer, whether to reverse, whether to be horizontal)
 	 */
 	constructor(min = 0, max = 10, value = 0, { int = false, reverse = false, horizontal = false, width = false, height = false } = {}) {
 		if (horizontal) {
@@ -53,7 +53,7 @@ class Slider extends SliderBase {
 
 		this._knob = document.createElement('div');
 		this._knob.className = '__widget __widget-slider-knob';
-		
+
 		if (this._isVertical) {
 			this._knob.style.left = (inner.offsetWidth * this.SCALE_POS_RATE) + 'px';
 			this._knob.style.top = this.VMARGIN + 'px';
