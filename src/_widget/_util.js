@@ -1,12 +1,12 @@
 /**~ja
  * スタイル・ユーティリティ
  * @author Takuto Yanagida
- * @version 2020-12-17
+ * @version 2021-02-01
  */
 /**~en
  * Style utilities
  * @author Takuto Yanagida
- * @version 2020-12-17
+ * @version 2021-02-01
  */
 
 
@@ -28,10 +28,10 @@
 	return (selector, styles) => {
 		const ps = [];
 		for (const [prop, val] of Object.entries(styles)) {
-			const p = prop.replace(/([A-Z])/g, (m) => { return '-' + m.charAt(0).toLowerCase(); });
-			ps.push(`${p}:${val};`);
+			const p = prop.replace(/([A-Z])/g, m => '-' + m.charAt(0).toLowerCase());
+			ps.push(`${p}:${val}`);
 		}
 		const style = ps.join(';');
-		s.sheet.insertRule(`${selector}{${style}}`, s.sheet.cssRules.length);
+		s.sheet.insertRule(`${selector}{${style};}`, s.sheet.cssRules.length);
 	};
 })();
