@@ -1,23 +1,23 @@
 /**~ja
- * 文字列出力
+ * 行出力
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2021-02-01
  */
 /**~en
- * String output
+ * Line output
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2021-02-01
  */
 class Output extends Widget {
 
 	/**~ja
-	 * 文字列出力を作る
+	 * 行出力を作る
 	 * @param {number} width 横幅
 	 * @param {number=} [height=null] たて幅
 	 * @param {boolean=} [nowrap=false] 折り返す？
 	 */
 	/**~en
-	 * Make an output
+	 * Make a line output
 	 * @param {number} width Width
 	 * @param {number=} [height=null] Height
 	 * @param {boolean=} [nowrap=false] Whether to wrap
@@ -37,18 +37,18 @@ class Output extends Widget {
 	}
 
 	/**~ja
-	 * 文字列
-	 * @param {string=} val 文字列
-	 * @return {string|Output} 文字列／この文字列出力
+	 * 現在の値
+	 * @param {*=} val 現在の値
+	 * @return {string|Output} 現在の値／この出力
 	 */
 	/**~en
-	 * String
-	 * @param {string=} val String
+	 * Current value
+	 * @param {*=} val Current value
 	 * @return {string|Output} String, or this output
 	 */
-	string(val) {
+	value(val) {
 		if (val === undefined) return this._inner.innerText;
-		this._inner.innerText = val;
+		this._inner.innerText = val.toString();
 		return this;
 	}
 
