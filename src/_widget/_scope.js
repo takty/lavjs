@@ -1,10 +1,10 @@
 /**~ja
  * スコープ・ベース
- * @version 2020-12-17
+ * @version 2021-02-01
  */
 /**~en
  * Scope base
- * @version 2020-12-17
+ * @version 2021-02-01
  */
 class ScopeBase {
 
@@ -45,9 +45,9 @@ class ScopeBase {
 		this._height = height - 16;
 		const NS = 'CONTROL-Analyser-';
 
-		this._outer = document.createElement('div');
-		this._outer.className = NS + 'analyser';
-		document.body.appendChild(this._outer);
+		this._base = document.createElement('div');
+		this._base.className = NS + 'analyser';
+		document.body.appendChild(this._base);
 
 		const can = document.createElement('canvas');
 		can.className = NS + 'can';
@@ -55,7 +55,7 @@ class ScopeBase {
 		can.setAttribute('height', this._height);
 		can.onclick = () => { this._freeze = !this._freeze; };
 		this._ctx = can.getContext('2d');
-		this._outer.appendChild(can);
+		this._base.appendChild(can);
 
 		addStyle(`.${NS}analyser`, {
 			position       : 'relative',
