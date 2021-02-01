@@ -7,7 +7,7 @@
  * （ここでの紙は、HTML5のCanvas要素のCanvasRenderingContext2Dを拡張したもののことです）
  *
  * @author Takuto Yanagida
- * @version 2020-11-20
+ * @version 2021-02-01
  */
 /**~en
  * Croqujs library (CROQUJS)
@@ -18,7 +18,7 @@
  * ('Paper' here is an extension of CanvasRenderingContext2D of HTML5 Canvas element)
  *
  * @author Takuto Yanagida
- * @version 2020-11-20
+ * @version 2021-02-01
  */
 
 
@@ -36,7 +36,19 @@ const CROQUJS = (function () {
 	//~ja 共通のCSS
 	//~en Common CSS
 	const s = document.createElement('style');
-	s.innerHTML = '*{margin:0;padding:0}body{white-space:nowrap;display:flex;flex-wrap:wrap;align-items:flex-start;}';
+	s.innerHTML = `
+		* {
+			box-sizing: border-box;
+		}
+		body {
+			display    : flex;
+			align-items: flex-start;
+			flex-wrap  : wrap;
+			margin     : 0;
+			padding    : 2px;
+			white-space: nowrap;
+		}
+	`;
 	document.head.appendChild(s);
 
 	//~ja すべてのプログラム（スクリプト）を読み込み終わったらsetup関数を呼び出すように、イベント・リスナーを登録する

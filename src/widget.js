@@ -4,7 +4,7 @@
  * 様々なウィジェット（コントロール）を使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-02-01
  */
 /**~en
  * Widget library (WIDGET)
@@ -12,7 +12,7 @@
  * A library that allows you to use various widgets (controls).
  *
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-02-01
  */
 
 
@@ -46,15 +46,14 @@ const WIDGET = (function () {
 	const ensureBaseStyle = function () {
 		if (isBaseStyleAssigned) return;
 		addStyle('.__widget', {
-			margin    : '0px',
-			padding   : '0px',
-			boxSizing : 'border-box',
-			fontFamily: 'Consolas, Menlo, "Courier New", "メイリオ", Meiryo, "Osaka－等幅", Osaka-mono, monospace',
+			margin    : '0',
+			padding   : '0',
+			fontFamily: 'Consolas, Menlo, "Courier New", Meiryo, Osaka-Mono, monospace',
 		});
 		addStyle('.__widget-base', {
 			display        : 'inline-flex',
 			position       : 'relative',
-			margin         : '4px',
+			margin         : '2px',
 			padding        : '8px',
 			borderRadius   : '1px',
 			backgroundColor: 'White',
