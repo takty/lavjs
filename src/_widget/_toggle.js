@@ -22,29 +22,31 @@ class Toggle extends Widget {
 	 * @param {boolean=|Array<boolean>} [state_s=false] Current state(s)
 	 * @param {*} [{ horizontal = false }={}] Options (Whether to be horizontal)
 	 */
-	constructor(caption_s = '', state_s = false, { horizontal = true }) {
+	constructor(caption_s = '', state_s = false, { horizontal = true } = {}) {
 		super();
 		this._base.classList.add('__widget-button-array');
 		this._base.style.flexDirection = horizontal ? 'row' : 'column';
 
 		const cs = Array.isArray(caption_s) ? caption_s : [caption_s];
-		const ss = Array.isArray(state_s) ? state_s : [state_s];
+		const ss = Array.isArray(state_s)   ? state_s   : [state_s];
 
 		this._value = ss.length === 1 ? ss[0] : ss;
 
 		const buttons = [];
 
+		const listener = (ev) => {
+			const idx = buttons.indexOf(ev.target);
+			ss[idx] = !ss[idx]
+			this._value = ss.length === 1 ? ss[0] : ss;
+			ev.target.classList.toggle('__widget-button-pushed');
+			if (this._onClick) this._onClick(ss[idx], idx);
+		};
+
 		for (let c of cs) {
 			const b = document.createElement('a');
 			b.className = '__widget __widget-button';
 			b.innerText = c;
-			b.onmousedown = (ev) => {
-				const idx = buttons.indexOf(ev.target);
-				ss[idx] = !ss[idx]
-				this._value = ss.length === 1 ? ss[0] : ss;
-				ev.target.classList.toggle('__widget-button-pushed');
-				if (this._onPushed) this._onPushed(ss[idx], idx);
-			};
+			b.addEventListener('click', listener);
 			buttons.push(b);
 			this._base.appendChild(b);
 		}
@@ -52,7 +54,7 @@ class Toggle extends Widget {
 			for (let i = 0; i < cs.length; i += 1) {
 				if (!ss[i]) continue;
 				buttons[i].classList.add('__widget-button-pushed');
-				if (this._onPushed) this._onPushed(ss[i], i);
+				if (this._onClick) this._onClick(ss[i], i);
 			}
 		}, 100);
 	}
@@ -74,18 +76,18 @@ class Toggle extends Widget {
 	}
 
 	/**~ja
-	 * プッシュ・イベントに対応する関数
+	 * クリック・イベントに対応する関数
 	 * @param {function(boolean, number)} handler 関数
 	 * @return {function(boolean, number)|Toggle} 関数／このトグル
 	 */
 	/**~en
-	 * Function handling to push events
+	 * Function handling to click events
 	 * @param {function(boolean, number)} handler Function
 	 * @return {function(boolean, number)|Toggle} Function, or this toggle
 	 */
-	onPushed(handler) {
-		if (handler === undefined) return this._onPushed;
-		this._onPushed = handler;
+	onClick(handler) {
+		if (handler === undefined) return this._onClick;
+		this._onClick = handler;
 		return this;
 	}
 

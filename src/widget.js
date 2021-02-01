@@ -79,6 +79,7 @@ const WIDGET = (function () {
 			borderRadius  : '8px',
 			boxShadow     : '0px 0px 4px rgba(0, 0, 0, 0.25)',
 			cursor        : 'pointer',
+			userSelect    : 'none',
 		});
 		addStyle('.__widget-button:last-child', {
 			marginRight: '0px',
