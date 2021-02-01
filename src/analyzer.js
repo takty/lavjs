@@ -4,7 +4,7 @@
  * 波形の解析を行うウィジェットを使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-12-17
+ * @version 2021-02-01
  */
 /**~en
  * Analyzer library (ANALYZER)
@@ -12,7 +12,7 @@
  * A library that enables to use widgets that analyze waveforms.
  *
  * @author Takuto Yanagida
- * @version 2020-12-17
+ * @version 2021-02-01
  */
 
 
@@ -39,7 +39,7 @@ const ANALYZER = (function () {
 
 
 	//=
-	//=include _widget/_scope.js
+	//=include _widget/_scope-base.js
 
 
 	//=
