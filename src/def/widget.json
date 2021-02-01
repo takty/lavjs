@@ -58,8 +58,8 @@
 			"!type": "fn(width: number, height?: number, nowrap?: bool)",
 			"prototype": {
 				"!proto": "WIDGET.Widget.prototype",
-				"string": {
-					"!type": "fn(val?: string) -> !this|string"
+				"value": {
+					"!type": "fn(val?: ?) -> !this|string"
 				}
 			}
 		},
