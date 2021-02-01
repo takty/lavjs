@@ -7,7 +7,7 @@
 				"domElement": {
 					"!type": "fn() -> ?"
 				},
-				"setFillWidth": {
+				"setFullWidth": {
 					"!type": "fn(flag: bool)"
 				},
 				"setVisible": {

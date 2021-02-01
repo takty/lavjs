@@ -1,12 +1,12 @@
 /**~ja
  * ウィジェット共通
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2021-02-01
  */
 /**~en
  * Common widget
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2021-02-01
  */
 class Widget {
 
@@ -22,9 +22,6 @@ class Widget {
 	 */
 	constructor(width = null, height = null) {
 		ensureBaseStyle();
-		this._outer = document.createElement('div');
-		document.body.appendChild(this._outer);
-
 		this._base = document.createElement('div');
 		this._base.className = '__widget __widget-base';
 		if (width !== null) {
@@ -33,7 +30,7 @@ class Widget {
 		if (height !== null) {
 			this._base.style.height = height + 'px';
 		}
-		this._outer.appendChild(this._base);
+		document.body.appendChild(this._base);
 	}
 
 	/**~ja
@@ -45,7 +42,7 @@ class Widget {
 	 * @return {domElement} DOM element
 	 */
 	domElement() {
-		return this._outer;
+		return this._base;
 	}
 
 	/**~ja
@@ -56,8 +53,8 @@ class Widget {
 	 * Set whether to make the width full
 	 * @param {boolean} flag Whether to make the width full
 	 */
-	setFillWidth(flag) {
-		this._outer.style.flexBasis = flag ? '100%' : 'auto';
+	setFullWidth(flag) {
+		this._base.style.flexBasis = flag ? '100%' : 'auto';
 	}
 
 	/**~ja
@@ -69,7 +66,7 @@ class Widget {
 	 * @param {boolean} flag Whether to display
 	 */
 	setVisible(flag) {
-		this._outer.style.display = flag ? '' : 'none';
+		this._base.style.display = flag ? '' : 'none';
 	}
 
 }
