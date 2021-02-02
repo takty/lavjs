@@ -1,12 +1,12 @@
 /**~ja
  * スライダー・ベース
  * @author Takuto Yanagida
- * @version 2019-09-06
+ * @version 2021-02-02
  */
 /**~en
  * Slider base
  * @author Takuto Yanagida
- * @version 2019-09-06
+ * @version 2021-02-02
  */
 class SliderBase extends Widget {
 
@@ -14,21 +14,27 @@ class SliderBase extends Widget {
 	 * スライダー・ベースを作る
 	 * @param {number=} [width=null] 横幅
 	 * @param {number=} [height=null] たて幅
-	 * @param {boolean=} [isVertical=true] たて向きにする？
+	 * @param {*=} [{ vertical=false }={}] オプション（たて向きにする？）
 	 */
 	/**~en
 	 * Make a slider base
 	 * @param {number=} [width=null] Width
 	 * @param {number=} [height=null] Height
-	 * @param {boolean=} [isVertical=true] Whether to be vertical
+	 * @param {*=} [{ vertical=true }={}] Options (Whether to be vertical)
 	 */
-	constructor(width = null, height = null, isVertical = true) {
+	constructor(width = null, height = null, { int = false, reverse = false, vertical = true } = {}) {
 		super(width, height);
-		this._isVertical = isVertical;
-		this._railHeight = null;
+		this._int      = int;
+		this._reverse  = reverse;
+		this._vertical = vertical;
 
-		this.VMARGIN = 12;
-		this.SCALE_POS_RATE = this._isVertical ? 0.5 : 0.45;
+		this._value = 0;
+		this._min   = 0;
+		this._max   = 0;
+
+		this._margin      = 12;
+		this._railSize    = 0;
+		this._railPosRate = this._vertical ? 0.5 : 0.45;
 	}
 
 	/**~ja
@@ -44,7 +50,7 @@ class SliderBase extends Widget {
 	min(val) {
 		if (val === undefined) return this._min;
 		this._min = val;
-		this._draw(this._scale, this.VMARGIN);
+		this._draw();
 		this.value(this._value);
 		return this;
 	}
@@ -62,7 +68,7 @@ class SliderBase extends Widget {
 	max(val) {
 		if (val === undefined) return this._max;
 		this._max = val;
-		this._draw(this._scale, this.VMARGIN);
+		this._draw();
 		this.value(this._value);
 		return this;
 	}
@@ -81,7 +87,7 @@ class SliderBase extends Widget {
 		if (val === undefined) return this._value;
 		val = (val < this._min) ? this._min : ((this._max < val) ? this._max : val);
 		this._value = (this._int) ? Math.round(val) : val;
-		if (this._onChanged) this._onChanged(this._value);
+		if (this._onChange) this._onChange(this._value);
 		this._valueChanged();
 		return this;
 	}
@@ -96,76 +102,69 @@ class SliderBase extends Widget {
 	 * @param {function(number)} handler Function
 	 * @return {function(number)|SliderBase} Function, or this slider base
 	 */
-	onChanged(handler) {
-		if (handler === undefined) return this._onChanged;
-		this._onChanged = handler;
+	onChange(handler) {
+		if (handler === undefined) return this._onChange;
+		this._onChange = handler;
 		return this;
 	}
 
 	/**~ja
-	 * 現在の値からつまみの場所を計算する
+	 * 現在の値からつまみの場所を計算する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {number} v 現在の値
-	 * @param {boolean=} reverse 向きを反対にするか？
 	 * @return {number} 場所
 	 */
 	/**~en
-	 * Calculate the position of the knob from the current value
+	 * Calculate the position of the knob from the current value (used only in the library)
 	 * @private
 	 * @param {number} v Current value
-	 * @param {boolean=} reverse Whether to reverse the direction
 	 * @return {number} Position
 	 */
-	_valueToPos(v, reverse = this._reverse) {
+	_valueToPos(v) {
 		v = (this._int) ? Math.round(v) : v;
-		if (reverse) {
-			return (this._railHeight - (v - this._min) * this._railHeight / (this._max - this._min));
-		}
-		return ((v - this._min) * this._railHeight / (this._max - this._min));
+		const p = (v - this._min) * this._railSize / (this._max - this._min);
+		if (this._reverse) return this._railSize - p;
+		return p;
 	}
 
 	/**~ja
-	 * つまみの場所から現在の値を計算する
+	 * つまみの場所から現在の値を計算する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {number} p つまみの場所
-	 * @param {boolean=} reverse 向きを反対にするか？
 	 * @return {number} 現在の値
 	 */
 	/**~en
-	 * Calculate current value from knob position
+	 * Calculate current value from knob position (used only in the library)
 	 * @private
 	 * @param {number} p Position
-	 * @param {boolean=} reverse Whether to reverse the direction
 	 * @return {number} Current value
 	 */
-	_posToValue(p, reverse = this._reverse) {
-		let v = this._min;
-		if (reverse) {
-			v += (this._railHeight - p) * (this._max - this._min) / this._railHeight;
-		} else {
-			v += p * (this._max - this._min) / this._railHeight;
-		}
+	_posToValue(p) {
+		if (this._reverse) p = this._railSize - p;
+		const v = this._min + p * (this._max - this._min) / this._railSize;
 		return (this._int) ? Math.round(v) : v;
 	}
 
+
+	// -------------------------------------------------------------------------
+
+
 	/**~ja
-	 * みぞの絵をかく
+	 * みぞの絵をかく（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Canvas} canvas キャンバス
 	 * @param {*} width 幅
-	 * @param {number} verticalMargin たてのすき間
 	 */
 	/**~en
-	 * Draw a rail
+	 * Draw a rail (used only in the library)
 	 * @private
 	 * @param {Canvas} canvas Canvas
 	 * @param {*} width Width
-	 * @param {number} verticalMargin Vertical margin
 	 */
-	_drawRail(canvas, width, verticalMargin) {
-		const isv = this._isVertical;
+	_drawRail(canvas, width) {
+		const isv = this._vertical;
 		const c = canvas.getContext('2d');
-		const x = (isv ? canvas.width : canvas.height) * this.SCALE_POS_RATE - width * 0.5;
+		const x = (isv ? canvas.width : canvas.height) * this._railPosRate - width * 0.5;
 		let grad;
 		if (isv) {
 			grad = c.createLinearGradient(x, 0, x + width, 0);
@@ -179,40 +178,38 @@ class SliderBase extends Widget {
 		c.save();
 		c.fillStyle = grad;
 		if (isv) {
-			c.fillRect(x, verticalMargin + 1, width, canvas.height - verticalMargin * 2 - 2);
+			c.fillRect(x, this._margin + 1, width, canvas.height - this._margin * 2 - 2);
 		} else {
-			c.fillRect(verticalMargin + 1, x, canvas.width - verticalMargin * 2 - 2, width);
+			c.fillRect(this._margin + 1, x, canvas.width - this._margin * 2 - 2, width);
 		}
 		c.restore();
 	}
 
 	/**~ja
-	 * 目もりの絵をかく
+	 * 目もりの絵をかく（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Canvas} canvas キャンバス
-	 * @param {number} verticalMargin たてのすき間
-	 * @param {number} [subWidth=12] サブ目もりの幅
+	 * @param {number} subWidth サブ目もりの幅
 	 */
 	/**~en
-	 * Draw a scale
+	 * Draw a scale (used only in the library)
 	 * @private
 	 * @param {Canvas} canvas Canvas
-	 * @param {number} verticalMargin Vertical margin
-	 * @param {number} [subWidth=12] Width of sub scale
+	 * @param {number} subWidth Width of sub scale
 	 */
-	_drawScale(canvas, verticalMargin, subWidth = 12) {
-		const isv = this._isVertical;
+	_drawScale(canvas, subWidth) {
+		const isv = this._vertical;
 		const maxInterval = this._calcMaxRange(this._min, this._max, 25);
 		const interval = this._calcInterval(maxInterval, 25);
 		const minInterval = this._calcInterval(interval, 5);
-		const width = (isv ? canvas.width : canvas.height), subX = (width * this.SCALE_POS_RATE - subWidth * 0.5);
+		const width = (isv ? canvas.width : canvas.height), subX = (width * this._railPosRate - subWidth * 0.5);
 		const c = canvas.getContext('2d');
 		c.clearRect(0, 0, canvas.width, canvas.height);
 		c.textAlign = isv ? 'right' : 'center';
 		c.font = '10.5px sans-serif';
 
 		for (let m = this._min; m <= this._max; m += 1) {
-			const y = this._valueToPos(m) + verticalMargin;
+			const y = this._valueToPos(m) + this._margin;
 			if (m % interval === 0) {
 				c.beginPath();
 				if (isv) {
@@ -253,7 +250,7 @@ class SliderBase extends Widget {
 	}
 
 	/**~ja
-	 * 最大範囲を計算する
+	 * 最大範囲を計算する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {number} min 最小値
 	 * @param {number} max 最大値
@@ -261,7 +258,7 @@ class SliderBase extends Widget {
 	 * @return {number} 最大範囲
 	 */
 	/**~en
-	 * Calculate the maximum range
+	 * Calculate the maximum range (used only in the library)
 	 * @private
 	 * @param {number} min Minimum value
 	 * @param {number} max Maximum value
@@ -269,13 +266,13 @@ class SliderBase extends Widget {
 	 * @return {number} Maximum range
 	 */
 	_calcMaxRange(min, max, minInt) {
-		const is = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000];
+		const is = [5000, 2500, 2000, 1000, 500, 250, 200, 100, 50, 25, 20, 10, 5, 2, 1];
 		const len = Math.max(Math.abs(min), Math.abs(max));
 		let minM = len, ret = 0;
-		for (let i = is.length - 1; 0 <= i; i -= 1) {
-			const m = len % is[i];
-			if (m < minM && minInt < this._calcOneInt(is[i])) {
-				ret = is[i];
+		for (const i of is) {
+			const m = len % i;
+			if (m < minM && minInt < this._calcOneInt(i)) {
+				ret = i;
 				minM = m;
 			}
 		}
@@ -283,34 +280,32 @@ class SliderBase extends Widget {
 	}
 
 	/**~ja
-	 * 間隔を計算する
+	 * 間隔を計算する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {number} baseInt 基準の間隔
 	 * @param {number} minInt 最小の間隔
 	 * @return {number} 間隔
 	 */
 	/**~en
-	 * Calculate intervals
+	 * Calculate intervals (used only in the library)
 	 * @private
 	 * @param {number} baseInt Base interval
 	 * @param {number} minInt Minimum interval
 	 * @return {number} Interval
 	 */
 	_calcInterval(baseInt, minInt) {
-		const is = [1, 2, 5, 10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000];
+		const is = [5000, 2500, 2000, 1000, 500, 250, 200, 100, 50, 25, 20, 10, 5, 2, 1];
 		let ret = baseInt;
-		for (let i = is.length - 1; 0 <= i; i -= 1) {
-			if (baseInt % is[i] !== 0) continue;
-			if (minInt < this._calcOneInt(is[i])) {
-				ret = is[i];
-			}
+		for (const i of is) {
+			if (baseInt % i !== 0) continue;
+			if (minInt < this._calcOneInt(i)) ret = i;
 		}
 		if (ret !== baseInt) return ret;
 		let minM = baseInt;
-		for (let i = is.length - 1; 0 <= i; i -= 1) {
-			const m = baseInt % is[i];
-			if (m < minM && minInt < this._calcOneInt(is[i])) {
-				ret = is[i];
+		for (const i of is) {
+			const m = baseInt % i;
+			if (m < minM && minInt < this._calcOneInt(i)) {
+				ret = i;
 				minM = m;
 			}
 		}
@@ -318,19 +313,19 @@ class SliderBase extends Widget {
 	}
 
 	/**~ja
-	 * 間隔を一つ計算する
+	 * 間隔を一つ計算する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {number} val 値
 	 * @return {number} 間隔
 	 */
 	/**~en
-	 * Calculate one interval
+	 * Calculate one interval (used only in the library)
 	 * @private
 	 * @param {number} val Value
 	 * @return {number} Interval
 	 */
 	_calcOneInt(val) {
-		const y1 = this._valueToPos(val, false), y2 = this._valueToPos(val * 2, false);
+		const y1 = this._valueToPos(val), y2 = this._valueToPos(val * 2);
 		return Math.abs(y2 - y1);
 	}
 

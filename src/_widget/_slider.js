@@ -1,12 +1,12 @@
 /**~ja
  * スライダー
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-02-03
  */
 /**~en
  * Slider
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-02-03
  */
 class Slider extends SliderBase {
 
@@ -15,29 +15,22 @@ class Slider extends SliderBase {
 	 * @param {number} [min=0] 最小値
 	 * @param {number} [max=10] 最大値
 	 * @param {number} [value=0] 現在の値
-	 * @param {*} [{ int = false, reverse = false, horizontal = false, width = 72, height = 400 }={}] オプション（整数にする？、向きを逆にする？、横向きにする？）
+	 * @param {*} [{ int=false, reverse=false, vertical=true, width=72, height=400 }={}] オプション（整数にする？、向きを逆にする？、たて向きにする？）
 	 */
 	/**~en
 	 * Make a slider
 	 * @param {number} [min=0] Minimum value
 	 * @param {number} [max=10] Maximum value
 	 * @param {number} [value=0] Current value
-	 * @param {*} [{ int = false, reverse = false, horizontal = false, width = 72, height = 400 }={}] Options (Whether to integer, whether to reverse, whether to be horizontal)
+	 * @param {*} [{ int=false, reverse=false, vertical=true, width=72, height=400 }={}] Options (Whether to integer, whether to reverse, whether to be vertical)
 	 */
-	constructor(min = 0, max = 10, value = 0, { int = false, reverse = false, horizontal = false, width = false, height = false } = {}) {
-		if (horizontal) {
-			if (width === false) width = 400;
-			if (height === false) height = 72;
-		} else {
-			if (width === false) width = 72;
-			if (height === false) height = 400;
-		}
-		super(width, height, !horizontal);
+	constructor(min = 0, max = 10, value = 0, { int = false, reverse = false, vertical = true, width = false, height = false } = {}) {
+		if (width  === false) width  = vertical ? 72 : 400;
+		if (height === false) height = vertical ? 400 : 72;
+		super(width, height, { int, reverse, vertical });
 
 		this._min = min;
 		this._max = max;
-		this._int = int;
-		this._reverse = reverse;
 
 		const inner = document.createElement('div');
 		inner.className = '__widget-full';
@@ -54,16 +47,16 @@ class Slider extends SliderBase {
 		this._knob = document.createElement('div');
 		this._knob.className = '__widget __widget-slider-knob';
 
-		if (this._isVertical) {
-			this._knob.style.left = (inner.offsetWidth * this.SCALE_POS_RATE) + 'px';
-			this._knob.style.top = this.VMARGIN + 'px';
+		if (this._vertical) {
+			this._knob.style.left = (inner.offsetWidth * this._railPosRate) + 'px';
+			this._knob.style.top = this._margin + 'px';
 		} else {
-			this._knob.style.top = (inner.offsetHeight * this.SCALE_POS_RATE) + 'px';
-			this._knob.style.left = this.VMARGIN + 'px';
+			this._knob.style.top = (inner.offsetHeight * this._railPosRate) + 'px';
+			this._knob.style.left = this._margin + 'px';
 		}
 		inner.appendChild(this._knob);
 
-		this._railHeight = (this._isVertical ? this._scale.height : this._scale.width) - this.VMARGIN * 2;
+		this._railSize = (this._vertical ? this._scale.height : this._scale.width) - this._margin * 2;
 		this._dragging = false;
 
 		inner.addEventListener('mousedown', this._mouseDown.bind(this));
@@ -71,34 +64,34 @@ class Slider extends SliderBase {
 		document.addEventListener('mousemove', this._mouseMove.bind(this));
 		document.addEventListener('mouseup', this._mouseUp.bind(this));
 
-		this._draw(this._scale, this.VMARGIN);
+		this._draw();
 		this.value(value);
 	}
 
 	/**~ja
-	 * 値が変更されたときに呼び出される
+	 * 値が変更されたときに呼び出される（ライブラリ内だけで使用）
 	 * @private
 	 */
 	/**~en
-	 * Called when the value has changed
+	 * Called when the value has changed (used only in the library)
 	 * @private
 	 */
 	_valueChanged() {
-		if (this._isVertical) {
-			this._knob.style.top = this.VMARGIN + this._valueToPos(this._value) + 'px';
+		if (this._vertical) {
+			this._knob.style.top = this._margin + this._valueToPos(this._value) + 'px';
 		} else {
-			this._knob.style.left = this.VMARGIN + this._valueToPos(this._value) + 'px';
+			this._knob.style.left = this._margin + this._valueToPos(this._value) + 'px';
 		}
 	}
 
 	/**~ja
-	 * つまみの場所を求める
+	 * つまみの場所を求める（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 * @return {number} 場所
 	 */
 	/**~en
-	 * Get the position of the knob
+	 * Get the position of the knob (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 * @return {number} Position
@@ -108,21 +101,21 @@ class Slider extends SliderBase {
 		//~ja クライアント座標系から計算する必要あり！
 		//~en Need to calculate from client coordinate system!
 		let p;
-		if (this._isVertical) {
-			p = e.clientY - this.VMARGIN - r.top;
+		if (this._vertical) {
+			p = e.clientY - this._margin - r.top;
 		} else {
-			p = e.clientX - this.VMARGIN - r.left;
+			p = e.clientX - this._margin - r.left;
 		}
-		return Math.min(Math.max(0, p), this._railHeight);
+		return Math.min(Math.max(0, p), this._railSize);
 	}
 
 	/**~ja
-	 * マウスのボタンが押されたときに呼び出される
+	 * マウスのボタンが押されたときに呼び出される（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 */
 	/**~en
-	 * Called when the mouse button is pressed
+	 * Called when the mouse button is pressed (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 */
@@ -135,12 +128,12 @@ class Slider extends SliderBase {
 	}
 
 	/**~ja
-	 * マウスが移動したときに呼び出される
+	 * マウスが移動したときに呼び出される（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 */
 	/**~en
-	 * Called when the mouse moves
+	 * Called when the mouse moves (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 */
@@ -151,12 +144,12 @@ class Slider extends SliderBase {
 	}
 
 	/**~ja
-	 * マウスのボタンが離されたときに呼び出される
+	 * マウスのボタンが離されたときに呼び出される（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 */
 	/**~en
-	 * Called when the mouse button is released
+	 * Called when the mouse button is released (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 */
@@ -167,20 +160,16 @@ class Slider extends SliderBase {
 	}
 
 	/**~ja
-	 * 絵をかく
+	 * 絵をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {Canvas} canvas キャンバス
-	 * @param {number} verticalMargin たてのすき間
 	 */
 	/**~en
-	 * Draw a picture
+	 * Draw a picture (used only in the library)
 	 * @private
-	 * @param {Canvas} canvas Canvas
-	 * @param {number} verticalMargin Vertical margin
 	 */
-	_draw(canvas, verticalMargin) {
-		this._drawScale(canvas, verticalMargin);
-		this._drawRail(canvas, 6, verticalMargin);
+	_draw() {
+		this._drawScale(this._scale, 12);
+		this._drawRail(this._scale, 6);
 	}
 
 }

@@ -1,12 +1,12 @@
 /**~ja
  * 温度計
  * @author Takuto Yanagida
- * @version 2019-09-06
+ * @version 2021-02-02
  */
 /**~en
  * Thermometer
  * @author Takuto Yanagida
- * @version 2019-09-06
+ * @version 2021-02-02
  */
 class Thermometer extends SliderBase {
 
@@ -25,12 +25,10 @@ class Thermometer extends SliderBase {
 	 * @param {dict} [{ width = 72, height = 400 }={}] Options
 	 */
 	constructor(min = -10, max = 50, value = 25, { width = 72, height = 400 } = {}) {
-		super(width, height);
+		super(width, height, { int: true, reverse: true });
 
 		this._min = 0 | min;
 		this._max = 0 | max;
-		this._int = true;  // for SliderBase
-		this._reverse = true;  // for SliderBase
 
 		this._base.style.flexDirection = 'column';
 
@@ -52,7 +50,7 @@ class Thermometer extends SliderBase {
 		this._scale.setAttribute('width', this._scale.offsetWidth);
 		this._scale.setAttribute('height', this._scale.offsetHeight);
 
-		this._railHeight = this._scale.height - this.VMARGIN * 2;
+		this._railSize = this._scale.height - this._margin * 2;
 		this._dragging = false;
 
 		inner.addEventListener('mousedown', this._mouseDown.bind(this));
@@ -60,31 +58,31 @@ class Thermometer extends SliderBase {
 		document.addEventListener('mousemove', this._mouseMove.bind(this));
 		document.addEventListener('mouseup', this._mouseUp.bind(this));
 
-		this._draw(this._scale, this.VMARGIN);
+		this._draw();
 		this.value(value);
 	}
 
 	/**~ja
-	 * 値が変更されたときに呼び出される
+	 * 値が変更されたときに呼び出される（ライブラリ内だけで使用）
 	 * @private
 	 */
 	/**~en
-	 * Called when the value has changed
+	 * Called when the value has changed (used only in the library)
 	 * @private
 	 */
 	_valueChanged() {
 		this._output.value = this._value + '℃';
-		this._draw(this._scale, this.VMARGIN);
+		this._draw();
 	}
 
 	/**~ja
-	 * つまみの場所を求める
+	 * つまみの場所を求める（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 * @return {number} 場所
 	 */
 	/**~en
-	 * Get the position of the knob
+	 * Get the position of the knob (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 * @return {number} Position
@@ -93,17 +91,17 @@ class Thermometer extends SliderBase {
 		const r = this._scale.getBoundingClientRect();
 		//~ja クライアント座標系から計算する必要あり！
 		//~en Need to calculate from client coordinate system!
-		const p = e.clientY - this.VMARGIN - r.top;
-		return Math.min(Math.max(0, p), this._railHeight);
+		const p = e.clientY - this._margin - r.top;
+		return Math.min(Math.max(0, p), this._railSize);
 	}
 
 	/**~ja
-	 * マウスのボタンが押されたときに呼び出される
+	 * マウスのボタンが押されたときに呼び出される（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 */
 	/**~en
-	 * Called when the mouse button is pressed
+	 * Called when the mouse button is pressed (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 */
@@ -115,12 +113,12 @@ class Thermometer extends SliderBase {
 	}
 
 	/**~ja
-	 * マウスが移動したときに呼び出される
+	 * マウスが移動したときに呼び出される（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 */
 	/**~en
-	 * Called when the mouse moves
+	 * Called when the mouse moves (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 */
@@ -131,12 +129,12 @@ class Thermometer extends SliderBase {
 	}
 
 	/**~ja
-	 * マウスのボタンが離されたときに呼び出される
+	 * マウスのボタンが離されたときに呼び出される（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 */
 	/**~en
-	 * Called when the mouse button is released
+	 * Called when the mouse button is released (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 */
@@ -146,38 +144,32 @@ class Thermometer extends SliderBase {
 	}
 
 	/**~ja
-	 * 絵をかく
+	 * 絵をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {Canvas} canvas キャンバス
-	 * @param {number} verticalMargin たてのすき間
 	 */
 	/**~en
-	 * Draw a picture
+	 * Draw a picture (used only in the library)
 	 * @private
-	 * @param {Canvas} canvas Canvas
-	 * @param {number} verticalMargin Vertical margin
 	 */
-	_draw(canvas, verticalMargin) {
-		this._drawScale(canvas, verticalMargin, 16);
-		this._drawRail(canvas, 10, verticalMargin);
-		this._drawFiller(canvas, 10, verticalMargin);
+	_draw() {
+		this._drawScale(this._scale, 16);
+		this._drawRail(this._scale, 10);
+		this._drawFiller(this._scale, 10);
 	}
 
 	/**~ja
-	 * 中身をかく
+	 * 中身をかく（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Canvas} canvas キャンバス
 	 * @param {number} width 幅
-	 * @param {number} verticalMargin たてのすき間
 	 */
 	/**~en
-	 * Draw a filler
+	 * Draw a filler (used only in the library)
 	 * @private
 	 * @param {Canvas} canvas Canvas
 	 * @param {number} width Width
-	 * @param {number} verticalMargin Vertical margin
 	 */
-	_drawFiller(canvas, width, verticalMargin) {
+	_drawFiller(canvas, width) {
 		const c = canvas.getContext('2d');
 		const x = (canvas.width - width) / 2;
 		const grad = c.createLinearGradient(x, 0, x + width, 0);
@@ -188,7 +180,7 @@ class Thermometer extends SliderBase {
 		const st = Math.max(1, this._valueToPos(this._value));
 		c.save();
 		c.fillStyle = grad;
-		c.fillRect(x, verticalMargin + st, width, canvas.height - verticalMargin * 2 - 1 - st);
+		c.fillRect(x, this._margin + st, width, canvas.height - this._margin * 2 - 1 - st);
 		c.restore();
 	}
 
