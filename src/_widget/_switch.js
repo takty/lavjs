@@ -14,18 +14,18 @@ class Switch extends Widget {
 	 * スイッチを作る
 	 * @param {string=|Array<string>|number} [label_s_num=''] ボタンの名前／ボタンの数
 	 * @param {number} [value=0] 今押されているボタンの番号
-	 * @param {*=} [{ horizontal=false, sameWidth=false }={}] オプション（横向きにする？、同じ幅にする？）
+	 * @param {*=} [{ vertical=false, sameWidth=false }={}] オプション（たて向きにする？、同じ幅にする？）
 	 */
 	/**~en
 	 * Make a switch
 	 * @param {string=|Array<string>|number} [label_s_num=''] Name(s) of button(s), or number of buttons
 	 * @param {number} [value=0] Index of currently selected button
-	 * @param {*=} [{ horizontal=false, sameWidth=false }={}] Options (Whether to be horizontal, Whether to be the same width)
+	 * @param {*=} [{ vertical=false, sameWidth=false }={}] Options (Whether to be vertical, Whether to be the same width)
 	 */
-	constructor(label_s_num = 2, value = 0, { horizontal = true, sameWidth = false } = {}) {
+	constructor(label_s_num = 2, value = 0, { vertical = false, sameWidth = false } = {}) {
 		super();
 		this._base.classList.add('__widget-button-row');
-		this._base.style.flexDirection = horizontal ? 'row' : 'column';
+		this._base.style.flexDirection = vertical ? 'column' : 'row';
 
 		let labs = null;
 		if (Number.isInteger(label_s_num)) {

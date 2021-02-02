@@ -14,18 +14,18 @@ class Toggle extends Widget {
 	 * トグル・ボタンを作る
 	 * @param {string=|Array<string>|number} [label_s_num=''] ボタンの名前／ボタンの数
 	 * @param {boolean=|Array<boolean>} [value_s=false] 現在の状態
-	 * @param {*=} [{ horizontal=false, sameWidth=false }={}] オプション（横向きにする？、同じ幅にする？）
+	 * @param {*=} [{ vertical=false, sameWidth=false }={}] オプション（たて向きにする？、同じ幅にする？）
 	 */
 	/**~en
 	 * Make a toggle button
 	 * @param {string=|Array<string>|number} [label_s_num=''] Name(s) of button(s), or number of buttons
 	 * @param {boolean=|Array<boolean>} [value_s=false] Current state(s)
-	 * @param {*=} [{ horizontal=false, sameWidth=false }={}] Options (Whether to be horizontal, Whether to be the same width)
+	 * @param {*=} [{ vertical=false, sameWidth=false }={}] Options (Whether to be vertical, Whether to be the same width)
 	 */
-	constructor(label_s_num = 1, value_s = false, { horizontal = true, sameWidth = false } = {}) {
+	constructor(label_s_num = 1, value_s = false, { vertical = false, sameWidth = false } = {}) {
 		super();
 		this._base.classList.add('__widget-button-row');
-		this._base.style.flexDirection = horizontal ? 'row' : 'column';
+		this._base.style.flexDirection = vertical ? 'column' : 'row';
 
 		let labs = null;
 		if (Number.isInteger(label_s_num)) {
