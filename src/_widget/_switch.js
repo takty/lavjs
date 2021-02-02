@@ -1,62 +1,81 @@
 /**~ja
- * スイッチ
+ * スイッチ（ラジオ・ボタン）
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-02-02
  */
 /**~en
- * Switch
+ * Switches (Radio buttons)
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-02-02
  */
 class Switch extends Widget {
 
 	/**~ja
 	 * スイッチを作る
-	 * @param {number} [num_or_names=3] ボタン数／ボタンの名前配列
-	 * @param {number} [cur=0] 現在のボタン
-	 * @param {*} [{ horizontal = false }={}] オプション（横向きにする？）
+	 * @param {string=|Array<string>|number} [label_s_num=''] ボタンの名前／ボタンの数
+	 * @param {number} [value=0] 今押されているボタンの番号
+	 * @param {*=} [{ horizontal=false, sameWidth=false }={}] オプション（横向きにする？、同じ幅にする？）
 	 */
 	/**~en
 	 * Make a switch
-	 * @param {number} [num_or_names=3] Number of buttons, or an array of button names
-	 * @param {number} [cur=0] Index of currently selected button
-	 * @param {*} [{ horizontal = false }={}] Options (Whether to be horizontal)
+	 * @param {string=|Array<string>|number} [label_s_num=''] Name(s) of button(s), or number of buttons
+	 * @param {number} [value=0] Index of currently selected button
+	 * @param {*=} [{ horizontal=false, sameWidth=false }={}] Options (Whether to be horizontal, Whether to be the same width)
 	 */
-	constructor(num_or_names = 3, cur = 0, { horizontal = true }) {
+	constructor(label_s_num = 2, value = 0, { horizontal = true, sameWidth = false } = {}) {
 		super();
-		this._base.classList.add('__widget-button-array');
+		this._base.classList.add('__widget-button-row');
 		this._base.style.flexDirection = horizontal ? 'row' : 'column';
 
-		if (Array.isArray(num_or_names) && num_or_names.length === 0) num_or_names = ['?'];
+		let labs = null;
+		if (Number.isInteger(label_s_num)) {
+			labs = [...Array(label_s_num).keys()];
+		} else {
+			labs = Array.isArray(label_s_num) ? label_s_num : [label_s_num];
+		}
+		this._value   = (0 <= value && value < labs.length) ? value : (labs.length - 1);
+		this._buttons = [];
 
-		const num = Array.isArray(num_or_names) ? num_or_names.length : num_or_names;
-		const names = Array.isArray(num_or_names) ? num_or_names : null;
+		const maxLabLen = Math.max(...labs.map(s => s.length));
 
-		this._value = (0 <= cur && cur < num) ? cur : (num - 1);
-
-		let maxCharNum = 0;
-		if (names) names.forEach(e => maxCharNum = Math.max(maxCharNum, e.length));
-
-		const buttons = [];
-
-		for (let i = 0; i < num; i += 1) {
+		for (const lab of labs) {
 			const b = document.createElement('a');
 			b.className = '__widget __widget-button';
-			b.innerText = (names) ? names[i] : i;
-			b.style.width = `calc(${maxCharNum}rem + 16px)`;
-			b.onmousedown = (ev) => {
-				buttons.forEach(e => e.classList.remove('__widget-button-pushed'));
-				this._value = buttons.indexOf(ev.target);
-				ev.target.classList.add('__widget-button-pushed');
-				if (this._onPushed) this._onPushed(this._value);
-			};
-			buttons.push(b);
+			b.innerText = lab;
+			if (sameWidth) b.style.width = `${maxLabLen}em`;
+			b.addEventListener('click', this._handleClickEvent.bind(this));
+			this._buttons.push(b);
 			this._base.appendChild(b);
 		}
-		setTimeout(() => {
-			buttons[this._value].classList.add('__widget-button-pushed');
-			if (this._onPushed) this._onPushed(this._value);
-		}, 100);
+	}
+
+	/**~ja
+	 * クリック・イベントに対応する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {MouseEvent} e マウス・イベント
+	 */
+	/**~en
+	 * Handle mouse events (used only in the library)
+	 * @private
+	 * @param {MouseEvent} e Mouse event
+	 */
+	_handleClickEvent(e) {
+		this._value = this._buttons.indexOf(e.target);
+		if (this._onClick) this._onClick(this._value);
+		this._updateState();
+	}
+
+	/**~ja
+	 * ボタンの状態を更新する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Update button states (used only in the library)
+	 * @private
+	 */
+	_updateState() {
+		for (const b of this._buttons) b.classList.remove('active');
+		this._buttons[this._value].classList.add('active');
 	}
 
 	/**~ja
@@ -71,23 +90,34 @@ class Switch extends Widget {
 	 */
 	value(val) {
 		if (val === undefined) return this._value;
+		const changing = this._value !== val;
 		this._value = val;
+		if (changing && this._onClick) this._onClick(this._value);
+		this._updateState();
 		return this;
 	}
 
 	/**~ja
-	 * プッシュ・イベントに対応する関数
+	 * クリック・イベントに対応する関数
 	 * @param {function(boolean, number)} handler 関数
+	 * @param {boolean=} doFirst 最初に一度実行するか
 	 * @return {function(boolean, number)|Toggle} 関数／このスイッチ
 	 */
 	/**~en
-	 * Function handling to push events
+	 * Function handling to click events
 	 * @param {function(boolean, number)} handler Function
+	 * @param {boolean=} doFirst Whether to do it once the first time
 	 * @return {function(boolean, number)|Toggle} Function, or this switch
 	 */
-	onPushed(handler) {
-		if (handler === undefined) return this._onPushed;
-		this._onPushed = handler;
+	onClick(handler, doFirst = false) {
+		if (handler === undefined) return this._onClick;
+		this._onClick = handler;
+		if (doFirst) {
+			setTimeout(() => {
+				this._onClick(this._value);
+				this._updateState();
+			}, 0);
+		}
 		return this;
 	}
 

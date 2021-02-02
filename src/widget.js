@@ -4,7 +4,7 @@
  * 様々なウィジェット（コントロール）を使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-01
+ * @version 2021-02-02
  */
 /**~en
  * Widget library (WIDGET)
@@ -12,7 +12,7 @@
  * A library that allows you to use various widgets (controls).
  *
  * @author Takuto Yanagida
- * @version 2021-02-01
+ * @version 2021-02-02
  */
 
 
@@ -45,9 +45,11 @@ const WIDGET = (function () {
 	 */
 	const ensureBaseStyle = function () {
 		if (isBaseStyleAssigned) return;
+		isBaseStyleAssigned = true;
 		addStyle('.__widget', {
 			margin    : '0',
 			padding   : '0',
+			fontSize  : '14px',
 			fontFamily: 'Consolas, Menlo, "Courier New", Meiryo, Osaka-Mono, monospace',
 		});
 		addStyle('.__widget-base', {
@@ -64,34 +66,36 @@ const WIDGET = (function () {
 			height  : '100%',
 			position: 'relative',
 		});
-		addStyle('.__widget-button-array', {
-			gap: '12px',
+		addStyle('.__widget-button-row', {
+			gap: '8px',
 		});
 		addStyle('.__widget-button', {
 			flex          : '1 1 1',
-			minWidth      : '32px',
-			minHeight     : '32px',
-			display       : 'flex',
-			justifyContent: 'center',
-			alignItems    : 'center',
+			minWidth      : '28px',
+			minHeight     : '28px',
+			display       : 'grid',
+			placeItems    : 'center',
 			padding       : '4px 8px',
 			overflow      : 'hidden',
-			borderRadius  : '8px',
-			boxShadow     : '0px 0px 4px rgba(0, 0, 0, 0.25)',
+			borderRadius  : '3px',
+			boxShadow     : '0 1px 6px 1px rgba(0, 0, 0, 0.35)',
 			cursor        : 'pointer',
 			userSelect    : 'none',
 		});
-		addStyle('.__widget-button:last-child', {
-			marginRight: '0px',
+		addStyle('.__widget-button:hover:not(.active)', {
+			boxShadow: '0 0 2px 1px rgba(0, 0, 0, 0.25)',
 		});
-		addStyle('.__widget-button:hover', {
-			boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.4)',
-		});
-		addStyle('.__widget-button:active', {
+		addStyle('.__widget-button.active', {
 			boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.4) inset',
 		});
-		addStyle('.__widget-button-pushed', {
-			boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.4) inset !important',
+		addStyle('.__widget-chat-message', {
+			width    : '100%',
+			overflowY: 'scroll',
+			flexGrow : '1',
+		});
+		addStyle('.__widget-chat-input', {
+			width    : '100%',
+			overflowY: 'scroll',
 		});
 		addStyle('.__widget-slider-knob', {
 			position       : 'absolute',
@@ -111,7 +115,6 @@ const WIDGET = (function () {
 			textAlign   : 'right',
 			border      : 'none',
 		});
-		isBaseStyleAssigned = true;
 	};
 
 

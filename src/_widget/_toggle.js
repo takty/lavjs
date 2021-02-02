@@ -1,93 +1,132 @@
 /**~ja
- * トグル
+ * トグル（チェックボックス）
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-02-02
  */
 /**~en
- * Toggle
+ * Toggles (Check boxes)
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-02-02
  */
 class Toggle extends Widget {
 
 	/**~ja
 	 * トグル・ボタンを作る
-	 * @param {string=|Array<string>} [caption_s=''] ボタンの名前
-	 * @param {boolean=|Array<boolean>} [state_s=false] 現在の状態
-	 * @param {*} [{ horizontal = false }={}] オプション（横向きにする？）
+	 * @param {string=|Array<string>|number} [label_s_num=''] ボタンの名前／ボタンの数
+	 * @param {boolean=|Array<boolean>} [value_s=false] 現在の状態
+	 * @param {*=} [{ horizontal=false, sameWidth=false }={}] オプション（横向きにする？、同じ幅にする？）
 	 */
 	/**~en
 	 * Make a toggle button
-	 * @param {string=|Array<string>} [caption_s=''] Name(s) of button(s)
-	 * @param {boolean=|Array<boolean>} [state_s=false] Current state(s)
-	 * @param {*} [{ horizontal = false }={}] Options (Whether to be horizontal)
+	 * @param {string=|Array<string>|number} [label_s_num=''] Name(s) of button(s), or number of buttons
+	 * @param {boolean=|Array<boolean>} [value_s=false] Current state(s)
+	 * @param {*=} [{ horizontal=false, sameWidth=false }={}] Options (Whether to be horizontal, Whether to be the same width)
 	 */
-	constructor(caption_s = '', state_s = false, { horizontal = true } = {}) {
+	constructor(label_s_num = 1, value_s = false, { horizontal = true, sameWidth = false } = {}) {
 		super();
-		this._base.classList.add('__widget-button-array');
+		this._base.classList.add('__widget-button-row');
 		this._base.style.flexDirection = horizontal ? 'row' : 'column';
 
-		const cs = Array.isArray(caption_s) ? caption_s : [caption_s];
-		const ss = Array.isArray(state_s)   ? state_s   : [state_s];
+		let labs = null;
+		if (Number.isInteger(label_s_num)) {
+			labs = [...Array(label_s_num).keys()];
+		} else {
+			labs = Array.isArray(label_s_num) ? label_s_num : [label_s_num];
+		}
+		this._values  = Array.isArray(value_s) ? value_s : [value_s];
+		this._buttons = [];
 
-		this._value = ss.length === 1 ? ss[0] : ss;
+		const num = (value_s ? Math.max(this._values.length, labs.length) : labs.length);
+		this._values.length = labs.length = num;
+		const maxLabLen = Math.max(...labs.map(s => s.length));
 
-		const buttons = [];
-
-		const listener = (ev) => {
-			const idx = buttons.indexOf(ev.target);
-			ss[idx] = !ss[idx]
-			this._value = ss.length === 1 ? ss[0] : ss;
-			ev.target.classList.toggle('__widget-button-pushed');
-			if (this._onClick) this._onClick(ss[idx], idx);
-		};
-
-		for (let c of cs) {
+		for (const lab of labs) {
 			const b = document.createElement('a');
 			b.className = '__widget __widget-button';
-			b.innerText = c;
-			b.addEventListener('click', listener);
-			buttons.push(b);
+			b.innerText = lab;
+			if (sameWidth) b.style.width = `${maxLabLen}em`;
+			b.addEventListener('click', this._handleClickEvent.bind(this));
+			this._buttons.push(b);
 			this._base.appendChild(b);
 		}
-		setTimeout(() => {
-			for (let i = 0; i < cs.length; i += 1) {
-				if (!ss[i]) continue;
-				buttons[i].classList.add('__widget-button-pushed');
-				if (this._onClick) this._onClick(ss[i], i);
-			}
-		}, 100);
+	}
+
+	/**~ja
+	 * クリック・イベントに対応する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {MouseEvent} e マウス・イベント
+	 */
+	/**~en
+	 * Handle mouse events (used only in the library)
+	 * @private
+	 * @param {MouseEvent} e Mouse event
+	 */
+	_handleClickEvent(e) {
+		const i = this._buttons.indexOf(e.target);
+		this._values[i] = !this._values[i]
+		if (this._onClick) this._onClick(this._values[i], i);
+		this._updateState();
+	}
+
+	/**~ja
+	 * ボタンの状態を更新する（ライブラリ内だけで使用）
+	 * @private
+	 */
+	/**~en
+	 * Update button states (used only in the library)
+	 * @private
+	 */
+	_updateState() {
+		this._values.forEach((s, i) => {
+			this._buttons[i].classList[s ? 'add' : 'remove']('active');
+		});
 	}
 
 	/**~ja
 	 * 現在の値
-	 * @param {boolean} val 現在の値
-	 * @return {boolean|Toggle} 現在の値／このトグル
+	 * @param {boolean[]} vals 現在の値
+	 * @return {boolean|boolean[]|Toggle} 現在の値／このトグル
 	 */
 	/**~en
 	 * Current value
-	 * @param {boolean} val Current value
-	 * @return {boolean|Toggle} Current value, or this toggle
+	 * @param {boolean[]} vals Current value
+	 * @return {boolean|boolean[]|Toggle} Current value, or this toggle
 	 */
-	value(val) {
-		if (val === undefined) return this._value;
-		this._value = val;
+	value(...vals) {
+		if (vals === undefined) {
+			return this._values.length === 1 ? this._values[0] : this._values.concat();
+		}
+		if (vals.length === 1 && Array.isArray(vals[0])) vals = vals[0];
+		for (let i = 0, I = Math.min(vals.length, this._state.length); i < I; i += 1) {
+			const changing = this._values[i] !== vals[i];
+			this._values[i] = vals[i];
+			if (changing && this._onClick) this._onClick(this._values[i], i);
+		}
+		this._updateState();
 		return this;
 	}
 
 	/**~ja
 	 * クリック・イベントに対応する関数
 	 * @param {function(boolean, number)} handler 関数
+	 * @param {boolean=} doFirst 最初に一度実行するか
 	 * @return {function(boolean, number)|Toggle} 関数／このトグル
 	 */
 	/**~en
 	 * Function handling to click events
 	 * @param {function(boolean, number)} handler Function
+	 * @param {boolean=} doFirst Whether to do it once the first time
 	 * @return {function(boolean, number)|Toggle} Function, or this toggle
 	 */
-	onClick(handler) {
+	onClick(handler, doFirst = false) {
 		if (handler === undefined) return this._onClick;
 		this._onClick = handler;
+		if (doFirst) {
+			setTimeout(() => {
+				this._values.forEach((s, i) => this._onClick(s, i));
+				this._updateState();
+			}, 0);
+		}
 		return this;
 	}
 

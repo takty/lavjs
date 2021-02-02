@@ -15,69 +15,36 @@
 				}
 			}
 		},
-		"Chat": {
-			"!type": "fn(width: number, height?: number)",
-			"prototype": {
-				"!proto": "WIDGET.Widget.prototype",
-				"print": {
-					"!type": "fn(args?: [?]) -> !this"
-				},
-				"input": {
-					"!type": "fn() -> string"
-				},
-				"sleep": {
-					"!type": "fn(seconds: number) -> !Promise"
-				}
-			}
-		},
 		"Switch": {
-			"!type": "fn(num_or_names?: number|[string], cur?: number, opt?: obj)",
+			"!type": "fn(label_s_num?: string|[string]|number, value?: number, opt?: obj)",
 			"prototype": {
 				"!proto": "WIDGET.Widget.prototype",
 				"value": {
 					"!type": "fn(val?: number) -> !this|number"
 				},
-				"onPushed": {
-					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+				"onClick": {
+					"!type": "fn(handler?: fn(?), doFirst?: boolean) -> !this|fn(?)"
 				}
 			}
 		},
 		"Toggle": {
-			"!type": "fn(caption_s?: string|[string], state_s?: bool|[bool], opt?: obj)",
+			"!type": "fn(label_s_num?: string|[string]|number, state_s?: bool|[bool], opt?: obj)",
 			"prototype": {
 				"!proto": "WIDGET.Widget.prototype",
 				"value": {
-					"!type": "fn(val?: number) -> !this|number"
+					"!type": "fn(vals?: ?) -> !this|number"
 				},
-				"onPushed": {
-					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+				"onClick": {
+					"!type": "fn(handler?: fn(?), doFirst?: boolean) -> !this|fn(?)"
 				}
 			}
 		},
 		"Output": {
-			"!type": "fn(width: number, height?: number, nowrap?: bool)",
+			"!type": "fn(width: number, height?: number, opt?: obj)",
 			"prototype": {
 				"!proto": "WIDGET.Widget.prototype",
 				"value": {
-					"!type": "fn(val?: ?) -> !this|string"
-				}
-			}
-		},
-		"Chart": {
-			"!type": "fn(width?: number, height?: number)",
-			"prototype": {
-				"!proto": "WIDGET.Widget.prototype",
-				"setLegendWidth": {
-					"!type": "fn(px: number)"
-				},
-				"setDigits": {
-					"!type": "fn(num: number)"
-				},
-				"setItems": {
-					"!type": "fn(items: obj)"
-				},
-				"addData": {
-					"!type": "fn(data: obj)"
+					"!type": "fn(vals?: ?) -> !this|string"
 				}
 			}
 		},
@@ -109,6 +76,39 @@
 			"!type": "fn(min?: number, max?: number, value?: number, opt?: obj)",
 			"prototype": {
 				"!proto": "WIDGET.SliderBase.prototype"
+			}
+		},
+		"Chat": {
+			"!type": "fn(width: number, height?: number)",
+			"prototype": {
+				"!proto": "WIDGET.Widget.prototype",
+				"print": {
+					"!type": "fn(args?: [?]) -> !this"
+				},
+				"input": {
+					"!type": "fn() -> string"
+				},
+				"sleep": {
+					"!type": "fn(seconds: number) -> !Promise"
+				}
+			}
+		},
+		"Chart": {
+			"!type": "fn(width?: number, height?: number)",
+			"prototype": {
+				"!proto": "WIDGET.Widget.prototype",
+				"setLegendWidth": {
+					"!type": "fn(px: number)"
+				},
+				"setDigits": {
+					"!type": "fn(num: number)"
+				},
+				"setItems": {
+					"!type": "fn(items: obj)"
+				},
+				"addData": {
+					"!type": "fn(data: obj)"
+				}
 			}
 		}
 	}
