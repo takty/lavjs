@@ -4,7 +4,7 @@
  * 様々なウィジェット（コントロール）を使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-02
+ * @version 2021-02-03
  */
 /**~en
  * Widget library (WIDGET)
@@ -12,7 +12,7 @@
  * A library that allows you to use various widgets (controls).
  *
  * @author Takuto Yanagida
- * @version 2021-02-02
+ * @version 2021-02-03
  */
 
 
@@ -103,17 +103,18 @@ const WIDGET = (function () {
 			height         : '16px',
 			margin         : '-8px 0px 0px -8px',
 			backgroundColor: 'White',
-			borderRadius   : '8px',
-			boxShadow      : '1px 1px 8px rgba(0, 0, 0, 0.4)',
+			borderRadius   : '4px',
+			boxShadow      : '0 1px 6px 2px rgba(0, 0, 0, 0.35)',  // There is a slight different from buttons
 			cursor         : '-webkit-grab',
 		});
-		addStyle('.__widget-thermometer-output', {
+		addStyle('.__widget-slider-output', {
 			display     : 'block',
 			marginBottom: '10px',
 			width       : '100%',
 			height      : '20px',
 			textAlign   : 'right',
 			border      : 'none',
+			boxShadow   : '0 0 2px rgba(0, 0, 0, 0.25) inset',
 		});
 	};
 

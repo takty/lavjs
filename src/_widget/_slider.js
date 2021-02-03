@@ -32,37 +32,41 @@ class Slider extends SliderBase {
 		this._min = min;
 		this._max = max;
 
-		const inner = document.createElement('div');
-		inner.className = '__widget-full';
-		this._base.appendChild(inner);
+		if (vertical) {
+			this._base.style.flexDirection = 'column';
+			this._inner.style.height = 'calc(100% - 30px)';
+		} else {
+			this._output.style.width = '56px';
+			this._inner.style.width = 'calc(100% - 56px)';
+		}
 
 		this._scale = document.createElement('canvas');
 		this._scale.className = '__widget __widget-full';
-		inner.appendChild(this._scale);
+		this._inner.appendChild(this._scale);
 		//~ja 以下はbaseに追加した後に行うこと（offsetWidth/Heightは追加後でないと取得できない）
 		//~en Do the following after adding to base (offsetWidth/Height can not be acquired without adding)
 		this._scale.setAttribute('width', this._scale.offsetWidth);
 		this._scale.setAttribute('height', this._scale.offsetHeight);
 
-		this._knob = document.createElement('div');
-		this._knob.className = '__widget __widget-slider-knob';
-
-		if (this._vertical) {
-			this._knob.style.left = (inner.offsetWidth * this._railPosRate) + 'px';
-			this._knob.style.top = this._margin + 'px';
-		} else {
-			this._knob.style.top = (inner.offsetHeight * this._railPosRate) + 'px';
-			this._knob.style.left = this._margin + 'px';
-		}
-		inner.appendChild(this._knob);
-
 		this._railSize = (this._vertical ? this._scale.height : this._scale.width) - this._margin * 2;
 		this._dragging = false;
 
-		inner.addEventListener('mousedown', this._mouseDown.bind(this));
-		inner.addEventListener('mousemove', this._mouseMove.bind(this));
+		this._inner.addEventListener('mousedown', this._mouseDown.bind(this));
+		this._inner.addEventListener('mousemove', this._mouseMove.bind(this));
 		document.addEventListener('mousemove', this._mouseMove.bind(this));
 		document.addEventListener('mouseup', this._mouseUp.bind(this));
+		this._output.addEventListener('keydown', this._keyDown.bind(this));
+
+		this._knob = document.createElement('div');
+		this._knob.className = '__widget __widget-slider-knob';
+		if (this._vertical) {
+			this._knob.style.left = (this._inner.offsetWidth * this._railPosRate) + 'px';
+			this._knob.style.top = this._margin + 'px';
+		} else {
+			this._knob.style.top = (this._inner.offsetHeight * this._railPosRate) + 'px';
+			this._knob.style.left = this._margin + 'px';
+		}
+		this._inner.appendChild(this._knob);
 
 		this._draw();
 		this.value(value);
@@ -77,6 +81,7 @@ class Slider extends SliderBase {
 	 * @private
 	 */
 	_valueChanged() {
+		this._output.value = Math.round(this._value * 100) / 100;
 		if (this._vertical) {
 			this._knob.style.top = this._margin + this._valueToPos(this._value) + 'px';
 		} else {

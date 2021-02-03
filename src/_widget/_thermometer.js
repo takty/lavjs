@@ -1,12 +1,12 @@
 /**~ja
  * 温度計
  * @author Takuto Yanagida
- * @version 2021-02-02
+ * @version 2021-02-03
  */
 /**~en
  * Thermometer
  * @author Takuto Yanagida
- * @version 2021-02-02
+ * @version 2021-02-03
  */
 class Thermometer extends SliderBase {
 
@@ -31,20 +31,11 @@ class Thermometer extends SliderBase {
 		this._max = 0 | max;
 
 		this._base.style.flexDirection = 'column';
-
-		this._output = document.createElement('input');
-		this._output.className = '__widget-thermometer-output';
-		this._output.type = 'text';
-		this._base.appendChild(this._output);
-
-		const inner = document.createElement('div');
-		inner.className = '__widget-full';
-		inner.style.height = 'calc(100% - 30px)';
-		this._base.appendChild(inner);
+		this._inner.style.height = 'calc(100% - 30px)';
 
 		this._scale = document.createElement('canvas');
 		this._scale.className = '__widget __widget-full';
-		inner.appendChild(this._scale);
+		this._inner.appendChild(this._scale);
 		//~ja 以下はbaseに追加した後に行うこと（offsetWidth/Heightは追加後でないと取得できない）
 		//~en Do the following after adding to base (offsetWidth/Height can not be acquired without adding)
 		this._scale.setAttribute('width', this._scale.offsetWidth);
@@ -53,10 +44,11 @@ class Thermometer extends SliderBase {
 		this._railSize = this._scale.height - this._margin * 2;
 		this._dragging = false;
 
-		inner.addEventListener('mousedown', this._mouseDown.bind(this));
-		inner.addEventListener('mousemove', this._mouseMove.bind(this));
+		this._inner.addEventListener('mousedown', this._mouseDown.bind(this));
+		this._inner.addEventListener('mousemove', this._mouseMove.bind(this));
 		document.addEventListener('mousemove', this._mouseMove.bind(this));
 		document.addEventListener('mouseup', this._mouseUp.bind(this));
+		this._output.addEventListener('keydown', this._keyDown.bind(this));
 
 		this._draw();
 		this.value(value);
@@ -142,6 +134,7 @@ class Thermometer extends SliderBase {
 		this._dragging = false;
 		this._scale.style.cursor = 'auto';
 	}
+
 
 	/**~ja
 	 * 絵をかく（ライブラリ内だけで使用）

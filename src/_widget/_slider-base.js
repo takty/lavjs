@@ -1,12 +1,12 @@
 /**~ja
  * スライダー・ベース
  * @author Takuto Yanagida
- * @version 2021-02-02
+ * @version 2021-02-03
  */
 /**~en
  * Slider base
  * @author Takuto Yanagida
- * @version 2021-02-02
+ * @version 2021-02-03
  */
 class SliderBase extends Widget {
 
@@ -14,13 +14,13 @@ class SliderBase extends Widget {
 	 * スライダー・ベースを作る
 	 * @param {number=} [width=null] 横幅
 	 * @param {number=} [height=null] たて幅
-	 * @param {*=} [{ vertical=false }={}] オプション（たて向きにする？）
+	 * @param {*=} [{ int=false, reverse=false, vertical=true }={}] オプション（整数にする？、向きを逆にする？、たて向きにする？）
 	 */
 	/**~en
 	 * Make a slider base
 	 * @param {number=} [width=null] Width
 	 * @param {number=} [height=null] Height
-	 * @param {*=} [{ vertical=true }={}] Options (Whether to be vertical)
+	 * @param {*=} [{ int=false, reverse=false, vertical=true }={}] Options (Whether to integer, whether to reverse, whether to be vertical)
 	 */
 	constructor(width = null, height = null, { int = false, reverse = false, vertical = true } = {}) {
 		super(width, height);
@@ -32,9 +32,19 @@ class SliderBase extends Widget {
 		this._min   = 0;
 		this._max   = 0;
 
-		this._margin      = 12;
+		this._margin      = 14;
 		this._railSize    = 0;
 		this._railPosRate = this._vertical ? 0.5 : 0.45;
+
+		this._output = document.createElement('input');
+		this._output.className = '__widget-slider-output';
+		this._output.type = 'text';
+		this._output.readOnly = true;
+		this._base.appendChild(this._output);
+
+		this._inner = document.createElement('div');
+		this._inner.className = '__widget-full';
+		this._base.appendChild(this._inner);
 	}
 
 	/**~ja
@@ -90,6 +100,30 @@ class SliderBase extends Widget {
 		if (this._onChange) this._onChange(this._value);
 		this._valueChanged();
 		return this;
+	}
+
+	/**~ja
+	 * 現在値欄でキーが押された時の処理（ライブラリ内だけで使用）
+	 * @private
+	 * @param {KeyboardEvent} e キーボード・イベント
+	 */
+	/**~en
+	 * Process of when a key is pressed in the current value field (used only in the library)
+	 * @private
+	 * @param {KeyboardEvent} e Keyboard event
+	 */
+	_keyDown(e) {
+		e.preventDefault();
+		const v = this.value();
+		if (e.code === 'ArrowDown' || e.code === 'ArrowLeft') {
+			const vi = Math.floor(v);
+			if (vi === v) this.value(v - 1);
+			else this.value(vi);
+		} else if (e.code === 'ArrowUp' || e.code === 'ArrowRight') {
+			const vi = Math.ceil(v);
+			if (vi === v) this.value(v + 1);
+			else this.value(vi);
+		}
 	}
 
 	/**~ja
@@ -162,26 +196,21 @@ class SliderBase extends Widget {
 	 * @param {*} width Width
 	 */
 	_drawRail(canvas, width) {
-		const isv = this._vertical;
+		const isv = this._vertical, m = this._margin;
 		const c = canvas.getContext('2d');
 		const x = (isv ? canvas.width : canvas.height) * this._railPosRate - width * 0.5;
-		let grad;
-		if (isv) {
-			grad = c.createLinearGradient(x, 0, x + width, 0);
-		} else {
-			grad = c.createLinearGradient(0, x, 0, x + width);
-		}
+
+		const ga = isv ? [x, 0, x + width, 0] : [0, x, 0, x + width];
+		const grad = c.createLinearGradient(...ga);
+
 		const cs = '#dadada, #eee, #eee, #fff, #fafafa, #e0e0e0'.split(', ');
 		for (let i = 0; i < 6; i += 1) {
 			grad.addColorStop(i / 5, cs[i]);
 		}
 		c.save();
 		c.fillStyle = grad;
-		if (isv) {
-			c.fillRect(x, this._margin + 1, width, canvas.height - this._margin * 2 - 2);
-		} else {
-			c.fillRect(this._margin + 1, x, canvas.width - this._margin * 2 - 2, width);
-		}
+		const fra = isv ? [x, m + 1, width, canvas.height - m * 2 - 2] : [m + 1, x, canvas.width - m * 2 - 2, width];
+		c.fillRect(...fra);
 		c.restore();
 	}
 
@@ -221,19 +250,8 @@ class SliderBase extends Widget {
 				}
 				c.lineWidth = 0.8;
 				c.stroke();
-				if (isv) {
-					c.lineWidth = 3;
-					c.strokeStyle = '#fff';
-					c.strokeText(m - (m % interval) + '', width, y - 3);
-					c.strokeStyle = '#000';
-					c.fillText(m - (m % interval) + '', width, y - 3);
-				} else {
-					c.lineWidth = 3;
-					c.strokeStyle = '#fff';
-					c.strokeText(m - (m % interval) + '', y, width - 1);
-					c.strokeStyle = '#000';
-					c.fillText(m - (m % interval) + '', y, width - 1);
-				}
+				const dta = isv ? [width, y - 3, 3] : [y, width - 1, 5];
+				drawText(c, m - (m % interval) + '', ...dta);
 			} else if (m % minInterval === 0) {
 				c.beginPath();
 				if (isv) {
@@ -246,6 +264,13 @@ class SliderBase extends Widget {
 				c.lineWidth = 0.8;
 				c.stroke();
 			}
+		}
+		function drawText(c, str, x, y, lineWidth) {
+			c.lineWidth = lineWidth;
+			c.strokeStyle = '#fff';
+			c.strokeText(str, x, y);
+			c.strokeStyle = '#000';
+			c.fillText(str, x, y);
 		}
 	}
 

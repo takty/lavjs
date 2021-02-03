@@ -4,10 +4,20 @@
 function setup() {
 // 	const p = new CROQUJS.Paper(600, 600);
 // 	p.clear('white');
+	testSliderWidget();
 	testChatWidget();
 	testSwitchWidget();
 	testToggleWidget();
 	testOutputWidget();
+}
+
+function testSliderWidget() {
+	const w1 = new WIDGET.Slider(-3000, 2000);
+	w1.onChange(v => console.log(v));
+	const w3 = new WIDGET.Slider(0, 1000, 0, { int: true, vertical: false });
+	w1.onChange(v => console.log(v));
+	const w2 = new WIDGET.Thermometer();
+	w2.onChange(v => console.log(v));
 }
 
 function testChatWidget() {

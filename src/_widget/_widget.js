@@ -1,12 +1,12 @@
 /**~ja
  * ウィジェット共通
  * @author Takuto Yanagida
- * @version 2021-02-01
+ * @version 2021-02-03
  */
 /**~en
  * Common widget
  * @author Takuto Yanagida
- * @version 2021-02-01
+ * @version 2021-02-03
  */
 class Widget {
 
@@ -26,6 +26,7 @@ class Widget {
 		this._base.className = '__widget __widget-base';
 		if (width !== null) {
 			this._base.style.width = width + 'px';
+			this._base.style.minWidth = width + 'px';
 		}
 		if (height !== null) {
 			this._base.style.height = height + 'px';
