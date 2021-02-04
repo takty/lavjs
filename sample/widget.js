@@ -1,14 +1,43 @@
 // @need ../dist/croqujs
+// @need ../dist/calc
 // @need ../dist/widget
 
 function setup() {
-// 	const p = new CROQUJS.Paper(600, 600);
-// 	p.clear('white');
+	testChartWidget();
 	testSliderWidget();
 	testChatWidget();
 	testSwitchWidget();
 	testToggleWidget();
 	testOutputWidget();
+}
+
+function testChartWidget() {
+	const chart = new WIDGET.Chart(600);  // 文字を表示する部分を作る
+	chart.setDigits(1);
+	chart.setItems({
+		key1: { name: 'name1' },
+		key2: { name: 'name2' },
+		key3: { name: 'name3' },
+		key4: { name: 'name4' },
+		key5: { name: 'name5' },
+		key6: { name: 'name6' },
+		key7: { name: 'name7' },
+		key8: { name: 'name8' },
+	});
+	let i = 0;
+	setInterval(() => {
+		chart.addData({
+			key1: CALC.noise(i + Math.random()) * 0.1,
+			key2: CALC.noise(i + Math.random()) * -0.2,
+			key3: CALC.noise(i + Math.random()) * 0.3,
+			key4: CALC.noise(i + Math.random()) * -0.4,
+			key5: CALC.noise(i + Math.random()) * 0.5,
+			key6: CALC.noise(i + Math.random()) * -0.6,
+			key7: CALC.noise(i + Math.random()) * 0.7,
+			key8: CALC.noise(i + Math.random()) * -0.8,
+		});
+		i += Math.random();
+	}, 100);
 }
 
 function testSliderWidget() {
@@ -20,8 +49,21 @@ function testSliderWidget() {
 	w2.onChange(v => console.log(v));
 }
 
-function testChatWidget() {
+async function testChatWidget() {
 	const w1 = new WIDGET.Chat(300, 300);
+	w1.print('message');
+	const str = await w1.input('Prompt Message [link] is here.');
+	w1.print(str);
+	for (const a of Array(20).keys()) {
+		await w1.sleep(0.25);
+		w1.print('wait:', a);
+	}
+	const str2 = await w1.input('Prompt very very very long long long message Prompt very very very long long long message Prompt very very very long long long message Prompt very very very long long long message');
+	w1.print(str2);
+	for (const a of Array(10).keys()) {
+		await w1.sleep(0.5);
+		w1.print('wait:', a);
+	}
 }
 
 function testSwitchWidget() {
