@@ -32,6 +32,34 @@ class Widget {
 			this._base.style.height = height + 'px';
 		}
 		document.body.appendChild(this._base);
+
+		this._moving = false;
+		this._base.addEventListener('mousedown', e => {
+			if (e.button !== 1) return;
+			e.preventDefault();
+			if (this._base.style.position !== 'absolute') {
+				const x = this._base.offsetLeft;
+				const y = this._base.offsetTop;
+				this._base.style.position = 'absolute';
+				this._base.style.left = x + 'px';
+				this._base.style.top  = y + 'px';
+				this._base.style.zIndex = 9999;
+			}
+			this._moving = true;
+		});
+		this._base.addEventListener('mousemove', e => {
+			if (!this._moving) return;
+			const x = parseInt(this._base.style.left, 10) + e.movementX;
+			const y = parseInt(this._base.style.top,  10) + e.movementY;
+			this._base.style.left = x + 'px';
+			this._base.style.top  = y + 'px';
+		});
+		this._base.addEventListener('mouseup', e => {
+			if (e.button !== 1) return;
+			e.preventDefault();
+			this._moving = false;
+			this._base.style.zIndex = null;
+		});
 	}
 
 	/**~ja
