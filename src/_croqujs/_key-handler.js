@@ -1,12 +1,12 @@
 /**~ja
  * キー操作処理
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-02-04
  */
 /**~en
  * Key operation handler
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-02-04
  */
 class KeyHandler {
 
@@ -23,7 +23,7 @@ class KeyHandler {
 		this._onDown = null;
 		this._onUp = null;
 
-		//~ja キー・ダウン・イベントに対応する
+		//~ja キー・ダウン（キーが押された）イベントに対応する
 		//~en Handle key down events
 		can.addEventListener('keydown', (e) => {
 			if (!this._keys[e.key]) {
@@ -35,7 +35,7 @@ class KeyHandler {
 			}
 		}, true);
 
-		//~ja キー・アップ・イベントに対応する
+		//~ja キー・アップ（キーが離された）イベントに対応する
 		//~en Handle key up events
 		can.addEventListener('keyup', (e) => {
 			if (this._keys[e.key]) {
@@ -54,7 +54,7 @@ class KeyHandler {
 
 
 	/**~ja
-	 * キー・ダウン・イベントに対応する関数をセットする
+	 * キー・ダウン（キーが押された）イベントに対応する関数をセットする
 	 * @param {function(string, KeyEvent)=} handler 関数
 	 * @return {function(string, KeyEvent)=} 関数
 	 */
@@ -69,7 +69,7 @@ class KeyHandler {
 	}
 
 	/**~ja
-	 * キー・アップ・イベントに対応する関数をセットする
+	 * キー・アップ（キーが離された）イベントに対応する関数をセットする
 	 * @param {function(string, KeyEvent)=} handler 関数
 	 * @return {function(string, KeyEvent)=} 関数
 	 */

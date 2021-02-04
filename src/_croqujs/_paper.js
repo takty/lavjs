@@ -1,10 +1,10 @@
 /**~ja
  * 紙
- * @version 2021-01-06
+ * @version 2021-02-04
  */
 /**~en
  * Paper
- * @version 2021-01-06
+ * @version 2021-02-04
  */
 class Paper {
 
@@ -506,7 +506,7 @@ class Paper {
 
 
 	/**~ja
-	 * キー・ダウン・イベントに対応する関数をセットする
+	 * キー・ダウン（キーが押された）イベントに対応する関数をセットする
 	 * @param {function(string, KeyEvent)=} handler 関数
 	 * @return {function(string, KeyEvent)=} 関数
 	 */
@@ -522,7 +522,7 @@ class Paper {
 	}
 
 	/**~ja
-	 * キー・アップ・イベントに対応する関数をセットする
+	 * キー・アップ（キーが離された）イベントに対応する関数をセットする
 	 * @param {function(string, KeyEvent)=} handler 関数
 	 * @return {function(string, KeyEvent)=} 関数
 	 */
@@ -591,7 +591,7 @@ class Paper {
 
 
 	/**~ja
-	 * マウス・ダウン・イベントに対応する関数をセットする
+	 * マウス・ダウン（ボタンが押された）イベントに対応する関数をセットする
 	 * @param {function(number, number, MouseEvent)=} handler 関数
 	 * @return {function(number, number, MouseEvent)=} 関数
 	 */
@@ -607,7 +607,7 @@ class Paper {
 	}
 
 	/**~ja
-	 * マウス・ムーブ・イベントに対応する関数をセットする
+	 * マウス・ムーブ（ポインターが移動した）イベントに対応する関数をセットする
 	 * @param {function(number, number, MouseEvent)=} handler 関数
 	 * @return {function(number, number, MouseEvent)=} 関数
 	 */
@@ -623,7 +623,7 @@ class Paper {
 	}
 
 	/**~ja
-	 * マウス・アップ・イベントに対応する関数をセットする
+	 * マウス・アップ（ボタンが離された）イベントに対応する関数をセットする
 	 * @param {function(number, number, MouseEvent)=} handler 関数
 	 * @return {function(number, number, MouseEvent)=} 関数
 	 */

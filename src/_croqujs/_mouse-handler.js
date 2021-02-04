@@ -1,12 +1,12 @@
 /**~ja
  * マウス操作処理
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2021-02-04
  */
 /**~en
  * Mouse operation handler
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2021-02-04
  */
 class MouseHandler {
 
@@ -123,7 +123,7 @@ class MouseHandler {
 
 
 	/**~ja
-	 * マウス・ダウン・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・ダウン（ボタンが押された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -143,7 +143,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・ムーブ・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・ムーブ（ポインターが移動した）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -163,7 +163,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・アップ・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・アップ（ボタンが離された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -205,7 +205,7 @@ class MouseHandler {
 
 
 	/**~ja
-	 * マウス・ダウン・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・ダウン（ボタンが押された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -225,7 +225,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・ムーブ・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・ムーブ（ポインターが移動した）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -245,7 +245,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・アップ・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・アップ（ボタンが離された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -358,7 +358,7 @@ class MouseHandler {
 
 
 	/**~ja
-	 * マウス・ダウン・イベントに対応する関数をセットする
+	 * マウス・ダウン（ボタンが押された）イベントに対応する関数をセットする
 	 * @param {function(number, number, MouseEvent)=} handler 関数
 	 * @return {function(number, number, MouseEvent)=} 関数
 	 */
@@ -373,7 +373,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・ムーブ・イベントに対応する関数をセットする
+	 * マウス・ムーブ（ポインターが移動した）イベントに対応する関数をセットする
 	 * @param {function(number, number, MouseEvent)=} handler 関数
 	 * @return {function(number, number, MouseEvent)=} 関数
 	 */
@@ -388,7 +388,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・アップ・イベントに対応する関数をセットする
+	 * マウス・アップ（ボタンが離された）イベントに対応する関数をセットする
 	 * @param {function(number, number, MouseEvent)=} handler 関数
 	 * @return {function(number, number, MouseEvent)=} 関数
 	 */

@@ -1,12 +1,12 @@
 /**~ja
  * ズーム操作処理
  * @author Takuto Yanagida
- * @version 2020-04-30
+ * @version 2021-02-04
  */
 /**~en
  * Zoom operation handler
  * @author Takuto Yanagida
- * @version 2020-04-30
+ * @version 2021-02-04
  */
 class ZoomHandler {
 
@@ -41,7 +41,7 @@ class ZoomHandler {
 	}
 
 	/**~ja
-	 * マウス・ダウン・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・ダウン（ボタンが押された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 */
 	/**~en
@@ -56,7 +56,7 @@ class ZoomHandler {
 	}
 
 	/**~ja
-	 * マウス・ムーブ・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・ムーブ（ポインターが移動した）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 */
 	/**~en
