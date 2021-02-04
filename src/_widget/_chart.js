@@ -41,7 +41,7 @@ class Chart extends Widget {
 		super(width, height);
 
 		this._can = document.createElement('canvas');
-		this._can.className = '__widget __widget-full __widget-chart-inner';
+		this._can.className = 'lavjs-widget lavjs-widget-full lavjs-widget-chart-inner';
 		this._can.addEventListener('click', this._handleClickEvent.bind(this));
 		this._base.appendChild(this._can);
 		//~ja 以下はbaseに追加した後に行うこと（offsetWidth/Heightは追加後でないと取得できない）

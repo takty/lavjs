@@ -46,13 +46,13 @@ const WIDGET = (function () {
 	const ensureBaseStyle = function () {
 		if (isBaseStyleAssigned) return;
 		isBaseStyleAssigned = true;
-		addStyle('.__widget', {
+		addStyle('.lavjs-widget', {
 			margin    : '0',
 			padding   : '0',
 			fontSize  : '14px',
 			fontFamily: 'Consolas, Menlo, "Courier New", Meiryo, Osaka-Mono, monospace',
 		});
-		addStyle('.__widget-base', {
+		addStyle('.lavjs-widget-base', {
 			display        : 'inline-flex',
 			position       : 'relative',
 			margin         : '2px',
@@ -61,15 +61,15 @@ const WIDGET = (function () {
 			backgroundColor: 'White',
 			boxShadow      : '1px 1px 8px rgba(0, 0, 0, 0.4)',
 		});
-		addStyle('.__widget-full', {
+		addStyle('.lavjs-widget-full', {
 			width   : '100%',
 			height  : '100%',
 			position: 'relative',
 		});
-		addStyle('.__widget-button-row', {
+		addStyle('.lavjs-widget-button-row', {
 			gap: '8px',
 		});
-		addStyle('.__widget-button', {
+		addStyle('.lavjs-widget-button', {
 			flex          : '1 1 1',
 			minWidth      : '28px',
 			minHeight     : '28px',
@@ -82,44 +82,44 @@ const WIDGET = (function () {
 			cursor        : 'pointer',
 			userSelect    : 'none',
 		});
-		addStyle('.__widget-button:hover:not(.active)', {
+		addStyle('.lavjs-widget-button:hover:not(.active)', {
 			boxShadow: '0 0 2px 1px rgba(0, 0, 0, 0.25)',
 		});
-		addStyle('.__widget-button.active', {
+		addStyle('.lavjs-widget-button.active', {
 			boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.4) inset',
 		});
-		addStyle('.__widget-chat-message', {
+		addStyle('.lavjs-widget-chat-message', {
 			width    : '100%',
 			overflowY: 'auto',
 			flexGrow : '1',
 			height   : '1.25em',
 			minHeight: '1.25em',
 		});
-		addStyle('.__widget-chat-prompt:not(:empty)', {
+		addStyle('.lavjs-widget-chat-prompt:not(:empty)', {
 			marginTop : '0.5rem',
 			whiteSpace: 'normal',
 			overflowY : 'auto',
 			minHeight : '1.25em',
 		});
-		addStyle('.__widget-chat-prompt a', {
+		addStyle('.lavjs-widget-chat-prompt a', {
 			textDecoration : 'underline',
 			cursor         : 'pointer',
 			color          : '#12f',
 			backgroundColor: '#12f1',
 		});
-		addStyle('.__widget-chat-hr', {
+		addStyle('.lavjs-widget-chat-hr', {
 			marginTop   : '0.5rem',
 			marginBottom: '0',
 			width       : '100%',
 			height      : '2px',
 			borderTop   : '1px solid #bbb',
 		});
-		addStyle('.__widget-chat-message', {
+		addStyle('.lavjs-widget-chat-message', {
 			width    : '100%',
 			overflowY: 'auto',
 			flexGrow : '1',
 		});
-		addStyle('.__widget-chat-input', {
+		addStyle('.lavjs-widget-chat-input', {
 			width       : '100%',
 			overflowY   : 'scroll',
 			height      : '2em',
@@ -129,7 +129,7 @@ const WIDGET = (function () {
 			border      : '1px solid #bbb',
 			boxShadow   : '0 1px 2px rgba(0, 0, 0, 0.25) inset',
 		});
-		addStyle('.__widget-slider-knob', {
+		addStyle('.lavjs-widget-slider-knob', {
 			position       : 'absolute',
 			width          : '16px',
 			height         : '16px',
@@ -139,7 +139,7 @@ const WIDGET = (function () {
 			boxShadow      : '0 1px 6px 2px rgba(0, 0, 0, 0.35)',  // There is a slight different from buttons
 			cursor         : '-webkit-grab',
 		});
-		addStyle('.__widget-slider-output', {
+		addStyle('.lavjs-widget-slider-output', {
 			display     : 'block',
 			marginBottom: '10px',
 			width       : '100%',

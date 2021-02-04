@@ -1,12 +1,12 @@
 /**~ja
  * スライダー
  * @author Takuto Yanagida
- * @version 2021-02-03
+ * @version 2021-02-04
  */
 /**~en
  * Slider
  * @author Takuto Yanagida
- * @version 2021-02-03
+ * @version 2021-02-04
  */
 class Slider extends SliderBase {
 
@@ -41,7 +41,7 @@ class Slider extends SliderBase {
 		}
 
 		this._scale = document.createElement('canvas');
-		this._scale.className = '__widget __widget-full';
+		this._scale.className = 'lavjs-widget lavjs-widget-full';
 		this._inner.appendChild(this._scale);
 		//~ja 以下はbaseに追加した後に行うこと（offsetWidth/Heightは追加後でないと取得できない）
 		//~en Do the following after adding to base (offsetWidth/Height can not be acquired without adding)
@@ -58,7 +58,7 @@ class Slider extends SliderBase {
 		this._output.addEventListener('keydown', this._keyDown.bind(this));
 
 		this._knob = document.createElement('div');
-		this._knob.className = '__widget __widget-slider-knob';
+		this._knob.className = 'lavjs-widget lavjs-widget-slider-knob';
 		if (this._vertical) {
 			this._knob.style.left = (this._inner.offsetWidth * this._railPosRate) + 'px';
 			this._knob.style.top = this._margin + 'px';

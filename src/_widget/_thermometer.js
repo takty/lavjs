@@ -1,12 +1,12 @@
 /**~ja
  * 温度計
  * @author Takuto Yanagida
- * @version 2021-02-03
+ * @version 2021-02-04
  */
 /**~en
  * Thermometer
  * @author Takuto Yanagida
- * @version 2021-02-03
+ * @version 2021-02-04
  */
 class Thermometer extends SliderBase {
 
@@ -34,7 +34,7 @@ class Thermometer extends SliderBase {
 		this._inner.style.height = 'calc(100% - 30px)';
 
 		this._scale = document.createElement('canvas');
-		this._scale.className = '__widget __widget-full';
+		this._scale.className = 'lavjs-widget lavjs-widget-full';
 		this._inner.appendChild(this._scale);
 		//~ja 以下はbaseに追加した後に行うこと（offsetWidth/Heightは追加後でないと取得できない）
 		//~en Do the following after adding to base (offsetWidth/Height can not be acquired without adding)

@@ -1,12 +1,12 @@
 /**~ja
  * スライダー・ベース
  * @author Takuto Yanagida
- * @version 2021-02-03
+ * @version 2021-02-04
  */
 /**~en
  * Slider base
  * @author Takuto Yanagida
- * @version 2021-02-03
+ * @version 2021-02-04
  */
 class SliderBase extends Widget {
 
@@ -37,13 +37,13 @@ class SliderBase extends Widget {
 		this._railPosRate = this._vertical ? 0.5 : 0.45;
 
 		this._output = document.createElement('input');
-		this._output.className = '__widget-slider-output';
+		this._output.className = 'lavjs-widget-slider-output';
 		this._output.type = 'text';
 		this._output.readOnly = true;
 		this._base.appendChild(this._output);
 
 		this._inner = document.createElement('div');
-		this._inner.className = '__widget-full';
+		this._inner.className = 'lavjs-widget-full';
 		this._base.appendChild(this._inner);
 	}
 

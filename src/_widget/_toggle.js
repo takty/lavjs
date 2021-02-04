@@ -1,12 +1,12 @@
 /**~ja
  * トグル（チェックボックス）
  * @author Takuto Yanagida
- * @version 2021-02-02
+ * @version 2021-02-04
  */
 /**~en
  * Toggles (Check boxes)
  * @author Takuto Yanagida
- * @version 2021-02-02
+ * @version 2021-02-04
  */
 class Toggle extends Widget {
 
@@ -24,7 +24,7 @@ class Toggle extends Widget {
 	 */
 	constructor(label_s_num = 1, value_s = false, { vertical = false, sameWidth = false } = {}) {
 		super();
-		this._base.classList.add('__widget-button-row');
+		this._base.classList.add('lavjs-widget-button-row');
 		this._base.style.flexDirection = vertical ? 'column' : 'row';
 
 		let labs = null;
@@ -42,7 +42,7 @@ class Toggle extends Widget {
 
 		for (const lab of labs) {
 			const b = document.createElement('a');
-			b.className = '__widget __widget-button';
+			b.className = 'lavjs-widget lavjs-widget-button';
 			b.innerText = lab;
 			if (sameWidth) b.style.width = `${maxLabLen}em`;
 			b.addEventListener('click', this._handleClickEvent.bind(this));

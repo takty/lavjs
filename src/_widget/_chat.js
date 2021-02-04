@@ -30,16 +30,16 @@ class Chat extends Widget {
 		this._endTag   = endTag;
 
 		this._message = document.createElement('div');
-		this._message.className = '__widget-chat-message';
+		this._message.className = 'lavjs-widget-chat-message';
 
 		this._hr = document.createElement('hr');
-		this._hr.className = '__widget-chat-hr';
+		this._hr.className = 'lavjs-widget-chat-hr';
 
 		this._prompt = document.createElement('div');
-		this._prompt.className = '__widget-chat-prompt';
+		this._prompt.className = 'lavjs-widget-chat-prompt';
 
 		this._input = document.createElement('input');
-		this._input.className = '__widget-chat-input';
+		this._input.className = 'lavjs-widget-chat-input';
 		this._input.disabled = true;
 
 		this._base.appendChild(this._message);
