@@ -1,10 +1,10 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
- * @version 2020-12-17
+ * @version 2021-02-04
  */
 /**~en
  * Element (common to sprites and stages)
- * @version 2020-12-17
+ * @version 2021-02-04
  */
 class Element {
 
@@ -428,7 +428,7 @@ class Element {
 		if (this._checkRangeY !== null) this._y = this._checkRangeY(this._y);
 
 		if (this._observers) {
-			for (let o of this._observers) {
+			for (const o of this._observers) {
 				o.update(this);
 			}
 		}

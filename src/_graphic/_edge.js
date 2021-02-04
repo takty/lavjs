@@ -1,12 +1,12 @@
 /**~ja
  * エッジ生成関数
  * @author Takuto Yanagida
- * @version 2019-09-04
+ * @version 2021-02-04
  */
 /**~en
  * Edge generation functions
  * @author Takuto Yanagida
- * @version 2019-09-04
+ * @version 2021-02-04
  */
 
 
@@ -187,7 +187,7 @@ const noiseEdge = function (length = 10, amplitude = 10, opt = {}) {
 const mixEdge = function (func, ...fs) {
 	return function (x, max) {
 		let v = func(x, max);
-		for (let f of fs) v += f(x, max);
+		for (const f of fs) v += f(x, max);
 		return v;
 	};
 };

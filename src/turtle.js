@@ -4,7 +4,7 @@
  * カメを動かして、絵をかくためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-04-22
+ * @version 2021-02-04
  */
 /**~en
  * Turtle library (TURTLE)
@@ -12,7 +12,7 @@
  * A library for moving the turtle and drawing pictures.
  *
  * @author Takuto Yanagida
- * @version 2020-04-22
+ * @version 2021-02-04
  */
 
 
@@ -147,9 +147,9 @@ const TURTLE = (function () {
 
 	//~ja 関数の別名を登録する
 	//~en Register function alias
-	for (let target of [Turtle, TurtleBase]) {
+	for (const target of [Turtle, TurtleBase]) {
 		for (const [orig, aliases] of Object.entries(aliasMap)) {
-			for (let alias of aliases) {
+			for (const alias of aliases) {
 				target.prototype[alias] = target.prototype[orig];
 			}
 		}

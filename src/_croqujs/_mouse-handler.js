@@ -193,7 +193,7 @@ class MouseHandler {
 		this._btnR = (buttons & 2) ? true : false;
 		this._btnM = (buttons & 4) ? true : false;
 
-		for (let c of this._children) {
+		for (const c of this._children) {
 			c._mouseButtons = buttons;
 			c._setButtonWin(buttons);
 		}
@@ -316,7 +316,7 @@ class MouseHandler {
 		this._posX = ee.clientX - r.left;
 		this._posY = ee.clientY - r.top;
 
-		for (let c of this._children) {
+		for (const c of this._children) {
 			c._posX = this._posX;
 			c._posY = this._posY;
 		}
@@ -347,7 +347,7 @@ class MouseHandler {
 			case 2: this._btnM = val; break;
 			case 3: this._btnR = val; break;
 		}
-		for (let c of this._children) {
+		for (const c of this._children) {
 			c._setButtonCanvas(e, val);
 		}
 	}

@@ -7,7 +7,7 @@
  * （ここでの紙は、HTML5のCanvas要素のCanvasRenderingContext2Dを拡張したもののことです）
  *
  * @author Takuto Yanagida
- * @version 2021-02-01
+ * @version 2021-02-04
  */
 /**~en
  * Croqujs library (CROQUJS)
@@ -18,7 +18,7 @@
  * ('Paper' here is an extension of CanvasRenderingContext2D of HTML5 Canvas element)
  *
  * @author Takuto Yanagida
- * @version 2021-02-01
+ * @version 2021-02-04
  */
 
 
@@ -117,7 +117,7 @@ const CROQUJS = (function () {
 		ex = ex.map((e) => {return (e.domElement === undefined) ? e : e.domElement();});
 
 		const rm = [];
-		for (let c of document.body.childNodes) {
+		for (const c of document.body.childNodes) {
 			if (ex.indexOf(c) === -1) rm.push(c);
 		}
 		rm.forEach((e) => {

@@ -1,10 +1,10 @@
 /**~ja
  * タートル
- * @version 2020-04-22
+ * @version 2021-02-04
  */
 /**~en
  * Turtle
- * @version 2020-04-22
+ * @version 2021-02-04
  */
 class Turtle extends TurtleBase {
 
@@ -689,7 +689,7 @@ class Turtle extends TurtleBase {
 	 * @param {Array} curPos Positions
 	 */
 	_drawAnchor(ctx, curPos) {
-		for (let p of curPos) {
+		for (const p of curPos) {
 			if (p.x0 !== undefined) {
 				draw(p.x0, p.y0, null, 'Lime', 'DarkSeaGreen', drawCheck);
 			} else if (p.x !== undefined) {
