@@ -2,13 +2,13 @@
  * イージング関数（アルゴリズム）
  * 参考: http://easings.net/
  * @author Takuto Yanagida
- * @version 2019-05-06
+ * @version 2021-02-04
  */
 /**~en
  * Easing functions (algorithms)
  * Reference: http://easings.net/
  * @author Takuto Yanagida
- * @version 2019-05-06
+ * @version 2021-02-04
  */
 
 
@@ -19,7 +19,7 @@
  */
 /**~en
  * Linear (no change)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const linear = function (t) {
@@ -33,7 +33,7 @@ const linear = function (t) {
  */
 /**~en
  * Sine function (ease-in)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInSine = function (t) {
@@ -47,7 +47,7 @@ const easeInSine = function (t) {
  */
 /**~en
  * Sine function (ease-out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeOutSine = function (t) {
@@ -61,7 +61,7 @@ const easeOutSine = function (t) {
  */
 /**~en
  * Sine function (ease-in/out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInOutSine = function (t) {
@@ -75,7 +75,7 @@ const easeInOutSine = function (t) {
  */
 /**~en
  * Quadratic function (ease-in)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInQuad = function (t) {
@@ -89,7 +89,7 @@ const easeInQuad = function (t) {
  */
 /**~en
  * Quadratic function (ease-out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeOutQuad = function (t) {
@@ -103,7 +103,7 @@ const easeOutQuad = function (t) {
  */
 /**~en
  * Quadratic function (ease-in/out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInOutQuad = function (t) {
@@ -122,7 +122,7 @@ const easeInOutQuad = function (t) {
  */
 /**~en
  * Cubic function (ease-in)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInCubic = function (t) {
@@ -136,7 +136,7 @@ const easeInCubic = function (t) {
  */
 /**~en
  * Cubic function (ease-out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeOutCubic = function (t) {
@@ -151,7 +151,7 @@ const easeOutCubic = function (t) {
  */
 /**~en
  * Cubic function (ease-in/out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInOutCubic = function (t) {
@@ -170,7 +170,7 @@ const easeInOutCubic = function (t) {
  */
 /**~en
  * Quartic function (ease-in)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInQuart = function (t) {
@@ -184,7 +184,7 @@ const easeInQuart = function (t) {
  */
 /**~en
  * Quartic function (ease-out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeOutQuart = function (t) {
@@ -199,7 +199,7 @@ const easeOutQuart = function (t) {
  */
 /**~en
  * Quartic function (ease-in/out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInOutQuart = function (t) {
@@ -218,7 +218,7 @@ const easeInOutQuart = function (t) {
  */
 /**~en
  * Quintic function (ease-in)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInQuint = function (t) {
@@ -232,7 +232,7 @@ const easeInQuint = function (t) {
  */
 /**~en
  * Quintic function (ease-out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeOutQuint = function (t) {
@@ -247,7 +247,7 @@ const easeOutQuint = function (t) {
  */
 /**~en
  * Quintic function (ease-in/out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInOutQuint = function (t) {
@@ -266,7 +266,7 @@ const easeInOutQuint = function (t) {
  */
 /**~en
  * Exponential function (ease-in)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInExpo = function (t) {
@@ -280,7 +280,7 @@ const easeInExpo = function (t) {
  */
 /**~en
  * Exponential function (ease-out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeOutExpo = function (t) {
@@ -294,7 +294,7 @@ const easeOutExpo = function (t) {
  */
 /**~en
  * Exponential function (ease-in/out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInOutExpo = function (t) {
@@ -313,7 +313,7 @@ const easeInOutExpo = function (t) {
  */
 /**~en
  * Circular function (ease-in)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInCirc = function (t) {
@@ -327,7 +327,7 @@ const easeInCirc = function (t) {
  */
 /**~en
  * Circular function (ease-out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeOutCirc = function (t) {
@@ -342,7 +342,7 @@ const easeOutCirc = function (t) {
  */
 /**~en
  * Circular function (ease-in/out)
- * @param {number} t A number fron 0 to 1
+ * @param {number} t A number from 0 to 1
  * @return {number} A number
  */
 const easeInOutCirc = function (t) {

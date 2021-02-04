@@ -1,12 +1,12 @@
 /**~ja
  * 天気センサー
  * @extends {Sensor}
- * @version 2020-12-17
+ * @version 2021-02-04
  */
 /**~en
  * Weather sensor
  * @extends {Sensor}
- * @version 2020-12-17
+ * @version 2021-02-04
  */
 class Weather extends Sensor {
 
@@ -105,8 +105,8 @@ class Weather extends Sensor {
 	 * @return {object} 天気の情報
 	 */
 	/**~en
-	 * Get waether information
-	 * @return {object} Waether information
+	 * Get weather information
+	 * @return {object} Weather information
 	 */
 	getWeather() {
 		return this._res;
