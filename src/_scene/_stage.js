@@ -1,12 +1,12 @@
 /**~ja
  * ステージ
  * @extends {Element}
- * @version 2020-05-05
+ * @version 2021-02-04
  */
 /**~en
  * Stage
  * @extends {Element}
- * @version 2020-05-05
+ * @version 2021-02-04
  */
 class Stage extends Element {
 
@@ -92,11 +92,11 @@ class Stage extends Element {
 
 	/**~ja
 	 * 何枚のスプライトか子ステージを持っているか、数を返す
-	 * @return {mumber} 数
+	 * @return {number} 数
 	 */
 	/**~en
 	 * Return the count of sprites or child stages this stage has
-	 * @return {mumber} Count
+	 * @return {number} Count
 	 */
 	size() {
 		return this._children.length;
