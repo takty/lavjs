@@ -1,6 +1,6 @@
-// @need ../dist/croqujs
-// @need ../dist/calc
-// @need ../dist/widget
+// @need ../../dist/croqujs
+// @need ../../dist/calc
+// @need ../../dist/widget
 
 function setup() {
 	testChartWidget();
