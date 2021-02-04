@@ -4,7 +4,7 @@
  * 様々なウィジェット（コントロール）を使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-03
+ * @version 2021-02-04
  */
 /**~en
  * Widget library (WIDGET)
@@ -12,7 +12,7 @@
  * A library that allows you to use various widgets (controls).
  *
  * @author Takuto Yanagida
- * @version 2021-02-03
+ * @version 2021-02-04
  */
 
 
@@ -90,12 +90,44 @@ const WIDGET = (function () {
 		});
 		addStyle('.__widget-chat-message', {
 			width    : '100%',
-			overflowY: 'scroll',
+			overflowY: 'auto',
+			flexGrow : '1',
+			height   : '1.25em',
+			minHeight: '1.25em',
+		});
+		addStyle('.__widget-chat-prompt:not(:empty)', {
+			marginTop : '0.5rem',
+			whiteSpace: 'normal',
+			overflowY : 'auto',
+			minHeight : '1.25em',
+		});
+		addStyle('.__widget-chat-prompt a', {
+			textDecoration : 'underline',
+			cursor         : 'pointer',
+			color          : '#12f',
+			backgroundColor: '#12f1',
+		});
+		addStyle('.__widget-chat-hr', {
+			marginTop   : '0.5rem',
+			marginBottom: '0',
+			width       : '100%',
+			height      : '2px',
+			borderTop   : '1px solid #bbb',
+		});
+		addStyle('.__widget-chat-message', {
+			width    : '100%',
+			overflowY: 'auto',
 			flexGrow : '1',
 		});
 		addStyle('.__widget-chat-input', {
-			width    : '100%',
-			overflowY: 'scroll',
+			width       : '100%',
+			overflowY   : 'scroll',
+			height      : '2em',
+			minHeight   : '2em',
+			marginTop   : '0.5rem',
+			borderRadius: '6px',
+			border      : '1px solid #bbb',
+			boxShadow   : '0 1px 2px rgba(0, 0, 0, 0.25) inset',
 		});
 		addStyle('.__widget-slider-knob', {
 			position       : 'absolute',
