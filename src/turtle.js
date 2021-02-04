@@ -148,9 +148,9 @@ const TURTLE = (function () {
 	//~ja 関数の別名を登録する
 	//~en Register function alias
 	for (const target of [Turtle, TurtleBase]) {
-		for (const [orig, aliases] of Object.entries(aliasMap)) {
-			for (const alias of aliases) {
-				target.prototype[alias] = target.prototype[orig];
+		for (const [orig, as] of Object.entries(aliasMap)) {
+			for (const a of as) {
+				target.prototype[a] = target.prototype[orig];
 			}
 		}
 	}
