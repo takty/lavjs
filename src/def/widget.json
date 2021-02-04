@@ -56,7 +56,7 @@
 					"!type": "fn(args?: [?]) -> !this"
 				},
 				"input": {
-					"!type": "fn() -> string"
+					"!type": "fn(args?: [?]) -> string"
 				},
 				"sleep": {
 					"!type": "fn(seconds: number) -> !Promise"
