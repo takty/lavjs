@@ -4,7 +4,7 @@
  * 波形の解析を行うウィジェットを使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-01
+ * @version 2021-02-04
  */
 /**~en
  * Analyzer library (ANALYZER)
@@ -12,7 +12,7 @@
  * A library that enables to use widgets that analyze waveforms.
  *
  * @author Takuto Yanagida
- * @version 2021-02-01
+ * @version 2021-02-04
  */
 
 
@@ -35,7 +35,36 @@ const ANALYZER = (function () {
 	//=include _widget/_util.js
 
 
-	// -------------------------------------------------------------------------
+	let isBaseStyleAssigned = false;
+
+	/**~ja
+	 * ベース・スタイルを登録する
+	 */
+	/**~en
+	 * Register base style
+	 */
+	const ensureBaseStyle = function () {
+		if (isBaseStyleAssigned) return;
+		isBaseStyleAssigned = true;
+		addStyle('.lavjs-widget-scope', {
+			fontSize  : '14px',
+			fontFamily: 'Consolas, Menlo, "Courier New", Meiryo, Osaka-Mono, monospace',
+
+			position       : 'relative',
+			margin         : '2px',
+			padding        : '8px',
+			borderRadius   : '1px',
+			backgroundColor: 'White',
+			boxShadow      : '1px 1px 8px rgba(0, 0, 0, 0.4)',
+
+			display      : 'block',
+			verticalAlign: 'middle',
+		});
+		addStyle('.lavjs-widget-scope-canvas', {
+			border: '0',
+			fontFamily: 'Consolas, Menlo, "Courier New", Meiryo, Osaka-Mono, monospace',
+		});
+	};
 
 
 	//=

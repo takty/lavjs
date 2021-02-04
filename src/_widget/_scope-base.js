@@ -1,10 +1,10 @@
 /**~ja
  * スコープ・ベース
- * @version 2021-02-01
+ * @version 2021-02-04
  */
 /**~en
  * Scope base
- * @version 2021-02-01
+ * @version 2021-02-04
  */
 class ScopeBase {
 
@@ -41,38 +41,25 @@ class ScopeBase {
 	 * @private
 	 */
 	_initView(width, height) {
+		ensureBaseStyle();
 		this._width  = width  - 16;
 		this._height = height - 16;
-		const NS = 'CONTROL-Analyser-';
 
 		this._base = document.createElement('div');
-		this._base.className = NS + 'analyser';
+		this._base.className = 'lavjs-widget-scope';
 		document.body.appendChild(this._base);
 
 		const can = document.createElement('canvas');
-		can.className = NS + 'can';
+		can.className = 'lavjs-widget-scope-canvas';
 		can.setAttribute('width', this._width);
 		can.setAttribute('height', this._height);
-		can.onclick = () => { this._freeze = !this._freeze; };
+		can.addEventListener('click', () => { this._freeze = !this._freeze; });
 		this._ctx = can.getContext('2d');
 		this._base.appendChild(can);
 
-		addStyle(`.${NS}analyser`, {
-			position       : 'relative',
-			width          : this._width + 'px',
-			height         : this._height + 'px',
-			margin         : '4px',
-			padding        : '4px',
-			display        : 'block',
-			verticalAlign  : 'middle',
-			borderRadius   : '1px',
-			backgroundColor: 'White',
-			boxShadow      : '1px 1px 8px rgba(0, 0, 0, 0.5)',
-		});
-		addStyle(`.${NS}can`, {
-			border    : '0px',
-			fontFamily: 'Consolas, Menlo, "Courier New", "メイリオ", Meiryo, monospace',
-		});
+		this._base.style.width    = width + 'px';
+		this._base.style.minWidth = width + 'px';
+		this._base.style.height   = height + 'px';
 	}
 
 	/**~ja
