@@ -51,11 +51,11 @@ class Slider extends SliderBase {
 		this._railSize = (this._vertical ? this._scale.height : this._scale.width) - this._margin * 2;
 		this._dragging = false;
 
-		this._inner.addEventListener('mousedown', this._mouseDown.bind(this));
-		this._inner.addEventListener('mousemove', this._mouseMove.bind(this));
-		document.addEventListener('mousemove', this._mouseMove.bind(this));
-		document.addEventListener('mouseup', this._mouseUp.bind(this));
-		this._output.addEventListener('keydown', this._keyDown.bind(this));
+		this._inner.addEventListener('mousedown', this._handleMouseDownEvent.bind(this));
+		this._inner.addEventListener('mousemove', this._handleMouseMoveEvent.bind(this));
+		document.addEventListener('mousemove', this._handleMouseMoveEvent.bind(this));
+		document.addEventListener('mouseup', this._handleMouseUpEvent.bind(this));
+		this._output.addEventListener('keydown', this._handleKeyDownEvent.bind(this));
 
 		this._knob = document.createElement('div');
 		this._knob.className = 'lavjs-widget lavjs-widget-slider-knob';
@@ -115,16 +115,17 @@ class Slider extends SliderBase {
 	}
 
 	/**~ja
-	 * マウスのボタンが押されたときに呼び出される（ライブラリ内だけで使用）
+	 * マウス・ダウン（ボタンが押された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 */
 	/**~en
-	 * Called when the mouse button is pressed (used only in the library)
+	 * Handle mouse down events (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 */
-	_mouseDown(e) {
+	_handleMouseDownEvent(e) {
+		if (e.button !== 0) return;
 		this.value(this._posToValue(this._getKnobPos(e)));
 		this._dragging = true;
 		this._knob.style.cursor = '-webkit-grabbing';
@@ -133,32 +134,34 @@ class Slider extends SliderBase {
 	}
 
 	/**~ja
-	 * マウスが移動したときに呼び出される（ライブラリ内だけで使用）
+	 * マウス・ムーブ（ポインターが移動した）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 */
 	/**~en
-	 * Called when the mouse moves (used only in the library)
+	 * Handle mouse move events (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 */
-	_mouseMove(e) {
+	_handleMouseMoveEvent(e) {
+		if (e.button !== 0) return;
 		if (!this._dragging) return;
 		this.value(this._posToValue(this._getKnobPos(e)));
 		e.preventDefault();
 	}
 
 	/**~ja
-	 * マウスのボタンが離されたときに呼び出される（ライブラリ内だけで使用）
+	 * マウス・アップ（ボタンが離された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e マウス・イベント
 	 */
 	/**~en
-	 * Called when the mouse button is released (used only in the library)
+	 * Handle mouse up events (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 */
-	_mouseUp(e) {
+	_handleMouseUpEvent(e) {
+		if (e.button !== 0) return;
 		this._dragging = false;
 		this._knob.style.cursor = '-webkit-grab';
 		this._scale.style.cursor = 'auto';

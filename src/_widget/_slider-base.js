@@ -103,16 +103,16 @@ class SliderBase extends Widget {
 	}
 
 	/**~ja
-	 * 現在値欄でキーが押された時の処理（ライブラリ内だけで使用）
+	 * 現在値欄でのキー・ダウン（キーが押された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {KeyboardEvent} e キーボード・イベント
 	 */
 	/**~en
-	 * Process of when a key is pressed in the current value field (used only in the library)
+	 * Handle key down events in the current value field (used only in the library)
 	 * @private
 	 * @param {KeyboardEvent} e Keyboard event
 	 */
-	_keyDown(e) {
+	_handleKeyDownEvent(e) {
 		e.preventDefault();
 		const v = this.value();
 		if (e.code === 'ArrowDown' || e.code === 'ArrowLeft') {

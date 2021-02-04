@@ -60,6 +60,7 @@ class Switch extends Widget {
 	 * @param {MouseEvent} e Mouse event
 	 */
 	_handleClickEvent(e) {
+		if (e.button !== 0) return;
 		this._value = this._buttons.indexOf(e.target);
 		if (this._onClick) this._onClick(this._value);
 		this._updateState();

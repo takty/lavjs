@@ -62,6 +62,7 @@ class Toggle extends Widget {
 	 * @param {MouseEvent} e Mouse event
 	 */
 	_handleClickEvent(e) {
+		if (e.button !== 0) return;
 		const i = this._buttons.indexOf(e.target);
 		this._values[i] = !this._values[i]
 		if (this._onClick) this._onClick(this._values[i], i);

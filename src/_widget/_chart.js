@@ -67,11 +67,12 @@ class Chart extends Widget {
 	 * @param {MouseEvent} e マウス・イベント
 	 */
 	/**~en
-	 * Handle mouse events (used only in the library)
+	 * Handle mouse click events (used only in the library)
 	 * @private
 	 * @param {MouseEvent} e Mouse event
 	 */
 	_handleClickEvent(e) {
+		if (e.button !== 0) return;
 		if (this._legendWidth < e.offsetX) {
 			this._allDataMode = !this._allDataMode;
 		} else {
