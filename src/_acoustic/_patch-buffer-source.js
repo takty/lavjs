@@ -1,12 +1,12 @@
 /**~ja
  * バッファー・ソース・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 /**~en
  * Buffer source patch
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 class BufferSourcePatch extends SourcePatch {
 
@@ -92,7 +92,7 @@ class BufferSourcePatch extends SourcePatch {
 	 * Play
 	 * @param {number=} time Time
 	 */
-	play(time = this._synth.now()) {
+	play(time = this._synth.time()) {
 		if (this._s) return;
 		this._createNode();
 		if (this._loop) {
@@ -111,7 +111,7 @@ class BufferSourcePatch extends SourcePatch {
 	 * Stop
 	 * @param {number=} time Time
 	 */
-	stop(time = this._synth.now()) {
+	stop(time = this._synth.time()) {
 		if (!this._s) return;
 		super.stop(time);
 		this._s.stop(time);
@@ -135,7 +135,7 @@ class BufferSourcePatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|BufferSourcePatch} Audio paramter, or this patch
 	 */
-	playbackRate(value = null, time = this._synth.now(), type = null) {
+	playbackRate(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._s.playbackRate;
 		setParam(this._s.playbackRate, value, time, type);
 		this._playbackRate = value;
@@ -156,7 +156,7 @@ class BufferSourcePatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|BufferSourcePatch} Audio paramter, or this patch
 	 */
-	detune(value = null, time = this._synth.now(), type = null) {
+	detune(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._s.detune;
 		setParam(this._s.detune, value, time, type);
 		this._detune = value;
@@ -177,7 +177,7 @@ class BufferSourcePatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|BufferSourcePatch} Audio paramter, or this patch
 	 */
-	gain(value = null, time = this._synth.now(), type = null) {
+	gain(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);
 		return this;

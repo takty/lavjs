@@ -1,10 +1,10 @@
 /**~ja
  * シンセ
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 /**~en
  * Synth
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 class Synth {
 
@@ -40,7 +40,7 @@ class Synth {
 	 * Get the current time
 	 * @return {number} Time
 	 */
-	now() {
+	time() {
 		return this._context.currentTime;
 	}
 

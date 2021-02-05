@@ -1,12 +1,12 @@
 /**~ja
  * エンベロープ・パッチ
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 /**~en
  * Envelope patch
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 class EnvelopePatch extends Patch {
 
@@ -68,7 +68,7 @@ class EnvelopePatch extends Patch {
 	 * Play a note (note on)
 	 * @param {number=} time Time
 	 */
-	on(time = this._synth.now()) {
+	on(time = this._synth.time()) {
 		// Reset to 0;
 		this._g.gain.setTargetAtTime(0, time, DELAY);
 
@@ -87,7 +87,7 @@ class EnvelopePatch extends Patch {
 	 * Stop a note (note off)
 	 * @param {number=} time Time
 	 */
-	off(time = this._synth.now()) {
+	off(time = this._synth.time()) {
 		this._g.gain.cancelScheduledValues(time);
 		// Release -> 0
 		this._g.gain.setTargetAtTime(0, time, this._release);

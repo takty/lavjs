@@ -1,12 +1,12 @@
 /**~ja
  * オシレーター・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 /**~en
  * Oscillator patch
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 class OscillatorPatch extends SourcePatch {
 
@@ -68,7 +68,7 @@ class OscillatorPatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|OscillatorPatch} Audio paramter, or this patch
 	 */
-	frequency(value = null, time = this._synth.now(), type = null) {
+	frequency(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._o.frequency;
 		setParam(this._o.frequency, value, time, type);
 		return this;
@@ -88,7 +88,7 @@ class OscillatorPatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|OscillatorPatch} Audio paramter, or this patch
 	 */
-	detune(value = null, time = this._synth.now(), type = null) {
+	detune(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._o.detune;
 		setParam(this._o.detune, value, time, type);
 		return this;
@@ -108,7 +108,7 @@ class OscillatorPatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|OscillatorPatch} Audio paramter, or this patch
 	 */
-	gain(value = null, time = this._synth.now(), type = null) {
+	gain(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);
 		return this;

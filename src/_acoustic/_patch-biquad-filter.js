@@ -1,12 +1,12 @@
 /**~ja
  * 二次フィルター・パッチ
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 /**~en
  * Biquad filter patch
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 class BiquadFilterPatch extends Patch {
 
@@ -88,7 +88,7 @@ class BiquadFilterPatch extends Patch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|BiquadFilterPatch} Audio paramter, or this patch
 	 */
-	frequency(value = null, time = this._synth.now(), type = null) {
+	frequency(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._f.frequency;
 		setParam(this._f.frequency, value, time, type);
 		return this;
@@ -108,7 +108,7 @@ class BiquadFilterPatch extends Patch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|BiquadFilterPatch} Audio paramter, or this patch
 	 */
-	Q(value = null, time = this._synth.now(), type = null) {
+	Q(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._f.Q;
 		setParam(this._f.Q, value, time, type);
 		return this;

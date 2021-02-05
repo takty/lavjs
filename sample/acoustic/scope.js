@@ -7,8 +7,8 @@ const setup = function () {
 	const ss = new ANALYZER.SpectrumScope(600, 300);
 	const inst = make(s, ws, ss);
 
-	tune(inst, s.now(), 1);
-	play(inst, s.now());
+	tune(inst, s.time(), 1);
+	play(inst, s.time());
 };
 
 const make = function (s, ws, ss) {

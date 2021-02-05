@@ -1,12 +1,12 @@
 /**~ja
  * ゲイン・パッチ
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 /**~en
  * Gain patch
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 class GainPatch extends Patch {
 
@@ -69,7 +69,7 @@ class GainPatch extends Patch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|GainPatch} Audio paramter, or this patch
 	 */
-	gain(value = null, time = this._synth.now(), type = null) {
+	gain(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);
 		return this;

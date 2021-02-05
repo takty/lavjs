@@ -1,10 +1,10 @@
 /**~ja
  * スケジューラー
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 /**~en
  * Scheduler
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 class Scheduler {
 
@@ -49,7 +49,7 @@ class Scheduler {
 	 * Get the current time
 	 * @return {number} Time
 	 */
-	now() {
+	time() {
 		return this._timestamp();
 	}
 
@@ -69,7 +69,7 @@ class Scheduler {
 	 */
 	insert(time, callback, ...args) {
 		const e = { time, callback, args };
-		
+
 		const es = this._events;
 		if (es.length === 0 || es[es.length - 1].time <= time) {
 			es.push(e);

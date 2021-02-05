@@ -1,12 +1,12 @@
 /**~ja
  * マイクロフォン・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-17
+ * @version 2021-02-05
  */
 /**~en
  * Microphone patch
  * @extends {SourcePatch}
- * @version 2020-12-17
+ * @version 2021-02-05
  */
 class MicrophonePatch extends SourcePatch {
 
@@ -72,7 +72,7 @@ class MicrophonePatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|MicrophonePatch} Audio paramter, or this patch
 	 */
-	frequency(value = null, time = this._synth.now(), type = null) {
+	frequency(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._o.frequency;
 		setParam(this._o.frequency, value, time, type);
 		return this;
@@ -92,7 +92,7 @@ class MicrophonePatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|MicrophonePatch} Audio paramter, or this patch
 	 */
-	Q(value = null, time = this._synth.now(), type = null) {
+	Q(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._o.Q;
 		setParam(this._o.Q, value, time, type);
 		return this;
@@ -112,7 +112,7 @@ class MicrophonePatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|MicrophonePatch} Audio paramter, or this patch
 	 */
-	gain(value = null, time = this._synth.now(), type = null) {
+	gain(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);
 		return this;

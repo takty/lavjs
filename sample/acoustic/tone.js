@@ -14,17 +14,17 @@ const setup = function () {
 	const p = new CROQUJS.Paper(200, 200);
 	p.clear('white');
 	p.onMouseDown(function (x, y) {
-		play(inst, s.now());
+		play(inst, s.time());
 	});
 	p.onMouseMove(function (x, y) {
 		const freq = CALC.map(x, 0, 200, 0, 1000);
 		const gain = CALC.map(y, 200, 0, 0, 1);
 		const v0 = sl0.value();
 		const v1 = sl1.value();
-		tune(inst, s.now(), gain, freq, v0, v1);
+		tune(inst, s.time(), gain, freq, v0, v1);
 	});
 	p.onMouseUp(function () {
-		stop(inst, s.now());
+		stop(inst, s.time());
 	});
 };
 

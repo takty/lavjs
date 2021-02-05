@@ -1,12 +1,12 @@
 /**~ja
  * ノイズ・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 /**~en
  * Noise patch
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 class NoisePatch extends SourcePatch {
 
@@ -66,7 +66,7 @@ class NoisePatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|NoisePatch} Audio paramter, or this patch
 	 */
-	gain(value = null, time = this._synth.now(), type = null) {
+	gain(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);
 		return this;

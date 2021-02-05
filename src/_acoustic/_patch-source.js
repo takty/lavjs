@@ -1,12 +1,12 @@
 /**~ja
  * ソース・パッチ
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2021-02-05
  */
 /**~en
  * Source patch
  * @extends {Patch}
- * @version 2020-12-08
+ * @version 2021-02-05
  */
 class SourcePatch extends Patch {
 
@@ -34,7 +34,7 @@ class SourcePatch extends Patch {
 	 * Play
 	 * @param {number=} time Time
 	 */
-	play(time = this._synth.now()) {
+	play(time = this._synth.time()) {
 		cancelAndHoldAtTime(this._sw.gain, time);
 		this._sw.gain.setTargetAtTime(0, time, DELAY);
 		this._sw.gain.setTargetAtTime(1, time, DELAY);
@@ -48,7 +48,7 @@ class SourcePatch extends Patch {
 	 * Stop
 	 * @param {number=} time Time
 	 */
-	stop(time = this._synth.now()) {
+	stop(time = this._synth.time()) {
 		cancelAndHoldAtTime(this._sw.gain, time);
 		this._sw.gain.setTargetAtTime(1, time, DELAY);
 		this._sw.gain.setTargetAtTime(0, time, DELAY);

@@ -1,10 +1,10 @@
 /**~ja
  * シーケンサー
- * @version 2021-01-29
+ * @version 2021-02-05
  */
 /**~en
  * Sequencer
- * @version 2021-01-29
+ * @version 2021-02-05
  */
 class Sequencer {
 
@@ -19,7 +19,7 @@ class Sequencer {
 	 * @param {object} params Parameters
 	 */
 	constructor(ctx, params) {
-		const nowFn = (ctx instanceof Synth) ? (() => ctx.now()) : (() => ctx.currentTime);
+		const nowFn = (ctx instanceof Synth) ? (() => ctx.time()) : (() => ctx.currentTime);
 		this._scheduler = new Scheduler(nowFn);
 		this._lastTime = 0;
 		this._buf = [];
@@ -49,7 +49,7 @@ class Sequencer {
 	 * @param {number=} delay Delay time [s]
 	 */
 	play(delay = 0.5) {
-		const now = this._scheduler.now() + delay;
+		const now = this._scheduler.time() + delay;
 		for (const b of this._buf) {
 			const [t, fn] = b;
 			this._scheduler.insert(now + t, fn);
