@@ -226,7 +226,7 @@ class Paper {
 				this._frame = frame;
 				CROQUJS.currentPaper(this);
 				this._zoomHandler.beforeDrawing(this);
-				callback.apply(null, args_array);
+				callback(...args_array);
 				if (this.mouseMiddle() && this._isGridVisible) this.drawGrid();
 				this._zoomHandler.afterDrawing(this);
 				prevFrame = frame;

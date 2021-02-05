@@ -1,10 +1,10 @@
 /**~ja
  * スタイル・ベース（ストローク・フィル共通）
- * @version 2020-12-17
+ * @version 2021-02-05
  */
 /**~en
  * Style base (Common to stroke and fill)
- * @version 2020-12-17
+ * @version 2021-02-05
  */
 class StyleBase {
 
@@ -481,16 +481,16 @@ class StyleBase {
 		let style;
 		switch (type) {
 			case 'linear':
-				style = ctx.createLinearGradient.apply(ctx, params);
+				style = ctx.createLinearGradient(...params);
 				break;
 			case 'vertical': case 'horizontal': case 'vector': default:
-				style = ctx.createLinearGradient.apply(ctx, this._makeLinearGradParams(ctx, type, bs));
+				style = ctx.createLinearGradient(...this._makeLinearGradParams(ctx, type, bs));
 				break;
 			case 'radial':
-				style = ctx.createRadialGradient.apply(ctx, params);
+				style = ctx.createRadialGradient(...params);
 				break;
 			case 'inner': case 'outer': case 'diameter': case 'radius':
-				style = ctx.createRadialGradient.apply(ctx, this._makeRadialGradParams(ctx, type, bs, opt));
+				style = ctx.createRadialGradient(...this._makeRadialGradParams(ctx, type, bs, opt));
 				break;
 		}
 		for (let i = 0, I = cs.length; i < I; i += 1) {
