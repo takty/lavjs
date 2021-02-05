@@ -1,10 +1,10 @@
 /**~ja
  * 紙
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 /**~en
  * Paper
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 class Paper {
 
@@ -215,11 +215,11 @@ class Paper {
 	 * @return {Paper} This paper
 	 */
 	animate(callback, args_array) {
-		const startTime = getTime();
+		const startTime = now();
 		let prevFrame = -1;
 
 		const loop = () => {
-			const timeSpan = getTime() - startTime;
+			const timeSpan = now() - startTime;
 			const frame = Math.floor(timeSpan / (1000.0 / this._fps)) % this._frameLength;
 
 			if (frame !== prevFrame) {

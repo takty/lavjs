@@ -114,7 +114,7 @@
 				}
 			}
 		},
-		"getTime": {
+		"now": {
 			"!type": "fn()"
 		},
 		"removeAll": {

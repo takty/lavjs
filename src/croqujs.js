@@ -7,7 +7,7 @@
  * （ここでの紙は、HTML5のCanvas要素のCanvasRenderingContext2Dを拡張したもののことです）
  *
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 /**~en
  * Croqujs library (CROQUJS)
@@ -18,7 +18,7 @@
  * ('Paper' here is an extension of CanvasRenderingContext2D of HTML5 Canvas element)
  *
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 
 
@@ -95,9 +95,9 @@ const CROQUJS = (function () {
 	 * Get the current millisecond
 	 * @return {number} The current millisecond
 	 */
-	const getTime = (function () {
-		return window.performance.now.bind(window.performance);
-	}());
+	const now = function () {
+		return window.performance.now();
+	};
 
 	/**~ja
 	 * 例外を除き画面上の要素をすべて削除する
@@ -152,6 +152,6 @@ const CROQUJS = (function () {
 	//~en Create a library --------------------------------------------------------
 
 
-	return { Paper, getTime, removeAll, currentPaper, loadScript, loadScriptSync };
+	return { Paper, now, removeAll, currentPaper, loadScript, loadScriptSync };
 
 }());
