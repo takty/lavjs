@@ -12,11 +12,13 @@ class EnvelopePatch extends Patch {
 
 	/**~ja
 	 * エンベロープ・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make an envelope patch
+	 * @constructor
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */

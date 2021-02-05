@@ -10,9 +10,11 @@ class Synth {
 
 	/**~ja
 	 * シンセを作る
+	 * @constructor
 	 */
 	/**~en
 	 * Make a synth
+	 * @constructor
 	 */
 	constructor() {
 		this._context = new AudioContext();

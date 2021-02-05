@@ -12,10 +12,12 @@ class Stroke extends StyleBase {
 
 	/**~ja
 	 * 線スタイルを作る
+	 * @constructor
 	 * @param {Stroke=} base 元になる線スタイル
 	 */
 	/**~en
 	 * Make a stroke style
+	 * @constructor
 	 * @param {Stroke=} base Original stroke style
 	 */
 	constructor(base) {

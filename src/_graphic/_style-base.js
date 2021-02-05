@@ -10,11 +10,13 @@ class StyleBase {
 
 	/**~ja
 	 * スタイルを作る
+	 * @constructor
 	 * @param {Stroke=} base 元になるスタイル
 	 * @param {string=} color 標準の色
 	 */
 	/**~en
 	 * Make a style
+	 * @constructor
 	 * @param {Stroke=} base Original style
 	 * @param {string=} color Default color
 	 */

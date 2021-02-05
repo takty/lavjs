@@ -12,12 +12,14 @@ class SliderBase extends Widget {
 
 	/**~ja
 	 * スライダー・ベースを作る
+	 * @constructor
 	 * @param {number=} [width=null] 横幅
 	 * @param {number=} [height=null] たて幅
 	 * @param {*=} [{ int=false, reverse=false, vertical=true }={}] オプション（整数にする？、向きを逆にする？、たて向きにする？）
 	 */
 	/**~en
 	 * Make a slider base
+	 * @constructor
 	 * @param {number=} [width=null] Width
 	 * @param {number=} [height=null] Height
 	 * @param {*=} [{ int=false, reverse=false, vertical=true }={}] Options (Whether to integer, whether to reverse, whether to be vertical)

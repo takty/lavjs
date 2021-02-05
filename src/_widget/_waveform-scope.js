@@ -10,11 +10,13 @@ class WaveformScope extends ScopeBase {
 
 	/**~ja
 	 * 波形スコープを作る
+	 * @constructor
 	 * @param {number} width 横幅
 	 * @param {number} height たて幅
 	 */
 	/**~en
 	 * Make a waveform scope
+	 * @constructor
 	 * @param {number} width Width
 	 * @param {number} height Height
 	 */

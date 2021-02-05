@@ -12,11 +12,13 @@ class OscillatorPatch extends SourcePatch {
 
 	/**~ja
 	 * オシレーター・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make an oscillator patch
+	 * @constructor
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */

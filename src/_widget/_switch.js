@@ -12,12 +12,14 @@ class Switch extends Widget {
 
 	/**~ja
 	 * スイッチを作る
+	 * @constructor
 	 * @param {string=|Array<string>|number} [label_s_num=''] ボタンの名前／ボタンの数
 	 * @param {number} [value=0] 今押されているボタンの番号
 	 * @param {*=} [{ vertical=false, sameWidth=false }={}] オプション（たて向きにする？、同じ幅にする？）
 	 */
 	/**~en
 	 * Make a switch
+	 * @constructor
 	 * @param {string=|Array<string>|number} [label_s_num=''] Name(s) of button(s), or number of buttons
 	 * @param {number} [value=0] Index of currently selected button
 	 * @param {*=} [{ vertical=false, sameWidth=false }={}] Options (Whether to be vertical, Whether to be the same width)

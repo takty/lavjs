@@ -10,11 +10,13 @@ class Turtle extends TurtleBase {
 
 	/**~ja
 	 * カメを作る
+	 * @constructor
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number=} normalDeg 標準の方向
 	 */
 	/**~en
 	 * Make a turtle
+	 * @constructor
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number=} normalDeg Normal degree
 	 */

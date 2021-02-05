@@ -12,11 +12,13 @@ class BufferSourcePatch extends SourcePatch {
 
 	/**~ja
 	 * 音声ファイル・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make a sound file patch
+	 * @constructor
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */

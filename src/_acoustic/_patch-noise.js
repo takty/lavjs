@@ -12,11 +12,13 @@ class NoisePatch extends SourcePatch {
 
 	/**~ja
 	 * ノイズ・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make a noise patch
+	 * @constructor
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */

@@ -12,11 +12,13 @@ class MicrophonePatch extends SourcePatch {
 
 	/**~ja
 	 * マイクロフォン・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make a microphone patch
+	 * @constructor
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */

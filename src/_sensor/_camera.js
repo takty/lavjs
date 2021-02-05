@@ -12,11 +12,13 @@ class Camera extends Sensor {
 
 	/**~ja
 	 * カメラ・センサーを作る
+	 * @constructor
 	 * @param {number} [width=640] 横幅
 	 * @param {number} [height=480] たて幅
 	 */
 	/**~en
 	 * Make a camera sensor
+	 * @constructor
 	 * @param {number} [width=640] Width
 	 * @param {number} [height=480] Height
 	 */

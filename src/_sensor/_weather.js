@@ -12,11 +12,13 @@ class Weather extends Sensor {
 
 	/**~ja
 	 * 天気センサーを作る
+	 * @constructor
 	 * @param {number} [latitude=43] 緯度
 	 * @param {number} [longitude=141] 経度
 	 */
 	/**~en
 	 * Make a weather sensor
+	 * @constructor
 	 * @param {number} [latitude=43] Latitude
 	 * @param {number} [longitude=141] Longitude
 	 */

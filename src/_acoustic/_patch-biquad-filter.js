@@ -12,11 +12,13 @@ class BiquadFilterPatch extends Patch {
 
 	/**~ja
 	 * 二次フィルター・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make a biquad filter patch
+	 * @constructor
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */

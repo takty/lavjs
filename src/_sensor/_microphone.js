@@ -12,9 +12,11 @@ class Microphone extends Sensor {
 
 	/**~ja
 	 * マイクロフォン・センサーを作る
+	 * @constructor
 	 */
 	/**~en
 	 * Make a microphone sensor
+	 * @constructor
 	 */
 	constructor() {
 		super();

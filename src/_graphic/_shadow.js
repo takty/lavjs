@@ -10,10 +10,12 @@ class Shadow {
 
 	/**~ja
 	 * 影を作る
+	 * @constructor
 	 * @param {Shadow=} base 元になる影
 	 */
 	/**~en
 	 * Make a shadow
+	 * @constructor
 	 * @param {Shadow=} base Original shadow
 	 */
 	constructor(shadow) {

@@ -10,10 +10,12 @@ class Scheduler {
 
 	/**~ja
 	 * スケジューラーを作る
+	 * @constructor
 	 * @param {function} timestampFunction 現在時刻を返す関数
 	 */
 	/**~en
 	 * Make a scheduler
+	 * @constructor
 	 * @param {function} timestampFunction Function returns timestamp
 	 */
 	constructor(timestampFunction) {

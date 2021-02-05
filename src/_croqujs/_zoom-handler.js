@@ -12,10 +12,12 @@ class ZoomHandler {
 
 	/**~ja
 	 * ズーム操作処理を作る
+	 * @constructor
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Make a zoom operation handler
+	 * @constructor
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
 	constructor(ctx) {

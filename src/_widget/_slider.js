@@ -12,6 +12,7 @@ class Slider extends SliderBase {
 
 	/**~ja
 	 * スライダーを作る
+	 * @constructor
 	 * @param {number} [min=0] 最小値
 	 * @param {number} [max=10] 最大値
 	 * @param {number} [value=0] 現在の値
@@ -19,6 +20,7 @@ class Slider extends SliderBase {
 	 */
 	/**~en
 	 * Make a slider
+	 * @constructor
 	 * @param {number} [min=0] Minimum value
 	 * @param {number} [max=10] Maximum value
 	 * @param {number} [value=0] Current value

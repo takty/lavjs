@@ -12,11 +12,13 @@ class GainPatch extends Patch {
 
 	/**~ja
 	 * ゲイン・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make a gain patch
+	 * @constructor
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */

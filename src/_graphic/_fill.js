@@ -12,10 +12,12 @@ class Fill extends StyleBase {
 
 	/**~ja
 	 * ぬりスタイルを作る
+	 * @constructor
 	 * @param {Fill=} base 元になるぬりスタイル
 	 */
 	/**~en
 	 * Make a filling style
+	 * @constructor
 	 * @param {Fill=} base Original filling style
 	 */
 	constructor(base) {

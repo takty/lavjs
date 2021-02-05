@@ -12,11 +12,13 @@ class SpeakerPatch extends Patch {
 
 	/**~ja
 	 * スピーカー・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make a speaker patch
+	 * @constructor
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */

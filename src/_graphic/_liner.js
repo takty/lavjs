@@ -10,11 +10,13 @@ class Liner {
 
 	/**~ja
 	 * ライナーを作る
+	 * @constructor
 	 * @param {*} handler 描画ハンドラー
 	 * @param {number=} [opt_normalDir=Math.PI / -2] 法線方向
 	 */
 	/**~en
 	 * Make a liner
+	 * @constructor
 	 * @param {*} handler Drawing handler
 	 * @param {number=} [opt_normalDir=Math.PI / -2] Normal direction
 	 */

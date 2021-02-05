@@ -12,10 +12,12 @@ class KeyHandler {
 
 	/**~ja
 	 * キー操作処理を作る
+	 * @constructor
 	 * @param {Canvas} can キャンバス
 	 */
 	/**~en
 	 * Make a key operation handler
+	 * @constructor
 	 * @param {Canvas} can Canvas
 	 */
 	constructor(can) {

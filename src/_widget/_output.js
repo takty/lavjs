@@ -12,12 +12,14 @@ class Output extends Widget {
 
 	/**~ja
 	 * 行出力を作る
+	 * @constructor
 	 * @param {number} width 横幅
 	 * @param {number=} [height=null] たて幅
 	 * @param {*=} [{ nowrap=false }] オプション（折り返す？）
 	 */
 	/**~en
 	 * Make a line output
+	 * @constructor
 	 * @param {number} width Width
 	 * @param {number=} [height=null] Height
 	 * @param {*=} [{ nowrap=false }] Options (Whether to wrap)

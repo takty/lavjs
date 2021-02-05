@@ -10,11 +10,13 @@ class ScopeBase {
 
 	/**~ja
 	 * スコープ・ベースを作る
+	 * @constructor
 	 * @param {number} width 横幅
 	 * @param {number} height たて幅
 	 */
 	/**~en
 	 * Make a scope base
+	 * @constructor
 	 * @param {number} width Width
 	 * @param {number} height Height
 	 */

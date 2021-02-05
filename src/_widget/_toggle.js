@@ -12,12 +12,14 @@ class Toggle extends Widget {
 
 	/**~ja
 	 * トグル・ボタンを作る
+	 * @constructor
 	 * @param {string=|Array<string>|number} [label_s_num=''] ボタンの名前／ボタンの数
 	 * @param {boolean=|Array<boolean>} [value_s=false] 現在の状態
 	 * @param {*=} [{ vertical=false, sameWidth=false }={}] オプション（たて向きにする？、同じ幅にする？）
 	 */
 	/**~en
 	 * Make a toggle button
+	 * @constructor
 	 * @param {string=|Array<string>|number} [label_s_num=''] Name(s) of button(s), or number of buttons
 	 * @param {boolean=|Array<boolean>} [value_s=false] Current state(s)
 	 * @param {*=} [{ vertical=false, sameWidth=false }={}] Options (Whether to be vertical, Whether to be the same width)

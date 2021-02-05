@@ -12,9 +12,11 @@ class Geolocation extends Sensor {
 
 	/**~ja
 	 * ジオロケーション・センサーを作る
+	 * @constructor
 	 */
 	/**~en
 	 * Make a geolocation sensor
+	 * @constructor
 	 */
 	constructor() {
 		super();

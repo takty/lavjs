@@ -12,6 +12,7 @@ class Thermometer extends SliderBase {
 
 	/**~ja
 	 * 温度計を作る
+	 * @constructor
 	 * @param {number=} [min=-10] 最小温度
 	 * @param {number=} [max=50] 最大温度
 	 * @param {number=} [value=25] 現在の温度
@@ -19,6 +20,7 @@ class Thermometer extends SliderBase {
 	 */
 	/**~en
 	 * Make a thermometer
+	 * @constructor
 	 * @param {number=} [min=-10] Minimum temperature
 	 * @param {number=} [max=50] Maximum temperature
 	 * @param {number=} [value=25] Current temperature

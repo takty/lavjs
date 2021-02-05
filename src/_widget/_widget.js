@@ -12,11 +12,13 @@ class Widget {
 
 	/**~ja
 	 * ウィジェットを作る
+	 * @constructor
 	 * @param {number=} [width=null] 横幅
 	 * @param {number=} [height=null] たて幅
 	 */
 	/**~en
 	 * Make a widget
+	 * @constructor
 	 * @param {number=} [width=null] Width
 	 * @param {number=} [height=null] Height
 	 */

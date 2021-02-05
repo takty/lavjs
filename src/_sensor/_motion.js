@@ -16,9 +16,11 @@ class Motion extends Sensor {
 
 	/**~ja
 	 * モーション・センサーを作る
+	 * @constructor
 	 */
 	/**~en
 	 * Make a motion sensor
+	 * @constructor
 	 */
 	constructor() {
 		super();

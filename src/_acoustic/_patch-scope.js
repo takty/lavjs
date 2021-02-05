@@ -12,11 +12,13 @@ class ScopePatch extends Patch {
 
 	/**~ja
 	 * スコープ・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make a scope patch
+	 * @constructor
 	 * @param {Synth} synth Synth
 	 * @param {object} params Parameters
 	 */

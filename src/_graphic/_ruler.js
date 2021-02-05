@@ -10,10 +10,12 @@ class Ruler {
 
 	/**~ja
 	 * 定規を作る
+	 * @constructor
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Make a ruler
+	 * @constructor
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
 	constructor(ctx) {

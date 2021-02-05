@@ -29,11 +29,13 @@ class Chart extends Widget {
 
 	/**~ja
 	 * グラフを作る
+	 * @constructor
 	 * @param {number} [width=300] 横幅
 	 * @param {number} [height=150] たて幅
 	 */
 	/**~en
 	 * Make a chart
+	 * @constructor
 	 * @param {number} [width=300] Width
 	 * @param {number} [height=150] Height
 	 */

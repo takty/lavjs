@@ -10,11 +10,13 @@ class Sequencer {
 
 	/**~ja
 	 * シーケンサーを作る
+	 * @constructor
 	 * @param {Synth|AudioContext} ctx シンセ／オーディオ・コンテキスト
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make a sequencer
+	 * @constructor
 	 * @param {Synth|AudioContext} ctx Synth, or audio context
 	 * @param {object} params Parameters
 	 */

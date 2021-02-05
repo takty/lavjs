@@ -12,9 +12,11 @@ class DiceBase {
 
 	/**~ja
 	 * サイコロを作る
+	 * @constructor
 	 */
 	/**~en
 	 * Make a dice
+	 * @constructor
 	 */
 	constructor() {
 		this._r = Math.random;
