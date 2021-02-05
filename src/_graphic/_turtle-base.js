@@ -1,10 +1,10 @@
 /**~ja
  * タートル・ベース
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 /**~en
  * Turtle base
- * @version 2020-12-16
+ * @version 2021-02-05
  */
 class TurtleBase {
 
@@ -317,7 +317,7 @@ class TurtleBase {
 	 * @param {number} deg 角度
 	 * @return {TurtleBase} このタートル・ベース
 	 */
-	/**~em
+	/**~en
 	 * Turn left
 	 * @param {number} deg Degree
 	 * @return {TurtleBase} This turtle base
