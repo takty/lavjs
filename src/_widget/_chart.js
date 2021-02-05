@@ -1,30 +1,13 @@
 /**~ja
  * グラフ
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 /**~en
  * Chart
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-05
  */
-
-
- const CHART_ITEM_COLORS = [
-	'rgb( 91, 155, 213)',
-	'rgb(237, 125,  49)',
-	'rgb(165, 165, 165)',
-	'rgb(255, 192,   0)',
-	'rgb( 68, 114, 196)',
-	'rgb(112, 173,  71)',
-	'rgb( 37,  94, 145)',
-	'rgb(158,  72,  14)',
-	'rgb( 99,  99,  99)',
-	'rgb(153, 115,   0)',
-	'rgb( 38,  68, 120)',
-	'rgb( 67, 104,  43)',
-];
-
 class Chart extends Widget {
 
 	/**~ja
@@ -136,7 +119,7 @@ class Chart extends Widget {
 		for (const key in items) {
 			const i = items[key];
 			const name  = (i !== undefined && i.name  !== undefined) ? i.name  : key;
-			const style = (i !== undefined && i.style !== undefined) ? i.style : CHART_ITEM_COLORS[ci];
+			const style = (i !== undefined && i.style !== undefined) ? i.style : Chart.ITEM_COLORS[ci];
 			this._keys.push(key);
 			this._items[key] = { name, style };
 			this._data[key] = [];
@@ -144,7 +127,7 @@ class Chart extends Widget {
 			this._maxs[key] = 0;
 
 			ci += 1;
-			if (CHART_ITEM_COLORS.length <= ci) ci = 0;
+			if (Chart.ITEM_COLORS.length <= ci) ci = 0;
 		}
 		const count = Object.keys(items).length;
 		const ch = this._can.getAttribute('height');
@@ -404,3 +387,18 @@ class Chart extends Widget {
 	}
 
 }
+
+Chart.ITEM_COLORS = [
+	'rgb( 91, 155, 213)',
+	'rgb(237, 125,  49)',
+	'rgb(165, 165, 165)',
+	'rgb(255, 192,   0)',
+	'rgb( 68, 114, 196)',
+	'rgb(112, 173,  71)',
+	'rgb( 37,  94, 145)',
+	'rgb(158,  72,  14)',
+	'rgb( 99,  99,  99)',
+	'rgb(153, 115,   0)',
+	'rgb( 38,  68, 120)',
+	'rgb( 67, 104,  43)',
+];
