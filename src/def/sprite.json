@@ -52,10 +52,10 @@
 				"setRangeY": {
 					"!type": "fn(min: number, max: number, isLoop: bool)"
 				},
-				"setOnUpdate": {
+				"onBeforeUpdate": {
 					"!type": "fn(func: fn(?), args_array: [?])"
 				},
-				"setOnUpdated": {
+				"onUpdate": {
 					"!type": "fn(func: fn(?), args_array: [?])"
 				},
 				"motion": {

@@ -1,12 +1,12 @@
 /**~ja
  * ステージ
  * @extends {Element}
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 /**~en
  * Stage
  * @extends {Element}
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 class Stage extends Element {
 
@@ -113,7 +113,7 @@ class Stage extends Element {
 	 * @param {*} thisArg 'This' argument
 	 */
 	forEach(callback, thisArg) {
-		for (let i = 0, I = this._children.length; i < I; i += 1) {
+		for (let i = 0; i < this._children.length; i += 1) {
 			const val = this._children[i];
 			callback.call(thisArg, val, i, this);
 		}
@@ -143,8 +143,7 @@ class Stage extends Element {
 	 */
 	_localize() {
 		if (this._localizeOption) {
-			const descendant       = this._localizeOption[0];
-			const opt_stopRotation = this._localizeOption[1];
+			const [descendant, opt_stopRotation] = this._localizeOption;
 			const off = this._getPositionOnParent(descendant, 0, 0, 0, opt_stopRotation);
 			this._localizedOffset[0] = -off[0];
 			this._localizedOffset[1] = -off[1];
@@ -167,16 +166,16 @@ class Stage extends Element {
 	 * @return {Array<number>} Position
 	 */
 	getPositionOnContext(descendant) {
-		const p = this._getPositionOnParent(descendant, 0, 0, 0);
-		p[0] += this._localizedOffset[0];
-		p[1] += this._localizedOffset[1];
+		let [x, y] = this._getPositionOnParent(descendant, 0, 0, 0);
+		x += this._localizedOffset[0];
+		y += this._localizedOffset[1];
 
 		const r = this._localizedOffset[2] * Math.PI / 180;
 		const sin = Math.sin(r);
 		const cos = Math.cos(r);
-		const x = (p[0] * cos - p[1] * sin);
-		const y = (p[0] * sin + p[1] * cos);
-		return [x, y];
+		const nx = (x * cos - y * sin);
+		const ny = (x * sin + y * cos);
+		return [nx, ny];
 	}
 
 	/**~ja
@@ -197,8 +196,7 @@ class Stage extends Element {
 		ctx.translate(this._localizedOffset[0], this._localizedOffset[1]);
 		this._setTransformation(ctx);
 
-		for (let i = 0, I = this._children.length; i < I; i += 1) {
-			const c = this._children[i];
+		for (const c of this._children) {
 			//~ja スプライトのdraw関数を呼び出す
 			//~en Call the sprite's draw function
 			c.draw.call(c, ctx, args_array);
@@ -238,7 +236,7 @@ class Stage extends Element {
 		const cos = Math.cos(r);
 		let sx, sy;
 		if (elm._scale instanceof Array) {
-			sx = elm._scale[0], sy = elm._scale[1];
+			[sx, sy] = elm._scale;
 		} else {
 			sx = sy = elm._scale;
 		}
@@ -257,13 +255,13 @@ class Stage extends Element {
 	 * @private
 	 */
 	_checkCollision() {
-		for (let i = 0, I = this._children.length; i < I; i += 1) {
+		for (let i = 0; i < this._children.length; i += 1) {
 			const c0 = this._children[i];
 			const r0 = c0._collisionRadius;
 			const x0 = c0._x;
 			const y0 = c0._y;
 
-			for (let j = i + 1, J = this._children.length; j < J; j += 1) {
+			for (let j = i + 1; j < this._children.length; j += 1) {
 				const c1 = this._children[j];
 				if (!c0._onCollision && !c1._onCollision) continue;
 

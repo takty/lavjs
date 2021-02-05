@@ -5,7 +5,7 @@
  * 好きな場所に好きな大きさ、向き、透明度で表示するためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-12-17
+ * @version 2021-02-05
  */
 /**~en
  * Sprite library (SPRITE)
@@ -14,7 +14,7 @@
  * and display them in the size, orientation, and transparency you like.
  *
  * @author Takuto Yanagida
- * @version 2020-12-17
+ * @version 2021-02-05
  */
 
 
@@ -137,10 +137,10 @@ const SPRITE = (function () {
 		return function () {
 			if (!descendant._firstUpdated) return;
 			const p = ancestorStage.getPositionOnContext(descendant);
-			if (old.length > 0) {
+			if (old.length === 2) {
 				ctx.beginPath();
-				ctx.moveTo(old[0], old[1]);
-				ctx.lineTo(p[0], p[1]);
+				ctx.moveTo(...old);
+				ctx.lineTo(...p);
 				ctx.stroke();
 			}
 			old = p;

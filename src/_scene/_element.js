@@ -1,10 +1,10 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 /**~en
  * Element (common to sprites and stages)
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 class Element {
 
@@ -307,33 +307,33 @@ class Element {
 	}
 
 	/**~ja
-	 * 更新前イベントのハンドラーをセットする
-	 * @param {function(*)} fn 関数
-	 * @param {Array} args_array 関数に渡す引数の配列
+	 * 更新前イベントに対応する関数をセットする
+	 * @param {function()} handler 関数
+	 * @return {function()=} 関数
 	 */
 	/**~en
-	 * Set handler for update event
-	 * @param {function(*)} fn Function
-	 * @param {Array} args_array Array of arguments to pass to the function
+	 * Set the function handling the before update event
+	 * @param {function()} handler Function
+	 * @return {function()=} Function
 	 */
-	setOnUpdate(fn, args_array) {
-		const f = () => { fn.apply(this, args_array); };
-		this._onUpdate = f;
+	onBeforeUpdate(handler) {
+		if (handler === undefined) return this._onBeforeUpdate;
+		this._onBeforeUpdate = handler;
 	}
 
 	/**~ja
-	 * 更新後イベントのハンドラーをセットする
-	 * @param {function(*)} fn 関数
-	 * @param {Array} args_array 関数に渡す引数の配列
+	 * 更新イベントに対応する関数をセットする
+	 * @param {function()} handler 関数
+	 * @return {function()=} 関数
 	 */
 	/**~en
-	 * Set handler for updated event
-	 * @param {function(*)} fn Function
-	 * @param {Array} args_array Array of arguments to pass to the function
+	 * Set the function handling the update event
+	 * @param {function()} handler Function
+	 * @return {function()=} Function
 	 */
-	setOnUpdated(fn, args_array) {
-		const f = () => { fn.apply(this, args_array); };
-		this._onUpdated = f;
+	onUpdate(handler) {
+		if (handler === undefined) return this._onUpdate;
+		this._onUpdate = handler;
 	}
 
 	/**~ja
@@ -412,7 +412,7 @@ class Element {
 	_update() {
 		//~ja 更新前イベント
 		//~en Update event
-		if (this._onUpdate) this._onUpdate.call(this);
+		if (this._onBeforeUpdate) this._onBeforeUpdate.call(this);
 
 		this._angle  = checkDegRange(this._angle  + valueFunction(this._angleSpeed));
 		this._angleX = checkDegRange(this._angleX + valueFunction(this._angleSpeedX));
@@ -420,9 +420,7 @@ class Element {
 
 		if (this._motion !== null) {
 			const newPos = this._motion.update(this._x, this._y, this._dir, this._speed);
-			this._x   = newPos[0];
-			this._y   = newPos[1];
-			this._dir = newPos[2];
+			[this._x, this._y, this._dir] = newPos;
 		}
 		if (this._checkRangeX !== null) this._x = this._checkRangeX(this._x);
 		if (this._checkRangeY !== null) this._y = this._checkRangeY(this._y);
@@ -435,7 +433,7 @@ class Element {
 
 		//~ja 更新後イベント
 		//~en Updated event
-		if (this._onUpdated) this._onUpdated.call(this);
+		if (this._onUpdate) this._onUpdate.call(this);
 		//~ja 最初にこの関数が呼ばれ、座標などが正しいことを示す
 		//~en This function is called first to indicate that the coordinates etc. are correct
 		this._firstUpdated = true;
