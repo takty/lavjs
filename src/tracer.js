@@ -4,7 +4,7 @@
  * 座標を持ったオブジェクトを移動させるライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 /**~en
  * TraceMotion library (TRACER)
@@ -12,7 +12,7 @@
  * A library to move an object with coordinates.
  *
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 
 
@@ -63,7 +63,7 @@ const TRACER = (function () {
 
 
 	//=
-	//=include _scene/_tracer.js
+	//=include _scene/_trace-motion.js
 
 
 	//=
