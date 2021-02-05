@@ -1,12 +1,12 @@
 /**~ja
  * マウス操作処理
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 /**~en
  * Mouse operation handler
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-05
  */
 class MouseHandler {
 
@@ -52,12 +52,7 @@ class MouseHandler {
 
 		//~ja キャンバスにイベント・リスナーをセット
 		//~en Set event listener in canvas
-		if (window.ontouchstart !== undefined) {  // iOS, Android (& Chrome)
-			this._canvas.addEventListener('touchstart', (e) => { this._onDownCan(e); this._onClickCan(e); }, true);
-			this._canvas.addEventListener('touchmove', this._onMoveCan.bind(this), true);
-			this._canvas.addEventListener('touchend', this._onUpCan.bind(this), false);
-		}
-		if (window.PointerEvent) {  // IE11 & Chrome
+		if (window.PointerEvent) {
 			this._canvas.addEventListener('pointerdown', this._onDownCan.bind(this), true);
 			this._canvas.addEventListener('pointermove', this._onMoveCan.bind(this), true);
 			this._canvas.addEventListener('pointerup', this._onUpCan.bind(this), false);
@@ -157,8 +152,7 @@ class MouseHandler {
 			e.preventDefault();
 			return;
 		}
-		const whichTbl = [0, 1, 4, 2];
-		this._btns = (e.buttons !== undefined) ? e.buttons : whichTbl[e.which] /* Chrome or Opera */;
+		if (e.buttons !== undefined) this._btns = e.buttons;
 		this._setButtonWin(this._btns);
 	}
 
@@ -335,17 +329,12 @@ class MouseHandler {
 	 * @param {boolean} val State
 	 */
 	_setButtonCanvas(e, val) {
-		//~ja どのボタンかがわからない時（Androidタッチの時）
-		//~en When it is not known which button (when touch on Android)
-		const which = (e.which === undefined) ? 0 : e.which;
-
 		//~ja タッチ以外の処理は基本的にInputMouseButtonが担当（以下はタッチイベント関連への簡易対応のため）
 		//~en Basically, the InputMouseButton is in charge of processing other than touch (the following is for easy correspondence to touch event related)
-		switch (which) {
-			case 0:
-			case 1: this._btnL = val; break;
-			case 2: this._btnM = val; break;
-			case 3: this._btnR = val; break;
+		switch (e.button) {
+			case 0: this._btnL = val; break;
+			case 1: this._btnM = val; break;
+			case 2: this._btnR = val; break;
 		}
 		for (const c of this._children) {
 			c._setButtonCanvas(e, val);
