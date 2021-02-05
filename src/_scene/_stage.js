@@ -203,8 +203,8 @@ class Stage extends Element {
 		}
 		ctx.restore();
 
-		//~ja このタイミングでTracer::stepNextが呼ばれ、その結果、Tracer::onStepも呼び出される
-		//~en At this timing Tracer::stepNext is called, and as a result, Tracer::onStep is also called
+		//~ja このタイミングでTraceMotion::stepNextが呼ばれ、その結果、TraceMotion::onStepも呼び出される
+		//~en At this timing TraceMotion::stepNext is called, and as a result, TraceMotion::onStep is also called
 		this._update();
 		this._checkCollision();
 	}

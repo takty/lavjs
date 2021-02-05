@@ -7,7 +7,7 @@
  * @version 2021-02-04
  */
 /**~en
- * Tracer library (TRACER)
+ * TraceMotion library (TRACER)
  *
  * A library to move an object with coordinates.
  *
@@ -94,10 +94,10 @@ const TRACER = (function () {
 	//~en Register function alias
 	for (const [orig, as] of Object.entries(aliasMap)) {
 		for (const a of as) {
-			Tracer.prototype[a] = Tracer.prototype[orig];
+			TraceMotion.prototype[a] = TraceMotion.prototype[orig];
 		}
 	}
 
-	return { Tracer };
+	return { TraceMotion };
 
 }());
