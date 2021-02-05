@@ -266,8 +266,8 @@ class Element {
 	 */
 	/**~en
 	 * Set the function handling the before update event
-	 * @param {function()} handler Function
-	 * @return {function()=} Function
+	 * @param {function(Element)} handler Function
+	 * @return {function(Element)=} Function
 	 */
 	onBeforeUpdate(handler) {
 		if (handler === undefined) return this._onBeforeUpdate;
@@ -281,8 +281,8 @@ class Element {
 	 */
 	/**~en
 	 * Set the function handling the update event
-	 * @param {function()} handler Function
-	 * @return {function()=} Function
+	 * @param {function(Element)} handler Function
+	 * @return {function(Element)=} Function
 	 */
 	onUpdate(handler) {
 		if (handler === undefined) return this._onUpdate;
@@ -373,26 +373,24 @@ class Element {
 	/**~ja
 	 * スピードに合わせて座標と角度を更新する（ライブラリ内だけで使用）
 	 * @private
+	 * @param {number} deltaTime 時間差（前回のフレームからの時間経過）[ms]
 	 */
 	/**~en
 	 * Update coordinates and angles according to the speeds (used only in the library)
 	 * @private
+	 * @param {number} deltaTime Delta time [ms]
 	 */
-	_update() {
+	_update(deltaTime) {
 		//~ja 更新前イベント
 		//~en Update event
-		if (this._onBeforeUpdate) this._onBeforeUpdate.call(this);
-
-		// this._angle  = checkDegRange(this._angle  + valueFunction(this._angleSpeed));
-		// this._angleX = checkDegRange(this._angleX + valueFunction(this._angleSpeedX));
-		// this._angleZ = checkDegRange(this._angleZ + valueFunction(this._angleSpeedZ));
+		if (this._onBeforeUpdate) this._onBeforeUpdate(this);
 
 		if (this._rotation !== null) {
-			const newAs = this._rotation.update(this._angle, this._angleX, this._angleZ, this._speed);
+			const newAs = this._rotation.update(this._angle, this._angleX, this._angleZ, this._speed * deltaTime);
 			[this._angle, this._angleX, this._angleZ] = newAs;
 		}
 		if (this._motion !== null) {
-			const newPos = this._motion.update(this._x, this._y, this._dir, this._speed);
+			const newPos = this._motion.update(this._x, this._y, this._dir, this._speed * deltaTime);
 			[this._x, this._y, this._dir] = newPos;
 		}
 		if (this._checkRangeX !== null) this._x = this._checkRangeX(this._x);
@@ -406,7 +404,7 @@ class Element {
 
 		//~ja 更新後イベント
 		//~en Updated event
-		if (this._onUpdate) this._onUpdate.call(this);
+		if (this._onUpdate) this._onUpdate(this);
 		//~ja 最初にこの関数が呼ばれ、座標などが正しいことを示す
 		//~en This function is called first to indicate that the coordinates etc. are correct
 		this._firstUpdated = true;

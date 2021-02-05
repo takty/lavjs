@@ -28,6 +28,9 @@
 				"stop": {
 					"!type": "fn() -> this"
 				},
+				"deltaTime": {
+					"!type": "fn() -> number"
+				},
 				"frame": {
 					"!type": "fn() -> number"
 				},

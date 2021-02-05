@@ -62,6 +62,8 @@ class Paper {
 	 * @param {DOMElement} can Canvas element
 	 */
 	_augment(can) {
+		this._prevTime = 0;
+		this._deltaTime = 0;
 		this._frame = 0;
 		this._fps = 60;
 		this._frameLength = 60;
@@ -219,7 +221,9 @@ class Paper {
 		let prevFrame = -1;
 
 		const loop = () => {
-			const timeSpan = now() - startTime;
+			const now = now();
+			this._deltaTime = now - this._prevTime;
+			const timeSpan = now - startTime;
 			const frame = Math.floor(timeSpan / (1000.0 / this._fps)) % this._frameLength;
 
 			if (frame !== prevFrame) {
@@ -235,6 +239,7 @@ class Paper {
 			if (this._isAnimating && this.canvas.parentNode !== null) {
 				window.requestAnimationFrame(loop);
 			}
+			this._prevTime = now;
 		};
 		this._isAnimating = true;
 		window.requestAnimationFrame(loop);
@@ -252,6 +257,18 @@ class Paper {
 	stop() {
 		this._isAnimating = false;
 		return this;
+	}
+
+	/**~ja
+	 * 時間差（前回のフレームからの時間経過）[ms]
+	 * @return {number} 時間差
+	 */
+	/**~en
+	 * Delta time [ms]
+	 * @return {number} Delta time
+	 */
+	deltaTime() {
+		return this._deltaTime;
 	}
 
 	/**~ja

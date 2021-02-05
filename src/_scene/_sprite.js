@@ -1,18 +1,19 @@
 /**~ja
  * スプライト
  * @extends {Element}
- * @version 2020-12-17
+ * @version 2021-02-05
  */
 /**~en
  * Sprite
  * @extends {Element}
- * @version 2020-12-17
+ * @version 2021-02-05
  */
 class Sprite extends Element {
 
 	/**~ja
 	 * スプライトを作る
 	 * - ただし普通は、SPRITE.StageのmakeSprite関数を使う。
+	 * @constructor
 	 * @param {function(*)} drawFunction 絵をかく関数
 	 * @param {Array=} opt_args_array 関数に渡す引数の配列
 	 * @param {Motion=} opt_motion モーション
@@ -20,6 +21,7 @@ class Sprite extends Element {
 	/**~en
 	 * Make a sprite
 	 * - However, normally, use the makeSprite function of SPRITE.Stage.
+	 * @constructor
 	 * @param {function(*)} drawFunction Function to draw pictures
 	 * @param {Array=} opt_args_array Array of arguments to pass to the function
 	 * @param {Motion=} opt_motion Motion
@@ -52,10 +54,9 @@ class Sprite extends Element {
 		if (this._firstUpdated) {
 			ctx.save();
 			this._setTransformation(ctx);
-			this._drawFunction.apply(this, args);
+			this._drawFunction(...args);
 			ctx.restore();
 		}
-		this._update();
 	}
 
 	/**~ja

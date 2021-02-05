@@ -12,10 +12,12 @@ class Stage extends Element {
 
 	/**~ja
 	 * ステージを作る
+	 * @constructor
 	 * @param {Motion=} opt_motion モーション
 	 */
 	/**~en
 	 * Make a stage
+	 * @constructor
 	 * @param {Motion=} opt_motion Motion
 	 */
 	constructor(opt_motion) {
@@ -26,7 +28,7 @@ class Stage extends Element {
 		this._localizeOption = null;
 		this._localizedOffset = [0, 0, 0];
 
-		this._update();
+		this._update(0);
 	}
 
 	/**~ja
@@ -114,8 +116,8 @@ class Stage extends Element {
 	 */
 	forEach(callback, thisArg) {
 		for (let i = 0; i < this._children.length; i += 1) {
-			const val = this._children[i];
-			callback.call(thisArg, val, i, this);
+			const c = this._children[i];
+			callback.call(thisArg, c, i, this);
 		}
 	}
 
@@ -158,12 +160,12 @@ class Stage extends Element {
 	/**~ja
 	 * このステージの原点の紙での場所を返す
 	 * @param {Element} descendant スプライトかステージ
-	 * @return {Array<number>} 場所
+	 * @return {number[]} 場所
 	 */
 	/**~en
 	 * Returns the position in the paper of this stage's origin
 	 * @param {Element} descendant Sprite or child stage of this stage
-	 * @return {Array<number>} Position
+	 * @return {number[]} Position
 	 */
 	getPositionOnContext(descendant) {
 		let [x, y] = this._getPositionOnParent(descendant, 0, 0, 0);
@@ -199,13 +201,26 @@ class Stage extends Element {
 		for (const c of this._children) {
 			//~ja スプライトのdraw関数を呼び出す
 			//~en Call the sprite's draw function
-			c.draw.call(c, ctx, args_array);
+			c.draw(ctx, args_array);
 		}
 		ctx.restore();
+	}
 
-		//~ja このタイミングでTraceMotion::stepNextが呼ばれ、その結果、TraceMotion::onStepも呼び出される
-		//~en At this timing TraceMotion::stepNext is called, and as a result, TraceMotion::onStep is also called
-		this._update();
+	/**~ja
+	 * 時間に合わせて持っているスプライトと子ステージを全て更新する
+	 * @param {number=} deltaTime 時間差（前回のフレームからの時間経過）[ms]
+	 */
+	/**~en
+	 * Update all sprites and child stages this stage has according to the time
+	 * @param {number=} deltaTime Delta time [ms]
+	 */
+	update(deltaTime = 1) {
+		for (const c of this._children) {
+			//~ja スプライトの_update関数を呼び出す
+			//~en Call the sprite's _update function
+			c._update(deltaTime);
+		}
+		this._update(deltaTime);
 		this._checkCollision();
 	}
 
@@ -217,7 +232,7 @@ class Stage extends Element {
 	 * @param {number} cy たて位置
 	 * @param {number} ca 角度
 	 * @param {boolean=} opt_stopRotation 回転を止めるか
-	 * @return {Array<number>} 場所
+	 * @return {number[]} 場所
 	 */
 	/**~en
 	 * Return the position in the paper of the origin of an element (used only in the library)
@@ -227,7 +242,7 @@ class Stage extends Element {
 	 * @param {number} cy Position y
 	 * @param {number} ca Angle
 	 * @param {boolean=} opt_stopRotation Whether to stop rotation
-	 * @return {Array<number>} Position
+	 * @return {number[]} Position
 	 */
 	_getPositionOnParent(elm, cx, cy, ca, opt_stopRotation) {
 		const a = (opt_stopRotation ? elm._angle : 0) + (elm._isFixedHeading ? 0 : elm._dir);

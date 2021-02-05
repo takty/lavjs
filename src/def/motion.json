@@ -40,6 +40,23 @@
 					"!type": "fn(x: number, y: number, dir: number, unitTime: number) -> [number]"
 				}
 			}
+		},
+		"Rotation": {
+			"!type": "fn(angleSpeed?: number, angleSpeedX?: number, angleSpeedZ?: number)",
+			"prototype": {
+				"angleSpeed": {
+					"!type": "fn(val?: number) -> !this|number"
+				},
+				"angleSpeedX": {
+					"!type": "fn(val?: number) -> !this|number"
+				},
+				"angleSpeedZ": {
+					"!type": "fn(val?: number) -> !this|number"
+				},
+				"update": {
+					"!type": "fn(angle: number, angleX: number, angleZ: number, unitTime: number) -> [number]"
+				}
+			}
 		}
 	}
 }
