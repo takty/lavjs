@@ -10,13 +10,17 @@ class Element {
 
 	/**~ja
 	 * 要素を作る
+	 * @constructor
 	 * @param {Motion=} [motion=null] 動き
+	 * @param {Rotation=} [rotation=null] 回転
 	 */
 	/**~en
 	 * Make an element
+	 * @constructor
 	 * @param {Motion=} [motion=null] Motion
+	 * @param {Rotation=} [rotation=null] Rotation
 	 */
-	constructor(motion = null) {
+	constructor(motion = null, rotation = null) {
 		this._parent    = null;
 		this._data      = null;
 		this._observers = null;
@@ -35,14 +39,11 @@ class Element {
 
 		this._speed = 1;
 
-		this._angleSpeed  = 0;
-		this._angleSpeedX = 0;
-		this._angleSpeedZ = 0;
-
 		this._checkRangeX = null;
 		this._checkRangeY = null;
 
-		this._motion = motion;
+		this._motion   = motion;
+		this._rotation = rotation;
 	}
 
 	/**~ja
@@ -227,54 +228,6 @@ class Element {
 	}
 
 	/**~ja
-	 * 方向スピード
-	 * @param {?number} val 方向スピード
-	 * @return {number|Element} 方向スピード／この要素
-	 */
-	/**~en
-	 * Angle speed
-	 * @param {?number} val Angle speed
-	 * @return {number|Element} Angle speed or this element
-	 */
-	angleSpeed(val) {
-		if (val === undefined) return this._angleSpeed;
-		this._angleSpeed = val;
-		return this;
-	}
-
-	/**~ja
-	 * 方向スピードx
-	 * @param {?number} val 方向スピード
-	 * @return {number|Element} 方向スピード／この要素
-	 */
-	/**~en
-	 * Angle speed x
-	 * @param {?number} val Angle speed
-	 * @return {number|Element} Angle speed or this element
-	 */
-	angleSpeedX(val) {
-		if (val === undefined) return this._angleSpeedX;
-		this._angleSpeedX = val;
-		return this;
-	}
-
-	/**~ja
-	 * 方向スピードz
-	 * @param {?number} val 方向スピード
-	 * @return {number|Element} 方向スピード／この要素
-	 */
-	/**~en
-	 * Angle speed z
-	 * @param {?number} val Angle speed
-	 * @return {number|Element} Angle speed or this element
-	 */
-	angleSpeedZ(val) {
-		if (val === undefined) return this._angleSpeedZ;
-		this._angleSpeedZ = val;
-		return this;
-	}
-
-	/**~ja
 	 * 横方向の範囲をセットする
 	 * @param {number} min 始まり
 	 * @param {number} max 終わり
@@ -353,6 +306,22 @@ class Element {
 	}
 
 	/**~ja
+	 * 回転
+	 * @param {Rotation=} val 回転
+	 * @return {Rotation|Element} 回転／この要素
+	 */
+	/**~en
+	 * Rotation
+	 * @param {Rotation=} val Rotation
+	 * @return {Rotation|Element} Rotation or this element
+	 */
+	rotation(val) {
+		if (val === undefined) return this._rotation;
+		this._rotation = val;
+		return this;
+	}
+
+	/**~ja
 	 * データ
 	 * @param {?object} val データ
 	 * @return {object|Element} データ／この要素
@@ -414,10 +383,14 @@ class Element {
 		//~en Update event
 		if (this._onBeforeUpdate) this._onBeforeUpdate.call(this);
 
-		this._angle  = checkDegRange(this._angle  + valueFunction(this._angleSpeed));
-		this._angleX = checkDegRange(this._angleX + valueFunction(this._angleSpeedX));
-		this._angleZ = checkDegRange(this._angleZ + valueFunction(this._angleSpeedZ));
+		// this._angle  = checkDegRange(this._angle  + valueFunction(this._angleSpeed));
+		// this._angleX = checkDegRange(this._angleX + valueFunction(this._angleSpeedX));
+		// this._angleZ = checkDegRange(this._angleZ + valueFunction(this._angleSpeedZ));
 
+		if (this._rotation !== null) {
+			const newAs = this._rotation.update(this._angle, this._angleX, this._angleZ, this._speed);
+			[this._angle, this._angleX, this._angleZ] = newAs;
+		}
 		if (this._motion !== null) {
 			const newPos = this._motion.update(this._x, this._y, this._dir, this._speed);
 			[this._x, this._y, this._dir] = newPos;

@@ -2,13 +2,13 @@
  * モーション・ライブラリ（MOTION）
  *
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2021-02-05
  */
 /**~en
  * Motion library (MOTION)
  *
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2021-02-05
  */
 
 
@@ -102,10 +102,14 @@ const MOTION = (function () {
 	//=include _scene/_polar-motion.js
 
 
+	//=
+	//=include _scene/_rotation.js
+
+
 	//~ja ライブラリを作る --------------------------------------------------------
 	//~en Create a library --------------------------------------------------------
 
 
-	return { AxisMotion, PolarMotion };
+	return { AxisMotion, PolarMotion, Rotation };
 
 }());
