@@ -161,13 +161,13 @@ class Paper {
 	 * ピクセルの色を取得する
 	 * @param {number} x x座標
 	 * @param {number} y y座標
-	 * @return {[number, number, number, number]} 色（RGBA）を表す配列
+	 * @return {number[]} 色（RGBA）を表す配列
 	 */
 	/**~en
 	 * Get pixel color
 	 * @param {number} x x coordinate
 	 * @param {number} y y coordinate
-	 * @return {[number, number, number, number]} Array representing color (RGBA)
+	 * @return {number[]} Array representing color (RGBA)
 	 */
 	getPixel(x, y) {
 		return this.getImageData(x, y, 1, 1).data;
@@ -177,14 +177,14 @@ class Paper {
 	 * ピクセルの色を設定する
 	 * @param {number} x x座標
 	 * @param {number} y y座標
-	 * @param {[number, number, number, number]} rgba 色（RGBA）を表す配列
+	 * @param {number[]} rgba 色（RGBA）を表す配列
 	 * @return {Paper} この紙
 	 */
 	/**~en
 	 * Set pixel color
 	 * @param {number} x x coordinate
 	 * @param {number} y y coordinate
-	 * @param {[number, number, number, number]} rgba Array representing color (RGB)
+	 * @param {number[]} rgba Array representing color (RGB)
 	 * @return {Paper} This paper
 	 */
 	setPixel(x, y, [r = 0, g = 0, b = 0, a = 255]) {

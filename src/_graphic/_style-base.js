@@ -458,22 +458,22 @@ class StyleBase {
 	 * グラデーションを作る（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {dict} bs 範囲
+	 * @param {Object} bs 範囲
 	 * @param {string} type 種類
 	 * @param {Array} params パラメター
-	 * @param {Array<string>} cs 色の配列
-	 * @param {dict} opt オプション
+	 * @param {string[]} cs 色の配列
+	 * @param {Object} opt オプション
 	 * @return {string} スタイル文字列
 	 */
 	/**~en
 	 * Make a gradation (used only in the library)
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {dict} bs Bounds
+	 * @param {Object} bs Bounds
 	 * @param {string} type Type
 	 * @param {Array} params Parameters
-	 * @param {Array<string>} cs Colors
-	 * @param {dict} opt Options
+	 * @param {string[]} cs Colors
+	 * @param {Object} opt Options
 	 * @return {string} String of style
 	 */
 	_makeGrad(ctx, bs, type, params, cs, opt) {

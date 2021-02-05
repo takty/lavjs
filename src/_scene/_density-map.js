@@ -1,10 +1,10 @@
 /**~ja
  * 密度マップ
- * @version 2020-05-05
+ * @version 2021-02-05
  */
 /**~en
  * Density Map
- * @version 2020-05-05
+ * @version 2021-02-05
  */
 class DensityMap {
 
@@ -38,12 +38,12 @@ class DensityMap {
 	/**~ja
 	 * マップを作る（ライブラリ内だけで使用）
 	 * @private
-	 * @return {Array<Array<number>>} マップ
+	 * @return {number[][]} マップ
 	 */
 	/**~en
 	 * Make a map (used only in the library)
 	 * @private
-	 * @return {Array<Array<number>>} Map
+	 * @return {number[][]} Map
 	 */
 	_makeMap() {
 		const m = new Array(this._gh);

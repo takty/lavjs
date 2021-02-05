@@ -1,10 +1,10 @@
 /**~ja
  * 極座標モーション
- * @version 2020-05-05
+ * @version 2021-02-05
  */
 /**~en
  * Polar coordinate motion
- * @version 2020-05-05
+ * @version 2021-02-05
  */
 class PolarMotion {
 
@@ -99,7 +99,7 @@ class PolarMotion {
 	 * @param {number} y y座標（たての場所）
 	 * @param {number} dir 方向
 	 * @param {number} unitTime 単位時間
-	 * @return {Array<number>} 座標
+	 * @return {number[]} 座標
 	 */
 	/**~en
 	 * Update coordinates according to the speed
@@ -107,7 +107,7 @@ class PolarMotion {
 	 * @param {number} y Y coordinate
 	 * @param {number} dir Direction
 	 * @param {number} unitTime Unit time
-	 * @return {Array<number>} Coordinate
+	 * @return {number[]} Coordinate
 	 */
 	update(x, y, dir, unitTime) {
 		let r = Math.sqrt(x * x + y * y);

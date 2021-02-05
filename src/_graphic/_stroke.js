@@ -1,12 +1,12 @@
 /**~ja
  * 線スタイル（ストローク）
  * @extends {StyleBase}
- * @version 2020-04-21
+ * @version 2021-02-05
  */
 /**~en
  * Stroke style (Stroke)
  * @extends {StyleBase}
- * @version 2020-04-21
+ * @version 2021-02-05
  */
 class Stroke extends StyleBase {
 
@@ -119,13 +119,13 @@ class Stroke extends StyleBase {
 
 	/**~ja
 	 * 点線のパターンを設定する
-	 * @param {Array<number>=} dash 点線のパターン
-	 * @return {Array<number>|Stroke} 点線パターンかこのストローク
+	 * @param {number[]=} dash 点線のパターン
+	 * @return {number[]|Stroke} 点線パターンかこのストローク
 	 */
 	/**~en
 	 * Set a dash pattern
-	 * @param {Array<number>=} dash Dash pattern
-	 * @return {Array<number>|Stroke} Dash pattern or this stroke
+	 * @param {number[]=} dash Dash pattern
+	 * @return {number[]|Stroke} Dash pattern or this stroke
 	 */
 	dash(...dash) {
 		if (dash === undefined) return this._dash.concat();
@@ -158,12 +158,12 @@ class Stroke extends StyleBase {
 	/**~ja
 	 * 紙に線スタイルを設定する
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {Array<number>} gradArea グラデーション範囲
+	 * @param {number[]} gradArea グラデーション範囲
 	 */
 	/**~en
 	 * Assign the stroke style in the paper
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {Array<number>} gradArea Gradation area
+	 * @param {number[]} gradArea Gradation area
 	 */
 	assign(ctx, gradArea) {
 		ctx.strokeStyle = this._makeStyle(ctx, gradArea);
@@ -184,12 +184,12 @@ class Stroke extends StyleBase {
 	/**~
 	 * 線スタイルを使って線をかく
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {Array<number>} gradArea グラデーション範囲
+	 * @param {number[]} gradArea グラデーション範囲
 	 */
 	/**~en
 	 * Draw lines using the stroke style
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {Array<number>} gradArea Gradation area
+	 * @param {number[]} gradArea Gradation area
 	 */
 	draw(ctx, gradArea) {
 		ctx.save();

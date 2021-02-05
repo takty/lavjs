@@ -1,12 +1,12 @@
 /**~ja
  * 色テーブル
  * @author Takuto Yanagida
- * @version 2019-10-12
+ * @version 2021-02-05
  */
 /**~en
  * Color table
  * @author Takuto Yanagida
- * @version 2019-10-12
+ * @version 2021-02-05
  */
 
 
@@ -33,13 +33,13 @@ const checkColor = (color) => {
  * 色の名前をRGBに直します
  * @param {string} color 色の名前
  * @param {number=} [alpha=1] アルファ
- * @return {Array<number>} RGB(A)
+ * @return {number[]} RGB(A)
  */
 /**~en
  * Convert color name to RGB
  * @param {string} color Color name
  * @param {number=} [alpha=1] Alpha
- * @return {Array<number>} RGB(A)
+ * @return {number[]} RGB(A)
  */
 const convertColorToRgb = (color, alpha = 1) => {
 	return [...COLOR_TO_RGB[color.toLowerCase()], alpha];

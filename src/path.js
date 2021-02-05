@@ -4,7 +4,7 @@
  * 図形のパスを作るためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2020-04-21
+ * @version 2021-02-05
  */
 /**~en
  * Path library (PATH)
@@ -12,7 +12,7 @@
  * A library to make the path of the shape.
  *
  * @author Takuto Yanagida
- * @version 2020-04-21
+ * @version 2021-02-05
  */
 
 
@@ -339,7 +339,7 @@ const PATH = (function () {
 	 * @param {number} y0 点1のy座標
 	 * @param {number} x1 点2のx座標
 	 * @param {number} y1 点2のy座標
-	 * @return {Array<number>} 座標
+	 * @return {number[]} 座標
 	 */
 	/**~en
 	 * Find the coordinates of the midpoint of the line segment
@@ -349,7 +349,7 @@ const PATH = (function () {
 	 * @param {number} y0 Y coordinate of point 1
 	 * @param {number} x1 X coordinate of point 2
 	 * @param {number} y1 Y coordinate of point 2
-	 * @return {Array<number>} Coordinates
+	 * @return {number[]} Coordinates
 	 */
 	const _linePoints = function (t, x0, y0, x1, y1) {
 		const tp = 1 - t;
@@ -367,7 +367,7 @@ const PATH = (function () {
 	 * @param {number} y1 点2のy座標
 	 * @param {number} x2 点3のx座標
 	 * @param {number} y2 点3のy座標
-	 * @return {Array<number>} 座標
+	 * @return {number[]} 座標
 	 */
 	/**~en
 	 * Find the coordinates of the midpoint of the quadratic Bezier curve
@@ -379,7 +379,7 @@ const PATH = (function () {
 	 * @param {number} y1 Y coordinate of point 2
 	 * @param {number} x2 X coordinate of point 3
 	 * @param {number} y2 Y coordinate of point 3
-	 * @return {Array<number>} Coordinates
+	 * @return {number[]} Coordinates
 	 */
 	const _quadPoints = function (t, x0, y0, x1, y1, x2, y2) {
 		const tp = 1 - t;
@@ -401,7 +401,7 @@ const PATH = (function () {
 	 * @param {number} y2 点3のy座標
 	 * @param {number} x3 点4のx座標
 	 * @param {number} y3 点4のy座標
-	 * @return {Array<number>} 座標
+	 * @return {number[]} 座標
 	 */
 	/**~en
 	 * Find the coordinates of the midpoint of the cubic Bezier curve
@@ -415,7 +415,7 @@ const PATH = (function () {
 	 * @param {number} y2 Y coordinate of point 3
 	 * @param {number} x3 X coordinate of point 4
 	 * @param {number} y3 Y coordinate of point 4
-	 * @return {Array<number>} Coordinates
+	 * @return {number[]} Coordinates
 	 */
 	const _bezierPoints = function (t, x0, y0, x1, y1, x2, y2, x3, y3) {
 		const tp = 1 - t;

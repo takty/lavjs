@@ -303,7 +303,7 @@ class Chart extends Widget {
 	 * @param {number} cy たての幅
 	 * @param {number} min 最小値
 	 * @param {number} max 最大値
-	 * @param {[string]} keys データ・キーの配列
+	 * @param {string[]} keys データ・キーの配列
 	 */
 	/**~en
 	 * Draw a picture on all data mode
@@ -314,7 +314,7 @@ class Chart extends Widget {
 	 * @param {number} cy Height
 	 * @param {number} min Minimum value
 	 * @param {number} max Maximum value
-	 * @param {[string]} keys Array of data keys
+	 * @param {string[]} keys Array of data keys
 	 */
 	_drawAllDataMode(ctx, left, cx, cy, min, max, keys) {
 		for (const key of keys) {
@@ -352,7 +352,7 @@ class Chart extends Widget {
 	 * @param {number} cy たての幅
 	 * @param {number} min 最小値
 	 * @param {number} max 最大値
-	 * @param {[string]} keys データ・キーの配列
+	 * @param {string[]} keys データ・キーの配列
 	 */
 	/**~en
 	 * Draw a picture on scroll mode
@@ -363,7 +363,7 @@ class Chart extends Widget {
 	 * @param {number} cy Height
 	 * @param {number} min Minimum value
 	 * @param {number} max Maximum value
-	 * @param {[string]} keys Array of data keys
+	 * @param {string[]} keys Array of data keys
 	 */
 	_drawScrollMode(ctx, left, cx, cy, min, max, keys) {
 		for (const key of keys) {

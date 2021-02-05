@@ -641,16 +641,16 @@ class Turtle extends TurtleBase {
 	 * カメの実行中の動きをかく（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {Array<number>} loc 場所
-	 * @param {Array<number>} fnPos 関数をかく場所
+	 * @param {number[]} loc 場所
+	 * @param {number[]} fnPos 関数をかく場所
 	 * @param {string} curFn 現在の関数
 	 */
 	/**~en
 	 * Draw the running function of the turtle (used only in the library)
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {Array<number>} loc Location
-	 * @param {Array<number>} fnPos Location of drawing function
+	 * @param {number[]} loc Location
+	 * @param {number[]} fnPos Location of drawing function
 	 * @param {string} curFn Current function
 	 */
 	_drawFunction(ctx, loc, fnPos, curFn) {

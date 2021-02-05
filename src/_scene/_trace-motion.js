@@ -596,9 +596,8 @@ class TraceMotion {
 	 * @param {Array=} args_array Arguments to pass to the function
 	 * @return {TraceMotion} This motion
 	 */
-	doLater(func, args_array) {
-		const fn = function () { func.apply(this, args_array); };
-		this._addCommand(fn);
+	doLater(func, args_array = []) {
+		this._addCommand(() => func(...args_array));
 		return this;
 	}
 
@@ -614,8 +613,8 @@ class TraceMotion {
 	 * @param {Array=} args_array Arguments to pass to the function
 	 * @return {TraceMotion} This motion
 	 */
-	doNow(func, args_array) {
-		const fn = function () { func.apply(this, args_array); };
+	doNow(func, args_array = []) {
+		const fn = () => func(...args_array);
 
 		if (this._cmdQueue.length > 0) {
 			const c = this._cmdQueue[0];
@@ -663,7 +662,7 @@ class TraceMotion {
 	 * @param {number} y y座標（たての場所）
 	 * @param {number} dir 方向
 	 * @param {number} unitTime 単位時間
-	 * @return {Array<number>} 座標
+	 * @return {number[]} 座標
 	 */
 	/**~en
 	 * Update coordinates according to the speed
@@ -671,7 +670,7 @@ class TraceMotion {
 	 * @param {number} y Y coordinate
 	 * @param {number} dir Direction
 	 * @param {number} unitTime Unit time
-	 * @return {Array<number>} Coordinate
+	 * @return {number[]} Coordinate
 	 */
 	update(x, y, dir, unitTime) {
 		if (this._x !== x || this._y !== y || this._dir !== dir) {
