@@ -1,10 +1,10 @@
 /**~ja
  * トレース・モーション
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 /**~en
  * Trace motion
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 class TraceMotion {
 
@@ -653,26 +653,26 @@ class TraceMotion {
 	 * @param {number} num Number of frames
 	 */
 	stepNext(num) {
-		this.update(this._x, this._y, this._dir, num);
+		this.update(num, this._x, this._y, this._dir);
 	}
 
 	/**~ja
 	 * スピードに合わせて座標を更新する
+	 * @param {number} unitTime 単位時間
 	 * @param {number} x x座標（横の場所）
 	 * @param {number} y y座標（たての場所）
 	 * @param {number} dir 方向
-	 * @param {number} unitTime 単位時間
 	 * @return {number[]} 座標
 	 */
 	/**~en
 	 * Update coordinates according to the speed
+	 * @param {number} unitTime Unit time
 	 * @param {number} x X coordinate
 	 * @param {number} y Y coordinate
 	 * @param {number} dir Direction
-	 * @param {number} unitTime Unit time
 	 * @return {number[]} Coordinate
 	 */
-	update(x, y, dir, unitTime) {
+	update(unitTime, x, y, dir) {
 		if (this._x !== x || this._y !== y || this._dir !== dir) {
 			this.cancel();
 			this._changePos(x, y, dir);

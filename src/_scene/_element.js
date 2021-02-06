@@ -1,10 +1,10 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 /**~en
  * Element (common to sprites and stages)
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 class Element {
 
@@ -386,11 +386,12 @@ class Element {
 		if (this._onBeforeUpdate) this._onBeforeUpdate(this);
 
 		if (this._rotation !== null) {
-			const newAs = this._rotation.update(this._angle, this._angleX, this._angleZ, this._speed * deltaTime);
+			const newAs = this._rotation.update(this._speed * deltaTime, this._angle, this._angleX, this._angleZ);
 			[this._angle, this._angleX, this._angleZ] = newAs;
 		}
 		if (this._motion !== null) {
-			const newPos = this._motion.update(this._x, this._y, this._dir, this._speed * deltaTime);
+			const newPos = this._motion.update(this._speed * deltaTime, this._x, this._y, this._dir);
+			if (newPos.length === 2) newPos.push(this._dir);
 			[this._x, this._y, this._dir] = newPos;
 		}
 		if (this._checkRangeX !== null) this._x = this._checkRangeX(this._x);

@@ -1,15 +1,15 @@
 /**~ja
- * ローテーション
- * @version 2021-02-05
+ * 回転
+ * @version 2021-02-06
  */
 /**~en
  * Rotation
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 class Rotation {
 
 	/**~ja
-	 * ローテーションを作る
+	 * 回転を作る
 	 * @constructor
 	 * @param {number=} [angleSpeed=0] 角度スピード
 	 * @param {number=} [angleSpeedX=0] 角度スピードx
@@ -78,21 +78,21 @@ class Rotation {
 
 	/**~ja
 	 * スピードに合わせて角度を更新する
+	 * @param {number} unitTime 単位時間
 	 * @param {number} angle z軸を中心とする角度（向き）
 	 * @param {number} angleX x軸を中心とする角度（向き）
 	 * @param {number} angleZ z軸を中心とする角度2（向き）
-	 * @param {number} unitTime 単位時間
 	 * @return {number[]} 角度
 	 */
 	/**~en
 	 * Update angles according to the speed
+	 * @param {number} unitTime Unit time
 	 * @param {number} angle Angle around z axis (direction)
 	 * @param {number} angleX Angle around x axis (direction)
 	 * @param {number} angleZ 2nd angle around z axis (direction)
-	 * @param {number} unitTime Unit time
 	 * @return {number[]} Angles
 	 */
-	update(angle, angleX, angleZ, unitTime) {
+	update(unitTime, angle, angleX, angleZ) {
 		const a  = checkDegRange(angle  + valueFunction(this._angleSpeed,  unitTime));
 		const ax = checkDegRange(angleX + valueFunction(this._angleSpeedX, unitTime));
 		const az = checkDegRange(angleZ + valueFunction(this._angleSpeedZ, unitTime));
