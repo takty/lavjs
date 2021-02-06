@@ -1,12 +1,12 @@
 /**~ja
  * ステージ
  * @extends {Element}
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 /**~en
  * Stage
  * @extends {Element}
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 class Stage extends Element {
 
@@ -183,14 +183,14 @@ class Stage extends Element {
 	/**~ja
 	 * 持っているスプライトと子ステージを全てかく
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {Array} args_array その他の引数の配列
+	 * @param {Array=} args_array その他の引数の配列
 	 */
 	/**~en
 	 * Draw all sprites and child stages this stage has
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {Array} args_array Array of other arguments
+	 * @param {Array=} args_array Array of other arguments
 	 */
-	draw(ctx, args_array) {
+	draw(ctx, args_array = []) {
 		ctx.save();
 
 		this._localize();

@@ -1,12 +1,12 @@
 /**~ja
  * スプライト
  * @extends {Element}
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 /**~en
  * Sprite
  * @extends {Element}
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 class Sprite extends Element {
 
@@ -39,14 +39,14 @@ class Sprite extends Element {
 	/**~ja
 	 * スプライトをかく
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {Array} args_array その他の引数の配列
+	 * @param {Array=} args_array その他の引数の配列
 	 */
 	/**~en
 	 * Draw a sprite
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {Array} args_array Array of other arguments
+	 * @param {Array=} args_array Array of other arguments
 	 */
-	draw(ctx, args_array) {
+	draw(ctx, args_array = []) {
 		let args = args_array;
 		if (this._drawFunctionArgs) {
 			args = args_array.concat(this._drawFunctionArgs);
