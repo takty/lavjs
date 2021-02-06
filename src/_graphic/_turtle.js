@@ -1,10 +1,10 @@
 /**~ja
  * タートル
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 /**~en
  * Turtle
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 class Turtle extends TurtleBase {
 
@@ -458,7 +458,7 @@ class Turtle extends TurtleBase {
 		}
 		this._aniRemain = this._aniMax;
 		this._aniFinished = true;
-		this._isClipable = true;
+		this._isClippable = true;
 	}
 
 	/**~ja
@@ -494,7 +494,7 @@ class Turtle extends TurtleBase {
 
 		if (this._aniRemain <= 0) {
 			this._aniFinished = false;
-			this._isClipable = false;
+			this._isClippable = false;
 			return 0;
 		}
 		return this._aniRemain;
@@ -521,7 +521,7 @@ class Turtle extends TurtleBase {
 			//~ja penUpの後の必要あり
 			//~en Need after penUp
 			this._aniFinished = false;
-			this._isClipable  = false;
+			this._isClippable = false;
 
 			//~ja カメをかくための情報を保存しておく
 			//~en Save information for drawing the turtle

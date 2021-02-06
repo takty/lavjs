@@ -1,10 +1,10 @@
 /**~ja
  * 定規
- * @version 2020-12-16
+ * @version 2021-02-06
  */
 /**~en
  * Ruler
- * @version 2020-12-16
+ * @version 2021-02-06
  */
 class Ruler {
 
@@ -485,7 +485,7 @@ class Ruler {
 					this._stroke.draw(this._ctx, this._area);
 					break;
 				case 'c':
-					if (this._isClipable) this._ctx.clip();
+					this._ctx.clip();
 					break;
 			}
 		}

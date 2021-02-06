@@ -1,10 +1,10 @@
 /**~ja
  * タートル・ベース
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 /**~en
  * Turtle base
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 class TurtleBase {
 
@@ -69,7 +69,7 @@ class TurtleBase {
 		this._curMode = this._mode;
 		this._pen = false;
 
-		this._isClipable = true;
+		this._isClippable = true;
 	}
 
 	/**~ja
@@ -1025,7 +1025,7 @@ class TurtleBase {
 					this._stroke.draw(this._ctx, this._area);
 					break;
 				case 'c':
-					if (this._isClipable) this._ctx.clip();
+					if (this._isClippable) this._ctx.clip();
 					break;
 			}
 		}
