@@ -5,7 +5,7 @@
  * 好きな場所に好きな大きさ、向き、透明度で表示するためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 /**~en
  * Sprite library (SPRITE)
@@ -14,7 +14,7 @@
  * and display them in the size, orientation, and transparency you like.
  *
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 
 
@@ -107,6 +107,10 @@ const SPRITE = (function () {
 
 
 	//=
+	//=include _scene/_sprite-shape.js
+
+
+	//=
 	//=include _scene/_stage.js
 
 
@@ -152,6 +156,6 @@ const SPRITE = (function () {
 	//~en Create a library --------------------------------------------------------
 
 
-	return { Stage, Sprite, DensityMap, makePlotFunction };
+	return { Stage, Sprite, Circle, Rect, DensityMap, makePlotFunction };
 
 }());

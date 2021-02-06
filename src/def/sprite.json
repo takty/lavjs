@@ -66,6 +66,36 @@
 				}
 			}
 		},
+		"SpriteShape": {
+			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D)",
+			"prototype": {
+				"!proto": "SPRITE.Sprite.prototype",
+				"ruler": {
+					"!type": "fn() -> +RULER.Ruler"
+				}
+			}
+		},
+		"Circle": {
+			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, radius?: number)",
+			"prototype": {
+				"!proto": "SPRITE.SpriteShape.prototype",
+				"radius": {
+					"!type": "fn(val?: number) -> !this|number"
+				}
+			}
+		},
+		"Rect": {
+			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, width?: number, height?: number)",
+			"prototype": {
+				"!proto": "SPRITE.SpriteShape.prototype",
+				"width": {
+					"!type": "fn(val?: number) -> !this|number"
+				},
+				"height": {
+					"!type": "fn(val?: number) -> !this|number"
+				}
+			}
+		},
 		"Stage": {
 			"!type": "fn(motion?: ?)",
 			"prototype": {
