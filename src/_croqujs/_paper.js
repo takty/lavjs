@@ -1,10 +1,10 @@
 /**~ja
  * 紙
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 /**~en
  * Paper
- * @version 2021-02-05
+ * @version 2021-02-06
  */
 class Paper {
 
@@ -221,9 +221,9 @@ class Paper {
 		let prevFrame = -1;
 
 		const loop = () => {
-			const now = now();
-			this._deltaTime = now - this._prevTime;
-			const timeSpan = now - startTime;
+			const time = now();
+			this._deltaTime = time - this._prevTime;
+			const timeSpan = time - startTime;
 			const frame = Math.floor(timeSpan / (1000.0 / this._fps)) % this._frameLength;
 
 			if (frame !== prevFrame) {
@@ -239,7 +239,7 @@ class Paper {
 			if (this._isAnimating && this.canvas.parentNode !== null) {
 				window.requestAnimationFrame(loop);
 			}
-			this._prevTime = now;
+			this._prevTime = time;
 		};
 		this._isAnimating = true;
 		window.requestAnimationFrame(loop);
