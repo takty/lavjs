@@ -1,12 +1,12 @@
 /**~ja
  * トグル（チェックボックス）
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-06
  */
 /**~en
  * Toggles (Check boxes)
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-06
  */
 class Toggle extends Widget {
 
@@ -96,11 +96,11 @@ class Toggle extends Widget {
 	 * @return {boolean|boolean[]|Toggle} Current value, or this toggle
 	 */
 	value(...vals) {
-		if (vals === undefined) {
+		if (vals.length === 0) {
 			return this._values.length === 1 ? this._values[0] : this._values.concat();
 		}
 		if (vals.length === 1 && Array.isArray(vals[0])) vals = vals[0];
-		for (let i = 0, I = Math.min(vals.length, this._state.length); i < I; i += 1) {
+		for (let i = 0, I = Math.min(vals.length, this._values.length); i < I; i += 1) {
 			const changing = this._values[i] !== vals[i];
 			this._values[i] = vals[i];
 			if (changing && this._onClick) this._onClick(this._values[i], i);
