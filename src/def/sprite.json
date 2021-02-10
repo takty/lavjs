@@ -58,7 +58,7 @@
 			}
 		},
 		"Sprite": {
-			"!type": "fn(drawFunction: fn(?), args_array?: [?], motion?: ?)",
+			"!type": "fn(drawingCallback: fn(?), motion?: ?)",
 			"prototype": {
 				"!proto": "SPRITE.Element.prototype",
 				"draw": {

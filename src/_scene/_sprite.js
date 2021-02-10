@@ -1,12 +1,12 @@
 /**~ja
  * スプライト
  * @extends {Element}
- * @version 2021-02-06
+ * @version 2021-02-10
  */
 /**~en
  * Sprite
  * @extends {Element}
- * @version 2021-02-06
+ * @version 2021-02-10
  */
 class Sprite extends Element {
 
@@ -14,24 +14,19 @@ class Sprite extends Element {
 	 * スプライトを作る
 	 * - ただし普通は、SPRITE.StageのmakeSprite関数を使う。
 	 * @constructor
-	 * @param {function(*)} drawFunction 絵をかく関数
-	 * @param {Array=} opt_args_array 関数に渡す引数の配列
+	 * @param {function(*)} drawingCallback 絵をかく関数
 	 * @param {Motion=} opt_motion モーション
 	 */
 	/**~en
 	 * Make a sprite
 	 * - However, normally, use the makeSprite function of SPRITE.Stage.
 	 * @constructor
-	 * @param {function(*)} drawFunction Function to draw pictures
-	 * @param {Array=} opt_args_array Array of arguments to pass to the function
+	 * @param {function(*)} drawingCallback Function to draw picture one by one
 	 * @param {Motion=} opt_motion Motion
 	 */
-	constructor(drawFunction, opt_args_array, opt_motion) {
+	constructor(drawingCallback, opt_motion) {
 		super(opt_motion);
-
-		this._drawFunction = drawFunction;
-		this._drawFunctionArgs = opt_args_array;
-
+		this._drawingCallback = drawingCallback;
 		this._collisionRadius = 1;
 		this._onCollision = null;
 	}
@@ -47,14 +42,10 @@ class Sprite extends Element {
 	 * @param {Array=} args_array Array of other arguments
 	 */
 	draw(ctx, args_array = []) {
-		let args = args_array;
-		if (this._drawFunctionArgs) {
-			args = args_array.concat(this._drawFunctionArgs);
-		}
 		if (this._firstUpdated) {
 			ctx.save();
 			this._setTransformation(ctx);
-			this._drawFunction(...args);
+			this._drawingCallback.apply(this, args_array);
 			ctx.restore();
 		}
 	}
