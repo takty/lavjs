@@ -1,10 +1,10 @@
 /**~ja
  * 紙
- * @version 2021-02-06
+ * @version 2021-02-10
  */
 /**~en
  * Paper
- * @version 2021-02-06
+ * @version 2021-02-10
  */
 class Paper {
 
@@ -206,17 +206,17 @@ class Paper {
 
 	/**~ja
 	 * アニメーションを始める
-	 * @param {function} callback 一枚一枚の絵を書く関数
+	 * @param {function} drawingCallback 一枚一枚の絵を書く関数
 	 * @param {Array} args_array 関数に渡す引数
 	 * @return {Paper} この紙
 	 */
 	/**~en
 	 * Start animation
-	 * @param {function} callback Function to draw picture one by one
+	 * @param {function} drawingCallback Function to draw picture one by one
 	 * @param {Array} args_array Arguments to pass to the function
 	 * @return {Paper} This paper
 	 */
-	animate(callback, args_array) {
+	animate(drawingCallback, args_array) {
 		const startTime = now();
 		let prevFrame = -1;
 
@@ -230,7 +230,7 @@ class Paper {
 				this._frame = frame;
 				CROQUJS.currentPaper(this);
 				this._zoomHandler.beforeDrawing(this);
-				callback(...args_array);
+				drawingCallback(...args_array);
 				if (this.mouseMiddle() && this._isGridVisible) this.drawGrid();
 				this._zoomHandler.afterDrawing(this);
 				prevFrame = frame;
