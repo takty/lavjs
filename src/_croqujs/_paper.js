@@ -1,10 +1,10 @@
 /**~ja
  * 紙
- * @version 2021-02-10
+ * @version 2021-02-11
  */
 /**~en
  * Paper
- * @version 2021-02-10
+ * @version 2021-02-11
  */
 class Paper {
 
@@ -47,8 +47,6 @@ class Paper {
 		CROQUJS.currentPaper(this);
 
 		if (typeof STYLE !== 'undefined') STYLE.augment(this);
-
-		// this._initZoomingFunction();
 	}
 
 	/**~ja
@@ -74,6 +72,8 @@ class Paper {
 		this._keyEventHandler = new KeyHandler(can);
 		this._mouseEventHandler = new MouseHandler(can);
 		this._zoomHandler = new ZoomHandler(this);
+		this._transforms = [];
+		this._stackLevel = 0;
 		this.addEventListener = can.addEventListener.bind(can);
 
 		can.addEventListener('keydown', (e) => {
@@ -145,7 +145,7 @@ class Paper {
 	 */
 	clear(style, alpha) {
 		this.save();
-		this.setTransform(1, 0, 0, 1, 0, 0);
+		this._ctx.setTransform(1, 0, 0, 1, 0, 0);
 		if (alpha !== undefined) {
 			this.globalAlpha = alpha;
 		}
@@ -229,10 +229,14 @@ class Paper {
 			if (frame !== prevFrame) {
 				this._frame = frame;
 				CROQUJS.currentPaper(this);
-				this._zoomHandler.beforeDrawing(this);
+				this._transforms.length = 0;
+				this._zoomHandler.beforeDrawing(this._ctx);
 				drawingCallback(...args_array);
 				if (this.mouseMiddle() && this._isGridVisible) this.drawGrid();
-				this._zoomHandler.afterDrawing(this);
+				this._zoomHandler.afterDrawing(this._ctx);
+				if (this._zoomHandler.enabled()) {
+					for (const t of this._transforms) t();
+				}
 				prevFrame = frame;
 				this._totalFrame += 1;
 			}
@@ -325,6 +329,133 @@ class Paper {
 	 */
 	totalFrame() {
 		return this._totalFrame;
+	}
+
+
+	//~ja 変換 -----------------------------------------------------------------
+	//~en Transformation -------------------------------------------------------
+
+
+	/**~ja
+	 * 今の状態を保存する
+	 */
+	/**~en
+	 * Save the current state
+	 */
+	save() {
+		this._ctx.save();
+		this._stackLevel += 1;
+	}
+
+	/**~ja
+	 * 前の状態を復元する
+	 */
+	/**~en
+	 * Restore previous state
+	 */
+	restore() {
+		this._ctx.restore();
+		this._stackLevel -= 1;
+	}
+
+	/**~ja
+	 * 拡大・縮小する
+	 * @param {number} x 横方向の倍率
+	 * @param {number} y たて方向の倍率
+	 */
+	/**~en
+	 * Zoom in and out
+	 * @param {number} x Horizontal magnification
+	 * @param {number} y Vertical magnification
+	 */
+	scale(x, y) {
+		this._ctx.scale(x, y);
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.scale(x, y));
+	}
+
+	/**~ja
+	 * 回転する
+	 * @param {number} angle ラジアン
+	 */
+	/**~en
+	 * Rotate
+	 * @param {number} angle Radian
+	 */
+	rotate(angle) {
+		this._ctx.rotate(angle);
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.rotate(angle));
+	}
+
+	/**~ja
+	 * 平行移動する
+	 * @param {number} x 横方向の移動
+	 * @param {number} y たて方向の移動
+	 */
+	/**~en
+	 * Translate
+	 * @param {number} x Horizontal movement
+	 * @param {number} y Vertical movement
+	 */
+	translate(x, y) {
+		this._ctx.translate(x, y);
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.translate(x, y));
+	}
+
+	/**~ja
+	 * 変形する
+	 * @param {number} a 変形行列の係数a
+	 * @param {number} b 変形行列の係数b
+	 * @param {number} c 変形行列の係数c
+	 * @param {number} d 変形行列の係数d
+	 * @param {number} e 変形行列の係数e
+	 * @param {number} f 変形行列の係数f
+	 */
+	/**~en
+	 * Transform
+	 * @param {number} a Coefficient a of the transformation matrix
+	 * @param {number} b Coefficient b of the transformation matrix
+	 * @param {number} c Coefficient c of the transformation matrix
+	 * @param {number} d Coefficient d of the transformation matrix
+	 * @param {number} e Coefficient e of the transformation matrix
+	 * @param {number} f Coefficient f of the transformation matrix
+	 */
+	transform(a, b, c, d, e, f) {
+		this._ctx.transform(a, b, c, d, e, f);
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.transform(a, b, c, d, e, f));
+	}
+
+	/**~ja
+	 * 変形行列をセットする
+	 * @param {number} a 変形行列の係数a
+	 * @param {number} b 変形行列の係数b
+	 * @param {number} c 変形行列の係数c
+	 * @param {number} d 変形行列の係数d
+	 * @param {number} e 変形行列の係数e
+	 * @param {number} f 変形行列の係数f
+	 */
+	/**~en
+	 * Set a transformation matrix
+	 * @param {number} a Coefficient a of the transformation matrix
+	 * @param {number} b Coefficient b of the transformation matrix
+	 * @param {number} c Coefficient c of the transformation matrix
+	 * @param {number} d Coefficient d of the transformation matrix
+	 * @param {number} e Coefficient e of the transformation matrix
+	 * @param {number} f Coefficient f of the transformation matrix
+	 */
+	setTransform(a, b, c, d, e, f) {
+		this._ctx.setTransform(a, b, c, d, e, f);
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.setTransform(a, b, c, d, e, f));
+	}
+
+	/**~ja
+	 * 変形行列をリセットする
+	 */
+	/**~en
+	 * Reset a transformation matrix
+	 */
+	resetTransform() {
+		this._ctx.resetTransform();
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.resetTransform());
 	}
 
 
@@ -756,6 +887,7 @@ function augmentPaperPrototype(ctx) {
 	const org = Object.getPrototypeOf(ctx);
 	for (const name in ctx) {
 		if (typeof ctx[name] === 'function') {
+			if (Paper.prototype[name]) continue;
 			Paper.prototype[name] = function (...args) { return this._ctx[name](...args); }
 		} else {
 			const d = Object.getOwnPropertyDescriptor(org, name);
