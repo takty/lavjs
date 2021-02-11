@@ -1,27 +1,29 @@
 /**~ja
  * ステージ
  * @extends {Element}
- * @version 2021-02-06
+ * @version 2021-02-11
  */
 /**~en
  * Stage
  * @extends {Element}
- * @version 2021-02-06
+ * @version 2021-02-11
  */
 class Stage extends Element {
 
 	/**~ja
 	 * ステージを作る
 	 * @constructor
-	 * @param {Motion=} opt_motion モーション
+	 * @param {Motion=} motion モーション
+	 * @param {Rotation=} rotation 回転
 	 */
 	/**~en
 	 * Make a stage
 	 * @constructor
-	 * @param {Motion=} opt_motion Motion
+	 * @param {Motion=} motion Motion
+	 * @param {Rotation=} rotation Rotation
 	 */
-	constructor(opt_motion) {
-		super(opt_motion);
+	constructor(motion = null, rotation = null) {
+		super(motion, rotation);
 
 		this._children = [];
 

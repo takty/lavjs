@@ -1,12 +1,12 @@
 /**~ja
  * スプライト
  * @extends {Element}
- * @version 2021-02-10
+ * @version 2021-02-11
  */
 /**~en
  * Sprite
  * @extends {Element}
- * @version 2021-02-10
+ * @version 2021-02-11
  */
 class Sprite extends Element {
 
@@ -15,17 +15,19 @@ class Sprite extends Element {
 	 * - ただし普通は、SPRITE.StageのmakeSprite関数を使う。
 	 * @constructor
 	 * @param {function(*)} drawingCallback 絵をかく関数
-	 * @param {Motion=} opt_motion モーション
+	 * @param {Motion=} motion モーション
+	 * @param {Rotation=} rotation 回転
 	 */
 	/**~en
 	 * Make a sprite
 	 * - However, normally, use the makeSprite function of SPRITE.Stage.
 	 * @constructor
 	 * @param {function(*)} drawingCallback Function to draw picture one by one
-	 * @param {Motion=} opt_motion Motion
+	 * @param {Motion=} motion Motion
+	 * @param {Rotation=} rotation Rotation
 	 */
-	constructor(drawingCallback, opt_motion) {
-		super(opt_motion);
+	constructor(drawingCallback, motion = null, rotation = null) {
+		super(motion, rotation);
 		this._drawingCallback = drawingCallback;
 		this._collisionRadius = 1;
 		this._onCollision = null;
