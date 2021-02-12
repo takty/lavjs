@@ -10,6 +10,9 @@
 				"restore": {
 					"!type": "fn(step: number) -> !this"
 				},
+				"repeat": {
+					"!type": "fn() -> !this"
+				},
 				"go": {
 					"!type": "fn(step: number) -> !this"
 				},

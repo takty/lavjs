@@ -26,6 +26,7 @@ class TraceMotion {
 
 		this._cmdQueue = [];
 		this._remainTime = 0;
+		this._isRepeating = false;
 
 		this._stack = [];
 
@@ -116,7 +117,7 @@ class TraceMotion {
 	 */
 	_setState(t) {
 		this._changePos(t[0], t[1], t[2]);  // 以下、順番に依存関係あり
-		this.step(t[3]);
+		this._step = t[3],
 		this._liner.edge(t[4]);
 		this._homeX = t[5]; this._homeY = t[6]; this._homeDir = t[7];
 	}
@@ -139,6 +140,17 @@ class TraceMotion {
 		this._x = x;
 		this._y = y;
 		if (opt_deg !== undefined) this._dir = checkDegRange(opt_deg);
+	}
+
+	/**~ja
+	 * 繰り返し動作にする
+	 */
+	/**~en
+	 * Set repeating mode
+	 */
+	repeat() {
+		this._isRepeating = true;
+		return this;
 	}
 
 
@@ -678,6 +690,7 @@ class TraceMotion {
 			this._changePos(x, y, dir);
 		}
 		if (0 < this._cmdQueue.length) this._remainTime += unitTime;
+		const rq = [];
 		while (0 < this._cmdQueue.length) {
 			const c = this._cmdQueue[0];
 			if (c._initState === null) {
@@ -689,11 +702,16 @@ class TraceMotion {
 			if (0 < remain) {
 				this._cmdQueue.shift();
 				this._remainTime = remain;
+				if (this._isRepeating) {
+					c._initState = null;
+					rq.push(c);
+				}
 			} else {
 				break;
 			}
 		}
 		if (0 === this._cmdQueue.length) this._remainTime = 0;
+		for (const c of rq) this._cmdQueue.push(c);
 		return [this._x, this._y, this._dir];
 	}
 
@@ -712,6 +730,10 @@ class TraceMotion {
 				this._setState(c._initState);
 				this._cmdQueue.shift();
 				this._remainTime = 0;
+				if (this._isRepeating) {
+					c._initState = null;
+					this._cmdQueue.push(c);
+				}
 			}
 		}
 		return this;
