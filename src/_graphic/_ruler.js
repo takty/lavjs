@@ -1,10 +1,10 @@
 /**~ja
  * 定規
- * @version 2021-02-06
+ * @version 2021-02-12
  */
 /**~en
  * Ruler
- * @version 2021-02-06
+ * @version 2021-02-12
  */
 class Ruler {
 
@@ -420,9 +420,9 @@ class Ruler {
 	 */
 	ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise = false) {
 		const s0 = radiusX * Math.cos(rad(startAngle)), t0 = radiusY * Math.sin(rad(startAngle));
-		const rsin = Math.sin(rad(rotation)), rcos = Math.cos(rad(rotation));
-		const x0 = x + s0 * rcos - t0 * rsin;
-		const y0 = y + s0 * rsin + t0 * rcos;
+		const sin = Math.sin(rad(rotation)), cos = Math.cos(rad(rotation));
+		const x0 = x + s0 * cos - t0 * sin;
+		const y0 = y + s0 * sin + t0 * cos;
 		if (!this._hasPath) {
 			this.moveTo(x0, y0);
 		} else {
@@ -521,8 +521,8 @@ class Ruler {
 		const p = PATH.arrangeArcParams(r, opt_deg, 1);
 
 		const r0 = rad(p.deg0), s0 = p.w * Math.cos(r0), t0 = p.h * Math.sin(r0);
-		const dr = rad(opt_dir), rsin = Math.sin(dr), rcos = Math.cos(dr);
-		const sp = s0 * rcos - t0 * rsin, tp = s0 * rsin + t0 * rcos;
+		const dr = rad(opt_dir), sin = Math.sin(dr), cos = Math.cos(dr);
+		const sp = s0 * cos - t0 * sin, tp = s0 * sin + t0 * cos;
 
 		this._resetArea(cx + sp, cy + tp);
 		this._ctx.beginPath();

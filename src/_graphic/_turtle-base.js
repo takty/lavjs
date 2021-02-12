@@ -1,10 +1,10 @@
 /**~ja
  * タートル・ベース
- * @version 2021-02-06
+ * @version 2021-02-12
  */
 /**~en
  * Turtle base
- * @version 2021-02-06
+ * @version 2021-02-12
  */
 class TurtleBase {
 
@@ -703,9 +703,9 @@ class TurtleBase {
 		const a0 = Math.atan2(-(p.h * p.h * s0), (p.w * p.w * t0)) + rev;
 
 		const rot = rad(this._dir - 90) - a0;
-		const lrsin = Math.sin(rot), lrcos = Math.cos(rot);
-		const lsp = this._x + -s0 * lrcos - -t0 * lrsin;
-		const ltp = this._y + -s0 * lrsin + -t0 * lrcos;
+		const sin = Math.sin(rot), cos = Math.cos(rot);
+		const lsp = this._x + -s0 * cos - -t0 * sin;
+		const ltp = this._y + -s0 * sin + -t0 * cos;
 
 		if (before) before(lsp, ltp, rot, p);
 		return this._liner.arc(lsp, ltp, rot * 180.0 / Math.PI, p.w, p.h, p.deg0, p.deg1, isLeft, limit, this._area);
@@ -839,8 +839,8 @@ class TurtleBase {
 		const p = PATH.arrangeArcParams(r, deg, this._step);
 		const cx = this._x, cy = this._y;
 		const dr0 = rad(p.deg0 - 90), s1 = p.w * Math.cos(dr0), t1 = p.h * Math.sin(dr0);
-		const dr = rad(this._dir), rsin = Math.sin(dr), rcos = Math.cos(dr);
-		const x0 = cx + s1 * rcos - t1 * rsin, y0 = cy + s1 * rsin + t1 * rcos;
+		const dr = rad(this._dir), sin = Math.sin(dr), cos = Math.cos(dr);
+		const x0 = cx + s1 * cos - t1 * sin, y0 = cy + s1 * sin + t1 * cos;
 
 		this._drawShape((limit) => { return this._doCircle(cx, cy, p, anticlockwise, limit, dr); }, x0, y0);
 		return this;

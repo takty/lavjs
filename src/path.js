@@ -4,7 +4,7 @@
  * 図形のパスを作るためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-02-12
  */
 /**~en
  * Path library (PATH)
@@ -12,7 +12,7 @@
  * A library to make the path of the shape.
  *
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-02-12
  */
 
 
@@ -319,15 +319,15 @@ const PATH = (function () {
 	 */
 	const _arcLen = function (cx, cy, dr, w, h, r0, r1, I, opt_limit = null, opt_retArea = null) {
 		const s0 = w * Math.cos(r0), t0 = h * Math.sin(r0);
-		const rsin = Math.sin(dr), rcos = Math.cos(dr);
-		const x0 = cx + s0 * rcos - t0 * rsin;
-		const y0 = cy + s0 * rsin + t0 * rcos;
+		const sin = Math.sin(dr), cos = Math.cos(dr);
+		const x0 = cx + s0 * cos - t0 * sin;
+		const y0 = cy + s0 * sin + t0 * cos;
 
 		return calcSpan(x0, y0, function (t, tp, pt) {
 			const r = tp * r0 + t * r1;
 			const st = w * Math.cos(r), tt = h * Math.sin(r);
-			pt[0] = cx + st * rcos - tt * rsin;
-			pt[1] = cy + st * rsin + tt * rcos;
+			pt[0] = cx + st * cos - tt * sin;
+			pt[1] = cy + st * sin + tt * cos;
 		}, I, opt_limit, opt_retArea);
 	};
 

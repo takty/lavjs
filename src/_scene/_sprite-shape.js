@@ -50,12 +50,12 @@ class SpriteShape extends Sprite {
 /**~ja
  * 円スプライト
  * @extends {Element}
- * @version 2021-02-06
+ * @version 2021-02-12
  */
 /**~en
  * Circle sprite
  * @extends {Element}
- * @version 2021-02-06
+ * @version 2021-02-12
  */
 class Circle extends SpriteShape {
 
@@ -73,7 +73,7 @@ class Circle extends SpriteShape {
 	 */
 	constructor(ctx, radius = 10) {
 		super(ctx);
-		this._drawFunction = this._draw.bind(this);
+		this._drawingCallback = this._draw.bind(this);
 		this._collisionRadius = radius;
 		this._radius = radius;
 	}
@@ -113,12 +113,12 @@ class Circle extends SpriteShape {
 /**~ja
  * 四角形スプライト
  * @extends {Element}
- * @version 2021-02-06
+ * @version 2021-02-12
  */
 /**~en
  * Rectangle sprite
  * @extends {Element}
- * @version 2021-02-06
+ * @version 2021-02-12
  */
 class Rect extends SpriteShape {
 
@@ -138,7 +138,7 @@ class Rect extends SpriteShape {
 	 */
 	constructor(ctx, width = 20, height = 20) {
 		super(ctx);
-		this._drawFunction = this._draw.bind(this);
+		this._drawingCallback = this._draw.bind(this);
 		this._collisionRadius = Math.min(width, height);
 		this._width = width;
 		this._height = height;

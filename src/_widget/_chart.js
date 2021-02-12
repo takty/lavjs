@@ -1,12 +1,12 @@
 /**~ja
  * グラフ
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-02-12
  */
 /**~en
  * Chart
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-02-12
  */
 class Chart extends Widget {
 
@@ -40,7 +40,7 @@ class Chart extends Widget {
 		this._selectedKeys = [];
 		this._data         = {};
 		this._mins         = {};
-		this._maxs         = {};
+		this._maxes        = {};
 
 		this._legendWidth = 128;
 		this._digits      = 1;
@@ -113,7 +113,7 @@ class Chart extends Widget {
 		this._keys  = [];
 		this._data  = {};
 		this._mins  = {};
-		this._maxs  = {};
+		this._maxes = {};
 
 		let ci = 0;
 		for (const key in items) {
@@ -122,9 +122,9 @@ class Chart extends Widget {
 			const style = (i !== undefined && i.style !== undefined) ? i.style : Chart.ITEM_COLORS[ci];
 			this._keys.push(key);
 			this._items[key] = { name, style };
-			this._data[key] = [];
-			this._mins[key] = 0;
-			this._maxs[key] = 0;
+			this._data[key]  = [];
+			this._mins[key]  = 0;
+			this._maxes[key] = 0;
 
 			ci += 1;
 			if (Chart.ITEM_COLORS.length <= ci) ci = 0;
@@ -151,8 +151,8 @@ class Chart extends Widget {
 		for (const key of this._keys) {
 			const v = data[key];
 			this._data[key].push(v);
-			if (v < this._mins[key]) this._mins[key] = v;
-			if (this._maxs[key] < v) this._maxs[key] = v;
+			if (v < this._mins[key])  this._mins[key]  = v;
+			if (this._maxes[key] < v) this._maxes[key] = v;
 		}
 		this._draw(this._legendWidth);
 	}
@@ -176,7 +176,7 @@ class Chart extends Widget {
 
 		const keys = this._selectedKeys.length ? this._selectedKeys : this._keys;
 		const min = Math.min(...keys.map(k => this._mins[k]));
-		const max = Math.max(...keys.map(k => this._maxs[k]));
+		const max = Math.max(...keys.map(k => this._maxes[k]));
 
 		this._drawFrame(c, legendWidth, cx, cy, min, max);
 		if (this._allDataMode) {
