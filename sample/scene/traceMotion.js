@@ -9,28 +9,29 @@ const setup = function () {
 	t.mode('fill');
 	t.fill().color('Snow');
 
-	const layer = new SPRITE.Stage();
+	const stage = new SPRITE.Stage();
 	for (let i = 0; i < 100; i += 1) {
-		const s = layer.makeSprite(drawSprite);
+		const s = stage.makeSprite(drawSprite);
 		s.x(CALC.random(-150, 750));
 		s.y(CALC.random(-150, 750));
 		s.direction(CALC.random(0, 360));
 		s.speed(10);
 		s.setRangeX(0, 600, true);
 		s.setRangeY(0, 600, true);
-		const m = new TRACER.Tracer();
+		const m = new TRACER.TraceMotion();
 		setMotion(m);
 		s.motion(m);
 	}
 	p.onMouseClick((x, y) => {
-		layer.forEach(function (e) { e.x(x); e.y(y); e.motion().ar(100, 360); });
+		stage.forEach(function (e) { e.x(x); e.y(y); e.motion().ar(100, 360); });
 	});
-	p.animate(draw, [p, t, layer]);
+	p.animate(draw, [p, t, stage]);
 };
 
-const draw = function (p, t, layer) {
+const draw = function (p, t, stage) {
 	p.clear('DarkBlue');
-	layer.draw(p, [p, t]);
+	stage.draw(p, [p, t]);
+	stage.update();
 };
 
 const drawSprite = function (p, t) {
