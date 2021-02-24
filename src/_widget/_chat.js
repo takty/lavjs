@@ -1,12 +1,12 @@
 /**~ja
  * チャット
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-24
  */
 /**~en
  * Chat
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-24
  */
 class Chat extends Widget {
 
@@ -48,6 +48,8 @@ class Chat extends Widget {
 		this._base.appendChild(this._hr);
 		this._base.appendChild(this._prompt);
 		this._base.appendChild(this._input);
+
+		this._setInputEnabled(false);
 	}
 
 	/**~ja

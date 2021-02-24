@@ -4,7 +4,7 @@
  * 様々なウィジェット（コントロール）を使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-24
  */
 /**~en
  * Widget library (WIDGET)
@@ -12,7 +12,7 @@
  * A library that allows you to use various widgets (controls).
  *
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-02-24
  */
 
 
@@ -93,6 +93,9 @@ const WIDGET = (function () {
 			overflowY: 'auto',
 			flexGrow : '1',
 			height   : '1.25em',
+			minHeight: '1.25em',
+		});
+		addStyle('.lavjs-widget-chat-message > div', {
 			minHeight: '1.25em',
 		});
 		addStyle('.lavjs-widget-chat-prompt:not(:empty)', {
