@@ -1,12 +1,12 @@
 /**~ja
  * エッジ生成関数
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-03-01
  */
 /**~en
  * Edge generation functions
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-03-01
  */
 
 
@@ -148,6 +148,12 @@ const absSineEdge = function (length = 10, amplitude = 10, opt = {}) {
  * @return {function(number, number): number} Noise edge
  */
 const noiseEdge = function (length = 10, amplitude = 10, opt = {}) {
+	//@ifdef ja
+	if (typeof CALC === 'undefined') throw new Error('Calcライブラリが必要です。');
+	//@endif
+	//@ifdef en
+	if (typeof CALC === 'undefined') throw new Error('Calc library is needed.');
+	//@endif
 	const amp = 2 * amplitude;
 
 	const p = (CROQUJS.currentPaper()) ? CROQUJS.currentPaper() : null;
