@@ -205,7 +205,6 @@ const PHASE = (function () {
 		s.setRangeX(-10, 610, true);
 		s.setRangeY(-10, 610, true);
 		s.angle(CALC.random(0, 360));
-// 		s.angleSpeed(1);
 
 		const m = new TRACER.TraceMotion();
 		s.motion(m);

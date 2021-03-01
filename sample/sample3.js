@@ -197,7 +197,6 @@ const SYSTEM = (function () {
 		p.drawImage(orbit.canvas, -290, -300);
 		orbit.styleClear().color('Black', 0.005).draw();
 
-// 		console.log(sl.value());
 		system.draw(p, [t, sl.value()]);
 		system.update();
 	};
@@ -221,7 +220,6 @@ const SYSTEM = (function () {
 		const m = new MOTION.PolarMotion(-speed, 0, true);
 		const rot = new MOTION.Rotation(-10);
 		const s = stage.makeSprite(func, m, rot);
-// 		s.angleSpeed(-10);
 		s.scale(scale);
 		s.x(r);
 
@@ -234,7 +232,6 @@ const SYSTEM = (function () {
 	const makeStarSprite = function (stage) {
 		const rot = new MOTION.Rotation(-10);
 		const s = stage.makeSprite(drawStar, null, rot);
-// 		s.angleSpeed(-10);
 		s.scale(0.1);
 		return s;
 	};

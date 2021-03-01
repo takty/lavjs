@@ -288,7 +288,7 @@ const TREE = (function () {
 	const drawFoliage = function (t, d) {
 		const p = t.context();
 		p.save();
-		const s = CALC.random(0.2, 0.8);  // 0.7;
+		const s = CALC.random(0.2, 0.8);
 		t.scale(s);
 		const w = CALC.map(p.mouseX(), 0, p.width(), -20, 20);
 		t.tr(w);
