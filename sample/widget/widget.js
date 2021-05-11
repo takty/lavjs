@@ -51,18 +51,19 @@ function testSliderWidget() {
 
 async function testChatWidget() {
 	const w1 = new WIDGET.Chat(300, 300);
-	w1.print('message');
+	w1.println('message');
+	w1.println('Escape\tsequences\ncan be used!');
 	const str = await w1.input('Prompt Message [link] is here.');
-	w1.print(str);
+	w1.println(str);
 	for (const a of Array(20).keys()) {
 		await w1.sleep(0.25);
-		w1.print('wait:', a);
+		w1.println('wait:', a);
 	}
 	const str2 = await w1.input('Prompt very very very long long long message Prompt very very very long long long message Prompt very very very long long long message Prompt very very very long long long message');
-	w1.print(str2);
+	w1.println(str2);
 	for (const a of Array(10).keys()) {
 		await w1.sleep(0.5);
-		w1.print('wait:', a);
+		w1.println('wait:', a);
 	}
 }
 
