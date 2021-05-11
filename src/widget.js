@@ -4,7 +4,7 @@
  * 様々なウィジェット（コントロール）を使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-24
+ * @version 2021-05-11
  */
 /**~en
  * Widget library (WIDGET)
@@ -12,7 +12,7 @@
  * A library that allows you to use various widgets (controls).
  *
  * @author Takuto Yanagida
- * @version 2021-02-24
+ * @version 2021-05-11
  */
 
 
@@ -88,27 +88,19 @@ const WIDGET = (function () {
 		addStyle('.lavjs-widget-button.active', {
 			boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.4) inset',
 		});
+		addStyle('.lavjs-widget-chat pre', {
+			minHeight   : '1.25em',
+			margin      : '0',
+			font        : 'inherit',
+			whiteSpace  : 'normal',
+			overflowWrap: 'break-word',
+		});
 		addStyle('.lavjs-widget-chat-message', {
 			width    : '100%',
 			overflowY: 'auto',
 			flexGrow : '1',
 			height   : '1.25em',
 			minHeight: '1.25em',
-		});
-		addStyle('.lavjs-widget-chat-message > div', {
-			minHeight: '1.25em',
-		});
-		addStyle('.lavjs-widget-chat-prompt:not(:empty)', {
-			marginTop : '0.5rem',
-			whiteSpace: 'normal',
-			overflowY : 'auto',
-			minHeight : '1.25em',
-		});
-		addStyle('.lavjs-widget-chat-prompt a', {
-			textDecoration : 'underline',
-			cursor         : 'pointer',
-			color          : '#12f',
-			backgroundColor: '#12f1',
 		});
 		addStyle('.lavjs-widget-chat-hr', {
 			marginTop   : '0.5rem',
@@ -117,10 +109,15 @@ const WIDGET = (function () {
 			height      : '2px',
 			borderTop   : '1px solid #bbb',
 		});
-		addStyle('.lavjs-widget-chat-message', {
-			width    : '100%',
-			overflowY: 'auto',
-			flexGrow : '1',
+		addStyle('.lavjs-widget-chat-prompt:not(:empty)', {
+			marginTop   : '0.5rem',
+			overflowY   : 'auto',
+		});
+		addStyle('.lavjs-widget-chat-prompt a', {
+			textDecoration : 'underline',
+			cursor         : 'pointer',
+			color          : '#12f',
+			backgroundColor: '#12f1',
 		});
 		addStyle('.lavjs-widget-chat-input', {
 			width       : '100%',

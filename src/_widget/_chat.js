@@ -1,12 +1,12 @@
 /**~ja
  * チャット
  * @author Takuto Yanagida
- * @version 2021-02-24
+ * @version 2021-05-11
  */
 /**~en
  * Chat
  * @author Takuto Yanagida
- * @version 2021-02-24
+ * @version 2021-05-11
  */
 class Chat extends Widget {
 
@@ -25,11 +25,12 @@ class Chat extends Widget {
 	 * @param {*=} [{ startTag='[', endTag=']' }] Options (Start tag, End tag)
 	 */
 	constructor(width, height = null, { startTag = '[', endTag = ']' } = {}) {
-		super(width, height);
+		super(width, height, 'lavjs-widget-chat');
 		this._base.style.flexDirection = 'column';
 
 		this._startTag = startTag;
 		this._endTag   = endTag;
+		this._lastLine = null;
 
 		this._message = document.createElement('div');
 		this._message.className = 'lavjs-widget-chat-message';
@@ -37,7 +38,7 @@ class Chat extends Widget {
 		this._hr = document.createElement('hr');
 		this._hr.className = 'lavjs-widget-chat-hr';
 
-		this._prompt = document.createElement('div');
+		this._prompt = document.createElement('pre');
 		this._prompt.className = 'lavjs-widget-chat-prompt';
 
 		this._input = document.createElement('input');
@@ -90,10 +91,46 @@ class Chat extends Widget {
 	 */
 	print(...args) {
 		const str = Chat.escHtml(args.map(e => e.toString()).join(' '));
-		const m = document.createElement('div');
-		m.innerHTML = str;
-		this._message.appendChild(m);
-		this._message.scrollTop = this._message.scrollHeight;
+		this._addMessage(str);
+	}
+
+	/**~ja
+	 * 1行表示する
+	 * @param {*=} args 表示する内容
+	 * @return {Chat} このチャットUI
+	 */
+	/**~en
+	 * Print line
+	 * @param {*=} args Contents to be printed
+	 * @return {Chat} This output
+	 */
+	println(...args) {
+		const str = Chat.escHtml(args.map(e => e.toString()).join(' '));
+		this._addMessage(str + '\n');
+	}
+
+	/**~ja
+	 * メッセージを追加する（ライブラリ内だけで使用）
+	 * @private
+	 * @param {string} str 文字列
+	 */
+	/**~en
+	 * Add message (used only in the library)
+	 * @private
+	 * @param {string} str String
+	 */
+	_addMessage(str) {
+		const lf = str.length && str[str.length - 1] === '\n';
+		const ss = (lf ? str.substr(0, str.length - 1) : str).split('\n');
+
+		let m = this._lastLine ?? document.createElement('pre');
+		for (let i = 0; i < ss.length; i += 1) {
+			if (i !== 0) m = document.createElement('pre');
+			m.innerHTML += ss[i];
+			this._message.appendChild(m);
+			this._message.scrollTop = this._message.scrollHeight;
+		}
+		this._lastLine = lf ? null : m;
 	}
 
 	/**~ja
@@ -172,4 +209,4 @@ class Chat extends Widget {
 
 }
 
-Chat.escHtml = str => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(' ', '&ensp;');
+Chat.escHtml = str => str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace('\t', '&#009;').replace(' ', '&ensp;');

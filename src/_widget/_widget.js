@@ -1,12 +1,12 @@
 /**~ja
  * ウィジェット共通
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-11
  */
 /**~en
  * Common widget
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-11
  */
 class Widget {
 
@@ -15,17 +15,19 @@ class Widget {
 	 * @constructor
 	 * @param {number=} [width=null] 横幅
 	 * @param {number=} [height=null] たて幅
+	 * @param {string=} [cls=null] CSSクラス
 	 */
 	/**~en
 	 * Make a widget
 	 * @constructor
 	 * @param {number=} [width=null] Width
 	 * @param {number=} [height=null] Height
+	 * @param {string=} [cls=null] CSS Class
 	 */
-	constructor(width = null, height = null) {
+	constructor(width = null, height = null, cls = null) {
 		ensureBaseStyle();
 		this._base = document.createElement('div');
-		this._base.className = 'lavjs-widget lavjs-widget-base';
+		this._base.className = 'lavjs-widget lavjs-widget-base' + (cls ? ` ${cls}` : '');
 		if (width !== null) {
 			this._base.style.width = width + 'px';
 			this._base.style.minWidth = width + 'px';
