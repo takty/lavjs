@@ -2,7 +2,7 @@
 	"!name": "lavjs",
 	"WIDGET": {
 		"Widget": {
-			"!type": "fn(width?: number, height?: number)",
+			"!type": "fn(width?: number, height?: number, cls?: string)",
 			"prototype": {
 				"domElement": {
 					"!type": "fn() -> ?"
@@ -53,6 +53,9 @@
 			"prototype": {
 				"!proto": "WIDGET.Widget.prototype",
 				"print": {
+					"!type": "fn(args?: [?]) -> !this"
+				},
+				"println": {
 					"!type": "fn(args?: [?]) -> !this"
 				},
 				"input": {
