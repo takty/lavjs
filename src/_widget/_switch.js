@@ -1,12 +1,12 @@
 /**~ja
  * スイッチ（ラジオ・ボタン）
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-19
  */
 /**~en
  * Switches (Radio buttons)
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-19
  */
 class Switch extends Widget {
 
@@ -49,6 +49,7 @@ class Switch extends Widget {
 			this._buttons.push(b);
 			this._base.appendChild(b);
 		}
+		this._buttons[this._value].classList.add('active');
 	}
 
 	/**~ja
