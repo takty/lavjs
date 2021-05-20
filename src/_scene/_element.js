@@ -1,24 +1,24 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
- * @version 2021-02-06
+ * @version 2021-05-20
  */
 /**~en
  * Element (common to sprites and stages)
- * @version 2021-02-06
+ * @version 2021-05-20
  */
 class Element {
 
 	/**~ja
 	 * 要素を作る
 	 * @constructor
-	 * @param {Motion=} [motion=null] 動き
-	 * @param {Rotation=} [rotation=null] 回転
+	 * @param {Motion=|function} [motion=null] 動き
+	 * @param {Rotation=|function} [rotation=null] 回転
 	 */
 	/**~en
 	 * Make an element
 	 * @constructor
-	 * @param {Motion=} [motion=null] Motion
-	 * @param {Rotation=} [rotation=null] Rotation
+	 * @param {Motion=|function} [motion=null] Motion
+	 * @param {Rotation=|function} [rotation=null] Rotation
 	 */
 	constructor(motion = null, rotation = null) {
 		this._parent    = null;
@@ -296,8 +296,8 @@ class Element {
 	 */
 	/**~en
 	 * Motion
-	 * @param {Motion=} val Motion
-	 * @return {Motion|Element} Motion or this element
+	 * @param {Motion=|function} val Motion
+	 * @return {Motion|function|Element} Motion or this element
 	 */
 	motion(val) {
 		if (val === undefined) return this._motion;
@@ -307,8 +307,8 @@ class Element {
 
 	/**~ja
 	 * 回転
-	 * @param {Rotation=} val 回転
-	 * @return {Rotation|Element} 回転／この要素
+	 * @param {Rotation=|function} val 回転
+	 * @return {Rotation|function|Element} 回転／この要素
 	 */
 	/**~en
 	 * Rotation
@@ -386,11 +386,21 @@ class Element {
 		if (this._onBeforeUpdate) this._onBeforeUpdate(this);
 
 		if (this._rotation !== null) {
-			const newAs = this._rotation.update(this._speed * deltaTime, this._angle, this._angleX, this._angleZ);
+			let newAs = null;
+			if (typeof this._rations === 'function') {
+				newAs = this._rotation(this, this._speed * deltaTime, this._angle, this._angleX, this._angleZ);
+			} else {
+				newAs = this._rotation.update(this._speed * deltaTime, this._angle, this._angleX, this._angleZ);
+			}
 			[this._angle, this._angleX, this._angleZ] = newAs;
 		}
 		if (this._motion !== null) {
-			const newPos = this._motion.update(this._speed * deltaTime, this._x, this._y, this._dir);
+			let newPos = null;
+			if (typeof this._motion === 'function') {
+				newPos = this._motion(this, this._speed * deltaTime, this._x, this._y, this._dir);
+			} else {
+				newPos = this._motion.update(this._speed * deltaTime, this._x, this._y, this._dir);
+			}
 			if (newPos.length === 2) newPos.push(this._dir);
 			[this._x, this._y, this._dir] = newPos;
 		}

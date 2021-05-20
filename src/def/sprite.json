@@ -2,7 +2,7 @@
 	"!name": "lavjs",
 	"SPRITE": {
 		"Element": {
-			"!type": "fn(motion?: ?)",
+			"!type": "fn(motion?: ?|function, rotation?: ?|function)",
 			"prototype": {
 				"x": {
 					"!type": "fn(val?: number) -> !this|number"
@@ -50,10 +50,10 @@
 					"!type": "fn(func: fn(?), args_array: [?])"
 				},
 				"motion": {
-					"!type": "fn(val?: ?) -> !this|?"
+					"!type": "fn(val?: ?|function) -> !this|?|function"
 				},
 				"rotation": {
-					"!type": "fn(val?: ?) -> !this|?"
+					"!type": "fn(val?: ?|function) -> !this|?|function"
 				}
 			}
 		},
