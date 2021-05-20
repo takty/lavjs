@@ -1,18 +1,17 @@
 /**~ja
  * スプライト
  * @extends {Element}
- * @version 2021-02-11
+ * @version 2021-05-21
  */
 /**~en
  * Sprite
  * @extends {Element}
- * @version 2021-02-11
+ * @version 2021-05-21
  */
 class Sprite extends Element {
 
 	/**~ja
 	 * スプライトを作る
-	 * - ただし普通は、SPRITE.StageのmakeSprite関数を使う。
 	 * @constructor
 	 * @param {function(*)} drawingCallback 絵をかく関数
 	 * @param {Motion=} motion モーション
@@ -20,7 +19,6 @@ class Sprite extends Element {
 	 */
 	/**~en
 	 * Make a sprite
-	 * - However, normally, use the makeSprite function of SPRITE.Stage.
 	 * @constructor
 	 * @param {function(*)} drawingCallback Function to draw picture one by one
 	 * @param {Motion=} motion Motion
