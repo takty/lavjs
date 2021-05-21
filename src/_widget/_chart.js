@@ -1,12 +1,12 @@
 /**~ja
  * グラフ
  * @author Takuto Yanagida
- * @version 2021-02-12
+ * @version 2021-05-21
  */
 /**~en
  * Chart
  * @author Takuto Yanagida
- * @version 2021-02-12
+ * @version 2021-05-21
  */
 class Chart extends Widget {
 
@@ -31,8 +31,8 @@ class Chart extends Widget {
 		this._base.appendChild(this._can);
 		//~ja 以下はbaseに追加した後に行うこと（offsetWidth/Heightは追加後でないと取得できない）
 		//~en Do the following after adding to base (offsetWidth/Height can not be acquired without adding)
-		this._can.setAttribute('width', this._can.offsetWidth);
-		this._can.setAttribute('height', this._can.offsetHeight);
+		this._can.setAttribute('width', '' + this._can.offsetWidth);
+		this._can.setAttribute('height', '' + this._can.offsetHeight);
 
 		this._allDataMode  = true;
 		this._items        = {};
@@ -130,22 +130,22 @@ class Chart extends Widget {
 			if (Chart.ITEM_COLORS.length <= ci) ci = 0;
 		}
 		const count = Object.keys(items).length;
-		const ch = this._can.getAttribute('height');
+		const ch = parseInt(this._can.getAttribute('height'), 10);
 		if (ch < count * 20 - 4) {
 			const h = count * 20 - 4;
 			this._base.style.height = `${h + 16}px`;
 			this._can.style.height = `${h}px`;
-			this._can.setAttribute('height', h);
+			this._can.setAttribute('height', '' + h);
 		}
 	}
 
 	/**~ja
 	 * データを追加する
-	 * @param {dict} data データ
+	 * @param {object} data データ
 	 */
 	/**~en
 	 * Add data
-	 * @param {dict} data Data
+	 * @param {object} data Data
 	 */
 	addData(data) {
 		for (const key of this._keys) {
