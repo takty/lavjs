@@ -311,3 +311,12 @@ class Stage extends Element {
 	}
 
 }
+/**~ja
+ * Symbol.iteratorメソッドを実装して、Stageをイテラブルにする
+ */
+/**~en
+ * Implement the Symbol.iterator method to make Stage iterable
+ */
+Stage.prototype[Symbol.iterator] = function () {
+	return this._children.values();
+};
