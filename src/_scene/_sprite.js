@@ -14,15 +14,15 @@ class Sprite extends Element {
 	 * スプライトを作る
 	 * @constructor
 	 * @param {function(*):void} drawingCallback 絵をかく関数
-	 * @param {Motion=} motion モーション
-	 * @param {Rotation=} rotation 回転
+	 * @param {Motion|function=} [motion=null] 動き
+	 * @param {Rotation|function=} [rotation=null] 回転
 	 */
 	/**~en
 	 * Make a sprite
 	 * @constructor
 	 * @param {function(*):void} drawingCallback Function to draw picture one by one
-	 * @param {Motion=} motion Motion
-	 * @param {Rotation=} rotation Rotation
+	 * @param {Motion|function=} [motion=null] Motion
+	 * @param {Rotation|function=} [rotation=null] Rotation
 	 */
 	constructor(drawingCallback, motion = null, rotation = null) {
 		super(motion, rotation);

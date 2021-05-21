@@ -13,14 +13,14 @@ class Stage extends Element {
 	/**~ja
 	 * ステージを作る
 	 * @constructor
-	 * @param {Motion=} motion モーション
-	 * @param {Rotation=} rotation 回転
+	 * @param {Motion|function=} [motion=null] 動き
+	 * @param {Rotation|function=} [rotation=null] 回転
 	 */
 	/**~en
 	 * Make a stage
 	 * @constructor
-	 * @param {Motion=} motion Motion
-	 * @param {Rotation=} rotation Rotation
+	 * @param {Motion|function=} [motion=null] Motion
+	 * @param {Rotation|function=} [rotation=null] Rotation
 	 */
 	constructor(motion = null, rotation = null) {
 		super(motion, rotation);
