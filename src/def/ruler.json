@@ -23,7 +23,7 @@
 					"!type": "fn(func?: fn(?)) -> !this|fn(?)"
 				},
 				"context": {
-					"!type": "fn() -> +CROQUJS.Paper|+CanvasRenderingContext2D"
+					"!type": "fn(ctx?: +CROQUJS.Paper|+CanvasRenderingContext2D) -> !this|+CROQUJS.Paper|+CanvasRenderingContext2D"
 				},
 				"paper": {
 					"!type": "fn() -> +CROQUJS.Paper|+CanvasRenderingContext2D"
