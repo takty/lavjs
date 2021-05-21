@@ -1,10 +1,10 @@
 /**~ja
  * タートル・ベース
- * @version 2021-02-12
+ * @version 2021-05-21
  */
 /**~en
  * Turtle base
- * @version 2021-02-12
+ * @version 2021-05-21
  */
 class TurtleBase {
 
@@ -578,8 +578,8 @@ class TurtleBase {
 	 * @param {number} step0 歩数1
 	 * @param {number} deg 角度1
 	 * @param {number} step1 歩数2
-	 * @param {number=} opt_deg 角度2（オプション）
-	 * @param {number=} opt_step 歩数3（オプション）
+	 * @param {number} opt_deg 角度2（オプション）
+	 * @param {number} opt_step 歩数3（オプション）
 	 * @param {number} limit 制限
 	 * @param {function=} [before=null] 実際に動く前に呼ばれる関数
 	 * @return {number} 実際に動いた量
@@ -590,8 +590,8 @@ class TurtleBase {
 	 * @param {number} step0 Number of steps 1
 	 * @param {number} deg Degree 1
 	 * @param {number} step1 Number of steps 2
-	 * @param {number=} opt_deg Degree 2 (optional)
-	 * @param {number=} opt_step Number of steps 3 (optional)
+	 * @param {number} opt_deg Degree 2 (optional)
+	 * @param {number} opt_step Number of steps 3 (optional)
 	 * @param {number} limit Limitation
 	 * @param {function=} [before=null] Function to be called before it actually moves
 	 * @return {number} Amount actually moved
@@ -863,14 +863,14 @@ class TurtleBase {
 	 * @private
 	 * @param {number} cx X coordinate of center
 	 * @param {number} cy Y coordinate of center
-	 * @param {dict} p Parameters
+	 * @param {object} p Parameters
 	 * @param {boolean} anticlockwise Whether it is counterclockwise
 	 * @param {number} limit Limitation
 	 * @param {number} dr Direction
 	 * @param {function=} [before=null] Function to be called before it actually moves
 	 * @return {number} Amount actually moved
 	 */
-	_doCircle(cx, cy, p, anticlockwise, limit, dr, before = false) {
+	_doCircle(cx, cy, p, anticlockwise, limit, dr, before = null) {
 		if (before) before(cx, cy, p, dr);
 		return this._liner.arc(cx, cy, this._dir, p.w, p.h, p.deg0 - 90, p.deg1 - 90, anticlockwise, limit, this._area);
 	}
@@ -1125,15 +1125,19 @@ class TurtleBase {
 
 
 	/**~ja
-	 * 紙を返す
-	 * @return {Paper|CanvasRenderingContext2D} 紙／キャンバス・コンテキスト
+	 * 紙
+	 * @param {Paper|CanvasRenderingContext2D=} ctx 紙／キャンバス・コンテキスト
+	 * @return {Paper|CanvasRenderingContext2D|Ruler} 紙／キャンバス・コンテキスト／この定規
 	 */
 	/**~en
-	 * Get the paper
-	 * @return {Paper|CanvasRenderingContext2D} Paper or canvas context
+	 * Paper
+	 * @param {Paper|CanvasRenderingContext2D=} ctx Paper or canvas context
+	 * @return {Paper|CanvasRenderingContext2D|Ruler} Paper, canvas context, or this ruler
 	 */
-	context() {
-		return this._ctx;
+	context(ctx) {
+		if (ctx === undefined) return this._ctx;
+		this._ctx = ctx;
+		return this;
 	}
 
 	/**~ja

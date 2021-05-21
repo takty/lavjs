@@ -1,10 +1,10 @@
 /**~ja
  * 定規
- * @version 2021-02-12
+ * @version 2021-05-21
  */
 /**~en
  * Ruler
- * @version 2021-02-12
+ * @version 2021-05-21
  */
 class Ruler {
 
@@ -40,22 +40,22 @@ class Ruler {
 
 		this._liner = new PATH.Liner({
 			lineOrMoveTo: (x, y, dir) => {
-				ctx.lineTo(x, y);
+				this._ctx.lineTo(x, y);
 				this._x = x;
 				this._y = y;
 			},
 			quadCurveOrMoveTo: (x1, y1, x2, y2, dir) => {
-				ctx.quadraticCurveTo(x1, y1, x2, y2);
+				this._ctx.quadraticCurveTo(x1, y1, x2, y2);
 				this._x = x2;
 				this._y = y2;
 			},
 			bezierCurveOrMoveTo: (x1, y1, x2, y2, x3, y3, dir) => {
-				ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
+				this._ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
 				this._x = x3;
 				this._y = y3;
 			},
 			arcOrMoveTo: (cx, cy, dr, w, h, r0, r1, ac, dir, xx, yy) => {
-				PATH.eclipse(ctx, cx, cy, w, h, dr, r0, r1, ac);
+				PATH.eclipse(this._ctx, cx, cy, w, h, dr, r0, r1, ac);
 				this._x = xx;
 				this._y = yy;
 			}
@@ -220,15 +220,19 @@ class Ruler {
 
 
 	/**~ja
-	 * 紙を返す
-	 * @return {Paper|CanvasRenderingContext2D} 紙／キャンバス・コンテキスト
+	 * 紙
+	 * @param {Paper|CanvasRenderingContext2D=} ctx 紙／キャンバス・コンテキスト
+	 * @return {Paper|CanvasRenderingContext2D|Ruler} 紙／キャンバス・コンテキスト／この定規
 	 */
 	/**~en
-	 * Get the paper
-	 * @return {Paper|CanvasRenderingContext2D} Paper or canvas context
+	 * Paper
+	 * @param {Paper|CanvasRenderingContext2D=} ctx Paper or canvas context
+	 * @return {Paper|CanvasRenderingContext2D|Ruler} Paper, canvas context, or this ruler
 	 */
-	context() {
-		return this._ctx;
+	context(ctx) {
+		if (ctx === undefined) return this._ctx;
+		this._ctx = ctx;
+		return this;
 	}
 
 
@@ -503,7 +507,7 @@ class Ruler {
 	 * @param {number} cy 中心y座標
 	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
 	 * @param {number=} [opt_dir=0] 方向
-	 * @param {number=|Array<number>} [opt_deg=360] 角度（配列なら開始角度と終了角度）
+	 * @param {number|Array<number>=} [opt_deg=360] 角度（配列なら開始角度と終了角度）
 	 * @param {boolean=} [opt_anticlockwise=false] 反時計回り？
 	 * @return {Ruler} この定規
 	 */
@@ -513,7 +517,7 @@ class Ruler {
 	 * @param {number} cy Y coordinate of center
 	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
 	 * @param {number=} [opt_dir=0] Direction
-	 * @param {number=|Array<number>} [opt_deg=360] Degree (start and end angles if an array given)
+	 * @param {number|Array<number>=} [opt_deg=360] Degree (start and end angles if an array given)
 	 * @param {boolean=} [opt_anticlockwise=false] Whether it is counterclockwise
 	 * @return {Ruler} This ruler
 	 */
