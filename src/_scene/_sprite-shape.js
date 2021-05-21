@@ -15,22 +15,20 @@ class SpriteShape extends Sprite {
 	/**~ja
 	 * スプライト図形を作る
 	 * @constructor
-	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Make a sprite shape
 	 * @constructor
-	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
-	constructor(ctx) {
-		super();
+	constructor() {
+		super(null);
 		//@ifdef ja
 		if (typeof RULER === 'undefined') throw new Error('Rulerライブラリが必要です。');
 		//@endif
 		//@ifdef en
 		if (typeof RULER === 'undefined') throw new Error('Ruler library is needed.');
 		//@endif
-		this._ruler = new RULER.Ruler(ctx);
+		this._ruler = new RULER.Ruler();
 	}
 
 	/**~ja
@@ -43,6 +41,25 @@ class SpriteShape extends Sprite {
 	 */
 	ruler() {
 		return this._ruler;
+	}
+
+	/**~ja
+	 * スプライトをかく
+	 * @override
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
+	 */
+	/**~en
+	 * Draw a sprite
+	 * @override
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
+	 */
+	draw(ctx) {
+		if (this._firstUpdated) {
+			ctx.save();
+			this._setTransformation(ctx);
+			this._drawingCallback.call(this, ctx);
+			ctx.restore();
+		}
 	}
 
 }
@@ -62,17 +79,15 @@ class Circle extends SpriteShape {
 	/**~ja
 	 * 円形スプライトを作る
 	 * @constructor
-	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number=} radius 半径
 	 */
 	/**~en
 	 * Make a circle shape sprite
 	 * @constructor
-	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number=} radius Radius
 	 */
-	constructor(ctx, radius = 10) {
-		super(ctx);
+	constructor(radius = 10) {
+		super();
 		this._drawingCallback = this._draw.bind(this);
 		this._collisionRadius = radius;
 		this._radius = radius;
@@ -81,12 +96,15 @@ class Circle extends SpriteShape {
 	/**~ja
 	 * 円をかく（ライブラリ内だけで使用）
 	 * @private
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Draw a circle (used only in the library)
 	 * @private
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
-	_draw() {
+	_draw(ctx) {
+		if (!this._ruler.context()) this._ruler.context(ctx);
 		this._ruler.circle(0, 0, this._radius);
 		this._ruler.draw('fs');
 	}
@@ -125,19 +143,17 @@ class Rect extends SpriteShape {
 	/**~ja
 	 * 四角形スプライトを作る
 	 * @constructor
-	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number=} width 横幅
 	 * @param {number=} height たて幅
 	 */
 	/**~en
 	 * Make a rectangle shape sprite
 	 * @constructor
-	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number=} width Width
 	 * @param {number=} height Height
 	 */
-	constructor(ctx, width = 20, height = 20) {
-		super(ctx);
+	constructor(width = 20, height = 20) {
+		super();
 		this._drawingCallback = this._draw.bind(this);
 		this._collisionRadius = Math.min(width, height);
 		this._width = width;
@@ -147,12 +163,15 @@ class Rect extends SpriteShape {
 	/**~ja
 	 * 四角形をかく（ライブラリ内だけで使用）
 	 * @private
+	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Draw a rectangle (used only in the library)
 	 * @private
+	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
-	_draw() {
+	_draw(ctx) {
+		if (!this._ruler.context()) this._ruler.context(ctx);
 		this._ruler.rect(0, 0, this._width, this._height);
 		this._ruler.draw('fs');
 	}

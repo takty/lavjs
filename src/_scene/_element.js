@@ -339,12 +339,12 @@ class Element {
 
 	/**~ja
 	 * 紙の座標変換とアルファ値をセットする（ライブラリ内だけで使用）
-	 * @private
+	 * @protected
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Set paper transformation and alpha value (used only in the library)
-	 * @private
+	 * @protected
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
 	_setTransformation(ctx) {
@@ -372,12 +372,12 @@ class Element {
 
 	/**~ja
 	 * スピードに合わせて座標と角度を更新する（ライブラリ内だけで使用）
-	 * @private
+	 * @protected
 	 * @param {number} deltaTime 時間差（前回のフレームからの時間経過）[ms]
 	 */
 	/**~en
 	 * Update coordinates and angles according to the speeds (used only in the library)
-	 * @private
+	 * @protected
 	 * @param {number} deltaTime Delta time [ms]
 	 */
 	_update(deltaTime) {
