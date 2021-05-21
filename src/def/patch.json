@@ -25,7 +25,7 @@
 			}
 		},
 		"OscillatorPatch": {
-			"!type": "fn(synth: +SYNTH.Synth, params: object)",
+			"!type": "fn(synth: +SYNTH.Synth, params?: object)",
 			"prototype": {
 				"!proto": "PATCH.SourcePatch.prototype",
 				"type": {
@@ -43,7 +43,7 @@
 			}
 		},
 		"NoisePatch": {
-			"!type": "fn(synth: +SYNTH.Synth, params: object)",
+			"!type": "fn(synth: +SYNTH.Synth, params?: object)",
 			"prototype": {
 				"!proto": "PATCH.SourcePatch.prototype",
 				"gain": {
@@ -52,7 +52,7 @@
 			}
 		},
 		"MicrophonePatch": {
-			"!type": "fn(synth: +SYNTH.Synth, params: object)",
+			"!type": "fn(synth: +SYNTH.Synth, params?: object)",
 			"prototype": {
 				"!proto": "PATCH.SourcePatch.prototype",
 				"type": {
@@ -70,7 +70,7 @@
 			}
 		},
 		"BufferSourcePatch": {
-			"!type": "fn(synth: +SYNTH.Synth, params: object)",
+			"!type": "fn(synth: +SYNTH.Synth, params?: object)",
 			"prototype": {
 				"!proto": "PATCH.SourcePatch.prototype",
 				"loadFile": {
@@ -94,7 +94,7 @@
 			}
 		},
 		"GainPatch": {
-			"!type": "fn(synth: +SYNTH.Synth, params: object)",
+			"!type": "fn(synth: +SYNTH.Synth, params?: object)",
 			"prototype": {
 				"!proto": "PATCH.Patch.prototype",
 				"getInput": {
@@ -109,7 +109,7 @@
 			}
 		},
 		"BiquadFilterPatch": {
-			"!type": "fn(synth: +SYNTH.Synth, params: object)",
+			"!type": "fn(synth: +SYNTH.Synth, params?: object)",
 			"prototype": {
 				"!proto": "PATCH.Patch.prototype",
 				"getInput": {
@@ -130,7 +130,7 @@
 			}
 		},
 		"EnvelopePatch": {
-			"!type": "fn(synth: +SYNTH.Synth, params: object)",
+			"!type": "fn(synth: +SYNTH.Synth, params?: object)",
 			"prototype": {
 				"!proto": "PATCH.Patch.prototype",
 				"getInput": {
@@ -148,7 +148,7 @@
 			}
 		},
 		"ScopePatch": {
-			"!type": "fn(synth: +SYNTH.Synth, params: object)",
+			"!type": "fn(synth: +SYNTH.Synth, params?: object)",
 			"prototype": {
 				"!proto": "PATCH.Patch.prototype",
 				"getInput": {
@@ -163,7 +163,7 @@
 			}
 		},
 		"SpeakerPatch": {
-			"!type": "fn(synth: +SYNTH.Synth, params: object)",
+			"!type": "fn(synth: +SYNTH.Synth, params?: object)",
 			"prototype": {
 				"!proto": "PATCH.Patch.prototype",
 				"getInput": {

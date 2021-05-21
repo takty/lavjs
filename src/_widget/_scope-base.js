@@ -1,10 +1,10 @@
 /**~ja
  * スコープ・ベース
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 /**~en
  * Scope base
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 class ScopeBase {
 
@@ -53,8 +53,8 @@ class ScopeBase {
 
 		const can = document.createElement('canvas');
 		can.className = 'lavjs-widget-scope-canvas';
-		can.setAttribute('width', this._width);
-		can.setAttribute('height', this._height);
+		can.setAttribute('width', '' + this._width);
+		can.setAttribute('height', '' + this._height);
 		can.addEventListener('click', () => { this._freeze = !this._freeze; });
 		this._ctx = can.getContext('2d');
 		this._base.appendChild(can);

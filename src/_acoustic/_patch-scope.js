@@ -1,12 +1,12 @@
 /**~ja
  * スコープ・パッチ
  * @extends {Patch}
- * @version 2021-01-29
+ * @version 2021-05-21
  */
 /**~en
  * Scope patch
  * @extends {Patch}
- * @version 2021-01-29
+ * @version 2021-05-21
  */
 class ScopePatch extends Patch {
 
@@ -14,16 +14,17 @@ class ScopePatch extends Patch {
 	 * スコープ・パッチを作る
 	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make a scope patch
 	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { widget = null, isSynchronized = true, smoothingTimeConstant = 0.9 }) {
+	constructor(synth, params = {}) {
 		super(synth);
+		const { widget = null, isSynchronized = true, smoothingTimeConstant = 0.9 } = params;
 
 		this._g = this._synth.context().createGain();
 		const a = this._createAnalyser(widget);

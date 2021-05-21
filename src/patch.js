@@ -4,7 +4,7 @@
  * 音を鳴らすための部品を作るライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 /**~en
  * Patch library (PATCH)
@@ -12,7 +12,7 @@
  * A library for making parts for playing sounds.
  *
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 
 
@@ -105,7 +105,7 @@ const PATCH = (function () {
 	 */
 	/**~en
 	 * Polyfill of cancelAndHoldAtTime method
-	 * @param {AudioParam} params Audio parameter
+	 * @param {AudioParam} param Audio parameter
 	 * @param {number} time Time [s]
 	 */
 	function cancelAndHoldAtTime(param, time) {
@@ -127,7 +127,7 @@ const PATCH = (function () {
 	 */
 	/**~en
 	 * Set a value to the audio parameter
-	 * @param {AudioParam} params Audio parameter
+	 * @param {AudioParam} param Audio parameter
 	 * @param {number} value Value
 	 * @param {number} time Time [s]
 	 * @param {string} type Type

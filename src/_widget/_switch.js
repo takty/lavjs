@@ -1,30 +1,35 @@
 /**~ja
  * スイッチ（ラジオ・ボタン）
  * @author Takuto Yanagida
- * @version 2021-05-19
+ * @version 2021-05-21
  */
 /**~en
  * Switches (Radio buttons)
  * @author Takuto Yanagida
- * @version 2021-05-19
+ * @version 2021-05-21
  */
 class Switch extends Widget {
 
 	/**~ja
 	 * スイッチを作る
 	 * @constructor
-	 * @param {string=|Array<string>|number} [label_s_num=''] ボタンの名前／ボタンの数
-	 * @param {number} [value=0] 今押されているボタンの番号
-	 * @param {*=} [{ vertical=false, sameWidth=false }={}] オプション（たて向きにする？、同じ幅にする？）
+	 * @param {string|string[]|number=} [label_s_num=''] ボタンの名前／ボタンの数
+	 * @param {number=} [value=0] 今押されているボタンの番号
+	 * @param {object} [opts={}] オプション
+	 * @param {boolean=} [opts.vertical=false] たて向きにする？
+	 * @param {boolean=} [opts.sameWidth=false] 同じ幅にする？
 	 */
 	/**~en
 	 * Make a switch
 	 * @constructor
-	 * @param {string=|Array<string>|number} [label_s_num=''] Name(s) of button(s), or number of buttons
-	 * @param {number} [value=0] Index of currently selected button
-	 * @param {*=} [{ vertical=false, sameWidth=false }={}] Options (Whether to be vertical, Whether to be the same width)
+	 * @param {string|string[]|number=} [label_s_num=''] Name(s) of button(s), or number of buttons
+	 * @param {number=} [value=0] Index of currently selected button
+	 * @param {object} [opts={}] Options
+	 * @param {boolean=} [opts.vertical=false] Whether to be vertical
+	 * @param {boolean=} [opts.sameWidth=false] Whether to be the same width
 	 */
-	constructor(label_s_num = 2, value = 0, { vertical = false, sameWidth = false } = {}) {
+	constructor(label_s_num = 2, value = 0, opts = {}) {
+		const { vertical = false, sameWidth = false } = opts;
 		super();
 		this._base.classList.add('lavjs-widget-button-row');
 		this._base.style.flexDirection = vertical ? 'column' : 'row';
@@ -43,7 +48,7 @@ class Switch extends Widget {
 		for (const lab of labs) {
 			const b = document.createElement('a');
 			b.className = 'lavjs-widget lavjs-widget-button';
-			b.innerText = lab;
+			b.innerText = '' + lab;
 			if (sameWidth) b.style.width = `${maxLabLen}em`;
 			b.addEventListener('click', this._handleClickEvent.bind(this));
 			this._buttons.push(b);
@@ -84,13 +89,13 @@ class Switch extends Widget {
 
 	/**~ja
 	 * 現在の値
-	 * @param {boolean} val 現在の値
-	 * @return {boolean|Toggle} 現在の値／このスイッチ
+	 * @param {number} val 現在の値
+	 * @return {number|Switch} 現在の値／このスイッチ
 	 */
 	/**~en
 	 * Current value
-	 * @param {boolean} val Current value
-	 * @return {boolean|Toggle} Current value, or this switch
+	 * @param {number} val Current value
+	 * @return {number|Switch} Current value, or this switch
 	 */
 	value(val) {
 		if (val === undefined) return this._value;
@@ -103,15 +108,15 @@ class Switch extends Widget {
 
 	/**~ja
 	 * クリック・イベントに対応する関数
-	 * @param {function(boolean, number)} handler 関数
+	 * @param {function(number):void} handler 関数
 	 * @param {boolean=} doFirst 最初に一度実行するか
-	 * @return {function(boolean, number)|Toggle} 関数／このスイッチ
+	 * @return {function(number):void|Switch} 関数／このスイッチ
 	 */
 	/**~en
 	 * Function handling to click events
-	 * @param {function(boolean, number)} handler Function
+	 * @param {function(number):void} handler Function
 	 * @param {boolean=} doFirst Whether to do it once the first time
-	 * @return {function(boolean, number)|Toggle} Function, or this switch
+	 * @return {function(number):void|Switch} Function, or this switch
 	 */
 	onClick(handler, doFirst = false) {
 		if (handler === undefined) return this._onClick;

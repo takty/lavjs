@@ -1,24 +1,24 @@
 /**~ja
  * キー操作処理
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 /**~en
  * Key operation handler
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 class KeyHandler {
 
 	/**~ja
 	 * キー操作処理を作る
 	 * @constructor
-	 * @param {Canvas} can キャンバス
+	 * @param {HTMLCanvasElement} can キャンバス
 	 */
 	/**~en
 	 * Make a key operation handler
 	 * @constructor
-	 * @param {Canvas} can Canvas
+	 * @param {HTMLCanvasElement} can Canvas
 	 */
 	constructor(can) {
 		this._keys = {};
@@ -57,13 +57,13 @@ class KeyHandler {
 
 	/**~ja
 	 * キー・ダウン（キーが押された）イベントに対応する関数をセットする
-	 * @param {function(string, KeyEvent)=} handler 関数
-	 * @return {function(string, KeyEvent)=} 関数
+	 * @param {function(string, KeyboardEvent):void=} handler 関数
+	 * @return {function(string, KeyboardEvent):void=} 関数
 	 */
 	/**~en
 	 * Set the function handling key down events
-	 * @param {function(string, KeyEvent)=} handler Function
-	 * @return {function(string, KeyEvent)=} Function
+	 * @param {function(string, KeyboardEvent):void=} handler Function
+	 * @return {function(string, KeyboardEvent):void=} Function
 	 */
 	onKeyDown(handler) {
 		if (handler === undefined) return this._onDown;
@@ -72,13 +72,13 @@ class KeyHandler {
 
 	/**~ja
 	 * キー・アップ（キーが離された）イベントに対応する関数をセットする
-	 * @param {function(string, KeyEvent)=} handler 関数
-	 * @return {function(string, KeyEvent)=} 関数
+	 * @param {function(string, KeyboardEvent):void=} handler 関数
+	 * @return {function(string, KeyboardEvent):void=} 関数
 	 */
 	/**~en
 	 * Set the function handling key up events
-	 * @param {function(string, KeyEvent)=} handler Function
-	 * @return {function(string, KeyEvent)=} Function
+	 * @param {function(string, KeyboardEvent):void=} handler Function
+	 * @return {function(string, KeyboardEvent):void=} Function
 	 */
 	onKeyUp(handler) {
 		if (handler === undefined) return this._onUp;

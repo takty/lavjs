@@ -54,6 +54,9 @@
 				},
 				"rotation": {
 					"!type": "fn(val?: ?|function) -> !this|?|function"
+				},
+				"data": {
+					"!type": "fn(val?: ?) -> !this|?"
 				}
 			}
 		},

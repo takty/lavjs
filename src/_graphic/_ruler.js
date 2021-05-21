@@ -505,9 +505,9 @@ class Ruler {
 	 * 円をかく
 	 * @param {number} cx 中心x座標
 	 * @param {number} cy 中心y座標
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
 	 * @param {number=} [opt_dir=0] 方向
-	 * @param {number|Array<number>=} [opt_deg=360] 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]=} [opt_deg=360] 角度（配列なら開始角度と終了角度）
 	 * @param {boolean=} [opt_anticlockwise=false] 反時計回り？
 	 * @return {Ruler} この定規
 	 */
@@ -515,9 +515,9 @@ class Ruler {
 	 * Draw a circle
 	 * @param {number} cx X coordinate of center
 	 * @param {number} cy Y coordinate of center
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
 	 * @param {number=} [opt_dir=0] Direction
-	 * @param {number|Array<number>=} [opt_deg=360] Degree (start and end angles if an array given)
+	 * @param {number|number[]=} [opt_deg=360] Degree (start and end angles if an array given)
 	 * @param {boolean=} [opt_anticlockwise=false] Whether it is counterclockwise
 	 * @return {Ruler} This ruler
 	 */

@@ -45,13 +45,13 @@ const MOTION = (function () {
 
 	/**~ja
 	 * 値なら返し、関数なら関数を呼び出す
-	 * @param {number|function(): number} vf 値か関数
+	 * @param {number|function():number} vf 値か関数
 	 * @param {number=} unitTime 単位時間
 	 * @return {number} 値
 	 */
 	/**~en
 	 * If a value is given, return it, and if a function is given, call it
-	 * @param {number|function(): number} vf Value or function
+	 * @param {number|function():number} vf Value or function
 	 * @param {number=} unitTime Unit time
 	 * @return {number} Value
 	 */
@@ -68,14 +68,14 @@ const MOTION = (function () {
 	 * @param {number} min 最小値
 	 * @param {number} max 最大値
 	 * @param {boolean=} isLoop ループする？
-	 * @return {function(number): number} 範囲をチェックする関数
+	 * @return {function(number):number} 範囲をチェックする関数
 	 */
 	/**~en
 	 * Make a function to check the range
 	 * @param {number} min Minimum value
 	 * @param {number} max Maximum value
 	 * @param {boolean=} isLoop Whether to loop
-	 * @return {function(number): number} Function to check the range
+	 * @return {function(number):number} Function to check the range
 	 */
 	const makeRangeChecker = function (min, max, isLoop) {
 		if (isLoop) {

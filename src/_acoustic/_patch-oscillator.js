@@ -1,12 +1,12 @@
 /**~ja
  * オシレーター・パッチ
  * @extends {SourcePatch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 /**~en
  * Oscillator patch
  * @extends {SourcePatch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 class OscillatorPatch extends SourcePatch {
 
@@ -14,16 +14,17 @@ class OscillatorPatch extends SourcePatch {
 	 * オシレーター・パッチを作る
 	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make an oscillator patch
 	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { type = 'sine', frequency = 440, detune = 0, gain = 1 }) {
+	constructor(synth, params) {
 		super(synth);
+		const { type = 'sine', frequency = 440, detune = 0, gain = 1 } = params;
 
 		this._o = this._synth.context().createOscillator();
 		this._g = this._synth.context().createGain();

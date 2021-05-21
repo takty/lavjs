@@ -323,12 +323,12 @@ class Element {
 
 	/**~ja
 	 * データ
-	 * @param {?object} val データ
+	 * @param {object=} val データ
 	 * @return {object|Element} データ／この要素
 	 */
 	/**~en
 	 * Data
-	 * @param {?object} val Data
+	 * @param {object=} val Data
 	 * @return {object|Element} Data or this element
 	 */
 	data(val) {

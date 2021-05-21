@@ -13,14 +13,14 @@ class Sprite extends Element {
 	/**~ja
 	 * スプライトを作る
 	 * @constructor
-	 * @param {function(*)} drawingCallback 絵をかく関数
+	 * @param {function(*):void} drawingCallback 絵をかく関数
 	 * @param {Motion=} motion モーション
 	 * @param {Rotation=} rotation 回転
 	 */
 	/**~en
 	 * Make a sprite
 	 * @constructor
-	 * @param {function(*)} drawingCallback Function to draw picture one by one
+	 * @param {function(*):void} drawingCallback Function to draw picture one by one
 	 * @param {Motion=} motion Motion
 	 * @param {Rotation=} rotation Rotation
 	 */
@@ -68,13 +68,13 @@ class Sprite extends Element {
 
 	/**~ja
 	 * 衝突イベントに対応する関数をセットする
-	 * @param {function(this, Sprite)=} handler 関数
-	 * @return {function(this, Sprite)=} 半径／このスプライト
+	 * @param {function(Sprite, Sprite):void=} handler 関数
+	 * @return {function(Sprite, Sprite):void|Sprite=} 半径／このスプライト
 	 */
 	/**~en
 	 * Set the function handling the collision event
-	 * @param {function(this, Sprite)=} handler Function
-	 * @return {function(this, Sprite)=|Sprite} Function, or this sprite
+	 * @param {function(Sprite, Sprite):void=} handler Function
+	 * @return {function(Sprite, Sprite):void|Sprite=} Function, or this sprite
 	 */
 	onCollision(handler) {
 		if (handler === undefined) return this._onCollision;

@@ -1,10 +1,10 @@
 /**~ja
  * 紙
- * @version 2021-02-11
+ * @version 2021-05-21
  */
 /**~en
  * Paper
- * @version 2021-02-11
+ * @version 2021-05-21
  */
 class Paper {
 
@@ -24,9 +24,9 @@ class Paper {
 	 */
 	constructor(width, height, isVisible = true) {
 		const can = document.createElement('canvas');
-		can.setAttribute('width', width || 400);
-		can.setAttribute('height', height || 400);
-		can.setAttribute('tabindex', 1);
+		can.setAttribute('width', '' + (width || 400));
+		can.setAttribute('height', '' + (height || 400));
+		can.setAttribute('tabindex', '1');
 
 		this._ctx = can.getContext('2d');
 		if (!PAPER_IS_AUGMENTED) augmentPaperPrototype(this._ctx);
@@ -52,12 +52,12 @@ class Paper {
 	/**~ja
 	 * 紙を強化する（ライブラリ内だけで使用）
 	 * @private
-	 * @param {DOMElement} can キャンバス要素
+	 * @param {HTMLCanvasElement} can キャンバス要素
 	 */
 	/**~en
 	 * Augment papers (used only in the library)
 	 * @private
-	 * @param {DOMElement} can Canvas element
+	 * @param {HTMLCanvasElement} can Canvas element
 	 */
 	_augment(can) {
 		this._prevTime = 0;
@@ -655,13 +655,13 @@ class Paper {
 
 	/**~ja
 	 * キー・ダウン（キーが押された）イベントに対応する関数をセットする
-	 * @param {function(string, KeyEvent)=} handler 関数
-	 * @return {function(string, KeyEvent)=} 関数
+	 * @param {function(string, KeyboardEvent):void=} handler 関数
+	 * @return {function(string, KeyboardEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling key down events
-	 * @param {function(string, KeyEvent)=} handler Function
-	 * @return {function(string, KeyEvent)=} Function
+	 * @param {function(string, KeyboardEvent):void=} handler Function
+	 * @return {function(string, KeyboardEvent):void|Paper} Function, or this paper
 	 */
 	onKeyDown(handler) {
 		if (handler === undefined) return this._keyEventHandler.onKeyDown();
@@ -671,13 +671,13 @@ class Paper {
 
 	/**~ja
 	 * キー・アップ（キーが離された）イベントに対応する関数をセットする
-	 * @param {function(string, KeyEvent)=} handler 関数
-	 * @return {function(string, KeyEvent)=} 関数
+	 * @param {function(string, KeyboardEvent):void=} handler 関数
+	 * @return {function(string, KeyboardEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling key up events
-	 * @param {function(string, KeyEvent)=} handler Function
-	 * @return {function(string, KeyEvent)=} Function
+	 * @param {function(string, KeyboardEvent):void=} handler Function
+	 * @return {function(string, KeyboardEvent):void|Paper} Function, or this paper
 	 */
 	onKeyUp(handler) {
 		if (handler === undefined) return this._keyEventHandler.onKeyUp();
@@ -740,13 +740,13 @@ class Paper {
 
 	/**~ja
 	 * マウス・ダウン（ボタンが押された）イベントに対応する関数をセットする
-	 * @param {function(number, number, MouseEvent)=} handler 関数
-	 * @return {function(number, number, MouseEvent)=} 関数
+	 * @param {function(number, number, MouseEvent):void=} handler 関数
+	 * @return {function(number, number, MouseEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling the mouse down event
-	 * @param {function(number, number, MouseEvent)=} handler Function
-	 * @return {function(number, number, MouseEvent)=} Function
+	 * @param {function(number, number, MouseEvent):void=} handler Function
+	 * @return {function(number, number, MouseEvent):void|Paper} Function, or this paper
 	 */
 	onMouseDown(handler) {
 		if (handler === undefined) return this._mouseEventHandler.onMouseDown();
@@ -756,13 +756,13 @@ class Paper {
 
 	/**~ja
 	 * マウス・ムーブ（ポインターが移動した）イベントに対応する関数をセットする
-	 * @param {function(number, number, MouseEvent)=} handler 関数
-	 * @return {function(number, number, MouseEvent)=} 関数
+	 * @param {function(number, number, MouseEvent):void=} handler 関数
+	 * @return {function(number, number, MouseEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling the mouse move event
-	 * @param {function(number, number, MouseEvent)=} handler Function
-	 * @return {function(number, number, MouseEvent)=} Function
+	 * @param {function(number, number, MouseEvent):void=} handler Function
+	 * @return {function(number, number, MouseEvent):void|Paper} Function, or this paper
 	 */
 	onMouseMove(handler) {
 		if (handler === undefined) return this._mouseEventHandler.onMouseMove();
@@ -772,13 +772,13 @@ class Paper {
 
 	/**~ja
 	 * マウス・アップ（ボタンが離された）イベントに対応する関数をセットする
-	 * @param {function(number, number, MouseEvent)=} handler 関数
-	 * @return {function(number, number, MouseEvent)=} 関数
+	 * @param {function(number, number, MouseEvent):void=} handler 関数
+	 * @return {function(number, number, MouseEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling the mouse up event
-	 * @param {function(number, number, MouseEvent)=} handler Function
-	 * @return {function(number, number, MouseEvent)=} Function
+	 * @param {function(number, number, MouseEvent):void=} handler Function
+	 * @return {function(number, number, MouseEvent):void|Paper} Function, or this paper
 	 */
 	onMouseUp(handler) {
 		if (handler === undefined) return this._mouseEventHandler.onMouseUp();
@@ -788,13 +788,13 @@ class Paper {
 
 	/**~ja
 	 * マウス・クリック・イベントに対応する関数をセットする
-	 * @param {function(number, number, MouseEvent)=} handler 関数
-	 * @return {function(number, number, MouseEvent)=} 関数
+	 * @param {function(number, number, MouseEvent):void=} handler 関数
+	 * @return {function(number, number, MouseEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling the mouse click event
-	 * @param {function(number, number, MouseEvent)=} handler Function
-	 * @return {function(number, number, MouseEvent)=} Function
+	 * @param {function(number, number, MouseEvent):void=} handler Function
+	 * @return {function(number, number, MouseEvent):void|Paper} Function, or this paper
 	 */
 	onMouseClick(handler) {
 		if (handler === undefined) return this._mouseEventHandler.onMouseClick();
@@ -804,13 +804,13 @@ class Paper {
 
 	/**~ja
 	 * マウス・ホイール・イベントに対応する関数をセットする
-	 * @param {function(number, WheelEvent)=} handler 関数
-	 * @return {function(number, WheelEvent)=} 関数
+	 * @param {function(number, WheelEvent):void=} handler 関数
+	 * @return {function(number, WheelEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling the mouse wheel event
-	 * @param {function(number, WheelEvent)=} handler Function
-	 * @return {function(number, WheelEvent)=} Function
+	 * @param {function(number, WheelEvent):void=} handler Function
+	 * @return {function(number, WheelEvent):void|Paper} Function, or this paper
 	 */
 	onMouseWheel(handler) {
 		if (handler === undefined) return this._mouseEventHandler.onMouseWheel();

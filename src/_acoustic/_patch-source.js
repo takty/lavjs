@@ -1,12 +1,12 @@
 /**~ja
  * ソース・パッチ
  * @extends {Patch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 /**~en
  * Source patch
  * @extends {Patch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 class SourcePatch extends Patch {
 
@@ -14,13 +14,11 @@ class SourcePatch extends Patch {
 	 * ソース・パッチを作る
 	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make a source patch
 	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
 	 */
 	constructor(synth) {
 		super(synth);

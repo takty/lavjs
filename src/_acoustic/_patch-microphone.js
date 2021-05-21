@@ -1,12 +1,12 @@
 /**~ja
  * マイクロフォン・パッチ
  * @extends {SourcePatch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 /**~en
  * Microphone patch
  * @extends {SourcePatch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 class MicrophonePatch extends SourcePatch {
 
@@ -14,16 +14,17 @@ class MicrophonePatch extends SourcePatch {
 	 * マイクロフォン・パッチを作る
 	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make a microphone patch
 	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { type = 'notch', Q = 12, frequency = 0, gain = 10 }) {
+	constructor(synth, params = {}) {
 		super(synth);
+		const { type = 'notch', Q = 12, frequency = 0, gain = 10 } = params;
 
 		this._f = this._synth.context().createBiquadFilter();
 		this._g = this._synth.context().createGain();

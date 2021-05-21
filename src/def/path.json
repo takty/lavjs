@@ -28,28 +28,28 @@
 			"!type": "fn()"
 		},
 		"sineEdge": {
-			"!type": "fn(length?: number, amplitude?: number, opt?: obj) -> fn(?)"
+			"!type": "fn(length?: number, amplitude?: number, opt?: object) -> fn(?)"
 		},
 		"squareEdge": {
-			"!type": "fn(length?: number, amplitude?: number, opt?: obj) -> fn(?)"
+			"!type": "fn(length?: number, amplitude?: number, opt?: object) -> fn(?)"
 		},
 		"triangleEdge": {
-			"!type": "fn(length?: number, amplitude?: number, opt?: obj) -> fn(?)"
+			"!type": "fn(length?: number, amplitude?: number, opt?: object) -> fn(?)"
 		},
 		"sawtoothEdge": {
-			"!type": "fn(length?: number, amplitude?: number, opt?: obj) -> fn(?)"
+			"!type": "fn(length?: number, amplitude?: number, opt?: object) -> fn(?)"
 		},
 		"absSineEdge": {
-			"!type": "fn(length?: number, amplitude?: number, opt?: obj) -> fn(?)"
+			"!type": "fn(length?: number, amplitude?: number, opt?: object) -> fn(?)"
 		},
 		"noiseEdge": {
-			"!type": "fn(length?: number, amplitude?: number, opt?: obj) -> fn(?)"
+			"!type": "fn(length?: number, amplitude?: number, opt?: object) -> fn(?)"
 		},
 		"mixEdge": {
 			"!type": "fn(func: fn(?), fs: ?) -> fn(?)"
 		},
 		"arrangeArcParams": {
-			"!type": "fn(r: number, deg: number, step: number) -> obj"
+			"!type": "fn(r: number, deg: number, step: number) -> object"
 		},
 		"eclipse": {
 			"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, cx: number, cy: number, w: number, h: number, dr: number, r0: number, r1: number, ac: bool)"

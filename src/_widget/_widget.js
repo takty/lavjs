@@ -1,12 +1,12 @@
 /**~ja
  * ウィジェット共通
  * @author Takuto Yanagida
- * @version 2021-05-11
+ * @version 2021-05-21
  */
 /**~en
  * Common widget
  * @author Takuto Yanagida
- * @version 2021-05-11
+ * @version 2021-05-21
  */
 class Widget {
 
@@ -40,11 +40,11 @@ class Widget {
 
 	/**~ja
 	 * DOM要素を返す
-	 * @return {domElement} DOM要素
+	 * @return {HTMLDivElement} DOM要素
 	 */
 	/**~en
 	 * Return the DOM element
-	 * @return {domElement} DOM element
+	 * @return {HTMLDivElement} DOM element
 	 */
 	domElement() {
 		return this._base;

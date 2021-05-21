@@ -1,12 +1,12 @@
 /**~ja
  * ステージ
  * @extends {Element}
- * @version 2021-02-11
+ * @version 2021-05-21
  */
 /**~en
  * Stage
  * @extends {Element}
- * @version 2021-02-11
+ * @version 2021-05-21
  */
 class Stage extends Element {
 
@@ -35,14 +35,14 @@ class Stage extends Element {
 
 	/**~ja
 	 * スプライトを作って加える
-	 * @param {function(*)} drawFunction 絵をかく関数
+	 * @param {function(*):void} drawFunction 絵をかく関数
 	 * @param {Array=} opt_args_array 関数に渡す引数の配列
 	 * @param {Motion=} opt_motion モーション
 	 * @return {Sprite} スプライト
 	 */
 	/**~en
 	 * Make a sprite and add it to this stage
-	 * @param {function(*)} drawFunction Function to draw pictures
+	 * @param {function(*):void} drawFunction Function to draw pictures
 	 * @param {Array=} opt_args_array Array of arguments to pass to the function
 	 * @param {Motion=} opt_motion Motion
 	 * @return {Sprite} Sprite
@@ -252,7 +252,7 @@ class Stage extends Element {
 		const sin = Math.sin(r);
 		const cos = Math.cos(r);
 		let sx, sy;
-		if (elm._scale instanceof Array) {
+		if (Array.isArray(elm._scale)) {
 			[sx, sy] = elm._scale;
 		} else {
 			sx = sy = elm._scale;

@@ -59,7 +59,7 @@
 					"!type": "fn(mode: string) -> !this"
 				},
 				"circle": {
-					"!type": "fn(cx: number, cy: number, r: number, dir?: number, deg?: number, anticlockwise?: bool) -> !this"
+					"!type": "fn(cx: number, cy: number, r: number|[number], opt_dir?: number, opt_deg?: number, opt_anticlockwise?: bool) -> !this"
 				},
 				"line": {
 					"!type": "fn(fromX: number, fromY: number, toX: number, toY: number) -> !this"

@@ -4,7 +4,7 @@
  * 図形のパスを作るためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-12
+ * @version 2021-05-21
  */
 /**~en
  * Path library (PATH)
@@ -12,7 +12,7 @@
  * A library to make the path of the shape.
  *
  * @author Takuto Yanagida
- * @version 2021-02-12
+ * @version 2021-05-21
  */
 
 
@@ -114,24 +114,24 @@ const PATH = (function () {
 	 * 長さを求める
 	 * @param {number} x0 始点x座標
 	 * @param {number} y0 始点y座標
-	 * @param {function(number, number, Array<number>)} func 関数
+	 * @param {function(number, number, number[]):void} func 関数
 	 * @param {number} I 計算する細かさ
 	 * @param {number=} [opt_limit=null] 長さ制限
-	 * @param {dict=} [opt_retArea=null] エリアを返す配列
-	 * @return {dict} 長さ
+	 * @param {object=} [opt_retArea=null] エリアを返す配列
+	 * @return {object} 長さ
 	 */
 	/**~en
 	 * Determine the length
 	 * @param {number} x0 X coordinate of start point
 	 * @param {number} y0 Y coordinate of start point
-	 * @param {function(number, number, Array<number>)} func Function
+	 * @param {function(number, number, number[]):void} func Function
 	 * @param {number} I Accuracy to calculate
 	 * @param {number=} [opt_limit=null] Length limitation
-	 * @param {dict=} [opt_retArea=null] An array returning areas
-	 * @return {dict} Length of span
+	 * @param {object=} [opt_retArea=null] An array returning areas
+	 * @return {object} Length of span
 	 */
 	const calcSpan = function (x0, y0, func, I, opt_limit = null, opt_retArea = null) {
-		let px = x0, py = y0, pt = [], span = 0, limitedSpan = false, paramT, checkLimit;
+		let px = x0, py = y0, pt = [], span = 0, limitedSpan = null, paramT, checkLimit;
 
 		if (opt_limit !== null) checkLimit = true;
 
@@ -155,19 +155,19 @@ const PATH = (function () {
 			limitedSpan = span;
 			paramT = 1;
 		}
-		if (limitedSpan === false) limitedSpan = span;
+		if (limitedSpan === null) limitedSpan = span;
 		return { span, limitedSpan, paramT };
 	};
 
 	/**~ja
 	 * エリアの情報を更新する
-	 * @param {dict} area エリア情報
+	 * @param {object} area エリア情報
 	 * @param {number} x x座標
 	 * @param {number} y y座標
 	 */
 	/**~en
 	 * Update area information
-	 * @param {dict} area Area information
+	 * @param {object} area Area information
 	 * @param {number} x X coordinate
 	 * @param {number} y Y coordinate
 	 */
@@ -193,8 +193,8 @@ const PATH = (function () {
 	 * @param {number} y1 終点y座標
 	 * @param {number} I 計算する細かさ
 	 * @param {number=} [opt_limit=null] 長さ制限
-	 * @param {dict=} [opt_retArea=null] エリアを返す配列
-	 * @return {dict} 長さ
+	 * @param {object=} [opt_retArea=null] エリアを返す配列
+	 * @return {object} 長さ
 	 */
 	/**~en
 	 * Find the length of a line segment
@@ -204,8 +204,8 @@ const PATH = (function () {
 	 * @param {number} y1 Y coordinate of end point
 	 * @param {number} I Accuracy to calculate
 	 * @param {number=} [opt_limit=null] Length limitation
-	 * @param {dict=} [opt_retArea=null] An array returning areas
-	 * @return {dict} Length of span
+	 * @param {object=} [opt_retArea=null] An array returning areas
+	 * @return {object} Length of span
 	 */
 	const _lineLen = function (x0, y0, x1, y1, I, opt_limit = null, opt_retArea = null) {
 		return calcSpan(x0, y0, function (t, tp, pt) {
@@ -224,8 +224,8 @@ const PATH = (function () {
 	 * @param {number} y2 終点y座標
 	 * @param {number} I 計算する細かさ
 	 * @param {number=} [opt_limit=null] 長さ制限
-	 * @param {dict=} [opt_retArea=null] エリアを返す配列
-	 * @return {dict} 長さ
+	 * @param {object=} [opt_retArea=null] エリアを返す配列
+	 * @return {object} 長さ
 	 */
 	/**~en
 	 * Find the length of a quadratic Bezier curve
@@ -237,8 +237,8 @@ const PATH = (function () {
 	 * @param {number} y2 Y coordinate of end point
 	 * @param {number} I Accuracy to calculate
 	 * @param {number=} [opt_limit=null] Length limitation
-	 * @param {dict=} [opt_retArea=null] An array returning areas
-	 * @return {dict} Length of span
+	 * @param {object=} [opt_retArea=null] An array returning areas
+	 * @return {object} Length of span
 	 */
 	const _quadLen = function (x0, y0, x1, y1, x2, y2, I, opt_limit = null, opt_retArea = null) {
 		return calcSpan(x0, y0, function (t, tp, pt) {
@@ -260,8 +260,8 @@ const PATH = (function () {
 	 * @param {number} y3 終点y座標
 	 * @param {number} I 計算する細かさ
 	 * @param {number=} [opt_limit=null] 長さ制限
-	 * @param {dict=} [opt_retArea=null] エリアを返す配列
-	 * @return {dict} 長さ
+	 * @param {object=} [opt_retArea=null] エリアを返す配列
+	 * @return {object} 長さ
 	 */
 	/**~en
 	 * Find the length of a cubic Bézier curve
@@ -275,8 +275,8 @@ const PATH = (function () {
 	 * @param {number} y3 Y coordinate of end point
 	 * @param {number} I Accuracy to calculate
 	 * @param {number=} [opt_limit=null] Length limitation
-	 * @param {dict=} [opt_retArea=null] An array returning areas
-	 * @return {dict} Length of span
+	 * @param {object=} [opt_retArea=null] An array returning areas
+	 * @return {object} Length of span
 	 */
 	const _bezierLen = function (x0, y0, x1, y1, x2, y2, x3, y3, I, opt_limit = null, opt_retArea = null) {
 		return calcSpan(x0, y0, function (t, tp, pt) {
@@ -299,8 +299,8 @@ const PATH = (function () {
 	 * @param {number} r1 終了角度
 	 * @param {number} I 計算する細かさ
 	 * @param {number=} [opt_limit=null] 長さ制限
-	 * @param {dict=} [opt_retArea=null] エリアを返す配列
-	 * @return {dict} 長さ
+	 * @param {object=} [opt_retArea=null] エリアを返す配列
+	 * @return {object} 長さ
 	 */
 	/**~en
 	 * Calculate arc length
@@ -314,8 +314,8 @@ const PATH = (function () {
 	 * @param {number} r1 End angle
 	 * @param {number} I Accuracy to calculate
 	 * @param {number=} [opt_limit=null] Length limitation
-	 * @param {dict=} [opt_retArea=null] An array returning areas
-	 * @return {dict} Length of span
+	 * @param {object=} [opt_retArea=null] An array returning areas
+	 * @return {object} Length of span
 	 */
 	const _arcLen = function (cx, cy, dr, w, h, r0, r1, I, opt_limit = null, opt_retArea = null) {
 		const s0 = w * Math.cos(r0), t0 = h * Math.sin(r0);
@@ -551,17 +551,17 @@ const PATH = (function () {
 
 	/**~ja
 	 * 円や弧をかく関数の引数を整える
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @param {number} [step=1] 係数
-	 * @return {dict} 引数
+	 * @return {object} 引数
 	 */
 	/**~en
 	 * Arrange the arguments of functions that draw circles and arcs
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @param {number} [step=1] Factor
-	 * @return {dict} Parameters
+	 * @return {object} Parameters
 	 */
 	const arrangeArcParams = function (r, deg, step = 1) {
 		const ap = {};

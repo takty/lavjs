@@ -1,10 +1,10 @@
 /**~ja
  * 影
- * @version 2020-12-17
+ * @version 2021-05-21
  */
 /**~en
  * Shadow
- * @version 2020-12-17
+ * @version 2021-05-21
  */
 class Shadow {
 
@@ -18,11 +18,11 @@ class Shadow {
 	 * @constructor
 	 * @param {Shadow=} base Original shadow
 	 */
-	constructor(shadow) {
-		this._blur    = shadow ? shadow._blur    : 0;
-		this._color   = shadow ? shadow._color   : 0;
-		this._offsetX = shadow ? shadow._offsetX : 0;
-		this._offsetY = shadow ? shadow._offsetY : 0;
+	constructor(base) {
+		this._blur    = base ? base._blur    : 0;
+		this._color   = base ? base._color   : 'rgb(0 0 0 / 0%)';
+		this._offsetX = base ? base._offsetX : 0;
+		this._offsetY = base ? base._offsetY : 0;
 	}
 
 	/**~ja
@@ -68,7 +68,7 @@ class Shadow {
 	 */
 	clear() {
 		this._blur    = 0;
-		this._color   = 0;
+		this._color   = 'rgb(0 0 0 / 0%)';
 		this._offsetX = 0;
 		this._offsetY = 0;
 	}

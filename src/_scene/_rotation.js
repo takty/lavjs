@@ -30,12 +30,12 @@ class Rotation {
 
 	/**~ja
 	 * 角度スピード
-	 * @param {?number} val 角度スピード
+	 * @param {number=} val 角度スピード
 	 * @return {number|Element} 角度スピード／この要素
 	 */
 	/**~en
 	 * Angle speed
-	 * @param {?number} val Angle speed
+	 * @param {number=} val Angle speed
 	 * @return {number|Element} Angle speed or this element
 	 */
 	angleSpeed(val) {
@@ -46,12 +46,12 @@ class Rotation {
 
 	/**~ja
 	 * 角度スピードx
-	 * @param {?number} val 角度スピード
+	 * @param {number=} val 角度スピード
 	 * @return {number|Element} 角度スピード／この要素
 	 */
 	/**~en
 	 * Angle speed x
-	 * @param {?number} val Angle speed
+	 * @param {number=} val Angle speed
 	 * @return {number|Element} Angle speed or this element
 	 */
 	angleSpeedX(val) {
@@ -62,12 +62,12 @@ class Rotation {
 
 	/**~ja
 	 * 角度スピードz
-	 * @param {?number} val 角度スピード
+	 * @param {number=} val 角度スピード
 	 * @return {number|Element} 角度スピード／この要素
 	 */
 	/**~en
 	 * Angle speed z
-	 * @param {?number} val Angle speed
+	 * @param {number=} val Angle speed
 	 * @return {number|Element} Angle speed or this element
 	 */
 	angleSpeedZ(val) {

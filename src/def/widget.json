@@ -16,7 +16,7 @@
 			}
 		},
 		"Switch": {
-			"!type": "fn(label_s_num?: string|[string]|number, value?: number, opt?: obj)",
+			"!type": "fn(label_s_num?: string|[string]|number, value?: number, opt?: objectect)",
 			"prototype": {
 				"!proto": "WIDGET.Widget.prototype",
 				"value": {
@@ -28,7 +28,7 @@
 			}
 		},
 		"Toggle": {
-			"!type": "fn(label_s_num?: string|[string]|number, state_s?: bool|[bool], opt?: obj)",
+			"!type": "fn(label_s_num?: string|[string]|number, state_s?: bool|[bool], opt?: object)",
 			"prototype": {
 				"!proto": "WIDGET.Widget.prototype",
 				"value": {
@@ -40,7 +40,7 @@
 			}
 		},
 		"Output": {
-			"!type": "fn(width: number, height?: number, opt?: obj)",
+			"!type": "fn(width: number, height?: number, opt?: object)",
 			"prototype": {
 				"!proto": "WIDGET.Widget.prototype",
 				"value": {
@@ -85,13 +85,13 @@
 			}
 		},
 		"Slider": {
-			"!type": "fn(min?: number, max?: number, value?: number, opt?: obj)",
+			"!type": "fn(min?: number, max?: number, value?: number, opt?: object)",
 			"prototype": {
 				"!proto": "WIDGET.SliderBase.prototype"
 			}
 		},
 		"Thermometer": {
-			"!type": "fn(min?: number, max?: number, value?: number, opt?: obj)",
+			"!type": "fn(min?: number, max?: number, value?: number, opt?: object)",
 			"prototype": {
 				"!proto": "WIDGET.SliderBase.prototype"
 			}
@@ -107,10 +107,10 @@
 					"!type": "fn(num: number)"
 				},
 				"setItems": {
-					"!type": "fn(items: obj)"
+					"!type": "fn(items: object)"
 				},
 				"addData": {
-					"!type": "fn(data: obj)"
+					"!type": "fn(data: object)"
 				}
 			}
 		}

@@ -1,12 +1,12 @@
 /**~ja
  * バッファー・ソース・パッチ
  * @extends {SourcePatch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 /**~en
  * Buffer source patch
  * @extends {SourcePatch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 class BufferSourcePatch extends SourcePatch {
 
@@ -14,18 +14,20 @@ class BufferSourcePatch extends SourcePatch {
 	 * 音声ファイル・パッチを作る
 	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make a sound file patch
 	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { url = null, loop = false, start = 0, end = 0, detune = 0, playbackRate = 1, gain = 1 }) {
+	constructor(synth, params = {}) {
 		super(synth);
+		const { url = null, loop = false, start = 0, end = 0, detune = 0, playbackRate = 1, gain = 1 } = params;
+
 		this._buffer = null;
-		if (url) this.loadFile(params.url);
+		if (url) this.loadFile(url);
 
 		this._loop         = loop;
 		this._start        = start;

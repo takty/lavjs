@@ -1,12 +1,12 @@
 /**~ja
  * 温度計
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 /**~en
  * Thermometer
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 class Thermometer extends SliderBase {
 
@@ -16,7 +16,9 @@ class Thermometer extends SliderBase {
 	 * @param {number=} [min=-10] 最小温度
 	 * @param {number=} [max=50] 最大温度
 	 * @param {number=} [value=25] 現在の温度
-	 * @param {dict} [{ width = 72, height = 400 }={}]　オプション
+	 * @param {object} [opts={}] オプション
+	 * @param {number=} [opts.width=72] 横幅
+	 * @param {number=} [opts.height=400] たて幅
 	 */
 	/**~en
 	 * Make a thermometer
@@ -24,9 +26,12 @@ class Thermometer extends SliderBase {
 	 * @param {number=} [min=-10] Minimum temperature
 	 * @param {number=} [max=50] Maximum temperature
 	 * @param {number=} [value=25] Current temperature
-	 * @param {dict} [{ width = 72, height = 400 }={}] Options
+	 * @param {object} [opts={}] Options
+	 * @param {number=} [opts.width=null] Width
+	 * @param {number=} [opts.height=null] Height
 	 */
-	constructor(min = -10, max = 50, value = 25, { width = 72, height = 400 } = {}) {
+	constructor(min = -10, max = 50, value = 25, opts = {}) {
+		const { width = 72, height = 400 } = opts;
 		super(width, height, { int: true, reverse: true });
 
 		this._min = 0 | min;
@@ -40,8 +45,8 @@ class Thermometer extends SliderBase {
 		this._inner.appendChild(this._scale);
 		//~ja 以下はbaseに追加した後に行うこと（offsetWidth/Heightは追加後でないと取得できない）
 		//~en Do the following after adding to base (offsetWidth/Height can not be acquired without adding)
-		this._scale.setAttribute('width', this._scale.offsetWidth);
-		this._scale.setAttribute('height', this._scale.offsetHeight);
+		this._scale.setAttribute('width', '' + this._scale.offsetWidth);
+		this._scale.setAttribute('height', '' + this._scale.offsetHeight);
 
 		this._railSize = this._scale.height - this._margin * 2;
 		this._dragging = false;
@@ -158,13 +163,13 @@ class Thermometer extends SliderBase {
 	/**~ja
 	 * 中身をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {Canvas} canvas キャンバス
+	 * @param {HTMLCanvasElement} canvas キャンバス
 	 * @param {number} width 幅
 	 */
 	/**~en
 	 * Draw a filler (used only in the library)
 	 * @private
-	 * @param {Canvas} canvas Canvas
+	 * @param {HTMLCanvasElement} canvas Canvas
 	 * @param {number} width Width
 	 */
 	_drawFiller(canvas, width) {

@@ -1,12 +1,12 @@
 /**~ja
  * スライダー
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 /**~en
  * Slider
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 class Slider extends SliderBase {
 
@@ -16,7 +16,12 @@ class Slider extends SliderBase {
 	 * @param {number} [min=0] 最小値
 	 * @param {number} [max=10] 最大値
 	 * @param {number} [value=0] 現在の値
-	 * @param {*} [{ int=false, reverse=false, vertical=true, width=72, height=400 }={}] オプション（整数にする？、向きを逆にする？、たて向きにする？）
+	 * @param {object} [opts={}] オプション
+	 * @param {boolean=} [opts.int=false] 整数にする？
+	 * @param {boolean=} [opts.reverse=false] 向きを逆にする？
+	 * @param {boolean=} [opts.vertical=true] たて向きにする？
+	 * @param {number=} [opts.width=null] 横幅
+	 * @param {number=} [opts.height=null] たて幅
 	 */
 	/**~en
 	 * Make a slider
@@ -24,11 +29,18 @@ class Slider extends SliderBase {
 	 * @param {number} [min=0] Minimum value
 	 * @param {number} [max=10] Maximum value
 	 * @param {number} [value=0] Current value
-	 * @param {*} [{ int=false, reverse=false, vertical=true, width=72, height=400 }={}] Options (Whether to integer, whether to reverse, whether to be vertical)
+	 * @param {object} [opts={}] Options
+	 * @param {boolean=} [opts.int=false] Whether to be integer
+	 * @param {boolean=} [opts.reverse=false] Whether to reverse
+	 * @param {boolean=} [opts.vertical=true] Whether to be vertical
+	 * @param {number=} [opts.width=null] Width
+	 * @param {number=} [opts.height=null] Height
 	 */
-	constructor(min = 0, max = 10, value = 0, { int = false, reverse = false, vertical = true, width = false, height = false } = {}) {
-		if (width  === false) width  = vertical ? 72 : 400;
-		if (height === false) height = vertical ? 400 : 72;
+	constructor(min = 0, max = 10, value = 0, opts = {}) {
+		const { int = false, reverse = false, vertical = true } = opts;
+		let { width = null, height = null } = opts;
+		if (width  === null) width  = vertical ? 72 : 400;
+		if (height === null) height = vertical ? 400 : 72;
 		super(width, height, { int, reverse, vertical });
 
 		this._min = min;
@@ -47,8 +59,8 @@ class Slider extends SliderBase {
 		this._inner.appendChild(this._scale);
 		//~ja 以下はbaseに追加した後に行うこと（offsetWidth/Heightは追加後でないと取得できない）
 		//~en Do the following after adding to base (offsetWidth/Height can not be acquired without adding)
-		this._scale.setAttribute('width', this._scale.offsetWidth);
-		this._scale.setAttribute('height', this._scale.offsetHeight);
+		this._scale.setAttribute('width', '' + this._scale.offsetWidth);
+		this._scale.setAttribute('height', '' + this._scale.offsetHeight);
 
 		this._railSize = (this._vertical ? this._scale.height : this._scale.width) - this._margin * 2;
 		this._dragging = false;
@@ -83,7 +95,7 @@ class Slider extends SliderBase {
 	 * @private
 	 */
 	_valueChanged() {
-		this._output.value = Math.round(this._value * 100) / 100;
+		this._output.value = '' + (Math.round(this._value * 100) / 100);
 		if (this._vertical) {
 			this._knob.style.top = this._margin + this._valueToPos(this._value) + 'px';
 		} else {

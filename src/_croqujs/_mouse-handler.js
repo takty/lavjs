@@ -1,24 +1,24 @@
 /**~ja
  * マウス操作処理
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 /**~en
  * Mouse operation handler
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 class MouseHandler {
 
 	/**~ja
 	 * マウス操作処理を作る
 	 * @constructor
-	 * @param {Canvas} can キャンバス
+	 * @param {HTMLCanvasElement} can キャンバス
 	 */
 	/**~en
 	 * Make a mouse operation handler
 	 * @constructor
-	 * @param {Canvas} can Canvas
+	 * @param {HTMLCanvasElement} can Canvas
 	 */
 	constructor(can) {
 		this._canvas = can;
@@ -69,7 +69,7 @@ class MouseHandler {
 		this._canvas.oncontextmenu = () => {
 			//~ja イベントが割り当てられている時はコンテキストメニューをキャンセル
 			//~en Cancel context menu when event is assigned
-			if (this._mouseUp !== null) return false;
+			if (this._onUp !== null) return false;
 			return true;
 		};
 	}
@@ -297,12 +297,12 @@ class MouseHandler {
 	/**~ja
 	 * マウス・イベントの起こった場所（座標）を正しくして記録する（ライブラリ内だけで使用）
 	 * @private
-	 * @param {MouseEvent} e イベント
+	 * @param {MouseEvent|TouchEvent} e イベント
 	 */
 	/**~en
 	 * Correctly record where the mouse event happened (coordinates) (used only in the library)
 	 * @private
-	 * @param {MouseEvent} e Event
+	 * @param {MouseEvent|TouchEvent} e Event
 	 */
 	_setPosition(e) {
 		//~ja タッチの時／マウスの時

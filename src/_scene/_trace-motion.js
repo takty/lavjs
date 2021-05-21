@@ -1,10 +1,10 @@
 /**~ja
  * トレース・モーション
- * @version 2021-02-12
+ * @version 2021-05-21
  */
 /**~en
  * Trace motion
- * @version 2021-02-12
+ * @version 2021-05-21
  */
 class TraceMotion {
 
@@ -413,8 +413,8 @@ class TraceMotion {
 	 * @param {number} step0 歩数1
 	 * @param {number} deg 角度1
 	 * @param {number} step1 歩数2
-	 * @param {number=} opt_deg 角度2（オプション）
-	 * @param {number=} opt_step 歩数3（オプション）
+	 * @param {number} opt_deg 角度2（オプション）
+	 * @param {number} opt_step 歩数3（オプション）
 	 * @param {number} limit 制限
 	 * @return {number} 実際に動いた量
 	 */
@@ -424,8 +424,8 @@ class TraceMotion {
 	 * @param {number} step0 Number of steps 1
 	 * @param {number} deg Degree 1
 	 * @param {number} step1 Number of steps 2
-	 * @param {number=} opt_deg Degree 2 (optional)
-	 * @param {number=} opt_step Number of steps 3 (optional)
+	 * @param {number} opt_deg Degree 2 (optional)
+	 * @param {number} opt_step Number of steps 3 (optional)
 	 * @param {number} limit Limitation
 	 * @return {number} Amount actually moved
 	 */
@@ -440,14 +440,14 @@ class TraceMotion {
 
 	/**~ja
 	 * 右に曲がる弧をかく
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @return {TraceMotion} このモーション
 	 */
 	/**~en
 	 * Draw an arc that turns to the right
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @return {TraceMotion} This motion
 	 */
 	arcRight(r, deg) {
@@ -457,14 +457,14 @@ class TraceMotion {
 
 	/**~ja
 	 * 左に曲がる弧をかく
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @return {TraceMotion} このモーション
 	 */
 	/**~en
 	 * Draw an arc that turns to the left
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @return {TraceMotion} This motion
 	 */
 	arcLeft(r, deg) {
@@ -475,18 +475,16 @@ class TraceMotion {
 	/**~ja
 	 * 弧をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @param {boolean} isLeft 左かどうか
-	 * @return {TraceMotion} このモーション
 	 */
 	/**~en
 	 * Draw an arc (used only in the library)
 	 * @private
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @param {boolean} isLeft Whether it is left
-	 * @return {TraceMotion} This motion
 	 */
 	_arcPrep(r, deg, isLeft) {
 		this._addCommand((limit) => {
@@ -497,8 +495,8 @@ class TraceMotion {
 	/**~ja
 	 * 実際に弧をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @param {boolean} isLeft 左かどうか
 	 * @param {number} limit 制限
 	 * @return {number} 実際に動いた量
@@ -506,8 +504,8 @@ class TraceMotion {
 	/**~en
 	 * Actually draw an arc (used only in the library)
 	 * @private
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @param {boolean} isLeft Whether it is left
 	 * @param {number} limit Limitation
 	 * @return {number} Amount actually moved

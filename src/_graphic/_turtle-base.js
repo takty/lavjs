@@ -612,14 +612,14 @@ class TurtleBase {
 
 	/**~ja
 	 * 右に曲がる弧をかく
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Draw an arc that turns to the right
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @return {TurtleBase} This turtle base
 	 */
 	arcRight(r, deg) {
@@ -628,14 +628,14 @@ class TurtleBase {
 
 	/**~ja
 	 * 左に曲がる弧をかく
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Draw an arc that turns to the left
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @return {TurtleBase} This turtle base
 	 */
 	arcLeft(r, deg) {
@@ -645,16 +645,16 @@ class TurtleBase {
 	/**~ja
 	 * 弧をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @param {boolean} isLeft 左かどうか
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Draw an arc (used only in the library)
 	 * @private
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @param {boolean} isLeft Whether it is left
 	 * @return {TurtleBase} This turtle base
 	 */
@@ -668,8 +668,8 @@ class TurtleBase {
 	/**~ja
 	 * 実際に弧をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @param {boolean} isLeft 左かどうか
 	 * @param {number} limit 制限
 	 * @param {function=} [before=null] 実際に動く前に呼ばれる関数
@@ -678,8 +678,8 @@ class TurtleBase {
 	/**~en
 	 * Actually draw an arc (used only in the library)
 	 * @private
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @param {boolean} isLeft Whether it is left
 	 * @param {number} limit Limitation
 	 * @param {function=} [before=null] Function to be called before it actually moves
@@ -823,15 +823,15 @@ class TurtleBase {
 
 	/**~ja
 	 * 円をかく
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>=} [deg=360] 弧の角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]=} [deg=360] 弧の角度（配列なら開始角度と終了角度）
 	 * @param {boolean=} [anticlockwise=false] 反時計回り？
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Draw a circle
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @param {boolean=} [anticlockwise=false] Whether it is counterclockwise
 	 * @return {TurtleBase} This turtle base
 	 */

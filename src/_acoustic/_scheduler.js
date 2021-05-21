@@ -1,26 +1,26 @@
 /**~ja
  * スケジューラー
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 /**~en
  * Scheduler
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 class Scheduler {
 
 	/**~ja
 	 * スケジューラーを作る
 	 * @constructor
-	 * @param {function} timestampFunction 現在時刻を返す関数
+	 * @param {function():number} timestampFunction 現在時刻を返す関数
 	 */
 	/**~en
 	 * Make a scheduler
 	 * @constructor
-	 * @param {function} timestampFunction Function returns timestamp
+	 * @param {function():number} timestampFunction Function returns timestamp
 	 */
 	constructor(timestampFunction) {
 		this._timestamp = timestampFunction;
-		this._intId = 0;
+		this._intId = null;
 		this._events = [];
 	}
 
@@ -64,7 +64,7 @@ class Scheduler {
 	 */
 	/**~en
 	 * Insert a task
-	 * @param {number} Time Time
+	 * @param {number} time Time
 	 * @param {function} callback Task
 	 * @param {...*} args Arguments for task
 	 * @return {Scheduler} This scheduler
@@ -95,7 +95,7 @@ class Scheduler {
 	 */
 	/**~en
 	 * Add a task to process at the next timing of scheduling
-	 * @param {number} Time Time
+	 * @param {number} time Time
 	 * @param {function} callback Task
 	 * @param {...*} args Arguments for task
 	 * @return {Scheduler} This scheduler
@@ -119,7 +119,7 @@ class Scheduler {
 	 * @return {Scheduler} This scheduler
 	 */
 	start(callback = null, ...args) {
-		if (this._intId === 0) {
+		if (this._intId === null) {
 			this._intId = setInterval(this._process.bind(this), Scheduler.TICK_INTERVAL);
 			if (callback) {
 				this.insert(this._timestamp(), callback, args);
@@ -142,9 +142,9 @@ class Scheduler {
 	 * @return {Scheduler} This scheduler
 	 */
 	stop(reset = false) {
-		if (this._intId !== 0) {
+		if (this._intId !== null) {
 			clearInterval(this._intId);
-			this._intId = 0;
+			this._intId = null;
 		}
 		if (reset) {
 			this._events.splice(0);

@@ -1,12 +1,12 @@
 /**~ja
  * ノイズ・パッチ
  * @extends {SourcePatch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 /**~en
  * Noise patch
  * @extends {SourcePatch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 class NoisePatch extends SourcePatch {
 
@@ -14,16 +14,17 @@ class NoisePatch extends SourcePatch {
 	 * ノイズ・パッチを作る
 	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make a noise patch
 	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { gain = 1 }) {
+	constructor(synth, params = {}) {
 		super(synth);
+		const { gain = 1 } = params;
 
 		this._p = this._synth.context().createScriptProcessor(NoisePatch.BUFFER_SIZE, 0, 1);
 		this._p.onaudioprocess = (e) => { this._process(e); };

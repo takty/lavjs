@@ -1,12 +1,12 @@
 /**~ja
  * スライダー・ベース
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 /**~en
  * Slider base
  * @author Takuto Yanagida
- * @version 2021-02-04
+ * @version 2021-05-21
  */
 class SliderBase extends Widget {
 
@@ -15,16 +15,23 @@ class SliderBase extends Widget {
 	 * @constructor
 	 * @param {number=} [width=null] 横幅
 	 * @param {number=} [height=null] たて幅
-	 * @param {*=} [{ int=false, reverse=false, vertical=true }={}] オプション（整数にする？、向きを逆にする？、たて向きにする？）
+	 * @param {object} [opts={}] オプション
+	 * @param {boolean=} [opts.int=false] 整数にする？
+	 * @param {boolean=} [opts.reverse=false] 向きを逆にする？
+	 * @param {boolean=} [opts.vertical=true] たて向きにする？
 	 */
 	/**~en
 	 * Make a slider base
 	 * @constructor
 	 * @param {number=} [width=null] Width
 	 * @param {number=} [height=null] Height
-	 * @param {*=} [{ int=false, reverse=false, vertical=true }={}] Options (Whether to integer, whether to reverse, whether to be vertical)
+	 * @param {object} [opts={}] Options
+	 * @param {boolean=} [opts.int=false] Whether to be integer
+	 * @param {boolean=} [opts.reverse=false] Whether to reverse
+	 * @param {boolean=} [opts.vertical=true] Whether to be vertical
 	 */
-	constructor(width = null, height = null, { int = false, reverse = false, vertical = true } = {}) {
+	constructor(width = null, height = null, opts = {}) {
+		const { int = false, reverse = false, vertical = true } = opts;
 		super(width, height);
 		this._int      = int;
 		this._reverse  = reverse;
@@ -87,13 +94,13 @@ class SliderBase extends Widget {
 
 	/**~ja
 	 * 現在の値
-	 * @param {boolean} val 現在の値
-	 * @return {boolean|SliderBase} 現在の値／このスライダー・ベース
+	 * @param {number=} val 現在の値
+	 * @return {number|SliderBase} 現在の値／このスライダー・ベース
 	 */
 	/**~en
 	 * Current value
-	 * @param {boolean} val Current value
-	 * @return {boolean|SliderBase} Current value, or this slider base
+	 * @param {number=} val Current value
+	 * @return {number|SliderBase} Current value, or this slider base
 	 */
 	value(val) {
 		if (val === undefined) return this._value;
@@ -106,12 +113,12 @@ class SliderBase extends Widget {
 
 	/**~ja
 	 * 現在値欄でのキー・ダウン（キーが押された）イベントに対応する（ライブラリ内だけで使用）
-	 * @private
+	 * @protected
 	 * @param {KeyboardEvent} e キーボード・イベント
 	 */
 	/**~en
 	 * Handle key down events in the current value field (used only in the library)
-	 * @private
+	 * @protected
 	 * @param {KeyboardEvent} e Keyboard event
 	 */
 	_handleKeyDownEvent(e) {
@@ -130,13 +137,13 @@ class SliderBase extends Widget {
 
 	/**~ja
 	 * チェンジ・イベントに対応する関数
-	 * @param {function(number)} handler 関数
-	 * @return {function(number)|SliderBase} 関数／このスライダー・ベース
+	 * @param {function(number):void=} handler 関数
+	 * @return {function(number):void|SliderBase} 関数／このスライダー・ベース
 	 */
 	/**~en
 	 * Function handling to change events
-	 * @param {function(number)} handler Function
-	 * @return {function(number)|SliderBase} Function, or this slider base
+	 * @param {function(number):void=} handler Function
+	 * @return {function(number):void|SliderBase} Function, or this slider base
 	 */
 	onChange(handler) {
 		if (handler === undefined) return this._onChange;
@@ -146,13 +153,13 @@ class SliderBase extends Widget {
 
 	/**~ja
 	 * 現在の値からつまみの場所を計算する（ライブラリ内だけで使用）
-	 * @private
+	 * @protected
 	 * @param {number} v 現在の値
 	 * @return {number} 場所
 	 */
 	/**~en
 	 * Calculate the position of the knob from the current value (used only in the library)
-	 * @private
+	 * @protected
 	 * @param {number} v Current value
 	 * @return {number} Position
 	 */
@@ -165,13 +172,13 @@ class SliderBase extends Widget {
 
 	/**~ja
 	 * つまみの場所から現在の値を計算する（ライブラリ内だけで使用）
-	 * @private
+	 * @protected
 	 * @param {number} p つまみの場所
 	 * @return {number} 現在の値
 	 */
 	/**~en
 	 * Calculate current value from knob position (used only in the library)
-	 * @private
+	 * @protected
 	 * @param {number} p Position
 	 * @return {number} Current value
 	 */
@@ -187,15 +194,15 @@ class SliderBase extends Widget {
 
 	/**~ja
 	 * みぞの絵をかく（ライブラリ内だけで使用）
-	 * @private
-	 * @param {Canvas} canvas キャンバス
-	 * @param {*} width 幅
+	 * @protected
+	 * @param {HTMLCanvasElement} canvas キャンバス
+	 * @param {number} width 幅
 	 */
 	/**~en
 	 * Draw a rail (used only in the library)
-	 * @private
-	 * @param {Canvas} canvas Canvas
-	 * @param {*} width Width
+	 * @protected
+	 * @param {HTMLCanvasElement} canvas Canvas
+	 * @param {number} width Width
 	 */
 	_drawRail(canvas, width) {
 		const isv = this._vertical, m = this._margin;
@@ -218,14 +225,14 @@ class SliderBase extends Widget {
 
 	/**~ja
 	 * 目もりの絵をかく（ライブラリ内だけで使用）
-	 * @private
-	 * @param {Canvas} canvas キャンバス
+	 * @protected
+	 * @param {HTMLCanvasElement} canvas キャンバス
 	 * @param {number} subWidth サブ目もりの幅
 	 */
 	/**~en
 	 * Draw a scale (used only in the library)
-	 * @private
-	 * @param {Canvas} canvas Canvas
+	 * @protected
+	 * @param {HTMLCanvasElement} canvas Canvas
 	 * @param {number} subWidth Width of sub scale
 	 */
 	_drawScale(canvas, subWidth) {

@@ -91,14 +91,14 @@ const CALC = (function () {
 	 * minからmaxまでのテキトウな数（乱数）を返す
 	 * @param {number} min 最小値
 	 * @param {number} max 最大値
-	 * @param {function(number): number=} opt_fn イージング関数（オプション）
+	 * @param {function(number):number=} opt_fn イージング関数（オプション）
 	 * @return {number} テキトウな数（乱数）
 	 */
 	/**~en
 	 * Return a random number from min to max
 	 * @param {number} min Minimum number
 	 * @param {number} max Maximum number
-	 * @param {function(number): number=} opt_fn Easing function (optional)
+	 * @param {function(number):number=} opt_fn Easing function (optional)
 	 * @return {number} A random number
 	 */
 	const random = function (min, max, opt_fn) {
@@ -186,7 +186,7 @@ const CALC = (function () {
 	 * @param {number} to1 元の範囲の終わり
 	 * @param {number} from2 別の範囲の初め
 	 * @param {number} to2 別の範囲の終わり
-	 * @param {function(number): number=} opt_fn イージング関数（オプション）
+	 * @param {function(number):number=} opt_fn イージング関数（オプション）
 	 * @return {number} 数
 	 */
 	/**~en
@@ -196,7 +196,7 @@ const CALC = (function () {
 	 * @param {number} to1 End of original range
 	 * @param {number} from2 Beginning of another range
 	 * @param {number} to2 End of another range
-	 * @param {function(number): number=} opt_fn Easing function (optional)
+	 * @param {function(number):number=} opt_fn Easing function (optional)
 	 * @return {number} A converted number
 	 */
 	const map = function (val, from1, to1, from2, to2, opt_fn) {

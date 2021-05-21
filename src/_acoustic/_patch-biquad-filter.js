@@ -1,12 +1,12 @@
 /**~ja
  * 二次フィルター・パッチ
  * @extends {Patch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 /**~en
  * Biquad filter patch
  * @extends {Patch}
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 class BiquadFilterPatch extends Patch {
 
@@ -14,16 +14,17 @@ class BiquadFilterPatch extends Patch {
 	 * 二次フィルター・パッチを作る
 	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make a biquad filter patch
 	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { type = 'lowpass', frequency = 1000, Q = 1 }) {
+	constructor(synth, params = {}) {
 		super(synth);
+		const { type = 'lowpass', frequency = 1000, Q = 1 } = params;
 
 		this._f = this._synth.context().createBiquadFilter();
 

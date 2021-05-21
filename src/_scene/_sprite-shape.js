@@ -2,13 +2,13 @@
  * スプライト図形（ライブラリ内だけで使用）
  * @private
  * @extends {Sprite}
- * @version 2021-02-06
+ * @version 2021-05-21
  */
 /**~en
  * Sprite shape (used only in the library)
  * @private
  * @extends {Sprite}
- * @version 2021-02-06
+ * @version 2021-05-21
  */
 class SpriteShape extends Sprite {
 
@@ -49,13 +49,13 @@ class SpriteShape extends Sprite {
 
 /**~ja
  * 円スプライト
- * @extends {Element}
- * @version 2021-02-12
+ * @extends {SpriteShape}
+ * @version 2021-05-21
  */
 /**~en
  * Circle sprite
- * @extends {Element}
- * @version 2021-02-12
+ * @extends {SpriteShape}
+ * @version 2021-05-21
  */
 class Circle extends SpriteShape {
 
@@ -93,18 +93,18 @@ class Circle extends SpriteShape {
 
 	/**~ja
 	 * 半径
-	 * @param {number=} radius 半径
+	 * @param {number=} val 半径
 	 * @return {number|Circle} 半径／このスプライト
 	 */
 	/**~en
 	 * Radius
-	 * @param {number=} radius Radius
+	 * @param {number=} val Radius
 	 * @return {number|Circle} Radius, or this sprite
 	 */
 	radius(val) {
 		if (val === undefined) return this._radius;
 		this._radius = val;
-		this._collisionRadius = radius;
+		this._collisionRadius = val;
 		return this;
 	}
 
@@ -112,13 +112,13 @@ class Circle extends SpriteShape {
 
 /**~ja
  * 四角形スプライト
- * @extends {Element}
- * @version 2021-02-12
+ * @extends {SpriteShape}
+ * @version 2021-05-21
  */
 /**~en
  * Rectangle sprite
- * @extends {Element}
- * @version 2021-02-12
+ * @extends {SpriteShape}
+ * @version 2021-05-21
  */
 class Rect extends SpriteShape {
 
@@ -159,12 +159,12 @@ class Rect extends SpriteShape {
 
 	/**~ja
 	 * 横幅
-	 * @param {number=} width 横幅
+	 * @param {number=} val 横幅
 	 * @return {number|Rect} 横幅／このスプライト
 	 */
 	/**~en
 	 * Width
-	 * @param {number=} width Width
+	 * @param {number=} val Width
 	 * @return {number|Rect} Width, or this sprite
 	 */
 	width(val) {
@@ -176,12 +176,12 @@ class Rect extends SpriteShape {
 
 	/**~ja
 	 * たて幅
-	 * @param {number=} height たて幅
+	 * @param {number=} val たて幅
 	 * @return {number|Rect} たて幅／このスプライト
 	 */
 	/**~en
 	 * Height
-	 * @param {number=} height Height
+	 * @param {number=} val Height
 	 * @return {number|Rect} Height, or this sprite
 	 */
 	height(val) {

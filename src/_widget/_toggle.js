@@ -1,30 +1,35 @@
 /**~ja
  * トグル（チェックボックス）
  * @author Takuto Yanagida
- * @version 2021-02-06
+ * @version 2021-05-21
  */
 /**~en
  * Toggles (Check boxes)
  * @author Takuto Yanagida
- * @version 2021-02-06
+ * @version 2021-05-21
  */
 class Toggle extends Widget {
 
 	/**~ja
 	 * トグル・ボタンを作る
 	 * @constructor
-	 * @param {string=|Array<string>|number} [label_s_num=''] ボタンの名前／ボタンの数
-	 * @param {boolean=|Array<boolean>} [value_s=false] 現在の状態
-	 * @param {*=} [{ vertical=false, sameWidth=false }={}] オプション（たて向きにする？、同じ幅にする？）
+	 * @param {string|string[]|number=} [label_s_num=''] ボタンの名前／ボタンの数
+	 * @param {boolean|boolean[]=} [value_s=false] 現在の状態
+	 * @param {object} [opts={}] オプション
+	 * @param {boolean=} [opts.vertical=false] たて向きにする？
+	 * @param {boolean=} [opts.sameWidth=false] 同じ幅にする？
 	 */
 	/**~en
 	 * Make a toggle button
 	 * @constructor
-	 * @param {string=|Array<string>|number} [label_s_num=''] Name(s) of button(s), or number of buttons
-	 * @param {boolean=|Array<boolean>} [value_s=false] Current state(s)
-	 * @param {*=} [{ vertical=false, sameWidth=false }={}] Options (Whether to be vertical, Whether to be the same width)
+	 * @param {string|string[]|number=} [label_s_num=''] Name(s) of button(s), or number of buttons
+	 * @param {boolean|boolean[]=} [value_s=false] Current state(s)
+	 * @param {object} [opts={}] Options
+	 * @param {boolean=} [opts.vertical=false] Whether to be vertical
+	 * @param {boolean=} [opts.sameWidth=false] Whether to be the same width
 	 */
-	constructor(label_s_num = 1, value_s = false, { vertical = false, sameWidth = false } = {}) {
+	constructor(label_s_num = 1, value_s = false, opts = {}) {
+		const { vertical = false, sameWidth = false } = opts;
 		super();
 		this._base.classList.add('lavjs-widget-button-row');
 		this._base.style.flexDirection = vertical ? 'column' : 'row';
@@ -45,7 +50,7 @@ class Toggle extends Widget {
 		for (const lab of labs) {
 			const b = document.createElement('a');
 			b.className = 'lavjs-widget lavjs-widget-button';
-			b.innerText = lab;
+			b.innerText = '' + lab;
 			if (sameWidth) b.style.width = `${maxLabLen}em`;
 			b.addEventListener('click', this._handleClickEvent.bind(this));
 			this._buttons.push(b);
@@ -111,15 +116,15 @@ class Toggle extends Widget {
 
 	/**~ja
 	 * クリック・イベントに対応する関数
-	 * @param {function(boolean, number)} handler 関数
+	 * @param {function(boolean, number):void} handler 関数
 	 * @param {boolean=} doFirst 最初に一度実行するか
-	 * @return {function(boolean, number)|Toggle} 関数／このトグル
+	 * @return {function(boolean, number):void|Toggle} 関数／このトグル
 	 */
 	/**~en
 	 * Function handling to click events
-	 * @param {function(boolean, number)} handler Function
+	 * @param {function(boolean, number):void} handler Function
 	 * @param {boolean=} doFirst Whether to do it once the first time
-	 * @return {function(boolean, number)|Toggle} Function, or this toggle
+	 * @return {function(boolean, number):void|Toggle} Function, or this toggle
 	 */
 	onClick(handler, doFirst = false) {
 		if (handler === undefined) return this._onClick;

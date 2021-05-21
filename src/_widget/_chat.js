@@ -1,12 +1,12 @@
 /**~ja
  * チャット
  * @author Takuto Yanagida
- * @version 2021-05-11
+ * @version 2021-05-21
  */
 /**~en
  * Chat
  * @author Takuto Yanagida
- * @version 2021-05-11
+ * @version 2021-05-21
  */
 class Chat extends Widget {
 
@@ -15,16 +15,21 @@ class Chat extends Widget {
 	 * @constructor
 	 * @param {number} width 横幅
 	 * @param {number=} [height=null] たて幅
-	 * @param {*=} [{ startTag='[', endTag=']' }] オプション（開始タグ、終了タグ）
+	 * @param {object} [opts={}] オプション
+	 * @param {string=} [opts.startTag='['] 開始タグ
+	 * @param {string=} [opts.endTag=']'] 終了タグ
 	 */
 	/**~en
 	 * Make a chat UI
 	 * @constructor
 	 * @param {number} width Width
 	 * @param {number=} [height=null] Height
-	 * @param {*=} [{ startTag='[', endTag=']' }] Options (Start tag, End tag)
+	 * @param {object} [opts={}] Options
+	 * @param {string=} [opts.startTag='['] Start tag
+	 * @param {string=} [opts.endTag=']'] End tag
 	 */
-	constructor(width, height = null, { startTag = '[', endTag = ']' } = {}) {
+	constructor(width, height = null, opts = {}) {
+		const { startTag = '[', endTag = ']' } = opts;
 		super(width, height, 'lavjs-widget-chat');
 		this._base.style.flexDirection = 'column';
 
@@ -81,32 +86,34 @@ class Chat extends Widget {
 
 	/**~ja
 	 * 表示する
-	 * @param {*=} args 表示する内容
-	 * @return {Chat} このチャットUI
+	 * @param {...*} args 表示する内容
+	 * @return {Chat} このウィジェット
 	 */
 	/**~en
 	 * Print
-	 * @param {*=} args Contents to be printed
-	 * @return {Chat} This output
+	 * @param {...*} args Contents to be printed
+	 * @return {Chat} This widget
 	 */
 	print(...args) {
 		const str = Chat.escHtml(args.map(e => e.toString()).join(' '));
 		this._addMessage(str);
+		return this;
 	}
 
 	/**~ja
 	 * 1行表示する
-	 * @param {*=} args 表示する内容
-	 * @return {Chat} このチャットUI
+	 * @param {...*} args 表示する内容
+	 * @return {Chat} このウィジェット
 	 */
 	/**~en
 	 * Print line
-	 * @param {*=} args Contents to be printed
-	 * @return {Chat} This output
+	 * @param {...*} args Contents to be printed
+	 * @return {Chat} This widget
 	 */
 	println(...args) {
 		const str = Chat.escHtml(args.map(e => e.toString()).join(' '));
 		this._addMessage(str + '\n');
+		return this;
 	}
 
 	/**~ja
@@ -135,13 +142,13 @@ class Chat extends Widget {
 
 	/**~ja
 	 * 入力させる
-	 * @param {*=} prompt プロンプト
-	 * @return {string} 入力された文字列
+	 * @param {...*} prompt プロンプト
+	 * @return {Promise<string>} 入力された文字列
 	 */
 	/**~en
 	 * Input
-	 * @param {*=} prompt Prompt
-	 * @return {string} Input string
+	 * @param {...*} prompt Prompt
+	 * @return {Promise<string>} Input string
 	 */
 	input(...prompt) {
 		const str = prompt.map(e => e.toString()).join(' ');

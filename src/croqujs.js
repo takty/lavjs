@@ -7,7 +7,7 @@
  * （ここでの紙は、HTML5のCanvas要素のCanvasRenderingContext2Dを拡張したもののことです）
  *
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 /**~en
  * Croqujs library (CROQUJS)
@@ -18,7 +18,7 @@
  * ('Paper' here is an extension of CanvasRenderingContext2D of HTML5 Canvas element)
  *
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-05-21
  */
 
 
@@ -101,11 +101,11 @@ const CROQUJS = (function () {
 
 	/**~ja
 	 * 例外を除き画面上の要素をすべて削除する
-	 * @param {DOMElement} exception 例外の要素
+	 * @param {...HTMLElement} exception 例外の要素
 	 */
 	/**~en
 	 * Delete all elements on the screen except for the specified exception
-	 * @param {DOMElement} exception Elements of exception
+	 * @param {...HTMLElement} exception Elements of exception
 	 */
 	const removeAll = function (...exception) {
 		let ex = [];

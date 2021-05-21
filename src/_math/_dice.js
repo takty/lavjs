@@ -26,14 +26,14 @@ class DiceBase {
 	 * minからmaxまでのテキトウな数（乱数）を返す
 	 * @param {number} min 最小値
 	 * @param {number} max 最大値
-	 * @param {function(number): number=} opt_fn イージング関数（オプション）
+	 * @param {function(number):number=} opt_fn イージング関数（オプション）
 	 * @return {number} テキトウな数（乱数）
 	 */
 	/**~en
 	 * Return a random number from min to max
 	 * @param {number} min Minimum number
 	 * @param {number} max Maximum number
-	 * @param {function(number): number=} opt_fn Easing function (optional)
+	 * @param {function(number):number=} opt_fn Easing function (optional)
 	 * @return {number} A random number
 	 */
 	random(min, max, opt_fn) {
@@ -107,13 +107,13 @@ class Dice extends DiceBase {
 	 * テキトウな数（乱数）を返す関数を作る（Xorshift32）（ライブラリ内だけで使用）
 	 * @private
 	 * @param {number} seed シード値
-	 * @return {function(): number} テキトウな数（乱数）を返す関数
+	 * @return {function():number} テキトウな数（乱数）を返す関数
 	 */
 	/**~en
 	 * Create a function that returns a random number (Xorshift32) (used only in the library)
 	 * @private
 	 * @param {number} seed Seed number
-	 * @return {function(): number} Function that returns a random number
+	 * @return {function():number} Function that returns a random number
 	 */
 	_createGenerator(seed) {
 		let y = seed;
