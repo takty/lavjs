@@ -1,12 +1,12 @@
 /**~ja
  * モーション・センサー
  * @extends {Sensor}
- * @version 2020-11-27
+ * @version 2021-05-21
  */
 /**~en
  * Motion sensor
  * @extends {Sensor}
- * @version 2020-11-27
+ * @version 2021-05-21
  */
 
 
@@ -16,9 +16,11 @@ class Motion extends Sensor {
 
 	/**~ja
 	 * モーション・センサーを作る
+	 * @constructor
 	 */
 	/**~en
 	 * Make a motion sensor
+	 * @constructor
 	 */
 	constructor() {
 		super();
@@ -129,10 +131,10 @@ class Motion extends Sensor {
 	_makeQrCodeParent() {
 		const d = document.createElement('div');
 		d.style.position = 'fixed';
-		d.style.top      = 0;
-		d.style.left     = 0;
-		d.style.right    = 0;
-		d.style.bottom   = 0;
+		d.style.top      = '0';
+		d.style.left     = '0';
+		d.style.right    = '0';
+		d.style.bottom   = '0';
 
 		d.style.display        = 'flex';
 		d.style.alignItems     = 'center';

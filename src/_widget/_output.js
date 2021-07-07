@@ -1,34 +1,37 @@
 /**~ja
- * 文字列出力
+ * 行出力
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2021-05-21
  */
 /**~en
- * String output
+ * Line output
  * @author Takuto Yanagida
- * @version 2019-05-14
+ * @version 2021-05-21
  */
 class Output extends Widget {
 
 	/**~ja
-	 * 文字列出力を作る
+	 * 行出力を作る
+	 * @constructor
 	 * @param {number} width 横幅
 	 * @param {number=} [height=null] たて幅
-	 * @param {boolean=} [nowrap=false] 折り返す？
+	 * @param {object} [opts={}] オプション
+	 * @param {boolean=} [opts.nowrap=false] 折り返す？
 	 */
 	/**~en
-	 * Make an output
+	 * Make a line output
+	 * @constructor
 	 * @param {number} width Width
 	 * @param {number=} [height=null] Height
-	 * @param {boolean=} [nowrap=false] Whether to wrap
+	 * @param {object} [opts={}] Options
+	 * @param {boolean=} [opts.nowrap=false] Whether to wrap
 	 */
-	constructor(width, height = null, nowrap = false) {
+	constructor(width, height = null, opts = {}) {
+		const { nowrap = false } = opts;
 		super(width, height);
-
 		this._inner = document.createElement('div');
-		this._inner.className = '__widget __widget-output-inner';
 		if (nowrap) {
-			this._inner.style.lineHeight = 1;
+			this._inner.style.lineHeight = '1';
 		} else {
 			this._inner.style.whiteSpace = 'normal';
 		}
@@ -37,18 +40,19 @@ class Output extends Widget {
 	}
 
 	/**~ja
-	 * 文字列
-	 * @param {string=} val 文字列
-	 * @return {string|Output} 文字列／この文字列出力
+	 * 現在の値
+	 * @param {*=} vals 現在の値
+	 * @return {string|Output} 現在の値／この出力
 	 */
 	/**~en
-	 * String
-	 * @param {string=} val String
+	 * Current value
+	 * @param {*=} vals Current value
 	 * @return {string|Output} String, or this output
 	 */
-	string(val) {
-		if (val === undefined) return this._inner.innerText;
-		this._inner.innerText = val;
+	value(...vals) {
+		if (vals.length === 0) return this._inner.innerText;
+		const str = vals.map(e => e.toString()).join(' ');
+		this._inner.innerText = str;
 		return this;
 	}
 

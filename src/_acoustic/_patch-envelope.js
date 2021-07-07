@@ -1,27 +1,30 @@
 /**~ja
  * エンベロープ・パッチ
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 /**~en
  * Envelope patch
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 class EnvelopePatch extends Patch {
 
 	/**~ja
 	 * エンベロープ・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make an envelope patch
+	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { attack = 0.02, decay = 0.4, sustain = 0.05, release = 0.8 }) {
+	constructor(synth, params = {}) {
 		super(synth);
+		const { attack = 0.02, decay = 0.4, sustain = 0.05, release = 0.8 } = params;
 
 		this._g = this._synth.context().createGain();
 		this._g.gain.value = 0;
@@ -68,7 +71,7 @@ class EnvelopePatch extends Patch {
 	 * Play a note (note on)
 	 * @param {number=} time Time
 	 */
-	on(time = this._synth.now()) {
+	on(time = this._synth.time()) {
 		// Reset to 0;
 		this._g.gain.setTargetAtTime(0, time, DELAY);
 
@@ -87,7 +90,7 @@ class EnvelopePatch extends Patch {
 	 * Stop a note (note off)
 	 * @param {number=} time Time
 	 */
-	off(time = this._synth.now()) {
+	off(time = this._synth.time()) {
 		this._g.gain.cancelScheduledValues(time);
 		// Release -> 0
 		this._g.gain.setTargetAtTime(0, time, this._release);

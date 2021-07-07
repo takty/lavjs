@@ -1,19 +1,21 @@
 /**~ja
  * 定規
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 /**~en
  * Ruler
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 class Ruler {
 
 	/**~ja
 	 * 定規を作る
+	 * @constructor
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Make a ruler
+	 * @constructor
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
 	constructor(ctx) {
@@ -38,22 +40,22 @@ class Ruler {
 
 		this._liner = new PATH.Liner({
 			lineOrMoveTo: (x, y, dir) => {
-				ctx.lineTo(x, y);
+				this._ctx.lineTo(x, y);
 				this._x = x;
 				this._y = y;
 			},
 			quadCurveOrMoveTo: (x1, y1, x2, y2, dir) => {
-				ctx.quadraticCurveTo(x1, y1, x2, y2);
+				this._ctx.quadraticCurveTo(x1, y1, x2, y2);
 				this._x = x2;
 				this._y = y2;
 			},
 			bezierCurveOrMoveTo: (x1, y1, x2, y2, x3, y3, dir) => {
-				ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
+				this._ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
 				this._x = x3;
 				this._y = y3;
 			},
 			arcOrMoveTo: (cx, cy, dr, w, h, r0, r1, ac, dir, xx, yy) => {
-				PATH.eclipse(ctx, cx, cy, w, h, dr, r0, r1, ac);
+				PATH.eclipse(this._ctx, cx, cy, w, h, dr, r0, r1, ac);
 				this._x = xx;
 				this._y = yy;
 			}
@@ -218,15 +220,19 @@ class Ruler {
 
 
 	/**~ja
-	 * 紙を返す
-	 * @return {Paper|CanvasRenderingContext2D} 紙／キャンバス・コンテキスト
+	 * 紙
+	 * @param {Paper|CanvasRenderingContext2D=} ctx 紙／キャンバス・コンテキスト
+	 * @return {Paper|CanvasRenderingContext2D|Ruler} 紙／キャンバス・コンテキスト／この定規
 	 */
 	/**~en
-	 * Get the paper
-	 * @return {Paper|CanvasRenderingContext2D} Paper or canvas context
+	 * Paper
+	 * @param {Paper|CanvasRenderingContext2D=} ctx Paper or canvas context
+	 * @return {Paper|CanvasRenderingContext2D|Ruler} Paper, canvas context, or this ruler
 	 */
-	context() {
-		return this._ctx;
+	context(ctx) {
+		if (ctx === undefined) return this._ctx;
+		this._ctx = ctx;
+		return this;
 	}
 
 
@@ -418,9 +424,9 @@ class Ruler {
 	 */
 	ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise = false) {
 		const s0 = radiusX * Math.cos(rad(startAngle)), t0 = radiusY * Math.sin(rad(startAngle));
-		const rsin = Math.sin(rad(rotation)), rcos = Math.cos(rad(rotation));
-		const x0 = x + s0 * rcos - t0 * rsin;
-		const y0 = y + s0 * rsin + t0 * rcos;
+		const sin = Math.sin(rad(rotation)), cos = Math.cos(rad(rotation));
+		const x0 = x + s0 * cos - t0 * sin;
+		const y0 = y + s0 * sin + t0 * cos;
 		if (!this._hasPath) {
 			this.moveTo(x0, y0);
 		} else {
@@ -483,7 +489,7 @@ class Ruler {
 					this._stroke.draw(this._ctx, this._area);
 					break;
 				case 'c':
-					if (this._isClipable) this._ctx.clip();
+					this._ctx.clip();
 					break;
 			}
 		}
@@ -499,9 +505,9 @@ class Ruler {
 	 * 円をかく
 	 * @param {number} cx 中心x座標
 	 * @param {number} cy 中心y座標
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
 	 * @param {number=} [opt_dir=0] 方向
-	 * @param {number=|Array<number>} [opt_deg=360] 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]=} [opt_deg=360] 角度（配列なら開始角度と終了角度）
 	 * @param {boolean=} [opt_anticlockwise=false] 反時計回り？
 	 * @return {Ruler} この定規
 	 */
@@ -509,9 +515,9 @@ class Ruler {
 	 * Draw a circle
 	 * @param {number} cx X coordinate of center
 	 * @param {number} cy Y coordinate of center
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
 	 * @param {number=} [opt_dir=0] Direction
-	 * @param {number=|Array<number>} [opt_deg=360] Degree (start and end angles if an array given)
+	 * @param {number|number[]=} [opt_deg=360] Degree (start and end angles if an array given)
 	 * @param {boolean=} [opt_anticlockwise=false] Whether it is counterclockwise
 	 * @return {Ruler} This ruler
 	 */
@@ -519,8 +525,8 @@ class Ruler {
 		const p = PATH.arrangeArcParams(r, opt_deg, 1);
 
 		const r0 = rad(p.deg0), s0 = p.w * Math.cos(r0), t0 = p.h * Math.sin(r0);
-		const dr = rad(opt_dir), rsin = Math.sin(dr), rcos = Math.cos(dr);
-		const sp = s0 * rcos - t0 * rsin, tp = s0 * rsin + t0 * rcos;
+		const dr = rad(opt_dir), sin = Math.sin(dr), cos = Math.cos(dr);
+		const sp = s0 * cos - t0 * sin, tp = s0 * sin + t0 * cos;
 
 		this._resetArea(cx + sp, cy + tp);
 		this._ctx.beginPath();

@@ -2,13 +2,13 @@
  * 定規ライブラリ（RULER）
  *
  * @author Takuto Yanagida
- * @version 2020-04-22
+ * @version 2021-02-04
  */
 /**~en
  * Ruler library (RULER)
  *
  * @author Takuto Yanagida
- * @version 2020-04-22
+ * @version 2021-02-04
  */
 
 
@@ -88,9 +88,9 @@ const RULER = (function () {
 
 	//~ja 関数の別名を登録する
 	//~en Register function alias
-	for (const [orig, aliases] of Object.entries(aliasMap)) {
-		for (let alias of aliases) {
-			Ruler.prototype[alias] = Ruler.prototype[orig];
+	for (const [orig, as] of Object.entries(aliasMap)) {
+		for (const a of as) {
+			Ruler.prototype[a] = Ruler.prototype[orig];
 		}
 	}
 

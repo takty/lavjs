@@ -1,27 +1,30 @@
 /**~ja
  * 二次フィルター・パッチ
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 /**~en
  * Biquad filter patch
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 class BiquadFilterPatch extends Patch {
 
 	/**~ja
 	 * 二次フィルター・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make a biquad filter patch
+	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { type = 'lowpass', frequency = 1000, Q = 1 }) {
+	constructor(synth, params = {}) {
 		super(synth);
+		const { type = 'lowpass', frequency = 1000, Q = 1 } = params;
 
 		this._f = this._synth.context().createBiquadFilter();
 
@@ -88,7 +91,7 @@ class BiquadFilterPatch extends Patch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|BiquadFilterPatch} Audio paramter, or this patch
 	 */
-	frequency(value = null, time = this._synth.now(), type = null) {
+	frequency(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._f.frequency;
 		setParam(this._f.frequency, value, time, type);
 		return this;
@@ -108,7 +111,7 @@ class BiquadFilterPatch extends Patch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|BiquadFilterPatch} Audio paramter, or this patch
 	 */
-	Q(value = null, time = this._synth.now(), type = null) {
+	Q(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._f.Q;
 		setParam(this._f.Q, value, time, type);
 		return this;

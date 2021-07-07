@@ -1,22 +1,26 @@
 /**~ja
  * 要素（スプライト・ステージ共通）
- * @version 2020-12-17
+ * @version 2021-05-21
  */
 /**~en
  * Element (common to sprites and stages)
- * @version 2020-12-17
+ * @version 2021-05-21
  */
 class Element {
 
 	/**~ja
 	 * 要素を作る
-	 * @param {Motion=} [motion=null] 動き
+	 * @constructor
+	 * @param {Motion|function=} [motion=null] 動き
+	 * @param {Rotation|function=} [rotation=null] 回転
 	 */
 	/**~en
 	 * Make an element
-	 * @param {Motion=} [motion=null] Motion
+	 * @constructor
+	 * @param {Motion|function=} [motion=null] Motion
+	 * @param {Rotation|function=} [rotation=null] Rotation
 	 */
-	constructor(motion = null) {
+	constructor(motion = null, rotation = null) {
 		this._parent    = null;
 		this._data      = null;
 		this._observers = null;
@@ -35,24 +39,21 @@ class Element {
 
 		this._speed = 1;
 
-		this._angleSpeed  = 0;
-		this._angleSpeedX = 0;
-		this._angleSpeedZ = 0;
-
 		this._checkRangeX = null;
 		this._checkRangeY = null;
 
-		this._motion = motion;
+		this._motion   = motion;
+		this._rotation = rotation;
 	}
 
 	/**~ja
 	 * x座標
-	 * @param {?number} val x座標の値
+	 * @param {number=} val x座標の値
 	 * @return {number|Element} x座標の値／この要素
 	 */
 	/**~en
 	 * X coordinate
-	 * @param {?number} val Value of x coordinate
+	 * @param {number=} val Value of x coordinate
 	 * @return {number|Element} Value of x coordinate, or this element
 	 */
 	x(val) {
@@ -63,12 +64,12 @@ class Element {
 
 	/**~ja
 	 * y座標
-	 * @param {?number} val y座標の値
+	 * @param {number=} val y座標の値
 	 * @return {number|Element} y座標の値／この要素
 	 */
 	/**~en
 	 * Y coordinate
-	 * @param {?number} val Value of y coordinate
+	 * @param {number=} val Value of y coordinate
 	 * @return {number|Element} Value of y coordinate, or this element
 	 */
 	y(val) {
@@ -79,12 +80,12 @@ class Element {
 
 	/**~ja
 	 * 方向
-	 * @param {?number} deg 角度の値
+	 * @param {number=} deg 角度の値
 	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * Direction
-	 * @param {?number} deg Value of degree
+	 * @param {number=} deg Value of degree
 	 * @return {number|Element} Value of degree, or this element
 	 */
 	direction(deg) {
@@ -97,14 +98,14 @@ class Element {
 	 * 移動する
 	 * @param {number} x x座標
 	 * @param {number} y y座標
-	 * @param {?number} opt_dir 方向（オプション）
+	 * @param {number=} opt_dir 方向（オプション）
 	 * @return {Element} この要素
 	 */
 	/**~en
 	 * Move to
 	 * @param {number} x X coordinate
 	 * @param {number} y Y coordinate
-	 * @param {?number} opt_dir Direction (optional)
+	 * @param {number=} opt_dir Direction (optional)
 	 * @return {Element} This element
 	 */
 	moveTo(x, y, opt_dir) {
@@ -116,13 +117,13 @@ class Element {
 
 	/**~ja
 	 * スケール
-	 * @param {?number} val スケールの値
-	 * @return {number|Element} スケールの値／この要素
+	 * @param {number|number[]=} val スケールの値
+	 * @return {number|number[]|Element} スケールの値／この要素
 	 */
 	/**~en
 	 * Scale
-	 * @param {?number} val Value of scale
-	 * @return {number|Element} Value of scale, or this element
+	 * @param {number|number[]=} val Value of scale
+	 * @return {number|number[]|Element} Value of scale, or this element
 	 */
 	scale(val) {
 		if (val === undefined) return this._scale;
@@ -132,12 +133,12 @@ class Element {
 
 	/**~ja
 	 * アルファ
-	 * @param {?number} val アルファの値
+	 * @param {number=} val アルファの値
 	 * @return {number|Element} アルファの値／この要素
 	 */
 	/**~en
 	 * Alpha
-	 * @param {?number} val Value of alpha
+	 * @param {number=} val Value of alpha
 	 * @return {number|Element} Value of alpha, or this element
 	 */
 	alpha(val) {
@@ -148,12 +149,12 @@ class Element {
 
 	/**~ja
 	 * z軸を中心とする角度（向き）
-	 * @param {?number} deg 角度の値
+	 * @param {number=} val 角度の値
 	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * Angle around z axis (direction)
-	 * @param {?number} deg Value of degree
+	 * @param {number=} val Value of degree
 	 * @return {number|Element} Value of degree, or this element
 	 */
 	angle(val) {
@@ -164,12 +165,12 @@ class Element {
 
 	/**~ja
 	 * x軸を中心とする角度（向き）
-	 * @param {?number} deg 角度の値
+	 * @param {number=} val 角度の値
 	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * Angle around x axis (direction)
-	 * @param {?number} deg Value of degree
+	 * @param {number=} val Value of degree
 	 * @return {number|Element} Value of degree, or this element
 	 */
 	angleX(val) {
@@ -180,12 +181,12 @@ class Element {
 
 	/**~ja
 	 * z軸を中心とする角度2（向き）
-	 * @param {?number} deg 角度の値
+	 * @param {number=} val 角度の値
 	 * @return {number|Element} 角度の値／この要素
 	 */
 	/**~en
 	 * 2nd angle around z axis (direction)
-	 * @param {?number} deg Value of degree
+	 * @param {number=} val Value of degree
 	 * @return {number|Element} Value of degree, or this element
 	 */
 	angleZ(val) {
@@ -212,65 +213,17 @@ class Element {
 
 	/**~ja
 	 * スピード
-	 * @param {?number} val スピード
+	 * @param {number=} val スピード
 	 * @return {number|Element} スピード／この要素
 	 */
 	/**~en
 	 * Speed
-	 * @param {?number} val Speed
+	 * @param {number=} val Speed
 	 * @return {number|Element} Speed or this element
 	 */
 	speed(val) {
 		if (val === undefined) return this._speed;
 		this._speed = val;
-		return this;
-	}
-
-	/**~ja
-	 * 方向スピード
-	 * @param {?number} val 方向スピード
-	 * @return {number|Element} 方向スピード／この要素
-	 */
-	/**~en
-	 * Angle speed
-	 * @param {?number} val Angle speed
-	 * @return {number|Element} Angle speed or this element
-	 */
-	angleSpeed(val) {
-		if (val === undefined) return this._angleSpeed;
-		this._angleSpeed = val;
-		return this;
-	}
-
-	/**~ja
-	 * 方向スピードx
-	 * @param {?number} val 方向スピード
-	 * @return {number|Element} 方向スピード／この要素
-	 */
-	/**~en
-	 * Angle speed x
-	 * @param {?number} val Angle speed
-	 * @return {number|Element} Angle speed or this element
-	 */
-	angleSpeedX(val) {
-		if (val === undefined) return this._angleSpeedX;
-		this._angleSpeedX = val;
-		return this;
-	}
-
-	/**~ja
-	 * 方向スピードz
-	 * @param {?number} val 方向スピード
-	 * @return {number|Element} 方向スピード／この要素
-	 */
-	/**~en
-	 * Angle speed z
-	 * @param {?number} val Angle speed
-	 * @return {number|Element} Angle speed or this element
-	 */
-	angleSpeedZ(val) {
-		if (val === undefined) return this._angleSpeedZ;
-		this._angleSpeedZ = val;
 		return this;
 	}
 
@@ -307,44 +260,44 @@ class Element {
 	}
 
 	/**~ja
-	 * 更新前イベントのハンドラーをセットする
-	 * @param {function(*)} fn 関数
-	 * @param {Array} args_array 関数に渡す引数の配列
+	 * 更新前イベントに対応する関数をセットする
+	 * @param {function(Element):void} handler 関数
+	 * @return {function(Element):void=} 関数
 	 */
 	/**~en
-	 * Set handler for update event
-	 * @param {function(*)} fn Function
-	 * @param {Array} args_array Array of arguments to pass to the function
+	 * Set the function handling the before update event
+	 * @param {function(Element):void} handler Function
+	 * @return {function(Element):void=} Function
 	 */
-	setOnUpdate(fn, args_array) {
-		const f = () => { fn.apply(this, args_array); };
-		this._onUpdate = f;
+	onBeforeUpdate(handler) {
+		if (handler === undefined) return this._onBeforeUpdate;
+		this._onBeforeUpdate = handler;
 	}
 
 	/**~ja
-	 * 更新後イベントのハンドラーをセットする
-	 * @param {function(*)} fn 関数
-	 * @param {Array} args_array 関数に渡す引数の配列
+	 * 更新イベントに対応する関数をセットする
+	 * @param {function(Element):void} handler 関数
+	 * @return {function(Element):void=} 関数
 	 */
 	/**~en
-	 * Set handler for updated event
-	 * @param {function(*)} fn Function
-	 * @param {Array} args_array Array of arguments to pass to the function
+	 * Set the function handling the update event
+	 * @param {function(Element):void} handler Function
+	 * @return {function(Element):void=} Function
 	 */
-	setOnUpdated(fn, args_array) {
-		const f = () => { fn.apply(this, args_array); };
-		this._onUpdated = f;
+	onUpdate(handler) {
+		if (handler === undefined) return this._onUpdate;
+		this._onUpdate = handler;
 	}
 
 	/**~ja
 	 * 動き
-	 * @param {Motion=} val 動き
+	 * @param {Motion|function=} val 動き
 	 * @return {Motion|Element} 動き／この要素
 	 */
 	/**~en
 	 * Motion
-	 * @param {Motion=} val Motion
-	 * @return {Motion|Element} Motion or this element
+	 * @param {Motion|function=} val Motion
+	 * @return {Motion|function|Element} Motion or this element
 	 */
 	motion(val) {
 		if (val === undefined) return this._motion;
@@ -353,13 +306,29 @@ class Element {
 	}
 
 	/**~ja
+	 * 回転
+	 * @param {Rotation|function=} val 回転
+	 * @return {Rotation|function|Element} 回転／この要素
+	 */
+	/**~en
+	 * Rotation
+	 * @param {Rotation|function=} val Rotation
+	 * @return {Rotation|Element} Rotation or this element
+	 */
+	rotation(val) {
+		if (val === undefined) return this._rotation;
+		this._rotation = val;
+		return this;
+	}
+
+	/**~ja
 	 * データ
-	 * @param {?object} val データ
+	 * @param {object=} val データ
 	 * @return {object|Element} データ／この要素
 	 */
 	/**~en
 	 * Data
-	 * @param {?object} val Data
+	 * @param {object=} val Data
 	 * @return {object|Element} Data or this element
 	 */
 	data(val) {
@@ -370,12 +339,12 @@ class Element {
 
 	/**~ja
 	 * 紙の座標変換とアルファ値をセットする（ライブラリ内だけで使用）
-	 * @private
+	 * @protected
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 */
 	/**~en
 	 * Set paper transformation and alpha value (used only in the library)
-	 * @private
+	 * @protected
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 */
 	_setTransformation(ctx) {
@@ -393,7 +362,7 @@ class Element {
 		//~ja ※Z-X-Zのオイラー角に対応
 		//~en * Corresponding to Euler angle of Z-X-Z
 
-		if (this._scale instanceof Array) {
+		if (Array.isArray(this._scale)) {
 			ctx.scale(this._scale[0], this._scale[1]);
 		} else {
 			ctx.scale(this._scale, this._scale);
@@ -403,39 +372,50 @@ class Element {
 
 	/**~ja
 	 * スピードに合わせて座標と角度を更新する（ライブラリ内だけで使用）
-	 * @private
+	 * @protected
+	 * @param {number} deltaTime 時間差（前回のフレームからの時間経過）[ms]
 	 */
 	/**~en
 	 * Update coordinates and angles according to the speeds (used only in the library)
-	 * @private
+	 * @protected
+	 * @param {number} deltaTime Delta time [ms]
 	 */
-	_update() {
+	_update(deltaTime) {
 		//~ja 更新前イベント
 		//~en Update event
-		if (this._onUpdate) this._onUpdate.call(this);
+		if (this._onBeforeUpdate) this._onBeforeUpdate(this);
 
-		this._angle  = checkDegRange(this._angle  + valueFunction(this._angleSpeed));
-		this._angleX = checkDegRange(this._angleX + valueFunction(this._angleSpeedX));
-		this._angleZ = checkDegRange(this._angleZ + valueFunction(this._angleSpeedZ));
-
+		if (this._rotation !== null) {
+			let newAs = null;
+			if (typeof this._rotation === 'function') {
+				newAs = this._rotation(this, this._speed * deltaTime, this._angle, this._angleX, this._angleZ);
+			} else {
+				newAs = this._rotation.update(this._speed * deltaTime, this._angle, this._angleX, this._angleZ);
+			}
+			[this._angle, this._angleX, this._angleZ] = newAs;
+		}
 		if (this._motion !== null) {
-			const newPos = this._motion.update(this._x, this._y, this._dir, this._speed);
-			this._x   = newPos[0];
-			this._y   = newPos[1];
-			this._dir = newPos[2];
+			let newPos = null;
+			if (typeof this._motion === 'function') {
+				newPos = this._motion(this, this._speed * deltaTime, this._x, this._y, this._dir);
+			} else {
+				newPos = this._motion.update(this._speed * deltaTime, this._x, this._y, this._dir);
+			}
+			if (newPos.length === 2) newPos.push(this._dir);
+			[this._x, this._y, this._dir] = newPos;
 		}
 		if (this._checkRangeX !== null) this._x = this._checkRangeX(this._x);
 		if (this._checkRangeY !== null) this._y = this._checkRangeY(this._y);
 
 		if (this._observers) {
-			for (let o of this._observers) {
+			for (const o of this._observers) {
 				o.update(this);
 			}
 		}
 
 		//~ja 更新後イベント
 		//~en Updated event
-		if (this._onUpdated) this._onUpdated.call(this);
+		if (this._onUpdate) this._onUpdate(this);
 		//~ja 最初にこの関数が呼ばれ、座標などが正しいことを示す
 		//~en This function is called first to indicate that the coordinates etc. are correct
 		this._firstUpdated = true;

@@ -1,10 +1,10 @@
 /**~ja
  * 直交座標モーション
- * @version 2020-05-05
+ * @version 2021-02-06
  */
 /**~en
  * Axis coordinate motion
- * @version 2020-05-05
+ * @version 2021-02-06
  */
 class AxisMotion {
 
@@ -93,21 +93,21 @@ class AxisMotion {
 
 	/**~ja
 	 * スピードに合わせて座標を更新する
+	 * @param {number} unitTime 単位時間
 	 * @param {number} x x座標（横の場所）
 	 * @param {number} y y座標（たての場所）
 	 * @param {number} dir 方向
-	 * @param {number} unitTime 単位時間
-	 * @return {Array<number>} 座標
+	 * @return {number[]} 座標
 	 */
 	/**~en
 	 * Update coordinates according to the speed
+	 * @param {number} unitTime Unit time
 	 * @param {number} x X coordinate
 	 * @param {number} y Y coordinate
 	 * @param {number} dir Direction
-	 * @param {number} unitTime Unit time
-	 * @return {Array<number>} Coordinate
+	 * @return {number[]} Coordinate
 	 */
-	update(x, y, dir, unitTime) {
+	update(unitTime, x, y, dir) {
 		x += valueFunction(this._speedX, unitTime);
 		y += valueFunction(this._speedY, unitTime);
 		if (this._checkRangeX !== null) x = this._checkRangeX(x);

@@ -10,10 +10,12 @@ class Patch {
 
 	/**~ja
 	 * パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
 	 */
 	/**~en
 	 * Make a patch
+	 * @constructor
 	 * @param {Synth} synth Synth
 	 */
 	constructor(synth) {

@@ -1,35 +1,32 @@
 /**~ja
  * スプライト
  * @extends {Element}
- * @version 2020-12-17
+ * @version 2021-05-21
  */
 /**~en
  * Sprite
  * @extends {Element}
- * @version 2020-12-17
+ * @version 2021-05-21
  */
 class Sprite extends Element {
 
 	/**~ja
 	 * スプライトを作る
-	 * - ただし普通は、SPRITE.StageのmakeSprite関数を使う。
-	 * @param {function(*)} drawFunction 絵をかく関数
-	 * @param {Array=} opt_args_array 関数に渡す引数の配列
-	 * @param {Motion=} opt_motion モーション
+	 * @constructor
+	 * @param {function(*):void} drawingCallback 絵をかく関数
+	 * @param {Motion|function=} [motion=null] 動き
+	 * @param {Rotation|function=} [rotation=null] 回転
 	 */
 	/**~en
 	 * Make a sprite
-	 * - However, normally, use the makeSprite function of SPRITE.Stage.
-	 * @param {function(*)} drawFunction Function to draw pictures
-	 * @param {Array=} opt_args_array Array of arguments to pass to the function
-	 * @param {Motion=} opt_motion Motion
+	 * @constructor
+	 * @param {function(*):void} drawingCallback Function to draw picture one by one
+	 * @param {Motion|function=} [motion=null] Motion
+	 * @param {Rotation|function=} [rotation=null] Rotation
 	 */
-	constructor(drawFunction, opt_args_array, opt_motion) {
-		super(opt_motion);
-
-		this._drawFunction = drawFunction;
-		this._drawFunctionArgs = opt_args_array;
-
+	constructor(drawingCallback, motion = null, rotation = null) {
+		super(motion, rotation);
+		this._drawingCallback = drawingCallback;
 		this._collisionRadius = 1;
 		this._onCollision = null;
 	}
@@ -37,25 +34,20 @@ class Sprite extends Element {
 	/**~ja
 	 * スプライトをかく
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {Array} args_array その他の引数の配列
+	 * @param {Array=} args_array その他の引数の配列
 	 */
 	/**~en
 	 * Draw a sprite
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {Array} args_array Array of other arguments
+	 * @param {Array=} args_array Array of other arguments
 	 */
-	draw(ctx, args_array) {
-		let args = args_array;
-		if (this._drawFunctionArgs) {
-			args = args_array.concat(this._drawFunctionArgs);
-		}
+	draw(ctx, args_array = []) {
 		if (this._firstUpdated) {
 			ctx.save();
 			this._setTransformation(ctx);
-			this._drawFunction.apply(this, args);
+			this._drawingCallback.apply(this, args_array);
 			ctx.restore();
 		}
-		this._update();
 	}
 
 	/**~ja
@@ -76,13 +68,13 @@ class Sprite extends Element {
 
 	/**~ja
 	 * 衝突イベントに対応する関数をセットする
-	 * @param {function(this, Sprite)=} handler 関数
-	 * @return {function(this, Sprite)=} 半径／このスプライト
+	 * @param {function(Sprite, Sprite):void=} handler 関数
+	 * @return {function(Sprite, Sprite):void|Sprite=} 半径／このスプライト
 	 */
 	/**~en
 	 * Set the function handling the collision event
-	 * @param {function(this, Sprite)=} handler Function
-	 * @return {function(this, Sprite)=|Sprite} Function, or this sprite
+	 * @param {function(Sprite, Sprite):void=} handler Function
+	 * @return {function(Sprite, Sprite):void|Sprite=} Function, or this sprite
 	 */
 	onCollision(handler) {
 		if (handler === undefined) return this._onCollision;

@@ -1,25 +1,27 @@
 /**~ja
  * シーケンサー
- * @version 2021-01-29
+ * @version 2021-02-05
  */
 /**~en
  * Sequencer
- * @version 2021-01-29
+ * @version 2021-02-05
  */
 class Sequencer {
 
 	/**~ja
 	 * シーケンサーを作る
+	 * @constructor
 	 * @param {Synth|AudioContext} ctx シンセ／オーディオ・コンテキスト
 	 * @param {object} params パラメーター
 	 */
 	/**~en
 	 * Make a sequencer
+	 * @constructor
 	 * @param {Synth|AudioContext} ctx Synth, or audio context
 	 * @param {object} params Parameters
 	 */
 	constructor(ctx, params) {
-		const nowFn = (ctx instanceof Synth) ? (() => ctx.now()) : (() => ctx.currentTime);
+		const nowFn = (ctx instanceof Synth) ? (() => ctx.time()) : (() => ctx.currentTime);
 		this._scheduler = new Scheduler(nowFn);
 		this._lastTime = 0;
 		this._buf = [];
@@ -49,7 +51,7 @@ class Sequencer {
 	 * @param {number=} delay Delay time [s]
 	 */
 	play(delay = 0.5) {
-		const now = this._scheduler.now() + delay;
+		const now = this._scheduler.time() + delay;
 		for (const b of this._buf) {
 			const [t, fn] = b;
 			this._scheduler.insert(now + t, fn);
@@ -137,14 +139,14 @@ class Sequencer {
 	 * @private
 	 * @param {string} str 楽譜を表す文字列
 	 * @param {number} idx 調べるインデックス
-	 * @return {[number, number]} 音程のズレと調べ終わったインデックス
+	 * @return {number[]} 音程のズレと調べ終わったインデックス
 	 */
 	/**~en
 	 * Get flats and sharps (used only in the library)
 	 * @private
 	 * @param {string} str String representing score
 	 * @param {number} idx Index to be checked
-	 * @return {[number, number]} Pitch shift and checked index
+	 * @return {number[]} Pitch shift and checked index
 	 */
 	_getPitchShift(str, idx) {
 		Sequencer.RE_PITCH_SHIFT.lastIndex = idx;
@@ -163,14 +165,14 @@ class Sequencer {
 	 * @private
 	 * @param {string} str 楽譜を表す文字列
 	 * @param {number} idx 調べるインデックス
-	 * @return {[number, number]} 数値と調べ終わったインデックス
+	 * @return {number[]} 数値と調べ終わったインデックス
 	 */
 	/**~en
 	 * Get number (used only in the library)
 	 * @private
 	 * @param {string} str String representing score
 	 * @param {number} idx Index to be checked
-	 * @return {[number, number]} Number and checked index
+	 * @return {number[]} Number and checked index
 	 */
 	_getNumber(str, idx, def) {
 		Sequencer.RE_NUMBER.lastIndex = idx;
@@ -185,14 +187,14 @@ class Sequencer {
 	 * @private
 	 * @param {string} str 楽譜を表す文字列
 	 * @param {number} idx 調べるインデックス
-	 * @return {[number, number]} 長さと調べ終わったインデックス
+	 * @return {number[]} 長さと調べ終わったインデックス
 	 */
 	/**~en
 	 * Get length of notes and rests (used only in the library)
 	 * @private
 	 * @param {string} str String representing score
 	 * @param {number} idx Index to be checked
-	 * @return {[number, number]} Length and checked index
+	 * @return {number[]} Length and checked index
 	 */
 	_getLength(str, idx) {
 		const def = (4 * (60 / this._bpm) * (1 / this._length));
@@ -224,14 +226,14 @@ class Sequencer {
 	 * @private
 	 * @param {string} str 楽譜を表す文字列
 	 * @param {number} idx 調べるインデックス
-	 * @return {[Array, number]} オプションと調べ終わったインデックス
+	 * @return {Array} オプションと調べ終わったインデックス
 	 */
 	/**~en
 	 * Get option (used only in the library)
 	 * @private
 	 * @param {string} str String representing score
 	 * @param {number} idx Index to be checked
-	 * @return {[Array, number]} Option and checked index
+	 * @return {Array} Option and checked index
 	 */
 	_getOption(str, idx) {
 		let o = null;

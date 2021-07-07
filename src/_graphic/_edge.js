@@ -1,12 +1,12 @@
 /**~ja
  * エッジ生成関数
  * @author Takuto Yanagida
- * @version 2019-09-04
+ * @version 2021-05-21
  */
 /**~en
  * Edge generation functions
  * @author Takuto Yanagida
- * @version 2019-09-04
+ * @version 2021-05-21
  */
 
 
@@ -15,11 +15,11 @@ const NORMAL_EDGE = null;
 
 /**~ja
  * 直線のエッジを作る
- * @return {function(number, number): number} 直線のエッジ
+ * @return {function(number, number):number} 直線のエッジ
  */
 /**~en
  * Make a straight edge
- * @return {function(number, number): number} Straight edge
+ * @return {function(number, number):number} Straight edge
  */
 const normalEdge = function () {
 	return NORMAL_EDGE;
@@ -30,14 +30,14 @@ const normalEdge = function () {
  * @param {number=} [length=10] 長さ
  * @param {number=} [amplitude=10] 振幅
  * @param {*=} [opt={}] オプション
- * @return {function(number, number): number} サイン波のエッジ
+ * @return {function(number, number):number} サイン波のエッジ
  */
 /**~en
  * Make a sine wave edge
  * @param {number=} [length=10] Length
  * @param {number=} [amplitude=10] Amplitude
  * @param {*=} [opt={}] Options
- * @return {function(number, number): number} Sine wave edge
+ * @return {function(number, number):number} Sine wave edge
  */
 const sineEdge = function (length = 10, amplitude = 10, opt = {}) {
 	return _makeEdge(length, amplitude, opt, function (p) {
@@ -50,14 +50,14 @@ const sineEdge = function (length = 10, amplitude = 10, opt = {}) {
  * @param {number=} [length=10] 長さ
  * @param {number=} [amplitude=10] 振幅
  * @param {*=} [opt={}] オプション
- * @return {function(number, number): number} 矩形波のエッジ
+ * @return {function(number, number):number} 矩形波のエッジ
  */
 /**~en
  * Make a square wave edge
  * @param {number=} [length=10] Length
  * @param {number=} [amplitude=10] Amplitude
  * @param {*=} [opt={}] Options
- * @return {function(number, number): number} Square wave edge
+ * @return {function(number, number):number} Square wave edge
  */
 const squareEdge = function (length = 10, amplitude = 10, opt = {}) {
 	return _makeEdge(length, amplitude, opt, function (p) {
@@ -74,14 +74,14 @@ const squareEdge = function (length = 10, amplitude = 10, opt = {}) {
  * @param {number=} [length=10] 長さ
  * @param {number=} [amplitude=10] 振幅
  * @param {*=} [opt={}] オプション
- * @return {function(number, number): number} 三角波のエッジ
+ * @return {function(number, number):number} 三角波のエッジ
  */
 /**~en
  * Make a triangle wave edge
  * @param {number=} [length=10] Length
  * @param {number=} [amplitude=10] Amplitude
  * @param {*=} [opt={}] Options
- * @return {function(number, number): number} Triangle wave edge
+ * @return {function(number, number):number} Triangle wave edge
  */
 const triangleEdge = function (length = 10, amplitude = 10, opt = {}) {
 	return _makeEdge(length, amplitude, opt, function (p) {
@@ -96,14 +96,14 @@ const triangleEdge = function (length = 10, amplitude = 10, opt = {}) {
  * @param {number=} [length=10] 長さ
  * @param {number=} [amplitude=10] 振幅
  * @param {*=} [opt={}] オプション
- * @return {function(number, number): number} のこぎり波のエッジ
+ * @return {function(number, number):number} のこぎり波のエッジ
  */
 /**~en
  * Make a sawtooth wave edge
  * @param {number=} [length=10] Length
  * @param {number=} [amplitude=10] Amplitude
  * @param {*=} [opt={}] Options
- * @return {function(number, number): number} Sawtooth wave edge
+ * @return {function(number, number):number} Sawtooth wave edge
  */
 const sawtoothEdge = function (length = 10, amplitude = 10, opt = {}) {
 	return _makeEdge(length, amplitude, opt, function (p) {
@@ -118,14 +118,14 @@ const sawtoothEdge = function (length = 10, amplitude = 10, opt = {}) {
  * @param {number=} [length=10] 長さ
  * @param {number=} [amplitude=10] 振幅
  * @param {*=} [opt={}] オプション
- * @return {function(number, number): number} サイン波のエッジ
+ * @return {function(number, number):number} サイン波のエッジ
  */
 /**~en
  * Make an edge of the absolute value of the sine function
  * @param {number=} [length=10] Length
  * @param {number=} [amplitude=10] Amplitude
  * @param {*=} [opt={}] Options
- * @return {function(number, number): number} Edge of the absolute value of the sine function
+ * @return {function(number, number):number} Edge of the absolute value of the sine function
  */
 const absSineEdge = function (length = 10, amplitude = 10, opt = {}) {
 	return _makeEdge(length, amplitude, opt, function (p) {
@@ -138,16 +138,22 @@ const absSineEdge = function (length = 10, amplitude = 10, opt = {}) {
  * @param {number=} [length=10] 長さ
  * @param {number=} [amplitude=10] 振幅
  * @param {*=} [opt={}] オプション
- * @return {function(number, number): number} ノイズのエッジ
+ * @return {function(number, number):number} ノイズのエッジ
  */
 /**~en
  * Make a noise edge
  * @param {number=} [length=10] Length
  * @param {number=} [amplitude=10] Amplitude
  * @param {*=} [opt={}] Options
- * @return {function(number, number): number} Noise edge
+ * @return {function(number, number):number} Noise edge
  */
 const noiseEdge = function (length = 10, amplitude = 10, opt = {}) {
+	//@ifdef ja
+	if (typeof CALC === 'undefined') throw new Error('Calcライブラリが必要です。');
+	//@endif
+	//@ifdef en
+	if (typeof CALC === 'undefined') throw new Error('Calc library is needed.');
+	//@endif
 	const amp = 2 * amplitude;
 
 	const p = (CROQUJS.currentPaper()) ? CROQUJS.currentPaper() : null;
@@ -174,20 +180,20 @@ const noiseEdge = function (length = 10, amplitude = 10, opt = {}) {
 
 /**~ja
  * いくつかのエッジを混ぜたエッジを作る
- * @param {function(number, number)} エッジ
- * @param {Array<function(number, number)>} いくつかのエッジ
- * @return {function(number, number): number} 混ざったエッジ
+ * @param {function(number, number):number} func エッジ
+ * @param {...function(number, number):number} fs いくつかのエッジ
+ * @return {function(number, number):number} 混ざったエッジ
  */
 /**~en
  * Make a mixture edge
- * @param {function(number, number)} Edge
- * @param {Array<function(number, number)>} Edges
- * @return {function(number, number): number} Mixed edge
+ * @param {function(number, number):number} func Edge
+ * @param {...function(number, number):number} fs Edges
+ * @return {function(number, number):number} Mixed edge
  */
 const mixEdge = function (func, ...fs) {
 	return function (x, max) {
 		let v = func(x, max);
-		for (let f of fs) v += f(x, max);
+		for (const f of fs) v += f(x, max);
 		return v;
 	};
 };
@@ -198,10 +204,10 @@ const mixEdge = function (func, ...fs) {
  * @param {number} length 長さ
  * @param {number} amplitude 振幅
  * @param {*} opt オプション
- * @param {function(number): number} func 関数（原点を通り振幅±1）
+ * @param {function(number):number} func 関数（原点を通り振幅±1）
  * @param {number} minPhase 最小値フェーズ
  * @param {number} maxPhase 最大値フェーズ
- * @return {function(number, number): number} エッジ
+ * @return {function(number, number):number} エッジ
  */
 /**~en
  * Make an edge (used only in the library)
@@ -209,10 +215,10 @@ const mixEdge = function (func, ...fs) {
  * @param {number} length Length
  * @param {number} amplitude Amplitude
  * @param {*} opt Options
- * @param {function(number): number} fn Function (Amplitude 1 through the origin)
+ * @param {function(number):number} fn Function (Amplitude 1 through the origin)
  * @param {number} minPhase Minimum phase
  * @param {number} maxPhase Maximum phase
- * @return {function(number, number): number} Edge
+ * @return {function(number, number):number} Edge
  */
 const _makeEdge = function (length, amplitude, opt, fn, minPhase, maxPhase) {
 	let amp = 0.5 * amplitude;

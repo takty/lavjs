@@ -1,22 +1,24 @@
 /**~ja
  * マウス操作処理
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2021-05-21
  */
 /**~en
  * Mouse operation handler
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2021-05-21
  */
 class MouseHandler {
 
 	/**~ja
 	 * マウス操作処理を作る
-	 * @param {Canvas} can キャンバス
+	 * @constructor
+	 * @param {HTMLCanvasElement} can キャンバス
 	 */
 	/**~en
 	 * Make a mouse operation handler
-	 * @param {Canvas} can Canvas
+	 * @constructor
+	 * @param {HTMLCanvasElement} can Canvas
 	 */
 	constructor(can) {
 		this._canvas = can;
@@ -52,12 +54,7 @@ class MouseHandler {
 
 		//~ja キャンバスにイベント・リスナーをセット
 		//~en Set event listener in canvas
-		if (window.ontouchstart !== undefined) {  // iOS, Android (& Chrome)
-			this._canvas.addEventListener('touchstart', (e) => { this._onDownCan(e); this._onClickCan(e); }, true);
-			this._canvas.addEventListener('touchmove', this._onMoveCan.bind(this), true);
-			this._canvas.addEventListener('touchend', this._onUpCan.bind(this), false);
-		}
-		if (window.PointerEvent) {  // IE11 & Chrome
+		if (window.PointerEvent) {
 			this._canvas.addEventListener('pointerdown', this._onDownCan.bind(this), true);
 			this._canvas.addEventListener('pointermove', this._onMoveCan.bind(this), true);
 			this._canvas.addEventListener('pointerup', this._onUpCan.bind(this), false);
@@ -72,7 +69,7 @@ class MouseHandler {
 		this._canvas.oncontextmenu = () => {
 			//~ja イベントが割り当てられている時はコンテキストメニューをキャンセル
 			//~en Cancel context menu when event is assigned
-			if (this._mouseUp !== null) return false;
+			if (this._onUp !== null) return false;
 			return true;
 		};
 	}
@@ -123,7 +120,7 @@ class MouseHandler {
 
 
 	/**~ja
-	 * マウス・ダウン・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・ダウン（ボタンが押された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -143,7 +140,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・ムーブ・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・ムーブ（ポインターが移動した）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -157,13 +154,12 @@ class MouseHandler {
 			e.preventDefault();
 			return;
 		}
-		const whichTbl = [0, 1, 4, 2];
-		this._btns = (e.buttons !== undefined) ? e.buttons : whichTbl[e.which] /* Chrome or Opera */;
+		if (e.buttons !== undefined) this._btns = e.buttons;
 		this._setButtonWin(this._btns);
 	}
 
 	/**~ja
-	 * マウス・アップ・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・アップ（ボタンが離された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -193,7 +189,7 @@ class MouseHandler {
 		this._btnR = (buttons & 2) ? true : false;
 		this._btnM = (buttons & 4) ? true : false;
 
-		for (let c of this._children) {
+		for (const c of this._children) {
 			c._mouseButtons = buttons;
 			c._setButtonWin(buttons);
 		}
@@ -205,7 +201,7 @@ class MouseHandler {
 
 
 	/**~ja
-	 * マウス・ダウン・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・ダウン（ボタンが押された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -225,7 +221,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・ムーブ・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・ムーブ（ポインターが移動した）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -245,7 +241,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・アップ・イベントに対応する（ライブラリ内だけで使用）
+	 * マウス・アップ（ボタンが離された）イベントに対応する（ライブラリ内だけで使用）
 	 * @private
 	 * @param {MouseEvent} e イベント
 	 */
@@ -301,12 +297,12 @@ class MouseHandler {
 	/**~ja
 	 * マウス・イベントの起こった場所（座標）を正しくして記録する（ライブラリ内だけで使用）
 	 * @private
-	 * @param {MouseEvent} e イベント
+	 * @param {MouseEvent|TouchEvent} e イベント
 	 */
 	/**~en
 	 * Correctly record where the mouse event happened (coordinates) (used only in the library)
 	 * @private
-	 * @param {MouseEvent} e Event
+	 * @param {MouseEvent|TouchEvent} e Event
 	 */
 	_setPosition(e) {
 		//~ja タッチの時／マウスの時
@@ -316,7 +312,7 @@ class MouseHandler {
 		this._posX = ee.clientX - r.left;
 		this._posY = ee.clientY - r.top;
 
-		for (let c of this._children) {
+		for (const c of this._children) {
 			c._posX = this._posX;
 			c._posY = this._posY;
 		}
@@ -335,19 +331,14 @@ class MouseHandler {
 	 * @param {boolean} val State
 	 */
 	_setButtonCanvas(e, val) {
-		//~ja どのボタンかがわからない時（Androidタッチの時）
-		//~en When it is not known which button (when touch on Android)
-		const which = (e.which === undefined) ? 0 : e.which;
-
 		//~ja タッチ以外の処理は基本的にInputMouseButtonが担当（以下はタッチイベント関連への簡易対応のため）
 		//~en Basically, the InputMouseButton is in charge of processing other than touch (the following is for easy correspondence to touch event related)
-		switch (which) {
-			case 0:
-			case 1: this._btnL = val; break;
-			case 2: this._btnM = val; break;
-			case 3: this._btnR = val; break;
+		switch (e.button) {
+			case 0: this._btnL = val; break;
+			case 1: this._btnM = val; break;
+			case 2: this._btnR = val; break;
 		}
-		for (let c of this._children) {
+		for (const c of this._children) {
 			c._setButtonCanvas(e, val);
 		}
 	}
@@ -358,7 +349,7 @@ class MouseHandler {
 
 
 	/**~ja
-	 * マウス・ダウン・イベントに対応する関数をセットする
+	 * マウス・ダウン（ボタンが押された）イベントに対応する関数をセットする
 	 * @param {function(number, number, MouseEvent)=} handler 関数
 	 * @return {function(number, number, MouseEvent)=} 関数
 	 */
@@ -373,7 +364,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・ムーブ・イベントに対応する関数をセットする
+	 * マウス・ムーブ（ポインターが移動した）イベントに対応する関数をセットする
 	 * @param {function(number, number, MouseEvent)=} handler 関数
 	 * @return {function(number, number, MouseEvent)=} 関数
 	 */
@@ -388,7 +379,7 @@ class MouseHandler {
 	}
 
 	/**~ja
-	 * マウス・アップ・イベントに対応する関数をセットする
+	 * マウス・アップ（ボタンが離された）イベントに対応する関数をセットする
 	 * @param {function(number, number, MouseEvent)=} handler 関数
 	 * @return {function(number, number, MouseEvent)=} 関数
 	 */

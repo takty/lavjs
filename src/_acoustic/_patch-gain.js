@@ -1,27 +1,30 @@
 /**~ja
  * ゲイン・パッチ
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 /**~en
  * Gain patch
  * @extends {Patch}
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 class GainPatch extends Patch {
 
 	/**~ja
 	 * ゲイン・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make a gain patch
+	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { gain = 1 }) {
+	constructor(synth, params = {}) {
 		super(synth);
+		const { gain = 1 } = params;
 
 		this._g = this._synth.context().createGain();
 		this._g.gain.value = gain;
@@ -69,7 +72,7 @@ class GainPatch extends Patch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|GainPatch} Audio paramter, or this patch
 	 */
-	gain(value = null, time = this._synth.now(), type = null) {
+	gain(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);
 		return this;

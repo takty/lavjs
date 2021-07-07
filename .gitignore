@@ -4,4 +4,4 @@
 /package/
 /.temp/
 npm-debug.log
-/sample/
+/sample/**/.*

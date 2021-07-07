@@ -1,10 +1,10 @@
 /**~ja
  * コマンド
- * @version 2020-05-05
+ * @version 2021-02-05
  */
 /**~en
  * Command
- * @version 2020-05-05
+ * @version 2021-02-05
  */
 class Command {
 
@@ -27,16 +27,16 @@ class Command {
 
 	/**~ja
 	 * コマンドを実行する（ライブラリ内だけで使用）
-	 * @param {number} deltaT 進める時間
+	 * @param {number} deltaTime 進める時間
 	 * @return {number} パワー消費
 	 */
 	/**~en
 	 * Run the command (used only in the library)
-	 * @param {number} deltaT Time to advance
+	 * @param {number} deltaTime Time to advance
 	 * @return {number} Power consumption
 	 */
-	run(deltaT) {
-		const pc = this._func(deltaT);
+	run(deltaTime) {
+		const pc = this._func(deltaTime);
 		return (pc === undefined) ? 0 : pc;
 	}
 

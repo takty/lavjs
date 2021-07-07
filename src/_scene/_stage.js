@@ -1,44 +1,48 @@
 /**~ja
  * ステージ
  * @extends {Element}
- * @version 2020-05-05
+ * @version 2021-05-21
  */
 /**~en
  * Stage
  * @extends {Element}
- * @version 2020-05-05
+ * @version 2021-05-21
  */
 class Stage extends Element {
 
 	/**~ja
 	 * ステージを作る
-	 * @param {Motion=} opt_motion モーション
+	 * @constructor
+	 * @param {Motion|function=} [motion=null] 動き
+	 * @param {Rotation|function=} [rotation=null] 回転
 	 */
 	/**~en
 	 * Make a stage
-	 * @param {Motion=} opt_motion Motion
+	 * @constructor
+	 * @param {Motion|function=} [motion=null] Motion
+	 * @param {Rotation|function=} [rotation=null] Rotation
 	 */
-	constructor(opt_motion) {
-		super(opt_motion);
+	constructor(motion = null, rotation = null) {
+		super(motion, rotation);
 
 		this._children = [];
 
 		this._localizeOption = null;
 		this._localizedOffset = [0, 0, 0];
 
-		this._update();
+		this._update(0);
 	}
 
 	/**~ja
 	 * スプライトを作って加える
-	 * @param {function(*)} drawFunction 絵をかく関数
+	 * @param {function(*):void} drawFunction 絵をかく関数
 	 * @param {Array=} opt_args_array 関数に渡す引数の配列
 	 * @param {Motion=} opt_motion モーション
 	 * @return {Sprite} スプライト
 	 */
 	/**~en
 	 * Make a sprite and add it to this stage
-	 * @param {function(*)} drawFunction Function to draw pictures
+	 * @param {function(*):void} drawFunction Function to draw pictures
 	 * @param {Array=} opt_args_array Array of arguments to pass to the function
 	 * @param {Motion=} opt_motion Motion
 	 * @return {Sprite} Sprite
@@ -92,11 +96,11 @@ class Stage extends Element {
 
 	/**~ja
 	 * 何枚のスプライトか子ステージを持っているか、数を返す
-	 * @return {mumber} 数
+	 * @return {number} 数
 	 */
 	/**~en
 	 * Return the count of sprites or child stages this stage has
-	 * @return {mumber} Count
+	 * @return {number} Count
 	 */
 	size() {
 		return this._children.length;
@@ -113,9 +117,9 @@ class Stage extends Element {
 	 * @param {*} thisArg 'This' argument
 	 */
 	forEach(callback, thisArg) {
-		for (let i = 0, I = this._children.length; i < I; i += 1) {
-			const val = this._children[i];
-			callback.call(thisArg, val, i, this);
+		for (let i = 0; i < this._children.length; i += 1) {
+			const c = this._children[i];
+			callback.call(thisArg, c, i, this);
 		}
 	}
 
@@ -143,8 +147,7 @@ class Stage extends Element {
 	 */
 	_localize() {
 		if (this._localizeOption) {
-			const descendant       = this._localizeOption[0];
-			const opt_stopRotation = this._localizeOption[1];
+			const [descendant, opt_stopRotation] = this._localizeOption;
 			const off = this._getPositionOnParent(descendant, 0, 0, 0, opt_stopRotation);
 			this._localizedOffset[0] = -off[0];
 			this._localizedOffset[1] = -off[1];
@@ -159,37 +162,37 @@ class Stage extends Element {
 	/**~ja
 	 * このステージの原点の紙での場所を返す
 	 * @param {Element} descendant スプライトかステージ
-	 * @return {Array<number>} 場所
+	 * @return {number[]} 場所
 	 */
 	/**~en
 	 * Returns the position in the paper of this stage's origin
 	 * @param {Element} descendant Sprite or child stage of this stage
-	 * @return {Array<number>} Position
+	 * @return {number[]} Position
 	 */
 	getPositionOnContext(descendant) {
-		const p = this._getPositionOnParent(descendant, 0, 0, 0);
-		p[0] += this._localizedOffset[0];
-		p[1] += this._localizedOffset[1];
+		let [x, y] = this._getPositionOnParent(descendant, 0, 0, 0);
+		x += this._localizedOffset[0];
+		y += this._localizedOffset[1];
 
 		const r = this._localizedOffset[2] * Math.PI / 180;
 		const sin = Math.sin(r);
 		const cos = Math.cos(r);
-		const x = (p[0] * cos - p[1] * sin);
-		const y = (p[0] * sin + p[1] * cos);
-		return [x, y];
+		const nx = (x * cos - y * sin);
+		const ny = (x * sin + y * cos);
+		return [nx, ny];
 	}
 
 	/**~ja
 	 * 持っているスプライトと子ステージを全てかく
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {Array} args_array その他の引数の配列
+	 * @param {Array=} args_array その他の引数の配列
 	 */
 	/**~en
 	 * Draw all sprites and child stages this stage has
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {Array} args_array Array of other arguments
+	 * @param {Array=} args_array Array of other arguments
 	 */
-	draw(ctx, args_array) {
+	draw(ctx, args_array = []) {
 		ctx.save();
 
 		this._localize();
@@ -197,17 +200,29 @@ class Stage extends Element {
 		ctx.translate(this._localizedOffset[0], this._localizedOffset[1]);
 		this._setTransformation(ctx);
 
-		for (let i = 0, I = this._children.length; i < I; i += 1) {
-			const c = this._children[i];
+		for (const c of this._children) {
 			//~ja スプライトのdraw関数を呼び出す
 			//~en Call the sprite's draw function
-			c.draw.call(c, ctx, args_array);
+			c.draw(ctx, args_array);
 		}
 		ctx.restore();
+	}
 
-		//~ja このタイミングでTracer::stepNextが呼ばれ、その結果、Tracer::onStepも呼び出される
-		//~en At this timing Tracer::stepNext is called, and as a result, Tracer::onStep is also called
-		this._update();
+	/**~ja
+	 * 時間に合わせて持っているスプライトと子ステージを全て更新する
+	 * @param {number=} deltaTime 時間差（前回のフレームからの時間経過）[ms]
+	 */
+	/**~en
+	 * Update all sprites and child stages this stage has according to the time
+	 * @param {number=} deltaTime Delta time [ms]
+	 */
+	update(deltaTime = 1) {
+		for (const c of this._children) {
+			//~ja スプライトの_update関数を呼び出す
+			//~en Call the sprite's _update function
+			c._update(deltaTime);
+		}
+		this._update(deltaTime);
 		this._checkCollision();
 	}
 
@@ -219,7 +234,7 @@ class Stage extends Element {
 	 * @param {number} cy たて位置
 	 * @param {number} ca 角度
 	 * @param {boolean=} opt_stopRotation 回転を止めるか
-	 * @return {Array<number>} 場所
+	 * @return {number[]} 場所
 	 */
 	/**~en
 	 * Return the position in the paper of the origin of an element (used only in the library)
@@ -229,7 +244,7 @@ class Stage extends Element {
 	 * @param {number} cy Position y
 	 * @param {number} ca Angle
 	 * @param {boolean=} opt_stopRotation Whether to stop rotation
-	 * @return {Array<number>} Position
+	 * @return {number[]} Position
 	 */
 	_getPositionOnParent(elm, cx, cy, ca, opt_stopRotation) {
 		const a = (opt_stopRotation ? elm._angle : 0) + (elm._isFixedHeading ? 0 : elm._dir);
@@ -237,8 +252,8 @@ class Stage extends Element {
 		const sin = Math.sin(r);
 		const cos = Math.cos(r);
 		let sx, sy;
-		if (elm._scale instanceof Array) {
-			sx = elm._scale[0], sy = elm._scale[1];
+		if (Array.isArray(elm._scale)) {
+			[sx, sy] = elm._scale;
 		} else {
 			sx = sy = elm._scale;
 		}
@@ -257,13 +272,13 @@ class Stage extends Element {
 	 * @private
 	 */
 	_checkCollision() {
-		for (let i = 0, I = this._children.length; i < I; i += 1) {
+		for (let i = 0; i < this._children.length; i += 1) {
 			const c0 = this._children[i];
 			const r0 = c0._collisionRadius;
 			const x0 = c0._x;
 			const y0 = c0._y;
 
-			for (let j = i + 1, J = this._children.length; j < J; j += 1) {
+			for (let j = i + 1; j < this._children.length; j += 1) {
 				const c1 = this._children[j];
 				if (!c0._onCollision && !c1._onCollision) continue;
 
@@ -296,3 +311,12 @@ class Stage extends Element {
 	}
 
 }
+/**~ja
+ * Symbol.iteratorメソッドを実装して、Stageをイテラブルにする
+ */
+/**~en
+ * Implement the Symbol.iterator method to make Stage iterable
+ */
+Stage.prototype[Symbol.iterator] = function () {
+	return this._children.values();
+};

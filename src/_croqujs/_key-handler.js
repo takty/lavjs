@@ -1,29 +1,31 @@
 /**~ja
  * キー操作処理
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-05-21
  */
 /**~en
  * Key operation handler
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-05-21
  */
 class KeyHandler {
 
 	/**~ja
 	 * キー操作処理を作る
-	 * @param {Canvas} can キャンバス
+	 * @constructor
+	 * @param {HTMLCanvasElement} can キャンバス
 	 */
 	/**~en
 	 * Make a key operation handler
-	 * @param {Canvas} can Canvas
+	 * @constructor
+	 * @param {HTMLCanvasElement} can Canvas
 	 */
 	constructor(can) {
 		this._keys = {};
 		this._onDown = null;
 		this._onUp = null;
 
-		//~ja キー・ダウン・イベントに対応する
+		//~ja キー・ダウン（キーが押された）イベントに対応する
 		//~en Handle key down events
 		can.addEventListener('keydown', (e) => {
 			if (!this._keys[e.key]) {
@@ -35,7 +37,7 @@ class KeyHandler {
 			}
 		}, true);
 
-		//~ja キー・アップ・イベントに対応する
+		//~ja キー・アップ（キーが離された）イベントに対応する
 		//~en Handle key up events
 		can.addEventListener('keyup', (e) => {
 			if (this._keys[e.key]) {
@@ -54,14 +56,14 @@ class KeyHandler {
 
 
 	/**~ja
-	 * キー・ダウン・イベントに対応する関数をセットする
-	 * @param {function(string, KeyEvent)=} handler 関数
-	 * @return {function(string, KeyEvent)=} 関数
+	 * キー・ダウン（キーが押された）イベントに対応する関数をセットする
+	 * @param {function(string, KeyboardEvent):void=} handler 関数
+	 * @return {function(string, KeyboardEvent):void=} 関数
 	 */
 	/**~en
 	 * Set the function handling key down events
-	 * @param {function(string, KeyEvent)=} handler Function
-	 * @return {function(string, KeyEvent)=} Function
+	 * @param {function(string, KeyboardEvent):void=} handler Function
+	 * @return {function(string, KeyboardEvent):void=} Function
 	 */
 	onKeyDown(handler) {
 		if (handler === undefined) return this._onDown;
@@ -69,14 +71,14 @@ class KeyHandler {
 	}
 
 	/**~ja
-	 * キー・アップ・イベントに対応する関数をセットする
-	 * @param {function(string, KeyEvent)=} handler 関数
-	 * @return {function(string, KeyEvent)=} 関数
+	 * キー・アップ（キーが離された）イベントに対応する関数をセットする
+	 * @param {function(string, KeyboardEvent):void=} handler 関数
+	 * @return {function(string, KeyboardEvent):void=} 関数
 	 */
 	/**~en
 	 * Set the function handling key up events
-	 * @param {function(string, KeyEvent)=} handler Function
-	 * @return {function(string, KeyEvent)=} Function
+	 * @param {function(string, KeyboardEvent):void=} handler Function
+	 * @return {function(string, KeyboardEvent):void=} Function
 	 */
 	onKeyUp(handler) {
 		if (handler === undefined) return this._onUp;

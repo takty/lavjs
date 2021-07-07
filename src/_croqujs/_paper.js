@@ -1,10 +1,10 @@
 /**~ja
  * 紙
- * @version 2021-01-06
+ * @version 2021-05-21
  */
 /**~en
  * Paper
- * @version 2021-01-06
+ * @version 2021-05-21
  */
 class Paper {
 
@@ -24,9 +24,9 @@ class Paper {
 	 */
 	constructor(width, height, isVisible = true) {
 		const can = document.createElement('canvas');
-		can.setAttribute('width', width || 400);
-		can.setAttribute('height', height || 400);
-		can.setAttribute('tabindex', 1);
+		can.setAttribute('width', '' + (width || 400));
+		can.setAttribute('height', '' + (height || 400));
+		can.setAttribute('tabindex', '1');
 
 		this._ctx = can.getContext('2d');
 		if (!PAPER_IS_AUGMENTED) augmentPaperPrototype(this._ctx);
@@ -47,21 +47,21 @@ class Paper {
 		CROQUJS.currentPaper(this);
 
 		if (typeof STYLE !== 'undefined') STYLE.augment(this);
-
-		// this._initZoomingFunction();
 	}
 
 	/**~ja
 	 * 紙を強化する（ライブラリ内だけで使用）
 	 * @private
-	 * @param {DOMElement} can キャンバス要素
+	 * @param {HTMLCanvasElement} can キャンバス要素
 	 */
 	/**~en
 	 * Augment papers (used only in the library)
 	 * @private
-	 * @param {DOMElement} can Canvas element
+	 * @param {HTMLCanvasElement} can Canvas element
 	 */
 	_augment(can) {
+		this._prevTime = 0;
+		this._deltaTime = 0;
 		this._frame = 0;
 		this._fps = 60;
 		this._frameLength = 60;
@@ -72,6 +72,8 @@ class Paper {
 		this._keyEventHandler = new KeyHandler(can);
 		this._mouseEventHandler = new MouseHandler(can);
 		this._zoomHandler = new ZoomHandler(this);
+		this._transforms = [];
+		this._stackLevel = 0;
 		this.addEventListener = can.addEventListener.bind(can);
 
 		can.addEventListener('keydown', (e) => {
@@ -143,7 +145,7 @@ class Paper {
 	 */
 	clear(style, alpha) {
 		this.save();
-		this.setTransform(1, 0, 0, 1, 0, 0);
+		this._ctx.setTransform(1, 0, 0, 1, 0, 0);
 		if (alpha !== undefined) {
 			this.globalAlpha = alpha;
 		}
@@ -161,13 +163,13 @@ class Paper {
 	 * ピクセルの色を取得する
 	 * @param {number} x x座標
 	 * @param {number} y y座標
-	 * @return {[number, number, number, number]} 色（RGBA）を表す配列
+	 * @return {number[]} 色（RGBA）を表す配列
 	 */
 	/**~en
 	 * Get pixel color
 	 * @param {number} x x coordinate
 	 * @param {number} y y coordinate
-	 * @return {[number, number, number, number]} Array representing color (RGBA)
+	 * @return {number[]} Array representing color (RGBA)
 	 */
 	getPixel(x, y) {
 		return this.getImageData(x, y, 1, 1).data;
@@ -177,14 +179,14 @@ class Paper {
 	 * ピクセルの色を設定する
 	 * @param {number} x x座標
 	 * @param {number} y y座標
-	 * @param {[number, number, number, number]} rgba 色（RGBA）を表す配列
+	 * @param {number[]} rgba 色（RGBA）を表す配列
 	 * @return {Paper} この紙
 	 */
 	/**~en
 	 * Set pixel color
 	 * @param {number} x x coordinate
 	 * @param {number} y y coordinate
-	 * @param {[number, number, number, number]} rgba Array representing color (RGB)
+	 * @param {number[]} rgba Array representing color (RGB)
 	 * @return {Paper} This paper
 	 */
 	setPixel(x, y, [r = 0, g = 0, b = 0, a = 255]) {
@@ -204,37 +206,44 @@ class Paper {
 
 	/**~ja
 	 * アニメーションを始める
-	 * @param {function} callback 一枚一枚の絵を書く関数
+	 * @param {function} drawingCallback 一枚一枚の絵を書く関数
 	 * @param {Array} args_array 関数に渡す引数
 	 * @return {Paper} この紙
 	 */
 	/**~en
 	 * Start animation
-	 * @param {function} callback Function to draw picture one by one
+	 * @param {function} drawingCallback Function to draw picture one by one
 	 * @param {Array} args_array Arguments to pass to the function
 	 * @return {Paper} This paper
 	 */
-	animate(callback, args_array) {
-		const startTime = getTime();
+	animate(drawingCallback, args_array) {
+		const startTime = now();
 		let prevFrame = -1;
 
 		const loop = () => {
-			const timeSpan = getTime() - startTime;
+			const time = now();
+			this._deltaTime = time - this._prevTime;
+			const timeSpan = time - startTime;
 			const frame = Math.floor(timeSpan / (1000.0 / this._fps)) % this._frameLength;
 
 			if (frame !== prevFrame) {
 				this._frame = frame;
 				CROQUJS.currentPaper(this);
-				this._zoomHandler.beforeDrawing(this);
-				callback.apply(null, args_array);
+				this._transforms.length = 0;
+				this._zoomHandler.beforeDrawing(this._ctx);
+				drawingCallback(...args_array);
 				if (this.mouseMiddle() && this._isGridVisible) this.drawGrid();
-				this._zoomHandler.afterDrawing(this);
+				this._zoomHandler.afterDrawing(this._ctx);
+				if (this._zoomHandler.enabled()) {
+					for (const t of this._transforms) t();
+				}
 				prevFrame = frame;
 				this._totalFrame += 1;
 			}
 			if (this._isAnimating && this.canvas.parentNode !== null) {
 				window.requestAnimationFrame(loop);
 			}
+			this._prevTime = time;
 		};
 		this._isAnimating = true;
 		window.requestAnimationFrame(loop);
@@ -252,6 +261,18 @@ class Paper {
 	stop() {
 		this._isAnimating = false;
 		return this;
+	}
+
+	/**~ja
+	 * 時間差（前回のフレームからの時間経過）[ms]
+	 * @return {number} 時間差
+	 */
+	/**~en
+	 * Delta time [ms]
+	 * @return {number} Delta time
+	 */
+	deltaTime() {
+		return this._deltaTime;
 	}
 
 	/**~ja
@@ -308,6 +329,133 @@ class Paper {
 	 */
 	totalFrame() {
 		return this._totalFrame;
+	}
+
+
+	//~ja 変換 -----------------------------------------------------------------
+	//~en Transformation -------------------------------------------------------
+
+
+	/**~ja
+	 * 今の状態を保存する
+	 */
+	/**~en
+	 * Save the current state
+	 */
+	save() {
+		this._ctx.save();
+		this._stackLevel += 1;
+	}
+
+	/**~ja
+	 * 前の状態を復元する
+	 */
+	/**~en
+	 * Restore previous state
+	 */
+	restore() {
+		this._ctx.restore();
+		this._stackLevel -= 1;
+	}
+
+	/**~ja
+	 * 拡大・縮小する
+	 * @param {number} x 横方向の倍率
+	 * @param {number} y たて方向の倍率
+	 */
+	/**~en
+	 * Zoom in and out
+	 * @param {number} x Horizontal magnification
+	 * @param {number} y Vertical magnification
+	 */
+	scale(x, y) {
+		this._ctx.scale(x, y);
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.scale(x, y));
+	}
+
+	/**~ja
+	 * 回転する
+	 * @param {number} angle ラジアン
+	 */
+	/**~en
+	 * Rotate
+	 * @param {number} angle Radian
+	 */
+	rotate(angle) {
+		this._ctx.rotate(angle);
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.rotate(angle));
+	}
+
+	/**~ja
+	 * 平行移動する
+	 * @param {number} x 横方向の移動
+	 * @param {number} y たて方向の移動
+	 */
+	/**~en
+	 * Translate
+	 * @param {number} x Horizontal movement
+	 * @param {number} y Vertical movement
+	 */
+	translate(x, y) {
+		this._ctx.translate(x, y);
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.translate(x, y));
+	}
+
+	/**~ja
+	 * 変形する
+	 * @param {number} a 変形行列の係数a
+	 * @param {number} b 変形行列の係数b
+	 * @param {number} c 変形行列の係数c
+	 * @param {number} d 変形行列の係数d
+	 * @param {number} e 変形行列の係数e
+	 * @param {number} f 変形行列の係数f
+	 */
+	/**~en
+	 * Transform
+	 * @param {number} a Coefficient a of the transformation matrix
+	 * @param {number} b Coefficient b of the transformation matrix
+	 * @param {number} c Coefficient c of the transformation matrix
+	 * @param {number} d Coefficient d of the transformation matrix
+	 * @param {number} e Coefficient e of the transformation matrix
+	 * @param {number} f Coefficient f of the transformation matrix
+	 */
+	transform(a, b, c, d, e, f) {
+		this._ctx.transform(a, b, c, d, e, f);
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.transform(a, b, c, d, e, f));
+	}
+
+	/**~ja
+	 * 変形行列をセットする
+	 * @param {number} a 変形行列の係数a
+	 * @param {number} b 変形行列の係数b
+	 * @param {number} c 変形行列の係数c
+	 * @param {number} d 変形行列の係数d
+	 * @param {number} e 変形行列の係数e
+	 * @param {number} f 変形行列の係数f
+	 */
+	/**~en
+	 * Set a transformation matrix
+	 * @param {number} a Coefficient a of the transformation matrix
+	 * @param {number} b Coefficient b of the transformation matrix
+	 * @param {number} c Coefficient c of the transformation matrix
+	 * @param {number} d Coefficient d of the transformation matrix
+	 * @param {number} e Coefficient e of the transformation matrix
+	 * @param {number} f Coefficient f of the transformation matrix
+	 */
+	setTransform(a, b, c, d, e, f) {
+		this._ctx.setTransform(a, b, c, d, e, f);
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.setTransform(a, b, c, d, e, f));
+	}
+
+	/**~ja
+	 * 変形行列をリセットする
+	 */
+	/**~en
+	 * Reset a transformation matrix
+	 */
+	resetTransform() {
+		this._ctx.resetTransform();
+		if (this._stackLevel === 0 && this._zoomHandler.enabled()) this._transforms.push(() => this._ctx.resetTransform());
 	}
 
 
@@ -506,14 +654,14 @@ class Paper {
 
 
 	/**~ja
-	 * キー・ダウン・イベントに対応する関数をセットする
-	 * @param {function(string, KeyEvent)=} handler 関数
-	 * @return {function(string, KeyEvent)=} 関数
+	 * キー・ダウン（キーが押された）イベントに対応する関数をセットする
+	 * @param {function(string, KeyboardEvent):void=} handler 関数
+	 * @return {function(string, KeyboardEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling key down events
-	 * @param {function(string, KeyEvent)=} handler Function
-	 * @return {function(string, KeyEvent)=} Function
+	 * @param {function(string, KeyboardEvent):void=} handler Function
+	 * @return {function(string, KeyboardEvent):void|Paper} Function, or this paper
 	 */
 	onKeyDown(handler) {
 		if (handler === undefined) return this._keyEventHandler.onKeyDown();
@@ -522,14 +670,14 @@ class Paper {
 	}
 
 	/**~ja
-	 * キー・アップ・イベントに対応する関数をセットする
-	 * @param {function(string, KeyEvent)=} handler 関数
-	 * @return {function(string, KeyEvent)=} 関数
+	 * キー・アップ（キーが離された）イベントに対応する関数をセットする
+	 * @param {function(string, KeyboardEvent):void=} handler 関数
+	 * @return {function(string, KeyboardEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling key up events
-	 * @param {function(string, KeyEvent)=} handler Function
-	 * @return {function(string, KeyEvent)=} Function
+	 * @param {function(string, KeyboardEvent):void=} handler Function
+	 * @return {function(string, KeyboardEvent):void|Paper} Function, or this paper
 	 */
 	onKeyUp(handler) {
 		if (handler === undefined) return this._keyEventHandler.onKeyUp();
@@ -591,14 +739,14 @@ class Paper {
 
 
 	/**~ja
-	 * マウス・ダウン・イベントに対応する関数をセットする
-	 * @param {function(number, number, MouseEvent)=} handler 関数
-	 * @return {function(number, number, MouseEvent)=} 関数
+	 * マウス・ダウン（ボタンが押された）イベントに対応する関数をセットする
+	 * @param {function(number, number, MouseEvent):void=} handler 関数
+	 * @return {function(number, number, MouseEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling the mouse down event
-	 * @param {function(number, number, MouseEvent)=} handler Function
-	 * @return {function(number, number, MouseEvent)=} Function
+	 * @param {function(number, number, MouseEvent):void=} handler Function
+	 * @return {function(number, number, MouseEvent):void|Paper} Function, or this paper
 	 */
 	onMouseDown(handler) {
 		if (handler === undefined) return this._mouseEventHandler.onMouseDown();
@@ -607,14 +755,14 @@ class Paper {
 	}
 
 	/**~ja
-	 * マウス・ムーブ・イベントに対応する関数をセットする
-	 * @param {function(number, number, MouseEvent)=} handler 関数
-	 * @return {function(number, number, MouseEvent)=} 関数
+	 * マウス・ムーブ（ポインターが移動した）イベントに対応する関数をセットする
+	 * @param {function(number, number, MouseEvent):void=} handler 関数
+	 * @return {function(number, number, MouseEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling the mouse move event
-	 * @param {function(number, number, MouseEvent)=} handler Function
-	 * @return {function(number, number, MouseEvent)=} Function
+	 * @param {function(number, number, MouseEvent):void=} handler Function
+	 * @return {function(number, number, MouseEvent):void|Paper} Function, or this paper
 	 */
 	onMouseMove(handler) {
 		if (handler === undefined) return this._mouseEventHandler.onMouseMove();
@@ -623,14 +771,14 @@ class Paper {
 	}
 
 	/**~ja
-	 * マウス・アップ・イベントに対応する関数をセットする
-	 * @param {function(number, number, MouseEvent)=} handler 関数
-	 * @return {function(number, number, MouseEvent)=} 関数
+	 * マウス・アップ（ボタンが離された）イベントに対応する関数をセットする
+	 * @param {function(number, number, MouseEvent):void=} handler 関数
+	 * @return {function(number, number, MouseEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling the mouse up event
-	 * @param {function(number, number, MouseEvent)=} handler Function
-	 * @return {function(number, number, MouseEvent)=} Function
+	 * @param {function(number, number, MouseEvent):void=} handler Function
+	 * @return {function(number, number, MouseEvent):void|Paper} Function, or this paper
 	 */
 	onMouseUp(handler) {
 		if (handler === undefined) return this._mouseEventHandler.onMouseUp();
@@ -640,13 +788,13 @@ class Paper {
 
 	/**~ja
 	 * マウス・クリック・イベントに対応する関数をセットする
-	 * @param {function(number, number, MouseEvent)=} handler 関数
-	 * @return {function(number, number, MouseEvent)=} 関数
+	 * @param {function(number, number, MouseEvent):void=} handler 関数
+	 * @return {function(number, number, MouseEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling the mouse click event
-	 * @param {function(number, number, MouseEvent)=} handler Function
-	 * @return {function(number, number, MouseEvent)=} Function
+	 * @param {function(number, number, MouseEvent):void=} handler Function
+	 * @return {function(number, number, MouseEvent):void|Paper} Function, or this paper
 	 */
 	onMouseClick(handler) {
 		if (handler === undefined) return this._mouseEventHandler.onMouseClick();
@@ -656,13 +804,13 @@ class Paper {
 
 	/**~ja
 	 * マウス・ホイール・イベントに対応する関数をセットする
-	 * @param {function(number, WheelEvent)=} handler 関数
-	 * @return {function(number, WheelEvent)=} 関数
+	 * @param {function(number, WheelEvent):void=} handler 関数
+	 * @return {function(number, WheelEvent):void|Paper} 関数／この紙
 	 */
 	/**~en
 	 * Set the function handling the mouse wheel event
-	 * @param {function(number, WheelEvent)=} handler Function
-	 * @return {function(number, WheelEvent)=} Function
+	 * @param {function(number, WheelEvent):void=} handler Function
+	 * @return {function(number, WheelEvent):void|Paper} Function, or this paper
 	 */
 	onMouseWheel(handler) {
 		if (handler === undefined) return this._mouseEventHandler.onMouseWheel();
@@ -739,6 +887,7 @@ function augmentPaperPrototype(ctx) {
 	const org = Object.getPrototypeOf(ctx);
 	for (const name in ctx) {
 		if (typeof ctx[name] === 'function') {
+			if (Paper.prototype[name]) continue;
 			Paper.prototype[name] = function (...args) { return this._ctx[name](...args); }
 		} else {
 			const d = Object.getOwnPropertyDescriptor(org, name);

@@ -5,7 +5,7 @@ const path = require('path');
 module.exports = function (from, to) {
 	const isToDir = to.endsWith('/');
 	const files = glob.sync(from);
-	for (let f of files) {
+	for (const f of files) {
 		if (isToDir) {
 			const fn = path.basename(f);
 			fs.copySync(f, path.join(to, fn));

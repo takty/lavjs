@@ -10,11 +10,13 @@ class SpectrumScope extends ScopeBase {
 
 	/**~ja
 	 * スペクトル・スコープを作る
+	 * @constructor
 	 * @param {number} width 横幅
 	 * @param {number} height たて幅
 	 */
 	/**~en
 	 * Make a spectrum scope
+	 * @constructor
 	 * @param {number} width Width
 	 * @param {number} height Height
 	 */

@@ -1,22 +1,24 @@
 /**~ja
  * 天気センサー
  * @extends {Sensor}
- * @version 2020-12-17
+ * @version 2021-02-04
  */
 /**~en
  * Weather sensor
  * @extends {Sensor}
- * @version 2020-12-17
+ * @version 2021-02-04
  */
 class Weather extends Sensor {
 
 	/**~ja
 	 * 天気センサーを作る
+	 * @constructor
 	 * @param {number} [latitude=43] 緯度
 	 * @param {number} [longitude=141] 経度
 	 */
 	/**~en
 	 * Make a weather sensor
+	 * @constructor
 	 * @param {number} [latitude=43] Latitude
 	 * @param {number} [longitude=141] Longitude
 	 */
@@ -105,8 +107,8 @@ class Weather extends Sensor {
 	 * @return {object} 天気の情報
 	 */
 	/**~en
-	 * Get waether information
-	 * @return {object} Waether information
+	 * Get weather information
+	 * @return {object} Weather information
 	 */
 	getWeather() {
 		return this._res;

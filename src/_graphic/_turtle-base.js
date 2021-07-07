@@ -1,20 +1,22 @@
 /**~ja
  * タートル・ベース
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 /**~en
  * Turtle base
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 class TurtleBase {
 
 	/**~ja
 	 * カメを作る
+	 * @constructor
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
 	 * @param {number=} normalDeg 標準の方向
 	 */
 	/**~en
 	 * Make a turtle
+	 * @constructor
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
 	 * @param {number=} normalDeg Normal degree
 	 */
@@ -67,7 +69,7 @@ class TurtleBase {
 		this._curMode = this._mode;
 		this._pen = false;
 
-		this._isClipable = true;
+		this._isClippable = true;
 	}
 
 	/**~ja
@@ -317,7 +319,7 @@ class TurtleBase {
 	 * @param {number} deg 角度
 	 * @return {TurtleBase} このタートル・ベース
 	 */
-	/**~em
+	/**~en
 	 * Turn left
 	 * @param {number} deg Degree
 	 * @return {TurtleBase} This turtle base
@@ -576,8 +578,8 @@ class TurtleBase {
 	 * @param {number} step0 歩数1
 	 * @param {number} deg 角度1
 	 * @param {number} step1 歩数2
-	 * @param {number=} opt_deg 角度2（オプション）
-	 * @param {number=} opt_step 歩数3（オプション）
+	 * @param {number} opt_deg 角度2（オプション）
+	 * @param {number} opt_step 歩数3（オプション）
 	 * @param {number} limit 制限
 	 * @param {function=} [before=null] 実際に動く前に呼ばれる関数
 	 * @return {number} 実際に動いた量
@@ -588,8 +590,8 @@ class TurtleBase {
 	 * @param {number} step0 Number of steps 1
 	 * @param {number} deg Degree 1
 	 * @param {number} step1 Number of steps 2
-	 * @param {number=} opt_deg Degree 2 (optional)
-	 * @param {number=} opt_step Number of steps 3 (optional)
+	 * @param {number} opt_deg Degree 2 (optional)
+	 * @param {number} opt_step Number of steps 3 (optional)
 	 * @param {number} limit Limitation
 	 * @param {function=} [before=null] Function to be called before it actually moves
 	 * @return {number} Amount actually moved
@@ -610,14 +612,14 @@ class TurtleBase {
 
 	/**~ja
 	 * 右に曲がる弧をかく
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Draw an arc that turns to the right
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @return {TurtleBase} This turtle base
 	 */
 	arcRight(r, deg) {
@@ -626,14 +628,14 @@ class TurtleBase {
 
 	/**~ja
 	 * 左に曲がる弧をかく
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Draw an arc that turns to the left
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @return {TurtleBase} This turtle base
 	 */
 	arcLeft(r, deg) {
@@ -643,16 +645,16 @@ class TurtleBase {
 	/**~ja
 	 * 弧をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @param {boolean} isLeft 左かどうか
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Draw an arc (used only in the library)
 	 * @private
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @param {boolean} isLeft Whether it is left
 	 * @return {TurtleBase} This turtle base
 	 */
@@ -666,8 +668,8 @@ class TurtleBase {
 	/**~ja
 	 * 実際に弧をかく（ライブラリ内だけで使用）
 	 * @private
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>} deg 角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]} deg 角度（配列なら開始角度と終了角度）
 	 * @param {boolean} isLeft 左かどうか
 	 * @param {number} limit 制限
 	 * @param {function=} [before=null] 実際に動く前に呼ばれる関数
@@ -676,8 +678,8 @@ class TurtleBase {
 	/**~en
 	 * Actually draw an arc (used only in the library)
 	 * @private
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @param {boolean} isLeft Whether it is left
 	 * @param {number} limit Limitation
 	 * @param {function=} [before=null] Function to be called before it actually moves
@@ -701,9 +703,9 @@ class TurtleBase {
 		const a0 = Math.atan2(-(p.h * p.h * s0), (p.w * p.w * t0)) + rev;
 
 		const rot = rad(this._dir - 90) - a0;
-		const lrsin = Math.sin(rot), lrcos = Math.cos(rot);
-		const lsp = this._x + -s0 * lrcos - -t0 * lrsin;
-		const ltp = this._y + -s0 * lrsin + -t0 * lrcos;
+		const sin = Math.sin(rot), cos = Math.cos(rot);
+		const lsp = this._x + -s0 * cos - -t0 * sin;
+		const ltp = this._y + -s0 * sin + -t0 * cos;
 
 		if (before) before(lsp, ltp, rot, p);
 		return this._liner.arc(lsp, ltp, rot * 180.0 / Math.PI, p.w, p.h, p.deg0, p.deg1, isLeft, limit, this._area);
@@ -821,15 +823,15 @@ class TurtleBase {
 
 	/**~ja
 	 * 円をかく
-	 * @param {number|Array<number>} r 半径（配列なら横半径とたて半径）
-	 * @param {number|Array<number>=} [deg=360] 弧の角度（配列なら開始角度と終了角度）
+	 * @param {number|number[]} r 半径（配列なら横半径とたて半径）
+	 * @param {number|number[]=} [deg=360] 弧の角度（配列なら開始角度と終了角度）
 	 * @param {boolean=} [anticlockwise=false] 反時計回り？
 	 * @return {TurtleBase} このタートル・ベース
 	 */
 	/**~en
 	 * Draw a circle
-	 * @param {number|Array<number>} r Radius (horizontal radius and vertical radius if an array given)
-	 * @param {number|Array<number>} deg Degree (start and end angles if an array given)
+	 * @param {number|number[]} r Radius (horizontal radius and vertical radius if an array given)
+	 * @param {number|number[]} deg Degree (start and end angles if an array given)
 	 * @param {boolean=} [anticlockwise=false] Whether it is counterclockwise
 	 * @return {TurtleBase} This turtle base
 	 */
@@ -837,8 +839,8 @@ class TurtleBase {
 		const p = PATH.arrangeArcParams(r, deg, this._step);
 		const cx = this._x, cy = this._y;
 		const dr0 = rad(p.deg0 - 90), s1 = p.w * Math.cos(dr0), t1 = p.h * Math.sin(dr0);
-		const dr = rad(this._dir), rsin = Math.sin(dr), rcos = Math.cos(dr);
-		const x0 = cx + s1 * rcos - t1 * rsin, y0 = cy + s1 * rsin + t1 * rcos;
+		const dr = rad(this._dir), sin = Math.sin(dr), cos = Math.cos(dr);
+		const x0 = cx + s1 * cos - t1 * sin, y0 = cy + s1 * sin + t1 * cos;
 
 		this._drawShape((limit) => { return this._doCircle(cx, cy, p, anticlockwise, limit, dr); }, x0, y0);
 		return this;
@@ -861,14 +863,14 @@ class TurtleBase {
 	 * @private
 	 * @param {number} cx X coordinate of center
 	 * @param {number} cy Y coordinate of center
-	 * @param {dict} p Parameters
+	 * @param {object} p Parameters
 	 * @param {boolean} anticlockwise Whether it is counterclockwise
 	 * @param {number} limit Limitation
 	 * @param {number} dr Direction
 	 * @param {function=} [before=null] Function to be called before it actually moves
 	 * @return {number} Amount actually moved
 	 */
-	_doCircle(cx, cy, p, anticlockwise, limit, dr, before = false) {
+	_doCircle(cx, cy, p, anticlockwise, limit, dr, before = null) {
 		if (before) before(cx, cy, p, dr);
 		return this._liner.arc(cx, cy, this._dir, p.w, p.h, p.deg0 - 90, p.deg1 - 90, anticlockwise, limit, this._area);
 	}
@@ -1023,7 +1025,7 @@ class TurtleBase {
 					this._stroke.draw(this._ctx, this._area);
 					break;
 				case 'c':
-					if (this._isClipable) this._ctx.clip();
+					if (this._isClippable) this._ctx.clip();
 					break;
 			}
 		}
@@ -1123,15 +1125,19 @@ class TurtleBase {
 
 
 	/**~ja
-	 * 紙を返す
-	 * @return {Paper|CanvasRenderingContext2D} 紙／キャンバス・コンテキスト
+	 * 紙
+	 * @param {Paper|CanvasRenderingContext2D=} ctx 紙／キャンバス・コンテキスト
+	 * @return {Paper|CanvasRenderingContext2D|Ruler} 紙／キャンバス・コンテキスト／この定規
 	 */
 	/**~en
-	 * Get the paper
-	 * @return {Paper|CanvasRenderingContext2D} Paper or canvas context
+	 * Paper
+	 * @param {Paper|CanvasRenderingContext2D=} ctx Paper or canvas context
+	 * @return {Paper|CanvasRenderingContext2D|Ruler} Paper, canvas context, or this ruler
 	 */
-	context() {
-		return this._ctx;
+	context(ctx) {
+		if (ctx === undefined) return this._ctx;
+		this._ctx = ctx;
+		return this;
 	}
 
 	/**~ja

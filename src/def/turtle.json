@@ -92,16 +92,16 @@
 					"!type": "fn(step0: number, deg: number, step1: number, deg?: number, step?: number) -> !this"
 				},
 				"arcRight": {
-					"!type": "fn(r: ?, deg: ?) -> !this"
+					"!type": "fn(r: number|[number], deg: number|[number]) -> !this"
 				},
 				"arcLeft": {
-					"!type": "fn(r: ?, deg: ?) -> !this"
+					"!type": "fn(r: number|[number], deg: number|[number]) -> !this"
 				},
 				"ar": {
-					"!type": "fn(r: ?, deg: ?) -> !this"
+					"!type": "fn(r: number|[number], deg: number|[number]) -> !this"
 				},
 				"al": {
-					"!type": "fn(r: ?, deg: ?) -> !this"
+					"!type": "fn(r: number|[number], deg: number|[number]) -> !this"
 				},
 				"step": {
 					"!type": "fn(val: number) -> !this|number"
@@ -128,7 +128,7 @@
 					"!type": "fn() -> !this"
 				},
 				"circle": {
-					"!type": "fn(r: ?, deg?: ?, anticlockwise?: bool) -> !this"
+					"!type": "fn(r: number|[number], deg: number|[number], anticlockwise?: bool) -> !this"
 				},
 				"image": {
 					"!type": "fn(image: +Image|+CROQUJS.Paper|+CanvasRenderingContext2D, cx: number, cy: number, scale?: number)"
@@ -167,7 +167,7 @@
 					"!type": "fn(func: fn(?)) -> !this|fn(?)"
 				},
 				"context": {
-					"!type": "fn() -> +CROQUJS.Paper|+CanvasRenderingContext2D"
+					"!type": "fn(ctx?: +CROQUJS.Paper|+CanvasRenderingContext2D) -> !this|+CROQUJS.Paper|+CanvasRenderingContext2D"
 				},
 				"paper": {
 					"!type": "fn() -> +CROQUJS.Paper|+CanvasRenderingContext2D"

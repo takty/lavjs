@@ -28,6 +28,9 @@
 				"stop": {
 					"!type": "fn() -> this"
 				},
+				"deltaTime": {
+					"!type": "fn() -> number"
+				},
 				"frame": {
 					"!type": "fn() -> number"
 				},
@@ -65,10 +68,10 @@
 					"!type": "fn()"
 				},
 				"onKeyDown": {
-					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+					"!type": "fn(handler?: fn(key: string, e: KeyboardEvent)) -> !this|fn(?)"
 				},
 				"onKeyUp": {
-					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+					"!type": "fn(handler?: fn(key: string, e: KeyboardEvent)) -> !this|fn(?)"
 				},
 				"keyArrowLeft": {
 					"!type": "fn() -> bool"
@@ -83,19 +86,19 @@
 					"!type": "fn() -> bool"
 				},
 				"onMouseDown": {
-					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+					"!type": "fn(handler?: fn(x: number, y: number, e: MouseEvent)) -> !this|fn(?)"
 				},
 				"onMouseMove": {
-					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+					"!type": "fn(handler?: fn(x: number, y: number, e: MouseEvent)) -> !this|fn(?)"
 				},
 				"onMouseUp": {
-					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+					"!type": "fn(handler?: fn(x: number, y: number, e: MouseEvent)) -> !this|fn(?)"
 				},
 				"onMouseClick": {
-					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+					"!type": "fn(handler?: fn(x: number, y: number, e: MouseEvent)) -> !this|fn(?)"
 				},
 				"onMouseWheel": {
-					"!type": "fn(handler?: fn(?)) -> !this|fn(?)"
+					"!type": "fn(handler?: fn(delta: number, e: MouseEvent)) -> !this|fn(?)"
 				},
 				"mouseX": {
 					"!type": "fn() -> number"
@@ -114,7 +117,7 @@
 				}
 			}
 		},
-		"getTime": {
+		"now": {
 			"!type": "fn()"
 		},
 		"removeAll": {

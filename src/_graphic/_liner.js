@@ -1,20 +1,22 @@
 /**~ja
  * ライナー
- * @version 2019-09-03
+ * @version 2021-02-12
  */
 /**~en
  * Liner
- * @version 2019-09-03
+ * @version 2021-02-12
  */
 class Liner {
 
 	/**~ja
 	 * ライナーを作る
+	 * @constructor
 	 * @param {*} handler 描画ハンドラー
 	 * @param {number=} [opt_normalDir=Math.PI / -2] 法線方向
 	 */
 	/**~en
 	 * Make a liner
+	 * @constructor
 	 * @param {*} handler Drawing handler
 	 * @param {number=} [opt_normalDir=Math.PI / -2] Normal direction
 	 */
@@ -443,8 +445,8 @@ class Liner {
 			this._arcDraw(dirEnd, cx, cy, dr, w, h, r0, r1, span, limitedSpan, this._edge);
 		} else {
 			// r1の座標を計算
-			const rsin = Math.sin(dr), rcos = Math.cos(dr);
-			const sp = s1 * rcos - t1 * rsin, tp = s1 * rsin + t1 * rcos;
+			const sin = Math.sin(dr), cos = Math.cos(dr);
+			const sp = s1 * cos - t1 * sin, tp = s1 * sin + t1 * cos;
 			this._handler.arcOrMoveTo(cx, cy, dr, w, h, r0, r1, ac, dirEnd, cx + sp, cy + tp);
 		}
 		return limitedSpan;
@@ -467,7 +469,7 @@ class Liner {
 	 */
 	_arcDraw(dirEnd, cx, cy, dr, w, h, r0, r1, span, limitedSpan, edge) {
 		const nd = this._normalDir;
-		const rsin = Math.sin(dr), rcos = Math.cos(dr);
+		const sin = Math.sin(dr), cos = Math.cos(dr);
 		let px = w * Math.cos(r0), py = h * Math.sin(r0), l = 0;
 
 		for (let i = 1, I = Math.ceil(limitedSpan); i <= I; i += 1) {
@@ -485,8 +487,8 @@ class Liner {
 				nXd = nD * Math.cos(at + nd);
 				nYd = nD * Math.sin(at + nd);
 			}
-			const xr = cx + (x + nXd) * rcos - (y + nYd) * rsin;
-			const yr = cy + (x + nXd) * rsin + (y + nYd) * rcos;
+			const xr = cx + (x + nXd) * cos - (y + nYd) * sin;
+			const yr = cy + (x + nXd) * sin + (y + nYd) * cos;
 			this._handler.lineOrMoveTo(xr, yr, de);
 		}
 	}

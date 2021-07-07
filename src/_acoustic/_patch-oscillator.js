@@ -1,27 +1,30 @@
 /**~ja
  * オシレーター・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 /**~en
  * Oscillator patch
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 class OscillatorPatch extends SourcePatch {
 
 	/**~ja
 	 * オシレーター・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make an oscillator patch
+	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { type = 'sine', frequency = 440, detune = 0, gain = 1 }) {
+	constructor(synth, params) {
 		super(synth);
+		const { type = 'sine', frequency = 440, detune = 0, gain = 1 } = params;
 
 		this._o = this._synth.context().createOscillator();
 		this._g = this._synth.context().createGain();
@@ -68,7 +71,7 @@ class OscillatorPatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|OscillatorPatch} Audio paramter, or this patch
 	 */
-	frequency(value = null, time = this._synth.now(), type = null) {
+	frequency(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._o.frequency;
 		setParam(this._o.frequency, value, time, type);
 		return this;
@@ -88,7 +91,7 @@ class OscillatorPatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|OscillatorPatch} Audio paramter, or this patch
 	 */
-	detune(value = null, time = this._synth.now(), type = null) {
+	detune(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._o.detune;
 		setParam(this._o.detune, value, time, type);
 		return this;
@@ -108,7 +111,7 @@ class OscillatorPatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|OscillatorPatch} Audio paramter, or this patch
 	 */
-	gain(value = null, time = this._synth.now(), type = null) {
+	gain(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);
 		return this;

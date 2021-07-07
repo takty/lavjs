@@ -2,7 +2,7 @@
 	"!name": "lavjs",
 	"SPRITE": {
 		"Element": {
-			"!type": "fn(motion?: ?)",
+			"!type": "fn(motion?: ?|function, rotation?: ?|function)",
 			"prototype": {
 				"x": {
 					"!type": "fn(val?: number) -> !this|number"
@@ -37,43 +37,79 @@
 				"speed": {
 					"!type": "fn(val?: number) -> !this|bool"
 				},
-				"angleSpeed": {
-					"!type": "fn(val?: number) -> !this|number"
-				},
-				"angleSpeedX": {
-					"!type": "fn(val?: number) -> !this|number"
-				},
-				"angleSpeedZ": {
-					"!type": "fn(val?: number) -> !this|number"
-				},
 				"setRangeX": {
 					"!type": "fn(min: number, max: number, isLoop: bool)"
 				},
 				"setRangeY": {
 					"!type": "fn(min: number, max: number, isLoop: bool)"
 				},
-				"setOnUpdate": {
+				"onBeforeUpdate": {
 					"!type": "fn(func: fn(?), args_array: [?])"
 				},
-				"setOnUpdated": {
+				"onUpdate": {
 					"!type": "fn(func: fn(?), args_array: [?])"
 				},
 				"motion": {
+					"!type": "fn(val?: ?|function) -> !this|?|function"
+				},
+				"rotation": {
+					"!type": "fn(val?: ?|function) -> !this|?|function"
+				},
+				"data": {
 					"!type": "fn(val?: ?) -> !this|?"
 				}
 			}
 		},
 		"Sprite": {
-			"!type": "fn(drawFunction: fn(?), args_array?: [?], motion?: ?)",
+			"!type": "fn(drawingCallback: fn(?), motion?: ?|function, rotation?: ?|function)",
 			"prototype": {
 				"!proto": "SPRITE.Element.prototype",
 				"draw": {
 					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, args_array: [?])"
+				},
+				"collisionRadius": {
+					"!type": "fn(val?: number)"
+				},
+				"onCollision": {
+					"!type": "fn(handler?: ?|function)"
+				}
+			}
+		},
+		"SpriteShape": {
+			"!type": "fn()",
+			"prototype": {
+				"!proto": "SPRITE.Sprite.prototype",
+				"ruler": {
+					"!type": "fn() -> +RULER.Ruler"
+				},
+				"draw": {
+					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D)"
+				}
+			}
+		},
+		"Circle": {
+			"!type": "fn(radius?: number)",
+			"prototype": {
+				"!proto": "SPRITE.SpriteShape.prototype",
+				"radius": {
+					"!type": "fn(val?: number) -> !this|number"
+				}
+			}
+		},
+		"Rect": {
+			"!type": "fn(width?: number, height?: number)",
+			"prototype": {
+				"!proto": "SPRITE.SpriteShape.prototype",
+				"width": {
+					"!type": "fn(val?: number) -> !this|number"
+				},
+				"height": {
+					"!type": "fn(val?: number) -> !this|number"
 				}
 			}
 		},
 		"Stage": {
-			"!type": "fn(motion?: ?)",
+			"!type": "fn(motion?: ?|function, rotation?: ?|function)",
 			"prototype": {
 				"!proto": "SPRITE.Element.prototype",
 				"makeSprite": {
@@ -102,6 +138,9 @@
 				},
 				"draw": {
 					"!type": "fn(ctx: +CROQUJS.Paper|+CanvasRenderingContext2D, args_array: [?])"
+				},
+				"update": {
+					"!type": "fn(deltaTime?: number)"
 				},
 				"addObserver": {
 					"!type": "fn(observer: ?)"

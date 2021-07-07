@@ -7,7 +7,7 @@
  * （ここでの紙は、HTML5のCanvas要素のCanvasRenderingContext2Dを拡張したもののことです）
  *
  * @author Takuto Yanagida
- * @version 2020-11-20
+ * @version 2021-05-21
  */
 /**~en
  * Croqujs library (CROQUJS)
@@ -18,7 +18,7 @@
  * ('Paper' here is an extension of CanvasRenderingContext2D of HTML5 Canvas element)
  *
  * @author Takuto Yanagida
- * @version 2020-11-20
+ * @version 2021-05-21
  */
 
 
@@ -36,7 +36,19 @@ const CROQUJS = (function () {
 	//~ja 共通のCSS
 	//~en Common CSS
 	const s = document.createElement('style');
-	s.innerHTML = '*{margin:0;padding:0}body{white-space:nowrap;display:flex;flex-wrap:wrap;align-items:flex-start;}';
+	s.innerHTML = `
+		* {
+			box-sizing: border-box;
+		}
+		body {
+			display    : flex;
+			align-items: flex-start;
+			flex-wrap  : wrap;
+			margin     : 0;
+			padding    : 2px;
+			white-space: nowrap;
+		}
+	`;
 	document.head.appendChild(s);
 
 	//~ja すべてのプログラム（スクリプト）を読み込み終わったらsetup関数を呼び出すように、イベント・リスナーを登録する
@@ -83,17 +95,17 @@ const CROQUJS = (function () {
 	 * Get the current millisecond
 	 * @return {number} The current millisecond
 	 */
-	const getTime = (function () {
-		return window.performance.now.bind(window.performance);
-	}());
+	const now = function () {
+		return window.performance.now();
+	};
 
 	/**~ja
 	 * 例外を除き画面上の要素をすべて削除する
-	 * @param {DOMElement} exception 例外の要素
+	 * @param {...HTMLElement} exception 例外の要素
 	 */
 	/**~en
 	 * Delete all elements on the screen except for the specified exception
-	 * @param {DOMElement} exception Elements of exception
+	 * @param {...HTMLElement} exception Elements of exception
 	 */
 	const removeAll = function (...exception) {
 		let ex = [];
@@ -105,7 +117,7 @@ const CROQUJS = (function () {
 		ex = ex.map((e) => {return (e.domElement === undefined) ? e : e.domElement();});
 
 		const rm = [];
-		for (let c of document.body.childNodes) {
+		for (const c of document.body.childNodes) {
 			if (ex.indexOf(c) === -1) rm.push(c);
 		}
 		rm.forEach((e) => {
@@ -140,6 +152,6 @@ const CROQUJS = (function () {
 	//~en Create a library --------------------------------------------------------
 
 
-	return { Paper, getTime, removeAll, currentPaper, loadScript, loadScriptSync };
+	return { Paper, now, removeAll, currentPaper, loadScript, loadScriptSync };
 
 }());

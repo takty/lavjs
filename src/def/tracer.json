@@ -1,7 +1,7 @@
 {
 	"!name": "lavjs",
 	"TRACER": {
-		"Tracer": {
+		"TraceMotion": {
 			"!type": "fn()",
 			"prototype": {
 				"save": {
@@ -9,6 +9,9 @@
 				},
 				"restore": {
 					"!type": "fn(step: number) -> !this"
+				},
+				"repeat": {
+					"!type": "fn() -> !this"
 				},
 				"go": {
 					"!type": "fn(step: number) -> !this"
@@ -89,16 +92,16 @@
 					"!type": "fn(step0: number, deg: number, step1: number, deg?: number, step?: number) -> !this"
 				},
 				"arcRight": {
-					"!type": "fn(r: ?, deg: ?) -> !this"
+					"!type": "fn(r: number|[number], deg: number|[number]) -> !this"
 				},
 				"arcLeft": {
-					"!type": "fn(r: ?, deg: ?) -> !this"
+					"!type": "fn(r: number|[number], deg: number|[number]) -> !this"
 				},
 				"ar": {
-					"!type": "fn(r: ?, deg: ?) -> !this"
+					"!type": "fn(r: number|[number], deg: number|[number]) -> !this"
 				},
 				"al": {
-					"!type": "fn(r: ?, deg: ?) -> !this"
+					"!type": "fn(r: number|[number], deg: number|[number]) -> !this"
 				},
 				"step": {
 					"!type": "fn(val: number) -> !this|number"

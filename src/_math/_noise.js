@@ -12,6 +12,10 @@
  */
 class Noise {
 
+	/**
+	 * ノイズを作る
+	 * @constructor
+	 */
 	constructor() {
 		this._perm = [];
 		for (let i = 0; i < 256; i += 1) {

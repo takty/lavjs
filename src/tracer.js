@@ -4,15 +4,15 @@
  * 座標を持ったオブジェクトを移動させるライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2021-02-05
  */
 /**~en
- * Tracer library (TRACER)
+ * TraceMotion library (TRACER)
  *
  * A library to move an object with coordinates.
  *
  * @author Takuto Yanagida
- * @version 2019-05-12
+ * @version 2021-02-05
  */
 
 
@@ -63,7 +63,7 @@ const TRACER = (function () {
 
 
 	//=
-	//=include _scene/_tracer.js
+	//=include _scene/_trace-motion.js
 
 
 	//=
@@ -76,7 +76,7 @@ const TRACER = (function () {
 
 	//~ja 関数の別名
 	//~en Function alias
-	const aliases = {
+	const aliasMap = {
 		go            : ['forward', 'fd'],
 		back          : ['bk', 'backward'],
 		step          : ['unit'],
@@ -92,12 +92,12 @@ const TRACER = (function () {
 
 	//~ja 関数の別名を登録する
 	//~en Register function alias
-	Object.keys(aliases).forEach((p) => {
-		aliases[p].forEach((a) => {
-			Tracer.prototype[a] = Tracer.prototype[p];
-		});
-	});
+	for (const [orig, as] of Object.entries(aliasMap)) {
+		for (const a of as) {
+			TraceMotion.prototype[a] = TraceMotion.prototype[orig];
+		}
+	}
 
-	return { Tracer };
+	return { TraceMotion };
 
 }());

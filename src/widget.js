@@ -4,7 +4,7 @@
  * 様々なウィジェット（コントロール）を使えるようにするライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-05-11
  */
 /**~en
  * Widget library (WIDGET)
@@ -12,7 +12,7 @@
  * A library that allows you to use various widgets (controls).
  *
  * @author Takuto Yanagida
- * @version 2021-01-29
+ * @version 2021-05-11
  */
 
 
@@ -45,73 +45,109 @@ const WIDGET = (function () {
 	 */
 	const ensureBaseStyle = function () {
 		if (isBaseStyleAssigned) return;
-		addStyle('.__widget', {
-			margin    : '0px',
-			padding   : '0px',
-			boxSizing : 'border-box',
-			fontFamily: 'Consolas, Menlo, "Courier New", "メイリオ", Meiryo, "Osaka－等幅", Osaka-mono, monospace',
+		isBaseStyleAssigned = true;
+		addStyle('.lavjs-widget', {
+			margin    : '0',
+			padding   : '0',
+			fontSize  : '14px',
+			fontFamily: 'Consolas, Menlo, "Courier New", Meiryo, Osaka-Mono, monospace',
 		});
-		addStyle('.__widget-base', {
+		addStyle('.lavjs-widget-base', {
 			display        : 'inline-flex',
 			position       : 'relative',
-			margin         : '4px',
+			margin         : '2px',
 			padding        : '8px',
 			borderRadius   : '1px',
 			backgroundColor: 'White',
 			boxShadow      : '1px 1px 8px rgba(0, 0, 0, 0.4)',
 		});
-		addStyle('.__widget-full', {
+		addStyle('.lavjs-widget-full', {
 			width   : '100%',
 			height  : '100%',
 			position: 'relative',
 		});
-		addStyle('.__widget-button-array', {
-			gap: '12px',
+		addStyle('.lavjs-widget-button-row', {
+			gap: '8px',
 		});
-		addStyle('.__widget-button', {
+		addStyle('.lavjs-widget-button', {
 			flex          : '1 1 1',
-			minWidth      : '32px',
-			minHeight     : '32px',
-			display       : 'flex',
-			justifyContent: 'center',
-			alignItems    : 'center',
+			minWidth      : '28px',
+			minHeight     : '28px',
+			display       : 'grid',
+			placeItems    : 'center',
 			padding       : '4px 8px',
 			overflow      : 'hidden',
-			borderRadius  : '8px',
-			boxShadow     : '0px 0px 4px rgba(0, 0, 0, 0.25)',
+			borderRadius  : '3px',
+			boxShadow     : '0 1px 6px 1px rgba(0, 0, 0, 0.35)',
 			cursor        : 'pointer',
+			userSelect    : 'none',
 		});
-		addStyle('.__widget-button:last-child', {
-			marginRight: '0px',
+		addStyle('.lavjs-widget-button:hover:not(.active)', {
+			boxShadow: '0 0 2px 1px rgba(0, 0, 0, 0.25)',
 		});
-		addStyle('.__widget-button:hover', {
-			boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.4)',
-		});
-		addStyle('.__widget-button:active', {
+		addStyle('.lavjs-widget-button.active', {
 			boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.4) inset',
 		});
-		addStyle('.__widget-button-pushed', {
-			boxShadow: '1px 1px 8px rgba(0, 0, 0, 0.4) inset !important',
+		addStyle('.lavjs-widget-chat pre', {
+			minHeight   : '1.25em',
+			margin      : '0',
+			font        : 'inherit',
+			whiteSpace  : 'normal',
+			overflowWrap: 'break-word',
 		});
-		addStyle('.__widget-slider-knob', {
+		addStyle('.lavjs-widget-chat-message', {
+			width    : '100%',
+			overflowY: 'auto',
+			flexGrow : '1',
+			height   : '1.25em',
+			minHeight: '1.25em',
+		});
+		addStyle('.lavjs-widget-chat-hr', {
+			marginTop   : '0.5rem',
+			marginBottom: '0',
+			width       : '100%',
+			height      : '2px',
+			borderTop   : '1px solid #bbb',
+		});
+		addStyle('.lavjs-widget-chat-prompt:not(:empty)', {
+			marginTop   : '0.5rem',
+			overflowY   : 'auto',
+		});
+		addStyle('.lavjs-widget-chat-prompt a', {
+			textDecoration : 'underline',
+			cursor         : 'pointer',
+			color          : '#12f',
+			backgroundColor: '#12f1',
+		});
+		addStyle('.lavjs-widget-chat-input', {
+			width       : '100%',
+			overflowY   : 'scroll',
+			height      : '2em',
+			minHeight   : '2em',
+			marginTop   : '0.5rem',
+			borderRadius: '6px',
+			border      : '1px solid #bbb',
+			boxShadow   : '0 1px 2px rgba(0, 0, 0, 0.25) inset',
+		});
+		addStyle('.lavjs-widget-slider-knob', {
 			position       : 'absolute',
 			width          : '16px',
 			height         : '16px',
 			margin         : '-8px 0px 0px -8px',
 			backgroundColor: 'White',
-			borderRadius   : '8px',
-			boxShadow      : '1px 1px 8px rgba(0, 0, 0, 0.4)',
+			borderRadius   : '4px',
+			boxShadow      : '0 1px 6px 2px rgba(0, 0, 0, 0.35)',  // There is a slight different from buttons
 			cursor         : '-webkit-grab',
 		});
-		addStyle('.__widget-thermometer-output', {
+		addStyle('.lavjs-widget-slider-output', {
 			display     : 'block',
 			marginBottom: '10px',
 			width       : '100%',
 			height      : '20px',
 			textAlign   : 'right',
 			border      : 'none',
+			boxShadow   : '0 0 2px rgba(0, 0, 0, 0.25) inset',
 		});
-		isBaseStyleAssigned = true;
 	};
 
 

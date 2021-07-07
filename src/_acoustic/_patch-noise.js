@@ -1,27 +1,30 @@
 /**~ja
  * ノイズ・パッチ
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 /**~en
  * Noise patch
  * @extends {SourcePatch}
- * @version 2020-12-16
+ * @version 2021-05-21
  */
 class NoisePatch extends SourcePatch {
 
 	/**~ja
 	 * ノイズ・パッチを作る
+	 * @constructor
 	 * @param {Synth} synth シンセ
-	 * @param {object} params パラメーター
+	 * @param {object=} [params={}] パラメーター
 	 */
 	/**~en
 	 * Make a noise patch
+	 * @constructor
 	 * @param {Synth} synth Synth
-	 * @param {object} params Parameters
+	 * @param {object=} [params={}] Parameters
 	 */
-	constructor(synth, { gain = 1 }) {
+	constructor(synth, params = {}) {
 		super(synth);
+		const { gain = 1 } = params;
 
 		this._p = this._synth.context().createScriptProcessor(NoisePatch.BUFFER_SIZE, 0, 1);
 		this._p.onaudioprocess = (e) => { this._process(e); };
@@ -66,7 +69,7 @@ class NoisePatch extends SourcePatch {
 	 * @param {string=} type Type of changing
 	 * @return {AudioParam|NoisePatch} Audio paramter, or this patch
 	 */
-	gain(value = null, time = this._synth.now(), type = null) {
+	gain(value = null, time = this._synth.time(), type = null) {
 		if (!value) return this._g.gain;
 		setParam(this._g.gain, value, time, type);
 		return this;

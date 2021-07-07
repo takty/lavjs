@@ -1,20 +1,22 @@
 /**~ja
  * スタイル・ベース（ストローク・フィル共通）
- * @version 2020-12-17
+ * @version 2021-05-21
  */
 /**~en
  * Style base (Common to stroke and fill)
- * @version 2020-12-17
+ * @version 2021-05-21
  */
 class StyleBase {
 
 	/**~ja
 	 * スタイルを作る
+	 * @constructor
 	 * @param {Stroke=} base 元になるスタイル
 	 * @param {string=} color 標準の色
 	 */
 	/**~en
 	 * Make a style
+	 * @constructor
 	 * @param {Stroke=} base Original style
 	 * @param {string=} color Default color
 	 */
@@ -57,13 +59,13 @@ class StyleBase {
 
 	/**~ja
 	 * 色の名前を設定する
-	 * @param {?string} color 色の名前
+	 * @param {string=} color 色の名前
 	 * @param {number=} [opt_alpha=1] アルファ 0-1
 	 * @return {string|StyleBase} 色かこのスタイル
 	 */
 	/**~en
 	 * Set the color name
-	 * @param {?string} color Color name
+	 * @param {string=} color Color name
 	 * @param {number=} [opt_alpha=1] Alpha 0-1
 	 * @return {string|StyleBase} Color or this style
 	 */
@@ -89,17 +91,17 @@ class StyleBase {
 
 	/**~ja
 	 * RGB(A)を設定する
-	 * @param {?number} r 赤 0-255
-	 * @param {?number} g 緑 0-255
-	 * @param {?number} b 青 0-255
+	 * @param {number=} r 赤 0-255
+	 * @param {number=} g 緑 0-255
+	 * @param {number=} b 青 0-255
 	 * @param {number=} [opt_alpha=1] アルファ 0-1
 	 * @return {number[]|StyleBase} RGBかこのスタイル
 	 */
 	/**~en
 	 * Set RGB(A)
-	 * @param {?number} r Red 0-255
-	 * @param {?number} g Green 0-255
-	 * @param {?number} b Blue 0-255
+	 * @param {number=} r Red 0-255
+	 * @param {number=} g Green 0-255
+	 * @param {number=} b Blue 0-255
 	 * @param {number=} [opt_alpha=1] Alpha 0-1
 	 * @return {number[]|StyleBase} RGB or this style
 	 */
@@ -115,17 +117,17 @@ class StyleBase {
 
 	/**~ja
 	 * HSL(A)を設定する
-	 * @param {?number} h 色相 0-360
-	 * @param {?number} s 彩度 0-100
-	 * @param {?number} l 明度 0-100
+	 * @param {number=} h 色相 0-360
+	 * @param {number=} s 彩度 0-100
+	 * @param {number=} l 明度 0-100
 	 * @param {number=} [opt_alpha=1] アルファ 0-1
 	 * @return {number[]|StyleBase} HSLかこのスタイル
 	 */
 	/**~en
 	 * Set HSL(A)
-	 * @param {?number} h Hue 0-360
-	 * @param {?number} s Saturation 0-100
-	 * @param {?number} l Lightness 0-100
+	 * @param {number=} h Hue 0-360
+	 * @param {number=} s Saturation 0-100
+	 * @param {number=} l Lightness 0-100
 	 * @param {number=} [opt_alpha=1] Alpha 0-1
 	 * @return {number[]|StyleBase} HSL or this style
 	 */
@@ -340,14 +342,14 @@ class StyleBase {
 
 	/**~ja
 	 * アルファをセットする
-	 * @param {?number} alpha アルファ
-	 * @param {?string} op 四則演算記号
+	 * @param {number=} alpha アルファ
+	 * @param {string=} op 四則演算記号
 	 * @return {number|StyleBase} アルファかこのスタイル
 	 */
 	/**~en
 	 * Set alpha
-	 * @param {?number} alpha Alpha
-	 * @param {?string} op Arithmetic symbol
+	 * @param {number=} alpha Alpha
+	 * @param {string=} op Arithmetic symbol
 	 * @return {number|StyleBase} Alpha or this style
 	 */
 	alpha(alpha, op) {
@@ -367,12 +369,12 @@ class StyleBase {
 
 	/**~ja
 	 * コンポジション（合成方法）をセットする
-	 * @param {?string} composition コンポジション
+	 * @param {string=} composition コンポジション
 	 * @return {string|StyleBase} コンポジションかこのスタイル
 	 */
 	/**~en
 	 * Set composition (composition method)
-	 * @param {?string} composition Composition
+	 * @param {string=} composition Composition
 	 * @return {string|StyleBase} Composition or this style
 	 */
 	composition(composition) {
@@ -383,7 +385,7 @@ class StyleBase {
 
 	/**~ja
 	 * 影をセットする
-	 * @param {?number} blur ぼかし量
+	 * @param {number=} blur ぼかし量
 	 * @param {?string} color 色
 	 * @param {?number} x 影のずれx
 	 * @param {?number} y 影のずれy
@@ -391,7 +393,7 @@ class StyleBase {
 	 */
 	/**~en
 	 * Set shadow
-	 * @param {?number} blur Blur amount
+	 * @param {number=} blur Blur amount
 	 * @param {?string} color Color
 	 * @param {?number} x Shadow offset x
 	 * @param {?number} y Shadow offset y
@@ -399,7 +401,7 @@ class StyleBase {
 	 */
 	shadow(blur, color, x, y) {
 		if (blur === undefined) return this._shadow.get();
-		if (blur === false || blur === null) {
+		if (blur === null) {
 			this._shadow.clear();
 		} else {
 			this._shadow.set(blur, color, x, y);
@@ -456,22 +458,22 @@ class StyleBase {
 	 * グラデーションを作る（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {dict} bs 範囲
+	 * @param {Object} bs 範囲
 	 * @param {string} type 種類
 	 * @param {Array} params パラメター
-	 * @param {Array<string>} cs 色の配列
-	 * @param {dict} opt オプション
+	 * @param {string[]} cs 色の配列
+	 * @param {Object} opt オプション
 	 * @return {string} スタイル文字列
 	 */
 	/**~en
 	 * Make a gradation (used only in the library)
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {dict} bs Bounds
+	 * @param {Object} bs Bounds
 	 * @param {string} type Type
 	 * @param {Array} params Parameters
-	 * @param {Array<string>} cs Colors
-	 * @param {dict} opt Options
+	 * @param {string[]} cs Colors
+	 * @param {Object} opt Options
 	 * @return {string} String of style
 	 */
 	_makeGrad(ctx, bs, type, params, cs, opt) {
@@ -481,16 +483,16 @@ class StyleBase {
 		let style;
 		switch (type) {
 			case 'linear':
-				style = ctx.createLinearGradient.apply(ctx, params);
+				style = ctx.createLinearGradient(...params);
 				break;
 			case 'vertical': case 'horizontal': case 'vector': default:
-				style = ctx.createLinearGradient.apply(ctx, this._makeLinearGradParams(ctx, type, bs));
+				style = ctx.createLinearGradient(...this._makeLinearGradParams(ctx, type, bs));
 				break;
 			case 'radial':
-				style = ctx.createRadialGradient.apply(ctx, params);
+				style = ctx.createRadialGradient(...params);
 				break;
 			case 'inner': case 'outer': case 'diameter': case 'radius':
-				style = ctx.createRadialGradient.apply(ctx, this._makeRadialGradParams(ctx, type, bs, opt));
+				style = ctx.createRadialGradient(...this._makeRadialGradParams(ctx, type, bs, opt));
 				break;
 		}
 		for (let i = 0, I = cs.length; i < I; i += 1) {
@@ -585,13 +587,13 @@ class StyleBase {
 	 * 円形グラデーションのオプションをセットする（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
-	 * @param {number[]} opt オプション
+	 * @param {object} opt オプション
 	 */
 	/**~en
 	 * Set radial gradation options (used only in the library)
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx Paper or canvas context
-	 * @param {number[]} opt Options
+	 * @param {object} opt Options
 	 */
 	_setGradOpt(ctx, opt) {
 		ctx.translate(opt.center[0], opt.center[1]);

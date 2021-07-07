@@ -2,13 +2,13 @@
  * シンセサイザー・ライブラリー（SYNTH）
  *
  * @author Takuto Yanagida
- * @version 2020-12-16
+ * @version 2021-02-04
  */
 /**~en
  * Synthesizer library (SYNTH)
  *
  * @author Takuto Yanagida
- * @version 2020-12-16
+ * @version 2021-02-04
  */
 
 
@@ -44,16 +44,16 @@ const SYNTH = (function () {
 
 	/**~ja
 	 * 関数（メソッド）の別名をつける
-	 * @param {object} cls クラス
+	 * @param {object} target 対象クラス
 	 */
 	/**~en
 	 * Give aliases for functions (methods)
-	 * @param {object} cls Class
+	 * @param {object} target Target class
 	 */
-	function assignAlias(cls) {
-		for (const [alias, orig] of Object.entries(KEY_NORM_LIST)) {
-			if (cls.prototype[orig]) {
-				cls.prototype[alias] = cls.prototype[orig];
+	function assignAlias(target) {
+		for (const [a, orig] of Object.entries(KEY_NORM_LIST)) {
+			if (target.prototype[orig]) {
+				target.prototype[a] = target.prototype[orig];
 			}
 		}
 	}
