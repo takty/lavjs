@@ -1,12 +1,12 @@
 /**~ja
  * ステージ
  * @extends {Element}
- * @version 2021-05-21
+ * @version 2021-07-28
  */
 /**~en
  * Stage
  * @extends {Element}
- * @version 2021-05-21
+ * @version 2021-07-28
  */
 class Stage extends Element {
 
@@ -36,19 +36,19 @@ class Stage extends Element {
 	/**~ja
 	 * スプライトを作って加える
 	 * @param {function(*):void} drawFunction 絵をかく関数
-	 * @param {Array=} opt_args_array 関数に渡す引数の配列
-	 * @param {Motion=} opt_motion モーション
+	 * @param {Motion|function=} [motion=null] 動き
+	 * @param {Rotation|function=} [rotation=null] 回転
 	 * @return {Sprite} スプライト
 	 */
 	/**~en
 	 * Make a sprite and add it to this stage
 	 * @param {function(*):void} drawFunction Function to draw pictures
-	 * @param {Array=} opt_args_array Array of arguments to pass to the function
-	 * @param {Motion=} opt_motion Motion
+	 * @param {Motion|function=} [motion=null] Motion
+	 * @param {Rotation|function=} [rotation=null] Rotation
 	 * @return {Sprite} Sprite
 	 */
-	makeSprite(drawFunction, opt_args_array, opt_motion) {
-		const s = new SPRITE.Sprite(drawFunction, opt_args_array, opt_motion);
+	makeSprite(drawFunction, motion = null, rotation = null) {
+		const s = new SPRITE.Sprite(drawFunction, motion, rotation);
 		this.add(s);
 		return s;
 	}

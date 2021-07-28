@@ -113,7 +113,7 @@
 			"prototype": {
 				"!proto": "SPRITE.Element.prototype",
 				"makeSprite": {
-					"!type": "fn(drawFunction: fn(?), args_array?: [?], motion?: ?) -> +SPRITE.Sprite"
+					"!type": "fn(drawFunction: fn(?), motion?: ?|function, rotation?: ?|function) -> +SPRITE.Sprite"
 				},
 				"makeStage": {
 					"!type": "fn() -> +SPRITE.Stage"
