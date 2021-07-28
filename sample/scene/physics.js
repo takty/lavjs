@@ -7,7 +7,6 @@
 
 const setup = function () {
 	const p = new CROQUJS.Paper(600, 600);
-	STYLE.augment(p);
 	const G = 9.8;  // m/s^2
 	const w = new SPRITE.Stage();
 	const buttonG = new WIDGET.Toggle('g');
