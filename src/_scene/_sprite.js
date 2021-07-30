@@ -1,12 +1,12 @@
 /**~ja
  * スプライト
  * @extends {Element}
- * @version 2021-05-21
+ * @version 2021-07-30
  */
 /**~en
  * Sprite
  * @extends {Element}
- * @version 2021-05-21
+ * @version 2021-07-30
  */
 class Sprite extends Element {
 
@@ -42,12 +42,12 @@ class Sprite extends Element {
 	 * @param {Array=} args_array Array of other arguments
 	 */
 	draw(ctx, args_array = []) {
-		if (this._firstUpdated) {
-			ctx.save();
-			this._setTransformation(ctx);
-			this._drawingCallback.apply(this, args_array);
-			ctx.restore();
-		}
+		if (!this._firstUpdated) this._update(0);
+
+		ctx.save();
+		this._setTransformation(ctx);
+		this._drawingCallback.apply(this, args_array);
+		ctx.restore();
 	}
 
 	/**~ja
