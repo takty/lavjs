@@ -278,6 +278,7 @@ const CLOUD = (function () {
 	const draw = function (p, t, c, step) {
 		p.styleClear().color('DarkBlue').draw();
 		c.draw(p, [t, 3, p.mouseY()]);
+		c.update();
 
 		t.moveTo(290, 300, 0);
 		const m = p.mouseX() / p.width();

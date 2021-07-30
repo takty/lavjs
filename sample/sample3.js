@@ -176,7 +176,7 @@ const PLANET = (function () {
 const SYSTEM = (function () {
 
 	const setup = function () {
-		const sl = new WIDGET.Slider(-50, 100, 0, true);
+		const sl = new WIDGET.Slider(-50, 100, 0, {int: true});
 		const p = new CROQUJS.Paper(580, 600);
 		p.translate(290, 300);
 		const t = new TURTLE.Turtle(p);
@@ -217,9 +217,9 @@ const SYSTEM = (function () {
 	};
 
 	const makePlanetSprite = function (stage, r, scale, speed, orbit, func) {
-		const m = new MOTION.PolarMotion(-speed, 0, true);
+		const pm = new MOTION.PolarMotion(-speed, 0, true);
 		const rot = new MOTION.Rotation(-10);
-		const s = stage.makeSprite(func, m, rot);
+		const s = stage.makeSprite(func, pm, rot);
 		s.scale(scale);
 		s.x(r);
 
