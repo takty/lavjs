@@ -1,12 +1,12 @@
 /**~ja
  * グラフ
  * @author Takuto Yanagida
- * @version 2021-05-21
+ * @version 2021-07-30
  */
 /**~en
  * Chart
  * @author Takuto Yanagida
- * @version 2021-05-21
+ * @version 2021-07-30
  */
 class Chart extends Widget {
 
@@ -121,6 +121,7 @@ class Chart extends Widget {
 			const name  = (i !== undefined && i.name  !== undefined) ? i.name  : key;
 			const style = (i !== undefined && i.style !== undefined) ? i.style : Chart.ITEM_COLORS[ci];
 			this._keys.push(key);
+			this._selectedKeys.push(key);
 			this._items[key] = { name, style };
 			this._data[key]  = [];
 			this._mins[key]  = 0;
