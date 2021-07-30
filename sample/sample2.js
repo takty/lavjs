@@ -8,7 +8,7 @@
 
 const setup = function () {
 	const r = new WIDGET.Switch(['#1', '#2', '#3', '#4', '#5']);
-	r.onClick((index) => onPushed(r, index));
+	r.onClick((index) => onPushed(r, index), true);
 	r.setFullWidth(true);
 };
 
