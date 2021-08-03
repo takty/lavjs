@@ -1,10 +1,10 @@
 /**~ja
  * タートル
- * @version 2021-05-21
+ * @version 2021-08-03
  */
 /**~en
  * Turtle
- * @version 2021-05-21
+ * @version 2021-08-03
  */
 class Turtle extends TurtleBase {
 
@@ -32,11 +32,12 @@ class Turtle extends TurtleBase {
 
 		this._curLoc     = [0, 0, 0];
 		this._curHomeLoc = [0, 0, 0];
-		this._curFnPos   = [null, null];
-		this._curFn      = '';
 		this._curAs      = [];
 		this._curPen     = false;
 		this._curTrans   = this._ctx.getTransform();
+		this._curFnPos   = [null, null];
+		this._curFn      = '';
+		this._fn         = '';
 
 		this._onPenChanged = null;
 		this._onMoved      = null;
@@ -90,7 +91,7 @@ class Turtle extends TurtleBase {
 	 * @return {Turtle} This turtle
 	 */
 	go(step) {
-		this._curFn = 'go';
+		this._fn = 'go';
 		return super.go(step);
 	}
 
@@ -105,7 +106,7 @@ class Turtle extends TurtleBase {
 	 * @return {Turtle} This turtle
 	 */
 	back(step) {
-		this._curFn = 'bk';
+		this._fn = 'bk';
 		return super.back(step);
 	}
 
@@ -144,7 +145,7 @@ class Turtle extends TurtleBase {
 	 * @return {Turtle} This turtle
 	 */
 	turnRight(deg) {
-		this._curFn = 'tr';
+		this._fn = 'tr';
 		return super.turnRight(deg);
 	}
 
@@ -159,7 +160,7 @@ class Turtle extends TurtleBase {
 	 * @return {Turtle} This turtle
 	 */
 	turnLeft(deg) {
-		this._curFn = 'tl';
+		this._fn = 'tl';
 		return super.turnLeft(deg);
 	}
 
@@ -210,7 +211,7 @@ class Turtle extends TurtleBase {
 	 * @return {Turtle} This turtle
 	 */
 	curveRight(step0, deg, step1, opt_deg, opt_step) {
-		this._curFn = 'cr';
+		this._fn = 'cr';
 		return super.curveRight(step0, deg, step1, opt_deg, opt_step);
 	}
 
@@ -233,7 +234,7 @@ class Turtle extends TurtleBase {
 	 * @return {Turtle} This turtle
 	 */
 	curveLeft(step0, deg, step1, opt_deg, opt_step) {
-		this._curFn = 'cl';
+		this._fn = 'cl';
 		return super.curveLeft(step0, deg, step1, opt_deg, opt_step);
 	}
 
@@ -289,7 +290,7 @@ class Turtle extends TurtleBase {
 	 * @return {Turtle} This turtle
 	 */
 	arcRight(r, deg) {
-		this._curFn = 'ar';
+		this._fn = 'ar';
 		return super.arcRight(r, deg);
 	}
 
@@ -306,7 +307,7 @@ class Turtle extends TurtleBase {
 	 * @return {Turtle} This turtle
 	 */
 	arcLeft(r, deg) {
-		this._curFn = 'al';
+		this._fn = 'al';
 		return super.arcLeft(r, deg);
 	}
 
@@ -348,7 +349,7 @@ class Turtle extends TurtleBase {
 	 * @return {Turtle} This turtle
 	 */
 	dot() {
-		this._curFn = 'dot';
+		this._fn = 'dot';
 		return super.dot();
 	}
 
@@ -367,7 +368,7 @@ class Turtle extends TurtleBase {
 	 * @return {Turtle} This turtle
 	 */
 	circle(r, deg = 360, anticlockwise = false) {
-		this._curFn = 'circle';
+		this._fn = 'circle';
 		return super.circle(r, deg, anticlockwise);
 	}
 
@@ -527,6 +528,7 @@ class Turtle extends TurtleBase {
 			this._curHomeLoc = [this._homeX, this._homeY, this._homeDir];
 			this._curPen     = p;
 			this._curTrans   = this._ctx.getTransform();
+			this._curFn      = this._fn;
 
 			if (this._onPenChanged !== null && this._lastPenState !== p) this._onPenChanged(this, p);
 			if (this._onMoved !== null) this._onMoved(this, this._x, this._y, p);
