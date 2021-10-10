@@ -7,6 +7,7 @@ const setup = function () {
 	const l = new PATH.Liner(PATH.makeDefaultHandler(p));
 	const t = new TURTLE.Turtle(p);
 	t.visible(true);
+	t.scale(0.5);
 	t.mode('strokefill');
 	t.fill().gradation('horizontal').addColor('LightGreen', 0.3).addColor('Olive');
 	t.stroke().color('black').dash(12, 3, 3, 3).width(10);
@@ -18,19 +19,22 @@ const setup = function () {
 
 const draw = function (p, l, t) {
 	p.styleClear().color('White').draw();
+	t.save(true);
+	t.scale(1.5, 0.9);
 	t.home();
 	drawShape1(t);
 	t.moveTo(0, 150);
 	drawShape2(t);
-	t.stepNext(10);
+	t.restore(true);
+	t.stepNext(1);
 };
 
 const drawShape1 = function (t) {
 	t.pd();
 	t.tr(45);
 	t.go(10);
-	t.cl(150, 30, 120, 90, 120);
-	t.al([150, 100], [70, 729]);
+	t.cr(150, 30, 120, 90, 120);
+	t.ar([150, 100], [49, 729]);
 	t.go(100).pd().dot().pu().go(100);
 	t.pu();
 };
