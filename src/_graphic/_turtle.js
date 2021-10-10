@@ -1,10 +1,10 @@
 /**~ja
  * タートル
- * @version 2021-08-03
+ * @version 2021-10-10
  */
 /**~en
  * Turtle
- * @version 2021-08-03
+ * @version 2021-10-10
  */
 class Turtle extends TurtleBase {
 
@@ -130,7 +130,8 @@ class Turtle extends TurtleBase {
 			const r = rad(dir_);
 			const x = x0 + d * Math.cos(r);
 			const y = y0 + d * Math.sin(r);
-			this._curAs = [{ x0, y0 }, { x, y }];
+			const t = this._ctx.getTransform();
+			this._curAs = [{ x0, y0, t }, { x, y, t }];
 		});
 	}
 
@@ -183,7 +184,8 @@ class Turtle extends TurtleBase {
 			if (!this._visible) return;
 			const dir_ = this._dir - 90;
 			const r0 = rad(dir_), r1 = rad(dir_ + deg);
-			this._curAs = [{ bx, by, r0, r1 }];
+			const t = this._ctx.getTransform();
+			this._curAs = [{ bx, by, r0, r1, t }];
 		});
 	}
 
@@ -267,12 +269,13 @@ class Turtle extends TurtleBase {
 			const x1 = x + d0 * Math.cos(r0), y1 = y + d0 * Math.sin(r0);
 			const x2 = x1 + d1 * Math.cos(r1), y2 = y1 + d1 * Math.sin(r1);
 
+			const t = this._ctx.getTransform();
 			if (opt_deg === undefined) {
-				this._curAs = [{ x0: x, y0: y }, { tx: x1, ty: y1 }, { x: x2, y: y2 }];
+				this._curAs = [{ x0: x, y0: y, t }, { tx: x1, ty: y1, t }, { x: x2, y: y2, t }];
 			} else {
 				const r2 = rad(dir_ + deg + opt_deg);
 				const x3 = x2 + d2 * Math.cos(r2), y3 = y2 + d2 * Math.sin(r2);
-				this._curAs = [{ x0: x, y0: y }, { tx: x1, ty: y1 }, { tx: x2, ty: y2 }, { x: x3, y: y3 }];
+				this._curAs = [{ x0: x, y0: y, t }, { tx: x1, ty: y1, t }, { tx: x2, ty: y2, t }, { x: x3, y: y3, t }];
 			}
 		});
 	}
@@ -331,7 +334,10 @@ class Turtle extends TurtleBase {
 	 */
 	_doArc(r, deg, isLeft, limit) {
 		return super._doArc(r, deg, isLeft, limit, (lsp, ltp, rot, p) => {
-			if (this._visible) this._curAs = [{ cx: lsp, cy: ltp, w: p.w, h: p.h, r: rot }];
+			if (this._visible) {
+				const t = this._ctx.getTransform();
+				this._curAs = [{ cx: lsp, cy: ltp, w: p.w, h: p.h, r: rot, t }];
+			}
 		});
 	}
 
@@ -396,7 +402,10 @@ class Turtle extends TurtleBase {
 	 */
 	_doCircle(cx, cy, p, anticlockwise, limit, dr) {
 		return super._doCircle(cx, cy, p, anticlockwise, limit, dr, (cx, cy, p, dr) => {
-			if (this._visible) this._curAs = [{ cx: cx, cy: cy, w: p.w, h: p.h, r: dr }];
+			if (this._visible) {
+				const t = this._ctx.getTransform();
+				this._curAs = [{ cx: cx, cy: cy, w: p.w, h: p.h, r: dr, t }];
+			}
 		});
 	}
 
@@ -537,29 +546,6 @@ class Turtle extends TurtleBase {
 	}
 
 	/**~ja
-	 * 座標に行列を適用する（ライブラリ内だけで使用）
-	 * @private
-	 * @param {object} t 行列
-	 * @param {number} x x座標
-	 * @param {number} y y座標
-	 * @param {number} r 方向
-	 */
-	/**~en
-	 * Apply matrix to coordinates (used only in the library)
-	 * @private
-	 * @param {object} t Matrix
-	 * @param {number} x x coordinate
-	 * @param {number} y y coordinate
-	 * @param {number} r Degree
-	 */
-	_transform(t, x, y, r) {
-		if (t === null) return [x, y, r];
-		const nx = t.a * x + t.c * y + t.e;
-		const ny = t.b * x + t.d * y + t.f;
-		return [nx, ny, r];
-	}
-
-	/**~ja
 	 * カメ（ホーム）をかく（ライブラリ内だけで使用）
 	 * @private
 	 * @param {Paper|CanvasRenderingContext2D} ctx 紙／キャンバス・コンテキスト
@@ -574,21 +560,20 @@ class Turtle extends TurtleBase {
 		ctx.setLineDash([]);
 		ctx.globalAlpha = 1;
 
-		if (this._curTrans) ctx.setTransform(this._curTrans);
+		ctx.setTransform(1, 0, 0, 1, 0, 0);
 		this._drawAnchor(ctx, this._curAs);
 
-		ctx.setTransform(1, 0, 0, 1, 0, 0);
 		let [hx, hy, hd] = this._curHomeLoc;
 		//~ja ホームの場所が変えられていたら
 		//~en If home location has been changed
 		if (hx !== 0 || hy !== 0 || hd !== 0) {
-			if (this._curTrans) [hx, hy, hd] = this._transform(this._curTrans, hx, hy, hd);
+			if (this._curTrans) [hx, hy] = transform(this._curTrans, hx, hy);
 			this._drawTriangle(ctx, [hx, hy, hd], true, 'Purple', '', 'Magenta');
 		}
 		let [x, y, d] = this._curLoc;
-		if (this._curTrans) [x, y, d] = this._transform(this._curTrans, x, y, d);
+		if (this._curTrans) [x, y] = transform(this._curTrans, x, y);
 		this._drawTriangle(ctx, [x, y, d], this._curPen, 'SeaGreen', 'DarkSeaGreen', 'Lime');
-		this._drawFunction(ctx, [x, y, d], this._curFnPos, this._curFn);
+		this._drawFunction(ctx, [x, y], this._curFnPos, this._curFn);
 
 		ctx.restore();
 		this._curFn = '';
@@ -693,53 +678,71 @@ class Turtle extends TurtleBase {
 	_drawAnchor(ctx, curPos) {
 		for (const p of curPos) {
 			if (p.x0 !== undefined) {
-				draw(p.x0, p.y0, null, 'Lime', 'DarkSeaGreen', drawCheck);
+				draw(p.t, p.x0, p.y0, 'Lime', 'DarkSeaGreen', drawCheck);
 			} else if (p.x !== undefined) {
-				draw(p.x, p.y, null, 'Lime', 'SeaGreen', drawCheck);
+				draw(p.t, p.x, p.y, 'Lime', 'SeaGreen', drawCheck);
 			} else if (p.tx !== undefined) {
-				draw(p.tx, p.ty, null, 'Magenta', 'Purple', drawCheck);
+				draw(p.t, p.tx, p.ty, 'Magenta', 'Purple', drawCheck);
 			} else if (p.cx !== undefined) {
-				draw(p.cx, p.cy, null, 'Magenta', 'Purple', drawCheck);
-				draw(p.cx, p.cy, p.r, 'Magenta', 'Purple', drawRect, p.w, p.h);
+				draw(p.t, p.cx, p.cy, 'Magenta', 'Purple', drawCheck);
+				draw(p.t, p.cx, p.cy, 'Magenta', 'Purple', drawRect, p.r, p.w, p.h);
 			} else if (p.bx !== undefined) {
-				draw(p.bx, p.by, p.r0, 'Magenta', 'DarkPurple', drawLine);
-				draw(p.bx, p.by, p.r1, 'Magenta', 'Purple', drawLine);
+				draw(p.t, p.bx, p.by, 'Magenta', 'DarkPurple', drawLine, p.r0);
+				draw(p.t, p.bx, p.by, 'Magenta', 'Purple', drawLine, p.r1);
 			}
 		}
-		function draw(x, y, r, outer, inner, fn, ...args) {
+		function draw(t, x, y, outer, inner, fn, ...args) {
 			ctx.save();
-			ctx.translate(x, y);
-			if (r !== null) ctx.rotate(r);
 			ctx.strokeStyle = outer;
 			ctx.lineWidth = 4;
 			Turtle._setShadow(ctx, 4, 2);
-			fn(...args);
+			fn(t, x, y, ...args);
+			ctx.restore();
 
+			ctx.save();
 			ctx.strokeStyle = inner;
 			ctx.lineWidth = 2;
 			Turtle._setShadow(ctx, 0, 0);
-			fn(...args);
+			fn(t, x, y, ...args);
 			ctx.restore();
 		}
-		function drawCheck() {
+		function drawCheck(t, x, y) {
+			const [x1, y1] = transform(t, x, y);
+			ctx.translate(x1, y1);
+
 			ctx.beginPath();
 			ctx.moveTo(-8, -8);
-			ctx.lineTo(8, 8);
-			ctx.moveTo(8, -8);
-			ctx.lineTo(-8, 8);
+			ctx.lineTo( 8,  8);
+			ctx.moveTo( 8, -8);
+			ctx.lineTo(-8,  8);
 			ctx.stroke();
 		}
-		function drawRect(hw, hh) {
+		function drawRect(t, x, y, r, hw, hh) {
+			const [hw1, hh1] = rotate(r,  hw, hh);
+			const [hw2, hh2] = rotate(r, -hw, hh);
+			const [x1, y1] = transform(t, x - hw1, y - hh1);
+			const [x2, y2] = transform(t, x - hw2, y - hh2);
+			const [x3, y3] = transform(t, x + hw1, y + hh1);
+			const [x4, y4] = transform(t, x + hw2, y + hh2);
+
 			ctx.setLineDash([6, 4]);
 			ctx.beginPath();
-			ctx.rect(-hw, -hh, hw * 2, hh * 2);
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.lineTo(x3, y3);
+			ctx.lineTo(x4, y4);
+			ctx.closePath();
 			ctx.stroke();
 		}
-		function drawLine() {
+		function drawLine(t, x, y, r) {
+			const [lx, ly] = rotate(r, 128, 0);
+			const [x1, y1] = transform(t, x, y);
+			const [x2, y2] = transform(t, x + lx, y + ly);
+
 			ctx.setLineDash([6, 4]);
 			ctx.beginPath();
-			ctx.moveTo(0, 0);
-			ctx.lineTo(128, 0);
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
 			ctx.stroke();
 		}
 	}

@@ -4,7 +4,7 @@
  * カメを動かして、絵をかくためのライブラリです。
  *
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-10-10
  */
 /**~en
  * Turtle library (TURTLE)
@@ -12,7 +12,7 @@
  * A library for moving the turtle and drawing pictures.
  *
  * @author Takuto Yanagida
- * @version 2021-02-05
+ * @version 2021-10-10
  */
 
 
@@ -60,6 +60,43 @@ const TURTLE = (function () {
 		if (deg < 0) deg += 360;
 		return deg;
 	};
+
+	/**~ja
+	 * 座標に行列を適用する
+	 * @param {object} t 行列
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 */
+	/**~en
+	 * Apply matrix to coordinates
+	 * @param {object} t Matrix
+	 * @param {number} x x coordinate
+	 * @param {number} y y coordinate
+	 */
+	const transform = function (t, x, y) {
+		if (t === null) return [x, y];
+		const nx = t.a * x + t.c * y + t.e;
+		const ny = t.b * x + t.d * y + t.f;
+		return [nx, ny];
+	}
+
+	/**~ja
+	 * 座標を回転する
+	 * @param {number} r ラジアン
+	 * @param {number} x x座標
+	 * @param {number} y y座標
+	 */
+	/**~en
+	 * Rotate coordinates
+	 * @param {number} r Radian
+	 * @param {number} x x coordinate
+	 * @param {number} y y coordinate
+	 */
+	const rotate = function (r, x, y) {
+		const s = Math.sin(r);
+		const c = Math.cos(r);
+		return [x * c - y * s, x * s + y * c];
+	}
 
 
 	//=
