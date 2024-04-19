@@ -14,15 +14,15 @@
 	"license": "MIT",
 	"homepage": "https://github.com/takty/lavjs#readme",
 	"dependencies": {
-		"fs-extra": "^11.1.1",
-		"glob": "^10.3.10",
+		"fs-extra": "^11.2.0",
+		"glob": "^10.3.12",
 		"gulp": "^4.0.2",
 		"gulp-comment-tag": "git+https://github.com/takty/gulp-comment-tag.git",
 		"gulp-delete-lines": "0.0.7",
 		"gulp-include": "^2.4.1",
 		"gulp-load-plugins": "^2.0.8",
 		"gulp-plumber": "^1.2.1",
-		"gulp-preprocess": "^4.0.2",
+		"gulp-preprocess": "^5.0.0",
 		"gulp-replace": "^1.1.4"
 	}
 }
