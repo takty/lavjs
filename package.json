@@ -16,7 +16,7 @@
 	"dependencies": {
 		"fs-extra": "^11.2.0",
 		"glob": "^10.3.12",
-		"gulp": "^4.0.2",
+		"gulp": "^5.0.0",
 		"gulp-comment-tag": "git+https://github.com/takty/gulp-comment-tag.git",
 		"gulp-delete-lines": "0.0.7",
 		"gulp-include": "^2.4.1",
