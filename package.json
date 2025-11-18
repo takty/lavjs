@@ -15,7 +15,7 @@
 	"homepage": "https://github.com/takty/lavjs#readme",
 	"dependencies": {
 		"fs-extra": "^11.2.0",
-		"glob": "^11.0.0",
+		"glob": "^11.1.0",
 		"gulp": "^5.0.0",
 		"gulp-comment-tag": "git+https://github.com/takty/gulp-comment-tag.git",
 		"gulp-delete-lines": "0.0.7",
