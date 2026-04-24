@@ -25,5 +25,5 @@
 		"gulp-preprocess": "^6.0.0",
 		"gulp-replace": "^1.1.4"
 	},
-	"packageManager": "yarn@4.12.0"
+	"packageManager": "yarn@4.13.0"
 }
