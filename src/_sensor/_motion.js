@@ -1,16 +1,16 @@
 /**~ja
  * モーション・センサー
  * @extends {Sensor}
- * @version 2021-05-21
+ * @version 2026-04-24
  */
 /**~en
  * Motion sensor
  * @extends {Sensor}
- * @version 2021-05-21
+ * @version 2026-04-24
  */
 
 
-CROQUJS.loadScriptSync('https://laccolla.com/api/wemote/v1/receiver.min.js');
+CROQUJS.loadScriptSync('https://takty.net/api/wemote/v1/receiver.min.js');
 
 class Motion extends Sensor {
 

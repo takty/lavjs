@@ -1,12 +1,12 @@
 /**~ja
  * 天気センサー
  * @extends {Sensor}
- * @version 2021-02-04
+ * @version 2026-04-24
  */
 /**~en
  * Weather sensor
  * @extends {Sensor}
- * @version 2021-02-04
+ * @version 2026-04-24
  */
 class Weather extends Sensor {
 
@@ -61,7 +61,7 @@ class Weather extends Sensor {
 	 * @return {Promise}
 	 */
 	async _process(latitude, longitude) {
-		const response = await fetch(`https://laccolla.com/api/weather/v1/?lat=${latitude}&lon=${longitude}`, {
+		const response = await fetch(`https://takty.net/api/weather/v1/?lat=${latitude}&lon=${longitude}`, {
 			mode: 'cors',
 			cache: 'no-cache',
 			credentials: 'same-origin',
